@@ -5,7 +5,7 @@
     "strict": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
-    "typeRoots": ["node_modules/@types", "types"]
+    "moduleResolution": "node"
   },
-  "include": ["src/**/*.ts", "build/**/*.ts", "types"]
+  "include": ["src/**/*.ts", "build/**/*.ts", "types", "node_modules/@types"]
 }

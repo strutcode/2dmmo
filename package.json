@@ -2,6 +2,7 @@
   "name": "2dmmo",
   "license": "MIT",
   "scripts": {
+    "start": "docker-compose up",
     "dev": "ts-node -P build/tsconfig.json build/compile.ts watch",
     "build": "ts-node -P build/tsconfig.json build/compile.ts"
   },
@@ -32,6 +33,7 @@
   "dependencies": {
     "bufferutil": "^4.0.1",
     "express": "^4.17.1",
+    "nano": "^8.2.2",
     "utf-8-validate": "^5.0.2",
     "ws": "^7.3.1"
   }

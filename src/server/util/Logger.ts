@@ -1,17 +1,17 @@
 export default class Logger {
-  public out(msg: any, ...params: any[]) {
-    console.log(`[DBUG] ${msg}`, ...params)
+  public out(category: string, message: any, ...params: any[]) {
+    console.log(`[DBUG] <${category}>`, message, ...params)
   }
 
-  public info(msg: any, ...params: any[]) {
-    console.log(`[INFO] ${msg}`, ...params)
+  public info(category: string, message: any, ...params: any[]) {
+    console.log(`[INFO] <${category}>`, message, ...params)
   }
 
-  public warn(msg: any, ...params: any[]) {
-    console.log(`[WARN] ${msg}`, ...params)
+  public warn(category: string, message: any, ...params: any[]) {
+    console.log(`[WARN] <${category}>`, message, ...params)
   }
 
-  public error(msg: any, ...params: any[]) {
-    console.log(`[FAIL] ${msg}`, ...params)
+  public error(category: string, message: any, ...params: any[]) {
+    console.log(`[FAIL] <${category}>`, message, ...params)
   }
 }

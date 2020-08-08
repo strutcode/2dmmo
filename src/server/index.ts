@@ -1,6 +1,8 @@
 import Logger from './util/Logger'
-import GameServer from './network/GameServer'
+import GameServer from './GameServer'
 
 global.log = new Logger()
 
-new GameServer()
+const server = new GameServer()
+
+server.init()

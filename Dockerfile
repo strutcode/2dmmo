@@ -10,4 +10,4 @@ RUN yarn install --frozen-lockfile
 
 COPY . /home/app
 
-CMD yarn start
+CMD yarn dev

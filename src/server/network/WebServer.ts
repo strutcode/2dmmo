@@ -12,12 +12,12 @@ export default class WebServer {
   public httpServer: Server
 
   constructor() {
-    log.info('Init express')
+    log.info('Server', 'Init express')
     this.app = express()
 
     this.app.use(express.static(resolve('./final/client')))
 
-    log.info('Init http server')
+    log.info('Server', 'Init http server')
     this.httpServer = createServer(this.app)
   }
 
@@ -26,26 +26,26 @@ export default class WebServer {
       this.applyDevMiddleware()
     }
 
-    log.info('Booting server...')
+    log.info('Server', 'Booting server...')
     this.httpServer.listen(9001, '0.0.0.0', () => {
-      log.info('Server up!')
+      log.info('Server', 'OK - Listening for connections')
     })
   }
 
   public stop() {
-    log.info('Stopping server...')
+    log.info('Server', 'Stopping server...')
     this.httpServer.close()
   }
 
   private applyDevMiddleware() {
     const compiler = webpack(clientConfig('development'))
 
-    log.out('Cleanup HMR...')
+    log.out('Server', 'Cleanup HMR...')
     rmdirSync(resolve('./final/client/.hot'), {
       recursive: true,
     })
 
-    log.out('Setup hot module reloading')
+    log.out('Server', 'Setup hot module reloading')
     this.app.use(
       WebpackDevMiddleware(compiler, {
         publicPath: '/',

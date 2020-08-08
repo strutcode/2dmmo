@@ -4,10 +4,11 @@ services:
     build: .
     env_file: .env
     depends_on:
-      - mongo
+      - db
     restart: always
     ports:
       - '3000:3000'
+      - '9229:9229'
     volumes:
       - .:/home/app/
       - /home/app/node_modules
@@ -15,3 +16,6 @@ services:
   db:
     image: couchdb:3.1
     restart: always
+    environment:
+      COUCHDB_USER: root
+      COUCHDB_PASSWORD: test
