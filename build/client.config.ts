@@ -3,7 +3,7 @@ import webpack, { Configuration } from 'webpack'
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
-export default function(mode: Configuration['mode']): Configuration {
+export default function (mode: Configuration['mode']): Configuration {
   const config: Configuration = {
     mode,
     entry: ['./src/client/index.ts'],
@@ -20,10 +20,23 @@ export default function(mode: Configuration['mode']): Configuration {
             },
           },
         },
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.png$/,
+          use: {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'assets',
+            },
+          },
+        },
       ],
     },
     resolve: {
-      extensions: ['.js', '.ts', '.vue'],
+      extensions: ['.js', '.ts'],
     },
     plugins: [
       new FriendlyErrorsWebpackPlugin(),
@@ -32,12 +45,17 @@ export default function(mode: Configuration['mode']): Configuration {
       }),
     ],
     output: {
-      path: resolve('./dist/client'),
+      path: resolve('./final/client'),
       publicPath: '/',
       hotUpdateChunkFilename: '.hot/[id].[hash].hot-update.js',
       hotUpdateMainFilename: '.hot/[hash].hot-update.json',
     },
     devtool: 'cheap-module-source-map',
+  }
+
+  if (mode === 'development') {
+    ;(config.entry as string[]).unshift('webpack-hot-middleware/client')
+    config.plugins?.push(new webpack.HotModuleReplacementPlugin())
   }
 
   return config

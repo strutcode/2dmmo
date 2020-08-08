@@ -1,6 +1,10 @@
 {
   "name": "2dmmo",
   "license": "MIT",
+  "scripts": {
+    "dev": "ts-node -P build/tsconfig.json build/compile.ts watch",
+    "build": "ts-node -P build/tsconfig.json build/compile.ts"
+  },
   "devDependencies": {
     "@types/express": "^4.17.7",
     "@types/friendly-errors-webpack-plugin": "^0.1.2",
@@ -12,8 +16,12 @@
     "@types/webpack-hot-middleware": "^2.25.3",
     "@types/webpack-node-externals": "^2.5.0",
     "@types/ws": "^7.2.6",
+    "css-loader": "^4.2.1",
+    "file-loader": "^6.0.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^4.3.0",
+    "style-loader": "^1.2.1",
+    "ts-loader": "^8.0.2",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7",
     "webpack": "^4.44.1",
@@ -22,7 +30,9 @@
     "webpack-node-externals": "^2.5.1"
   },
   "dependencies": {
+    "bufferutil": "^4.0.1",
     "express": "^4.17.1",
+    "utf-8-validate": "^5.0.2",
     "ws": "^7.3.1"
   }
 }

@@ -4,7 +4,8 @@
     "module": "esnext",
     "strict": true,
     "esModuleInterop": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "typeRoots": ["node_modules/@types", "types"]
   },
-  "include": ["src/**/*.ts", "types"]
+  "include": ["src/**/*.ts", "build/**/*.ts", "types"]
 }

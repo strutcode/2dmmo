@@ -1,0 +1,14 @@
+html,
+body {
+  background: black;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: -webkit-optimize-contrast; /* webkit */
+  image-rendering: -moz-crisp-edges; /* Firefox */
+}
