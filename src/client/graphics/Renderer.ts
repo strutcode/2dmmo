@@ -76,6 +76,22 @@ export default class Renderer {
     )
   }
 
+  private drawText(
+    text: string,
+    x: number,
+    y: number,
+    hAlign: CanvasTextAlign = 'center',
+    vAlign: CanvasTextBaseline = 'top',
+  ) {
+    this.context.font = '14px "Courier New"'
+    this.context.textAlign = hAlign
+    this.context.textBaseline = vAlign
+    this.context.fillStyle = 'white'
+    this.context.strokeStyle = 'black'
+    this.context.strokeText(text, x, y)
+    this.context.fillText(text, x, y)
+  }
+
   public draw() {
     if (!this.run) return
 
@@ -92,11 +108,13 @@ export default class Renderer {
     if (this.state.self) {
       const { x, y } = this.state.self
       this.drawTile('creaturesCastle', 0, 16, x, y)
+      this.drawText('You', x * 16 + 8, y * 16 + 16)
     }
 
     this.state.players.forEach((player) => {
       const { x, y } = player
       this.drawTile('creaturesCastle', 0, 16, x, y)
+      this.drawText(player.name, x * 16 + 8, y * 16 + 16)
     })
 
     requestAnimationFrame(this.boundDraw)

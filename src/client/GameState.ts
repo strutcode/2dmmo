@@ -5,11 +5,11 @@ export default class GameState {
   public players = new Map<string, Mobile>()
 
   public setSelf(id: string) {
-    this.self = new Mobile()
+    this.self = new Mobile('You')
   }
 
   public addPlayer(id: string) {
-    this.players.set(id, new Mobile())
+    this.players.set(id, new Mobile(id))
   }
 
   public removePlayer(id: string) {
