@@ -13,3 +13,14 @@ canvas {
   image-rendering: -moz-crisp-edges;
   image-rendering: pixelated;
 }
+
+#ui {
+  position: fixed;
+}
+
+.nameTag {
+  font: 18px Courier;
+  color: #fff;
+  text-shadow: 0 0 4px #000;
+  transform: translateX(-50%);
+}

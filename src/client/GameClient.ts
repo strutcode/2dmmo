@@ -2,12 +2,14 @@ import Renderer from './graphics/Renderer'
 import SocketClient from './network/SocketClient'
 import GameState from './GameState'
 import Input from './ui/Input'
+import Interface from './ui/Interface'
 
 export default class GameClient {
   private state = new GameState()
   private renderer = new Renderer(this.state)
   private client = new SocketClient(this.state)
   private input = new Input(this.state)
+  private ui = new Interface(this.state)
 
   public constructor() {
     console.log('init client')
@@ -33,6 +35,12 @@ export default class GameClient {
         this.input = new Input(this.state)
         this.setupInput()
       })
+
+      module.hot.accept('./ui/Interface', async () => {
+        this.ui.stop()
+        this.ui = new Interface(this.state)
+        this.setupUi()
+      })
     }
   }
 
@@ -42,6 +50,7 @@ export default class GameClient {
     this.renderer.start()
     this.setupClient()
     this.setupInput()
+    this.setupUi()
   }
 
   private setupClient() {
@@ -82,6 +91,10 @@ export default class GameClient {
     })
 
     this.input.start()
+  }
+
+  private setupUi() {
+    this.ui.start()
   }
 
   public stop() {

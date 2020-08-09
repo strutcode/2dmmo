@@ -54,7 +54,7 @@ export default class Renderer {
   public stop() {
     console.log('stop renderer')
     this.run = false
-    document.body.removeChild(this.canvas)
+    this.canvas.remove()
   }
 
   private drawTile(type: string, sx: number, sy: number, x: number, y: number) {
@@ -118,7 +118,7 @@ export default class Renderer {
       player.frame = (player.frame + delta * 4) % 4
 
       this.drawTile('creaturesCastle', Math.floor(frame), 15 + anim, x, y)
-      this.drawText(name, x * 16 + 8, y * 16 + 16)
+      // this.drawText(name, x * 16 + 8, y * 16 + 16)
     })
 
     this.lastTime += delta * 1000
