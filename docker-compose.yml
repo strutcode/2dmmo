@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     build: .
-    container_name: "2dmmo"
+    container_name: 2dmmo
     env_file: .env
     depends_on:
       - db
@@ -18,10 +18,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=proxy
-      - traefik.http.middlewares.2dmmo-strip.stripprefix.prefixes=/2dmmo/,/2dmmo
-      - traefik.http.middlewares.2dmmo-strip.stripprefix.forceslash=true
-      - traefik.http.routers.2dmmo.rule=PathPrefix(`/2dmmo`)
-      - traefik.http.routers.2dmmo.middlewares=2dmmo-strip@docker
+      - traefik.http.routers.2dmmo.rule=Host(`2dmmo.strutcode.dev`)
       - traefik.http.routers.2dmmo.entrypoints=web,websecure
       - traefik.http.routers.2dmmo.tls=true
       - traefik.http.routers.2dmmo.tls.certresolver=leresolver
