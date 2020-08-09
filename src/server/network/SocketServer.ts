@@ -5,6 +5,9 @@ import NetworkScope from './NetworkScope'
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
+  public onMessage = new Observable<
+    (id: string, type: string, data: any) => void
+  >()
   public onDisconnect = new Observable<(id: string) => void>()
 
   private wss: Server
@@ -28,7 +31,23 @@ export default class SocketServer {
 
       this.id2socket.set(uid, socket)
 
+      socket.send(`IDNT~${uid}`)
       this.onConnect.notify(uid)
+
+      socket.on('message', (data) => {
+        if (typeof data === 'string') {
+          const [type, content] = data.split('~')
+
+          if (type === 'MOVE') {
+            const [x, y] = content.split(',')
+
+            this.onMessage.notify(uid, 'move', {
+              x: +x,
+              y: +y,
+            })
+          }
+        }
+      })
 
       socket.on('close', () => {
         this.onDisconnect.notify(uid)
@@ -38,8 +57,6 @@ export default class SocketServer {
 
   public addScope(scope: NetworkScope) {
     scope.onChange.observe((id, changes) => {
-      log.info('Socket', 'Players changed', id, changes)
-
       const socket = this.id2socket.get(id)
       if (changes.added.length) {
         socket?.send(`JOIN~${changes.added.map((p) => p.id).join(',')}`)
@@ -51,8 +68,6 @@ export default class SocketServer {
     })
 
     scope.onUpdate.observe((id, updated) => {
-      log.info('Socket', 'Got player update')
-
       const socket = this.id2socket.get(id)
       socket?.send(`MOVE~${updated.id},${updated.x},${updated.y}`)
     })

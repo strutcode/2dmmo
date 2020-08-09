@@ -89,7 +89,15 @@ export default class Renderer {
       }
     }
 
-    this.drawTile('creaturesCastle', 0, 16, 12, 6)
+    if (this.state.self) {
+      const { x, y } = this.state.self
+      this.drawTile('creaturesCastle', 0, 16, x, y)
+    }
+
+    this.state.players.forEach((player) => {
+      const { x, y } = player
+      this.drawTile('creaturesCastle', 0, 16, x, y)
+    })
 
     requestAnimationFrame(this.boundDraw)
   }

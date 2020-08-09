@@ -42,6 +42,16 @@ export default class GameServer {
       this.globalScope.addPlayer(player)
     })
 
+    this.socketServer.onMessage.observe((id, type, data) => {
+      if (type === 'move') {
+        const player = this.players.find((p) => p.id === id)
+
+        if (player) {
+          player.teleport(data.x, data.y)
+        }
+      }
+    })
+
     this.socketServer.onDisconnect.observe((id) => {
       const index = this.players.findIndex((p) => p.id === id)
       const player = this.players[index]
