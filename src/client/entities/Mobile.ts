@@ -1,3 +1,34 @@
 export default class Mobile {
-  constructor(public name: string, public x = 12, public y = 6) {}
+  public anim = 0
+  public frame = 0
+
+  private pos: [number, number]
+  private timeout: any
+
+  constructor(public name: string, x = 12, y = 6) {
+    this.pos = [x, y]
+  }
+
+  public get x() {
+    return this.pos[0]
+  }
+
+  public get y() {
+    return this.pos[1]
+  }
+
+  public move(x: number, y: number) {
+    this.teleport(this.pos[0] + x, this.pos[1] + y)
+  }
+
+  public teleport(x: number, y: number) {
+    this.pos[0] = x
+    this.pos[1] = y
+
+    this.anim = 1
+    this.frame = 0
+
+    if (this.timeout) clearTimeout(this.timeout)
+    this.timeout = setTimeout(() => (this.anim = 0), 1000)
+  }
 }

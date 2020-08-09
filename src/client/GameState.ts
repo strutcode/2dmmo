@@ -20,8 +20,7 @@ export default class GameState {
     const player = this.players.get(id)
 
     if (player) {
-      if (change.x) player.x = change.x
-      if (change.y) player.y = change.y
+      player.teleport(change.x, change.y)
     }
   }
 }

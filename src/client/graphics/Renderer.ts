@@ -110,22 +110,20 @@ export default class Renderer {
     }
 
     if (this.state.self) {
-      const { name, x, y } = this.state.self
+      const { name, x, y, anim, frame } = this.state.self
 
-      const frame = ((this.animState[name] || 0) + delta * 4) % 4
-      this.animState[name] = frame
+      this.state.self.frame = (this.state.self.frame + delta * 4) % 4
 
-      this.drawTile('creaturesCastle', Math.floor(frame), 15, x, y)
+      this.drawTile('creaturesCastle', Math.floor(frame), 15 + anim, x, y)
       this.drawText('You', x * 16 + 8, y * 16 + 16)
     }
 
     this.state.players.forEach((player) => {
-      const { name, x, y } = player
+      const { name, x, y, anim, frame } = player
 
-      const frame = ((this.animState[name] || 0) + delta * 4) % 4
-      this.animState[name] = frame
+      player.frame = (player.frame + delta * 4) % 4
 
-      this.drawTile('creaturesCastle', Math.floor(frame), 15, x, y)
+      this.drawTile('creaturesCastle', Math.floor(frame), 15 + anim, x, y)
       this.drawText(name, x * 16 + 8, y * 16 + 16)
     })
 

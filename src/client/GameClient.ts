@@ -68,13 +68,13 @@ export default class GameClient {
     this.input.onAction.observe((name) => {
       if (this.state.self) {
         if (name === 'up') {
-          this.state.self.y--
+          this.state.self.move(0, -1)
         } else if (name === 'down') {
-          this.state.self.y++
+          this.state.self.move(0, 1)
         } else if (name === 'left') {
-          this.state.self.x--
+          this.state.self.move(-1, 0)
         } else if (name === 'right') {
-          this.state.self.x++
+          this.state.self.move(1, 0)
         }
 
         this.client.sendPosition(this.state.self.x, this.state.self.y)
