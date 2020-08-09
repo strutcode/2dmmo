@@ -94,6 +94,9 @@ export default class GameClient {
   }
 
   private setupUi() {
+    this.ui.onTriggerInput.observe((name) => {
+      this.input.simulate(name)
+    })
     this.ui.start()
   }
 

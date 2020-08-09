@@ -19,6 +19,10 @@ export default class Input {
     document.removeEventListener('touchstart', this.boundTouchHandler)
   }
 
+  public simulate(name: string) {
+    this.onAction.notify(name)
+  }
+
   private keyboardHandler(ev: KeyboardEvent) {
     const getAction = () => {
       switch (ev.key.toLowerCase()) {
@@ -43,26 +47,23 @@ export default class Input {
   }
 
   private touchHandler(ev: TouchEvent) {
-    const getAction = () => {
-      const touch = ev.touches[0]
-      const marginX = window.innerWidth / 4
-      const marginY = window.innerHeight / 4
-
-      if (touch.clientX < marginX) {
-        return 'left'
-      } else if (touch.clientX > window.innerWidth - marginX) {
-        return 'right'
-      } else if (touch.clientY < marginY) {
-        return 'up'
-      } else if (touch.clientY > window.innerHeight - marginY) {
-        return 'down'
-      }
-    }
-
-    const name = getAction()
-
-    if (name) {
-      this.onAction.notify(name)
-    }
+    // const getAction = () => {
+    //   const touch = ev.touches[0]
+    //   const marginX = window.innerWidth / 4
+    //   const marginY = window.innerHeight / 4
+    //   if (touch.clientX < marginX) {
+    //     return 'left'
+    //   } else if (touch.clientX > window.innerWidth - marginX) {
+    //     return 'right'
+    //   } else if (touch.clientY < marginY) {
+    //     return 'up'
+    //   } else if (touch.clientY > window.innerHeight - marginY) {
+    //     return 'down'
+    //   }
+    // }
+    // const name = getAction()
+    // if (name) {
+    //   this.onAction.notify(name)
+    // }
   }
 }

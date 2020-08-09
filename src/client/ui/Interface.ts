@@ -1,7 +1,9 @@
 import GameState from '../GameState'
 import Mobile from '../entities/Mobile'
+import Observable from '../../common/Observable'
 
 export default class Interface {
+  public onTriggerInput = new Observable<(name: string) => void>()
   private wrapper = document.createElement('div')
   private names: HTMLDivElement[] = []
   // private boundUpdate = this.update.bind(this)
@@ -23,8 +25,20 @@ export default class Interface {
       })
     }
 
+    this.setupNameTags()
+    this.setupButtons()
+
     document.body.appendChild(this.wrapper)
 
+    // requestAnimationFrame(this.boundUpdate)
+  }
+
+  public stop() {
+    this.wrapper.remove()
+    // this.run = false
+  }
+
+  private setupNameTags() {
     const addNameTag = (player: Mobile) => {
       const el = document.createElement('div')
 
@@ -53,20 +67,31 @@ export default class Interface {
     })
 
     this.state.onPlayerUpdate.observe((player) => {
-      console.log('update')
       const el = document.getElementById(player.name)
 
       if (el) {
-        this.positionOnCanvas(el, player.x * 16 + 8, player.y * 16 + 16)
+        this.positionOnCanvas(el, player.x * 16 + 8, player.y * 16 - 2)
       }
     })
-
-    // requestAnimationFrame(this.boundUpdate)
   }
 
-  public stop() {
-    this.wrapper.remove()
-    // this.run = false
+  public setupButtons() {
+    const btnWrapper = document.createElement('div')
+
+    btnWrapper.id = 'moveButtons'
+
+    const directions = ['up', 'down', 'left', 'right']
+
+    directions.forEach((name) => {
+      const el = document.createElement('button')
+
+      el.id = `dir-${name}`
+      el.onclick = () => this.onTriggerInput.notify(name)
+
+      btnWrapper.appendChild(el)
+    })
+
+    this.wrapper.appendChild(btnWrapper)
   }
 
   private positionOnCanvas(el: HTMLElement, x: number, y: number) {

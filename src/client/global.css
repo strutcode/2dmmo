@@ -26,3 +26,38 @@ canvas {
   text-shadow: 0 0 4px #000;
   transform: translateX(-50%);
 }
+
+#moveButtons {
+  position: absolute;
+  bottom: 5vh;
+  right: 5vh;
+  display: grid;
+  grid-template-rows: 10vh 10vh 10vh;
+  grid-template-columns: 10vh 10vh 10vh;
+  z-index: 1000;
+}
+
+#moveButtons > button {
+  width: 10vh;
+  height: 10vh;
+  border: 0;
+  background: gray;
+  box-shadow: 0 0 5vh rgba(0, 0, 0, 0.5);
+}
+
+#dir-up {
+  grid-row: 1;
+  grid-column: 2;
+}
+#dir-down {
+  grid-row: 3;
+  grid-column: 2;
+}
+#dir-left {
+  grid-row: 2;
+  grid-column: 1;
+}
+#dir-right {
+  grid-row: 2;
+  grid-column: 3;
+}
