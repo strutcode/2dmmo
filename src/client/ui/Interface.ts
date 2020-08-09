@@ -31,7 +31,7 @@ export default class Interface {
       el.classList.add('nameTag')
       el.innerText = player.name
 
-      this.positionOnCanvas(el, player.x * 16 + 8, player.y * 16 + 16)
+      this.positionOnCanvas(el, player.x * 16 + 8, player.y * 16 - 2)
 
       this.names.push(el)
       this.wrapper.appendChild(el)

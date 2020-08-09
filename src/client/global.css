@@ -16,11 +16,13 @@ canvas {
 
 #ui {
   position: fixed;
+  z-index: 1000;
 }
 
 .nameTag {
   font: 18px Courier;
-  color: #fff;
+  font-weight: bold;
+  color: rgb(124, 240, 255);
   text-shadow: 0 0 4px #000;
   transform: translateX(-50%);
 }
