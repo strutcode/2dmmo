@@ -4,16 +4,19 @@ import Observable from '../../common/Observable'
 export default class Input {
   public onAction = new Observable<(name: string) => void>()
 
+  private boundKeyboardHandler = this.keyboardHandler.bind(this)
+  private boundTouchHandler = this.touchHandler.bind(this)
+
   constructor(private state: GameState) {}
 
   public start() {
-    document.addEventListener('keydown', this.keyboardHandler.bind(this))
-    document.addEventListener('touchstart', this.touchHandler.bind(this))
+    document.addEventListener('keydown', this.boundKeyboardHandler)
+    document.addEventListener('touchstart', this.boundTouchHandler)
   }
 
   public stop() {
-    document.removeEventListener('keydown', this.keyboardHandler.bind(this))
-    document.removeEventListener('touchstart', this.touchHandler.bind(this))
+    document.removeEventListener('keydown', this.boundKeyboardHandler)
+    document.removeEventListener('touchstart', this.boundTouchHandler)
   }
 
   private keyboardHandler(ev: KeyboardEvent) {
