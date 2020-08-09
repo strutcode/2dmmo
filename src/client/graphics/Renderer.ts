@@ -8,8 +8,10 @@ export default class Renderer {
   private run = true
   private width = 16 * 25
   private height = 16 * 13
+  private lastTime = performance.now()
 
   private assets: Record<string, HTMLImageElement> = {}
+  private animState: Record<string, number> = {}
 
   public constructor(private state: GameState) {
     const context = this.canvas.getContext('2d')
@@ -92,7 +94,9 @@ export default class Renderer {
     this.context.fillText(text, x, y)
   }
 
-  public draw() {
+  public draw(time: number) {
+    const delta = (time - this.lastTime) / 1000
+
     if (!this.run) return
 
     this.context.fillStyle = 'black'
@@ -106,17 +110,26 @@ export default class Renderer {
     }
 
     if (this.state.self) {
-      const { x, y } = this.state.self
-      this.drawTile('creaturesCastle', 0, 16, x, y)
+      const { name, x, y } = this.state.self
+
+      const frame = ((this.animState[name] || 0) + delta * 4) % 4
+      this.animState[name] = frame
+
+      this.drawTile('creaturesCastle', Math.floor(frame), 15, x, y)
       this.drawText('You', x * 16 + 8, y * 16 + 16)
     }
 
     this.state.players.forEach((player) => {
-      const { x, y } = player
-      this.drawTile('creaturesCastle', 0, 16, x, y)
-      this.drawText(player.name, x * 16 + 8, y * 16 + 16)
+      const { name, x, y } = player
+
+      const frame = ((this.animState[name] || 0) + delta * 4) % 4
+      this.animState[name] = frame
+
+      this.drawTile('creaturesCastle', Math.floor(frame), 15, x, y)
+      this.drawText(name, x * 16 + 8, y * 16 + 16)
     })
 
+    this.lastTime += delta * 1000
     requestAnimationFrame(this.boundDraw)
   }
 }
