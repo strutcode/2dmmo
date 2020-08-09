@@ -7,14 +7,16 @@ export default class Input {
   constructor(private state: GameState) {}
 
   public start() {
-    document.addEventListener('keydown', this.handler.bind(this))
+    document.addEventListener('keydown', this.keyboardHandler.bind(this))
+    document.addEventListener('touchstart', this.touchHandler.bind(this))
   }
 
   public stop() {
-    document.removeEventListener('keydown', this.handler.bind(this))
+    document.removeEventListener('keydown', this.keyboardHandler.bind(this))
+    document.removeEventListener('touchstart', this.touchHandler.bind(this))
   }
 
-  private handler(ev: KeyboardEvent) {
+  private keyboardHandler(ev: KeyboardEvent) {
     const getAction = () => {
       switch (ev.key.toLowerCase()) {
         case 'w':
@@ -27,6 +29,30 @@ export default class Input {
           return 'right'
         default:
           return undefined
+      }
+    }
+
+    const name = getAction()
+
+    if (name) {
+      this.onAction.notify(name)
+    }
+  }
+
+  private touchHandler(ev: TouchEvent) {
+    const getAction = () => {
+      const touch = ev.touches[0]
+      const marginX = window.innerWidth / 4
+      const marginY = window.innerHeight / 4
+
+      if (touch.clientX < marginX) {
+        return 'left'
+      } else if (touch.clientX > window.innerWidth - marginX) {
+        return 'right'
+      } else if (touch.clientY < marginY) {
+        return 'up'
+      } else if (touch.clientY > window.innerHeight - marginY) {
+        return 'down'
       }
     }
 
