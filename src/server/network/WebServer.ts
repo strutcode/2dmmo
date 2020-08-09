@@ -17,11 +17,6 @@ export default class WebServer {
 
     this.app.use(express.static(resolve('./final/client')))
 
-    this.app.use((req, res, next) => {
-      console.log('Request', req.url)
-      next()
-    })
-
     log.info('Server', 'Init http server')
     this.httpServer = createServer(this.app)
   }

@@ -6,6 +6,8 @@ export default class Renderer {
 
   private boundDraw = this.draw.bind(this)
   private run = true
+  private width = 16 * 25
+  private height = 16 * 13
 
   private assets: Record<string, HTMLImageElement> = {}
 
@@ -19,8 +21,8 @@ export default class Renderer {
     this.context = context
     document.body.appendChild(this.canvas)
 
-    this.canvas.width = 640
-    this.canvas.height = 320
+    this.canvas.width = this.width
+    this.canvas.height = this.height
   }
 
   public start() {
@@ -42,6 +44,10 @@ export default class Renderer {
       require('../../../assets/HAS Overworld 2.0/GrassBiome/GB-LandTileset.png')
         .default,
     )
+    this.assets.creaturesCastle = await loadImage(
+      require('../../../assets/HAS Creature Pack/Castle/Castle(AllFrame).png')
+        .default,
+    )
   }
 
   public stop() {
@@ -50,28 +56,40 @@ export default class Renderer {
     document.body.removeChild(this.canvas)
   }
 
+  private drawTile(type: string, sx: number, sy: number, x: number, y: number) {
+    if (!this.assets[type]) {
+      this.context.fillStyle = 'magenta'
+      this.context.fillRect(x * 16, y * 16, 16, 16)
+      return
+    }
+
+    this.context.drawImage(
+      this.assets[type],
+      sx * 16,
+      sy * 16,
+      16,
+      16,
+      x * 16,
+      y * 16,
+      16,
+      16,
+    )
+  }
+
   public draw() {
     if (!this.run) return
 
+    this.context.fillStyle = 'black'
+    this.context.fillRect(0, 0, this.width, this.height)
+
     let x, y
-    for (y = 0; y < 20; y++) {
-      for (x = 0; x < 40; x++) {
-        this.context.drawImage(
-          this.assets.grassTiles,
-          16,
-          16,
-          16,
-          16,
-          x * 16,
-          y * 16,
-          16,
-          16,
-        )
+    for (y = 0; y < this.height / 16; y++) {
+      for (x = 0; x < this.width / 16; x++) {
+        this.drawTile('grassTiles', 1, 1, x, y)
       }
     }
 
-    this.context.fillStyle = 'red'
-    this.context.fillRect(Math.random() * 630, Math.random() * 350, 10, 10)
+    this.drawTile('creaturesCastle', 0, 16, 12, 6)
 
     requestAnimationFrame(this.boundDraw)
   }
