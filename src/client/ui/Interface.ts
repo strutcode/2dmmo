@@ -1,4 +1,5 @@
 import GameState from '../GameState'
+import Mobile from '../entities/Mobile'
 
 export default class Interface {
   private wrapper = document.createElement('div')
@@ -24,7 +25,7 @@ export default class Interface {
 
     document.body.appendChild(this.wrapper)
 
-    this.state.onPlayerAdd.observe((player) => {
+    const addNameTag = (player: Mobile) => {
       const el = document.createElement('div')
 
       el.id = player.name
@@ -35,6 +36,14 @@ export default class Interface {
 
       this.names.push(el)
       this.wrapper.appendChild(el)
+    }
+
+    this.state.players.forEach((player) => {
+      addNameTag(player)
+    })
+
+    this.state.onPlayerAdd.observe((player) => {
+      addNameTag(player)
     })
 
     this.state.onPlayerRemove.observe((player) => {
