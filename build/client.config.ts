@@ -46,7 +46,7 @@ export default function (mode: Configuration['mode']): Configuration {
     ],
     output: {
       path: resolve('./final/client'),
-      publicPath: '/',
+      // publicPath: './',
       hotUpdateChunkFilename: '.hot/[id].[hash].hot-update.js',
       hotUpdateMainFilename: '.hot/[hash].hot-update.json',
     },
@@ -54,7 +54,7 @@ export default function (mode: Configuration['mode']): Configuration {
   }
 
   if (mode === 'development') {
-    ;(config.entry as string[]).unshift('webpack-hot-middleware/client')
+    ; (config.entry as string[]).unshift('webpack-hot-middleware/client?path=__webpack_hmr')
     config.plugins?.push(new webpack.HotModuleReplacementPlugin())
   }
 

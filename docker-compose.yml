@@ -2,16 +2,29 @@ version: '3'
 services:
   app:
     build: .
+    container_name: "2dmmo"
     env_file: .env
     depends_on:
       - db
     restart: always
+    networks:
+      - default
+      - proxy
     ports:
-      - '9001:9001'
-      - '9229:9229'
+      - 9001:9001
     volumes:
       - .:/home/app/
       - /home/app/node_modules
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.middlewares.2dmmo-strip.stripprefix.prefixes=/2dmmo/,/2dmmo
+      - traefik.http.middlewares.2dmmo-strip.stripprefix.forceslash=true
+      - traefik.http.routers.2dmmo.rule=PathPrefix(`/2dmmo`)
+      - traefik.http.routers.2dmmo.middlewares=2dmmo-strip@docker
+      - traefik.http.routers.2dmmo.entrypoints=web,websecure
+      - traefik.http.routers.2dmmo.tls=true
+      - traefik.http.routers.2dmmo.tls.certresolver=leresolver
 
   db:
     image: couchdb:3.1
@@ -19,3 +32,7 @@ services:
     environment:
       COUCHDB_USER: root
       COUCHDB_PASSWORD: test
+
+networks:
+  proxy:
+    external: true

@@ -1,5 +1,5 @@
 FROM node:12.18.3-alpine
-EXPOSE 9001 9229
+EXPOSE 9001
 
 WORKDIR /home/app
 

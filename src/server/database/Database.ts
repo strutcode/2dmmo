@@ -21,14 +21,13 @@ export default class Database {
       log.warn('Database', `Missing system database(s)`)
       log.info('Database', 'Performing first time setup...')
 
-      await Promise.all([
-        this.connection.db.destroy('_users'),
-        this.connection.db.destroy('_replicator'),
-        this.connection.db.destroy('_global_changes'),
-        this.connection.db.create('_users'),
-        this.connection.db.create('_replicator'),
-        this.connection.db.create('_global_changes'),
-      ])
+      const dbCreates = []
+
+      if (!dbs.includes('_users')) dbCreates.push(this.connection.db.create('_users'))
+      if (!dbs.includes('_replicator')) dbCreates.push(this.connection.db.create('_replicator'))
+      if (!dbs.includes('_global_changes')) dbCreates.push(this.connection.db.create('_global_changes'))
+
+      await Promise.all(dbCreates)
 
       log.info('Database', 'System databases created!')
     }
