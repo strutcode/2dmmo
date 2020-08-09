@@ -11,7 +11,6 @@ export default class Renderer {
   private lastTime = performance.now()
 
   private assets: Record<string, HTMLImageElement> = {}
-  private animState: Record<string, number> = {}
 
   public constructor(private state: GameState) {
     const context = this.canvas.getContext('2d')
@@ -109,16 +108,11 @@ export default class Renderer {
       }
     }
 
-    if (this.state.self) {
-      const { name, x, y, anim, frame } = this.state.self
+    const mobs = [...this.state.players.values()]
 
-      this.state.self.frame = (this.state.self.frame + delta * 4) % 4
+    if (this.state.self) mobs.push(this.state.self)
 
-      this.drawTile('creaturesCastle', Math.floor(frame), 15 + anim, x, y)
-      this.drawText('You', x * 16 + 8, y * 16 + 16)
-    }
-
-    this.state.players.forEach((player) => {
+    mobs.forEach((player) => {
       const { name, x, y, anim, frame } = player
 
       player.frame = (player.frame + delta * 4) % 4
