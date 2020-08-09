@@ -3,7 +3,7 @@ import Observable from '../../common/Observable'
 
 export default class SocketClient {
   public onLogin = new Observable<(id: string) => void>()
-  public onPlayerJoin = new Observable<(id: string) => void>()
+  public onPlayerJoin = new Observable<(id: string, props: object) => void>()
   public onPlayerLeave = new Observable<(id: string) => void>()
   public onPlayerUpdate = new Observable<(id: string, change: object) => void>()
 
@@ -33,11 +33,15 @@ export default class SocketClient {
       if (type === 'IDNT') {
         this.onLogin.notify(content)
       } else if (type === 'JOIN') {
-        content.split(',').forEach((id) => {
-          this.onPlayerJoin.notify(id)
+        content.split('|').forEach((change) => {
+          const [id, x, y] = change.split(',')
+          this.onPlayerJoin.notify(id, {
+            x: +x,
+            y: +y,
+          })
         })
       } else if (type === 'EXIT') {
-        content.split(',').forEach((id) => {
+        content.split('|').forEach((id) => {
           this.onPlayerLeave.notify(id)
         })
       } else if (type === 'MOVE') {

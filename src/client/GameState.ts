@@ -8,8 +8,8 @@ export default class GameState {
     this.self = new Mobile('You')
   }
 
-  public addPlayer(id: string) {
-    this.players.set(id, new Mobile(id))
+  public addPlayer(id: string, props: Record<string, any>) {
+    this.players.set(id, new Mobile(id, props.x, props.y))
   }
 
   public removePlayer(id: string) {

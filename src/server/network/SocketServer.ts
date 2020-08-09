@@ -59,11 +59,13 @@ export default class SocketServer {
     scope.onChange.observe((id, changes) => {
       const socket = this.id2socket.get(id)
       if (changes.added.length) {
-        socket?.send(`JOIN~${changes.added.map((p) => p.id).join(',')}`)
+        socket?.send(
+          `JOIN~${changes.added.map((p) => `${p.id},${p.x},${p.y}`).join('|')}`,
+        )
       }
 
       if (changes.removed.length) {
-        socket?.send(`EXIT~${changes.removed.map((p) => p.id).join(',')}`)
+        socket?.send(`EXIT~${changes.removed.map((p) => p.id).join('|')}`)
       }
     })
 

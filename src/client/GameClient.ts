@@ -49,8 +49,8 @@ export default class GameClient {
       this.state.setSelf(id)
     })
 
-    this.client.onPlayerJoin.observe((id) => {
-      this.state.addPlayer(id)
+    this.client.onPlayerJoin.observe((id, props) => {
+      this.state.addPlayer(id, props)
     })
 
     this.client.onPlayerLeave.observe((id) => {
