@@ -19,9 +19,10 @@ services:
       - traefik.enable=true
       - traefik.docker.network=proxy
       - traefik.http.routers.2dmmo.rule=Host(`2dmmo.strutcode.dev`)
-      - traefik.http.routers.2dmmo.entrypoints=web,websecure
-      - traefik.http.routers.2dmmo.tls=true
-      - traefik.http.routers.2dmmo.tls.certresolver=leresolver
+      - traefik.http.routers.2dmmo.entrypoints=web
+      - traefik.http.routers.2dmmo-secure.rule=Host(`2dmmo.strutcode.dev`)
+      - traefik.http.routers.2dmmo-secure.entrypoints=websecure
+      - traefik.http.routers.2dmmo-secure.tls.certresolver=leresolver
 
   db:
     image: couchdb:3.1
