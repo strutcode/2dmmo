@@ -1,4 +1,5 @@
 import GameState from '../GameState'
+import spritemap from './spritemap'
 
 export default class Renderer {
   private canvas = document.createElement('canvas')
@@ -11,6 +12,7 @@ export default class Renderer {
   private lastTime = performance.now()
 
   private assets: Record<string, HTMLImageElement> = {}
+  private frameCounter = new Map<string, number>()
 
   public constructor(private state: GameState) {
     const context = this.canvas.getContext('2d')
@@ -47,6 +49,10 @@ export default class Renderer {
     )
     this.assets.creaturesCastle = await loadImage(
       require('../../../assets/HAS Creature Pack/Castle/Castle(AllFrame).png')
+        .default,
+    )
+    this.assets.creaturesRampart = await loadImage(
+      require('../../../assets/HAS Creature Pack/Rampart/Rampact(AllFrame).png')
         .default,
     )
   }
@@ -93,6 +99,17 @@ export default class Renderer {
     this.context.fillText(text, x, y)
   }
 
+  private drawSprite(name: string, action: string, frame: number, x: number, y: number) {
+    if (!(spritemap as any)[name][action]) {
+      this.context.fillStyle = 'magenta'
+      this.context.fillRect(x * 16, y * 16, 16, 16)
+      return
+    }
+
+    const { row, frames } = (spritemap as any)[name][action]
+    this.drawTile(spritemap[name as keyof typeof spritemap]._asset, Math.floor(frame % frames), row, x, y)
+  }
+
   public draw(time: number) {
     const delta = (time - this.lastTime) / 1000
 
@@ -108,16 +125,20 @@ export default class Renderer {
       }
     }
 
-    const mobs = [...this.state.players.values()]
+    const mobs = [
+      ...this.state.mobs.values(),
+      ...this.state.players.values(),
+    ]
 
     if (this.state.self) mobs.push(this.state.self)
 
     mobs.forEach((player) => {
-      const { name, x, y, anim, frame } = player
+      const { id, x, y, sprite, action } = player
+      const frame = this.frameCounter.get(id) || Math.random()
 
-      player.frame = (player.frame + delta * 4) % 4
+      this.frameCounter.set(id, frame + delta * 4)
 
-      this.drawTile('creaturesCastle', Math.floor(frame), 15 + anim, x, y)
+      this.drawSprite(sprite, action, frame, x, y)
       // this.drawText(name, x * 16 + 8, y * 16 + 16)
     })
 

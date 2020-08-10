@@ -23,7 +23,7 @@ canvas {
   font: 18px Courier;
   font-weight: bold;
   color: rgb(124, 240, 255);
-  text-shadow: 0 0 4px #000;
+  text-shadow: 0 0 6px #000, 0 0 3px #000, 0 0 3px #000;
   transform: translateX(-50%);
 }
 

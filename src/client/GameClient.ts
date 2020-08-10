@@ -13,6 +13,7 @@ export default class GameClient {
 
   public constructor() {
     console.log('init client')
+    this.state.addMob('deer', 'A deer')
 
     if (module.hot) {
       console.log('enable hmr')

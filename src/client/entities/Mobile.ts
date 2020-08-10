@@ -1,11 +1,11 @@
 export default class Mobile {
-  public anim = 0
-  public frame = 0
+  public sprite = 'soldier'
+  public action = 'idle'
 
   private pos: [number, number]
   private timeout: any
 
-  constructor(public name: string, x = 12, y = 6) {
+  constructor(public id: string, public name: string = 'Soandso', x = 12, y = 6) {
     this.pos = [x, y]
   }
 
@@ -25,10 +25,11 @@ export default class Mobile {
     this.pos[0] = x
     this.pos[1] = y
 
-    this.anim = 1
-    this.frame = 0
+    if (this.action !== 'walk') {
+      this.action = 'walk'
+    }
 
     if (this.timeout) clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => (this.anim = 0), 1000)
+    this.timeout = setTimeout(() => (this.action = 'idle'), 1000)
   }
 }
