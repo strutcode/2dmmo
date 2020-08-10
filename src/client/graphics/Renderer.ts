@@ -125,14 +125,7 @@ export default class Renderer {
       }
     }
 
-    const mobs = [
-      ...this.state.mobs.values(),
-      ...this.state.players.values(),
-    ]
-
-    if (this.state.self) mobs.push(this.state.self)
-
-    mobs.forEach((player) => {
+    this.state.mobs.forEach((player) => {
       const { id, x, y, sprite, action } = player
       const frame = this.frameCounter.get(id) || Math.random()
 

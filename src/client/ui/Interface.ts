@@ -4,15 +4,35 @@ import Observable from '../../common/Observable'
 
 export default class Interface {
   public onTriggerInput = new Observable<(name: string) => void>()
+
   private wrapper = document.createElement('div')
   private names: HTMLDivElement[] = []
+  private boundMatchCanvas = this.matchCanvas.bind(this)
   // private boundUpdate = this.update.bind(this)
   // private run = true
 
-  constructor(private state: GameState) {}
+  constructor(private state: GameState) { }
 
   public start() {
     this.wrapper.id = 'ui'
+
+    this.matchCanvas()
+    this.setupNameTags()
+    this.setupButtons()
+
+    document.body.appendChild(this.wrapper)
+    window.addEventListener('resize', this.boundMatchCanvas)
+
+    // requestAnimationFrame(this.boundUpdate)
+  }
+
+  public stop() {
+    window.removeEventListener('resize', this.boundMatchCanvas)
+    this.wrapper.remove()
+    // this.run = false
+  }
+
+  private matchCanvas() {
     const canvas = document.querySelector('canvas')
 
     if (canvas) {
@@ -25,52 +45,49 @@ export default class Interface {
       })
     }
 
-    this.setupNameTags()
-    this.setupButtons()
-
-    document.body.appendChild(this.wrapper)
-
-    // requestAnimationFrame(this.boundUpdate)
-  }
-
-  public stop() {
-    this.wrapper.remove()
-    // this.run = false
+    document.querySelectorAll('.nameTag').forEach(el => {
+      if (el instanceof HTMLElement) {
+        const mob = el.mob
+        this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
+      }
+    })
   }
 
   private setupNameTags() {
-    const addNameTag = (player: Mobile) => {
+    const addNameTag = (mob: Mobile) => {
+      console.log('add nametag', mob.x, mob.y, mob)
       const el = document.createElement('div')
 
-      el.id = player.name
+      el.id = mob.id
       el.classList.add('nameTag')
-      el.innerText = player.name
+      el.innerText = mob.name
+        ; (el as any).mob = mob
 
-      this.positionOnCanvas(el, player.x * 16 + 8, player.y * 16 - 2)
+      this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
 
       this.names.push(el)
       this.wrapper.appendChild(el)
     }
 
-    this.state.players.forEach((player) => {
-      addNameTag(player)
+    this.state.mobs.forEach((mob) => {
+      addNameTag(mob)
     })
 
-    this.state.onPlayerAdd.observe((player) => {
-      addNameTag(player)
+    this.state.onMobileAdd.observe((mob) => {
+      addNameTag(mob)
     })
 
-    this.state.onPlayerRemove.observe((player) => {
-      const el = document.getElementById(player.name)
+    this.state.onMobileRemove.observe((mob) => {
+      const el = document.getElementById(mob.name)
 
       if (el) el.remove()
     })
 
-    this.state.onPlayerUpdate.observe((player) => {
-      const el = document.getElementById(player.name)
+    this.state.onMobileUpdate.observe((mob) => {
+      const el = document.getElementById(mob.id)
 
       if (el) {
-        this.positionOnCanvas(el, player.x * 16 + 8, player.y * 16 - 2)
+        this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
       }
     })
   }

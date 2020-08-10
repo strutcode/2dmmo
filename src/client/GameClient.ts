@@ -13,7 +13,6 @@ export default class GameClient {
 
   public constructor() {
     console.log('init client')
-    this.state.addMob('deer', 'A deer')
 
     if (module.hot) {
       console.log('enable hmr')
@@ -52,6 +51,13 @@ export default class GameClient {
     this.setupClient()
     this.setupInput()
     this.setupUi()
+
+    this.state.addMobile('abc', {
+      sprite: 'deer',
+      name: 'A deer',
+      x: 1,
+      y: 1
+    })
   }
 
   private setupClient() {
@@ -60,15 +66,15 @@ export default class GameClient {
     })
 
     this.client.onPlayerJoin.observe((id, props) => {
-      this.state.addPlayer(id, props)
+      this.state.addMobile(id, props)
     })
 
     this.client.onPlayerLeave.observe((id) => {
-      this.state.removePlayer(id)
+      this.state.removeMobile(id)
     })
 
     this.client.onPlayerUpdate.observe((id, update) => {
-      this.state.updatePlayer(id, update)
+      this.state.updateMobile(id, update)
     })
 
     this.client.start()
