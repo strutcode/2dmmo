@@ -6,9 +6,10 @@ export default class Renderer {
   private context: CanvasRenderingContext2D
 
   private boundDraw = this.draw.bind(this)
+  private boundResize = this.resize.bind(this)
   private run = true
   private width = 16 * 25
-  private height = 16 * 13
+  private height = 16 * 25
   private lastTime = performance.now()
 
   private assets: Record<string, HTMLImageElement> = {}
@@ -22,16 +23,36 @@ export default class Renderer {
     }
 
     this.context = context
-    document.body.appendChild(this.canvas)
-
-    this.canvas.width = this.width
-    this.canvas.height = this.height
   }
 
   public start() {
     console.log('start renderer')
+    document.body.appendChild(this.canvas)
+
+    this.canvas.width = this.width
+    this.canvas.height = this.height
+
+    this.resize()
+    window.addEventListener('resize', this.boundResize)
 
     requestAnimationFrame(this.boundDraw)
+  }
+
+  public stop() {
+    console.log('stop renderer')
+    this.run = false
+    window.removeEventListener('resize', this.boundResize)
+    this.canvas.remove()
+  }
+
+  private resize() {
+    if (window.innerWidth > window.innerHeight) {
+      this.canvas.style.width = '100%'
+      this.canvas.style.height = 'auto'
+    } else {
+      this.canvas.style.width = 'auto'
+      this.canvas.style.height = '100%'
+    }
   }
 
   public async load() {
@@ -55,12 +76,6 @@ export default class Renderer {
       require('../../../assets/HAS Creature Pack/Rampart/Rampact(AllFrame).png')
         .default,
     )
-  }
-
-  public stop() {
-    console.log('stop renderer')
-    this.run = false
-    this.canvas.remove()
   }
 
   private drawTile(type: string, sx: number, sy: number, x: number, y: number) {
@@ -99,7 +114,13 @@ export default class Renderer {
     this.context.fillText(text, x, y)
   }
 
-  private drawSprite(name: string, action: string, frame: number, x: number, y: number) {
+  private drawSprite(
+    name: string,
+    action: string,
+    frame: number,
+    x: number,
+    y: number,
+  ) {
     if (!(spritemap as any)[name][action]) {
       this.context.fillStyle = 'magenta'
       this.context.fillRect(x * 16, y * 16, 16, 16)
@@ -107,7 +128,13 @@ export default class Renderer {
     }
 
     const { row, frames } = (spritemap as any)[name][action]
-    this.drawTile(spritemap[name as keyof typeof spritemap]._asset, Math.floor(frame % frames), row, x, y)
+    this.drawTile(
+      spritemap[name as keyof typeof spritemap]._asset,
+      Math.floor(frame % frames),
+      row,
+      x,
+      y,
+    )
   }
 
   public draw(time: number) {

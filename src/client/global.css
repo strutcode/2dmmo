@@ -17,6 +17,10 @@ canvas {
 #ui {
   position: fixed;
   z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .nameTag {
@@ -42,7 +46,7 @@ canvas {
   height: 10vh;
   border: 0;
   background: gray;
-  box-shadow: 0 0 5vh rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 3vh 1vh rgba(0, 0, 0, 0.5);
 }
 
 #dir-up {

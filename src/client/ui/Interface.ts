@@ -11,12 +11,11 @@ export default class Interface {
   // private boundUpdate = this.update.bind(this)
   // private run = true
 
-  constructor(private state: GameState) { }
+  constructor(private state: GameState) {}
 
   public start() {
     this.wrapper.id = 'ui'
 
-    this.matchCanvas()
     this.setupNameTags()
     this.setupButtons()
 
@@ -35,19 +34,19 @@ export default class Interface {
   private matchCanvas() {
     const canvas = document.querySelector('canvas')
 
-    if (canvas) {
-      const rect = canvas.getBoundingClientRect()
-      Object.assign(this.wrapper.style, {
-        top: `${rect.top}px`,
-        left: `${rect.left}px`,
-        width: `${rect.width}px`,
-        height: `${rect.height}px`,
-      })
-    }
+    // if (canvas) {
+    //   const rect = canvas.getBoundingClientRect()
+    //   Object.assign(this.wrapper.style, {
+    //     top: `${rect.top}px`,
+    //     left: `${rect.left}px`,
+    //     width: `${rect.width}px`,
+    //     height: `${rect.height}px`,
+    //   })
+    // }
 
-    document.querySelectorAll('.nameTag').forEach(el => {
+    document.querySelectorAll('.nameTag').forEach((el) => {
       if (el instanceof HTMLElement) {
-        const mob = el.mob
+        const mob = (el as any).mob
         this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
       }
     })
@@ -61,7 +60,7 @@ export default class Interface {
       el.id = mob.id
       el.classList.add('nameTag')
       el.innerText = mob.name
-        ; (el as any).mob = mob
+      ;(el as any).mob = mob
 
       this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
 
@@ -97,7 +96,7 @@ export default class Interface {
 
     btnWrapper.id = 'moveButtons'
 
-    const directions = ['up', 'down', 'left', 'right']
+    const directions = ['up', 'left', 'right', 'down']
 
     directions.forEach((name) => {
       const el = document.createElement('button')
@@ -112,9 +111,19 @@ export default class Interface {
   }
 
   private positionOnCanvas(el: HTMLElement, x: number, y: number) {
-    const size = this.wrapper.getBoundingClientRect()
-    const top = y * (size.height / 208)
-    const left = x * (size.width / 400)
+    const canvasEl = document.querySelector('canvas')
+
+    if (!canvasEl) return
+
+    const canvas = canvasEl.getBoundingClientRect()
+    const ui = this.wrapper.getBoundingClientRect()
+    const canvasPx = {
+      x: canvas.width / canvasEl.width,
+      y: canvas.height / canvasEl.width,
+    }
+
+    const top = y * canvasPx.y + (canvas.y - ui.y)
+    const left = x * canvasPx.x + (canvas.x - ui.x)
 
     Object.assign(el.style, {
       position: 'absolute',
