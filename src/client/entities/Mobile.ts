@@ -5,7 +5,12 @@ export default class Mobile {
   private pos: [number, number]
   private timeout: any
 
-  constructor(public id: string, public name: string = 'Soandso', x = 12, y = 12) {
+  constructor(
+    public id: string,
+    public name: string = 'Soandso',
+    x = 0,
+    y = 0,
+  ) {
     this.pos = [x, y]
   }
 

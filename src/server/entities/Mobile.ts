@@ -3,9 +3,9 @@ import Observable from '../../common/Observable'
 export default class Mobile {
   public onMove = new Observable()
 
-  private pos = [12, 12]
+  private pos = [0, 0]
 
-  constructor(public id: string) { }
+  constructor(public id: string) {}
 
   public get x() {
     return this.pos[0]

@@ -31,8 +31,8 @@ export default class Renderer {
     console.log('start renderer')
     document.body.appendChild(this.canvas)
 
-    this.canvas.width = this.width
-    this.canvas.height = this.height
+    this.canvas.width = window.innerWidth
+    this.canvas.height = window.innerHeight
 
     this.resize()
     window.addEventListener('resize', this.boundResize)
@@ -48,12 +48,13 @@ export default class Renderer {
   }
 
   private resize() {
+    this.canvas.width = window.innerWidth
+    this.canvas.height = window.innerHeight
+
     if (window.innerWidth > window.innerHeight) {
-      this.canvas.style.width = '100%'
-      this.canvas.style.height = 'auto'
+      this.camera.scale = window.innerWidth / this.width
     } else {
-      this.canvas.style.width = 'auto'
-      this.canvas.style.height = '100%'
+      this.camera.scale = window.innerHeight / this.height
     }
   }
 
@@ -87,16 +88,17 @@ export default class Renderer {
       return
     }
 
+    this.context.imageSmoothingEnabled = false
     this.context.drawImage(
       this.assets[type],
       sx * 16,
       sy * 16,
       16,
       16,
-      x * 16,
-      y * 16,
-      16,
-      16,
+      window.innerWidth / 2 + (x * 16 - this.camera.x) * this.camera.scale,
+      window.innerHeight / 2 + (y * 16 - this.camera.y) * this.camera.scale,
+      16 * this.camera.scale,
+      16 * this.camera.scale,
     )
   }
 
@@ -112,8 +114,14 @@ export default class Renderer {
     this.context.textBaseline = vAlign
     this.context.fillStyle = 'white'
     this.context.strokeStyle = 'black'
-    this.context.strokeText(text, x, y)
-    this.context.fillText(text, x, y)
+
+    const finalX =
+      window.innerWidth / 2 + (x - this.camera.x) * this.camera.scale
+    const finalY =
+      window.innerHeight / 2 + (y - this.camera.y) * this.camera.scale
+
+    this.context.strokeText(text, finalX, finalY)
+    this.context.fillText(text, finalX, finalY)
   }
 
   private drawSprite(
@@ -139,23 +147,32 @@ export default class Renderer {
     )
   }
 
+  public drawTileMap() {
+    const minX = this.camera.x / 16 - 13
+    const minY = this.camera.y / 16 - 13
+    const maxX = this.camera.x / 16 + 13
+    const maxY = this.camera.y / 16 + 13
+
+    let x, y
+    for (y = minY; y < maxY; y++) {
+      for (x = minX; x < maxX; x++) {
+        this.drawTile('grassTiles', 1, 1, Math.floor(x), Math.floor(y))
+      }
+    }
+  }
+
   public draw(time: number) {
     const delta = (time - this.lastTime) / 1000
 
     if (!this.run) return
 
     this.context.fillStyle = 'black'
-    this.context.fillRect(0, 0, this.width, this.height)
+    this.context.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
-    let x, y
-    for (y = 0; y < this.height / 16; y++) {
-      for (x = 0; x < this.width / 16; x++) {
-        this.drawTile('grassTiles', 1, 1, x, y)
-      }
-    }
+    this.drawTileMap()
 
     if (this.state.self) {
-      this.camera.set(this.state.self.x, this.state.self.y)
+      this.camera.set(this.state.self.x * 16 + 8, this.state.self.y * 16 + 8)
     }
 
     this.state.mobs.forEach((player) => {
@@ -164,14 +181,8 @@ export default class Renderer {
 
       this.frameCounter.set(id, frame + delta * 4)
 
-      this.drawSprite(
-        sprite,
-        action,
-        frame,
-        x - this.camera.x + 12,
-        y - this.camera.y + 12,
-      )
-      // this.drawText(name, x * 16 + 8, y * 16 + 16)
+      this.drawSprite(sprite, action, frame, x, y)
+      this.drawText(name, x * 16 + 8, y * 16 + 16)
     })
 
     this.lastTime += delta * 1000

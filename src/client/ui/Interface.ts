@@ -17,7 +17,6 @@ export default class Interface {
     this.wrapper = document.createElement('div')
     this.wrapper.id = 'ui'
 
-    this.setupNameTags()
     this.setupButtons()
 
     document.body.appendChild(this.wrapper)
@@ -39,23 +38,6 @@ export default class Interface {
 
   private matchCanvas() {
     const canvas = document.querySelector('canvas')
-
-    // if (canvas) {
-    //   const rect = canvas.getBoundingClientRect()
-    //   Object.assign(this.wrapper.style, {
-    //     top: `${rect.top}px`,
-    //     left: `${rect.left}px`,
-    //     width: `${rect.width}px`,
-    //     height: `${rect.height}px`,
-    //   })
-    // }
-
-    document.querySelectorAll('.nameTag').forEach((el) => {
-      if (el instanceof HTMLElement) {
-        const mob = (el as any).mob
-        this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
-      }
-    })
   }
 
   public setupButtons() {
@@ -98,10 +80,4 @@ export default class Interface {
       left: `${left}px`,
     })
   }
-
-  // public update() {
-  //   if (!this.run) return
-
-  //   requestAnimationFrame(this.boundUpdate)
-  // }
 }

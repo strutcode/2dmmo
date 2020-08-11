@@ -1,5 +1,6 @@
 export default class Camera {
   private pos = [0, 0]
+  public scale = 1
 
   public get x() {
     return this.pos[0]
