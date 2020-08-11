@@ -8,10 +8,14 @@ export default class Logger {
     global.console.log = (message: any, ...args: any[]) => {
       this.info('External', message, ...args)
     }
+
+    global.console.clear()
+    this.log('')
   }
+
   public out(category: string, message: any, ...params: any[]) {
     this.log(
-      `${'DBUG'.black.bgWhite} [${category.padStart(10, ' ')}]`,
+      `${' DBUG '.inverse}${` ${category.padStart(10, ' ')} `.bgBlue}`,
       message,
       ...params,
     )
@@ -19,7 +23,7 @@ export default class Logger {
 
   public info(category: string, message: any, ...params: any[]) {
     this.log(
-      `${'INFO'.bgBlue} [${category.padStart(10, ' ')}]`,
+      `${' INFO '.bgCyan}${` ${category.padStart(10, ' ')} `.bgBlue}`,
       message,
       ...params,
     )
@@ -27,7 +31,7 @@ export default class Logger {
 
   public warn(category: string, message: any, ...params: any[]) {
     this.log(
-      `${'WARN'.bgYellow} [${category.padStart(10, ' ')}]`,
+      `${' WARN '.bgYellow}${` ${category.padStart(10, ' ')} `.bgBlue}`,
       message,
       ...params,
     )
@@ -35,7 +39,7 @@ export default class Logger {
 
   public error(category: string, message: any, ...params: any[]) {
     this.log(
-      `${'FAIL'.bgRed} [${category.padStart(10, ' ')}]`,
+      `${' FAIL '.bgRed}${` ${category.padStart(10, ' ')} `.bgBlue}`,
       message,
       ...params,
     )

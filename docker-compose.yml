@@ -27,7 +27,6 @@ services:
 
   db:
     image: couchdb:3.1
-    tty: true
     restart: always
     environment:
       COUCHDB_USER: root
