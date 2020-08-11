@@ -1,11 +1,11 @@
 import Observable from '../../common/Observable'
 
-export default class Player {
+export default class Mobile {
   public onMove = new Observable()
 
   private pos = [12, 12]
 
-  constructor(public id: string) {}
+  constructor(public id: string) { }
 
   public get x() {
     return this.pos[0]
