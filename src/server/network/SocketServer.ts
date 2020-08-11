@@ -1,7 +1,8 @@
 import WebSocket, { Server } from 'ws'
-import WebServer from './WebServer'
-import Observable from '../../common/Observable'
+
 import NetworkScope from './NetworkScope'
+import Observable from '../../common/Observable'
+import WebServer from './WebServer'
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()

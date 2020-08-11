@@ -11,7 +11,7 @@ export default class Interface {
   // private boundUpdate = this.update.bind(this)
   // private run = true
 
-  constructor(private state: GameState) {}
+  constructor(private state: GameState) { }
 
   public start() {
     this.wrapper.id = 'ui'
@@ -29,6 +29,11 @@ export default class Interface {
     window.removeEventListener('resize', this.boundMatchCanvas)
     this.wrapper.remove()
     // this.run = false
+  }
+
+  public reset() {
+    this.stop()
+    this.start()
   }
 
   private matchCanvas() {
@@ -60,7 +65,7 @@ export default class Interface {
       el.id = mob.id
       el.classList.add('nameTag')
       el.innerText = mob.name
-      ;(el as any).mob = mob
+        ; (el as any).mob = mob
 
       this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
 

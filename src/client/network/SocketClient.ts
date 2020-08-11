@@ -3,16 +3,17 @@ import Observable from '../../common/Observable'
 
 export default class SocketClient {
   public onLogin = new Observable<(id: string) => void>()
+  public onDisconnect = new Observable<() => void>()
   public onPlayerJoin = new Observable<(id: string, props: object) => void>()
   public onPlayerLeave = new Observable<(id: string) => void>()
   public onPlayerUpdate = new Observable<(id: string, change: object) => void>()
 
   private url = `${location.protocol.replace('http', 'ws')}//${location.host}${
     location.pathname
-  }`
+    }`
   private ws?: WebSocket
 
-  public constructor(private state: GameState) {}
+  public constructor(private state: GameState) { }
 
   public start() {
     console.log('start client')
@@ -56,6 +57,7 @@ export default class SocketClient {
 
     this.ws.onclose = (ev) => {
       console.log('disconnected', ev.code)
+      this.onDisconnect.notify()
 
       if (ev.code === 1000) {
         // Normal closure

@@ -1,5 +1,5 @@
-import Player from '../entities/Player'
 import Observable from '../../common/Observable'
+import Player from '../entities/Player'
 
 interface ChangeList {
   added: Player[]
@@ -11,6 +11,7 @@ export default class NetworkScope {
   public onUpdate = new Observable<(id: string, changed: Player) => void>()
 
   private players: Player[] = []
+  private mobs: Player[] = []
 
   public addPlayer(player: Player) {
     this.onChange.notify(player.id, {

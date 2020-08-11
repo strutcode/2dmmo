@@ -1,8 +1,8 @@
+import Database from './database/Database'
+import NetworkScope from './network/NetworkScope'
+import Player from './entities/Player'
 import SocketServer from './network/SocketServer'
 import WebServer from './network/WebServer'
-import Database from './database/Database'
-import Player from './entities/Player'
-import NetworkScope from './network/NetworkScope'
 
 export default class GameServer {
   private webServer = new WebServer()
@@ -60,6 +60,8 @@ export default class GameServer {
       this.players.splice(index, 1)
       this.globalScope.removePlayer(player)
     })
+
+    // this.globalScope.addPlayer()
 
     this.webServer.start()
   }

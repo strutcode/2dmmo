@@ -1,8 +1,8 @@
-import Renderer from './graphics/Renderer'
-import SocketClient from './network/SocketClient'
 import GameState from './GameState'
 import Input from './ui/Input'
 import Interface from './ui/Interface'
+import Renderer from './graphics/Renderer'
+import SocketClient from './network/SocketClient'
 
 export default class GameClient {
   private state = new GameState()
@@ -63,6 +63,11 @@ export default class GameClient {
   private setupClient() {
     this.client.onLogin.observe((id) => {
       this.state.setSelf(id)
+    })
+
+    this.client.onDisconnect.observe(() => {
+      this.state = new GameState()
+      this.ui.reset()
     })
 
     this.client.onPlayerJoin.observe((id, props) => {

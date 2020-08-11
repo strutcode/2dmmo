@@ -6,9 +6,9 @@ body {
 canvas {
   position: fixed;
   top: 50%;
-  left: 0;
+  left: 50%;
   width: 100%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   image-rendering: -webkit-optimize-contrast;
   image-rendering: -moz-crisp-edges;
   image-rendering: pixelated;
@@ -24,7 +24,7 @@ canvas {
 }
 
 .nameTag {
-  font: 18px Courier;
+  font: 13pt Courier;
   font-weight: bold;
   color: rgb(124, 240, 255);
   text-shadow: 0 0 6px #000, 0 0 3px #000, 0 0 3px #000;
