@@ -28,7 +28,7 @@ export default class Renderer {
   }
 
   public start() {
-    console.log('start renderer')
+    log.out('Renderer', 'Init')
     document.body.appendChild(this.canvas)
 
     this.canvas.width = window.innerWidth
@@ -41,7 +41,7 @@ export default class Renderer {
   }
 
   public stop() {
-    console.log('stop renderer')
+    log.out('Renderer', 'Shutdown')
     this.run = false
     window.removeEventListener('resize', this.boundResize)
     this.canvas.remove()
@@ -109,7 +109,7 @@ export default class Renderer {
     hAlign: CanvasTextAlign = 'center',
     vAlign: CanvasTextBaseline = 'top',
   ) {
-    this.context.font = 'small-caps 12pt Verdana'
+    this.context.font = 'small-caps bold 12pt Arial'
     this.context.textAlign = hAlign
     this.context.textBaseline = vAlign
     this.context.fillStyle = 'rgb(124, 240, 255)'
@@ -187,7 +187,7 @@ export default class Renderer {
         this.frameCounter.set(id, frame + delta * 4)
 
         this.drawSprite(sprite, action, frame, x, y)
-        this.drawText(name, x * 16 + 8, y * 16 - 4)
+        this.drawText(name, x * 16 + 8, y * 16 - 2)
       })
 
     this.lastTime += delta * 1000

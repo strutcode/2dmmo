@@ -1,17 +1,43 @@
+import 'colors'
+
 export default class Logger {
+  private log: typeof global.console.log
+
+  constructor() {
+    this.log = global.console.log
+    global.console.log = (message: any, ...args: any[]) => {
+      this.info('External', message, ...args)
+    }
+  }
   public out(category: string, message: any, ...params: any[]) {
-    console.log(`[DBUG] <${category}>`, message, ...params)
+    this.log(
+      `${'DBUG'.black.bgWhite} [${category.padStart(10, ' ')}]`,
+      message,
+      ...params,
+    )
   }
 
   public info(category: string, message: any, ...params: any[]) {
-    console.log(`[INFO] <${category}>`, message, ...params)
+    this.log(
+      `${'INFO'.bgBlue} [${category.padStart(10, ' ')}]`,
+      message,
+      ...params,
+    )
   }
 
   public warn(category: string, message: any, ...params: any[]) {
-    console.log(`[WARN] <${category}>`, message, ...params)
+    this.log(
+      `${'WARN'.bgYellow} [${category.padStart(10, ' ')}]`,
+      message,
+      ...params,
+    )
   }
 
   public error(category: string, message: any, ...params: any[]) {
-    console.log(`[FAIL] <${category}>`, message, ...params)
+    this.log(
+      `${'FAIL'.bgRed} [${category.padStart(10, ' ')}]`,
+      message,
+      ...params,
+    )
   }
 }

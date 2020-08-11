@@ -72,7 +72,7 @@ export default class GameServer {
       if (allDeer.length > 10) return
 
       const deer = new Mobile(`deer_${id++}`, {
-        name: 'A deer',
+        name: 'Deerling',
         sprite: 'deer',
         x: Math.floor(Math.random() * 20 - 10),
         y: Math.floor(Math.random() * 20 - 10),

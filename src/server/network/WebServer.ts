@@ -1,11 +1,13 @@
+import { Server, createServer } from 'http'
 import express, { Express } from 'express'
-import { createServer, Server } from 'http'
-import { resolve } from 'path'
-import webpack from 'webpack'
-import { rmdirSync } from 'fs'
+
+import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import WebpackDevMiddleware from 'webpack-dev-middleware'
 import WebpackHotMiddleware from 'webpack-hot-middleware'
 import clientConfig from '../../../build/client.config'
+import { resolve } from 'path'
+import { rmdirSync } from 'fs'
+import webpack from 'webpack'
 
 export default class WebServer {
   private app: Express
@@ -38,7 +40,12 @@ export default class WebServer {
   }
 
   private applyDevMiddleware() {
-    const compiler = webpack(clientConfig('development'))
+    const config = clientConfig('development')
+    config.plugins = config.plugins?.filter(
+      (p) => !(p instanceof FriendlyErrorsWebpackPlugin),
+    )
+
+    const compiler = webpack(config)
 
     log.out('Server', 'Cleanup HMR...')
     rmdirSync(resolve('./final/client/.hot'), {

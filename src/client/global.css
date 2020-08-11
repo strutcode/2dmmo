@@ -39,6 +39,7 @@ canvas {
   grid-template-rows: 10vh 10vh 10vh;
   grid-template-columns: 10vh 10vh 10vh;
   z-index: 1000;
+  filter: drop-shadow(0 0 1vh rgba(0, 0, 0, 0.5));
 }
 
 #moveButtons > button {
@@ -46,7 +47,7 @@ canvas {
   height: 10vh;
   border: 0;
   background: gray;
-  box-shadow: 0 0 3vh 1vh rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0 0 3vh 1vh rgba(0, 0, 0, 0.5); */
 }
 
 #dir-up {

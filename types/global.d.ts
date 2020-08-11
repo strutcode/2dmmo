@@ -7,3 +7,7 @@ declare module NodeJS {
     log: Logger
   }
 }
+
+interface Window {
+  log: InstanceType<typeof import('../src/client/util/Logger').default>
+}

@@ -16,7 +16,7 @@ export default class SocketClient {
   public constructor(private state: GameState) {}
 
   public start() {
-    console.log('start client')
+    log.out('Socket', 'Init')
     this.connect()
   }
 
@@ -24,11 +24,11 @@ export default class SocketClient {
     this.ws = new WebSocket(this.url)
 
     this.ws.onopen = () => {
-      console.log('connected')
+      log.info('Socket', 'connected')
     }
 
     this.ws.onmessage = (ev) => {
-      console.log(ev.data)
+      log.out('Socket', '<-', ev.data)
       const [type, content] = (ev.data as string).split('~')
 
       if (type === 'IDNT') {
@@ -59,7 +59,7 @@ export default class SocketClient {
     }
 
     this.ws.onclose = (ev) => {
-      console.log('disconnected', ev.code)
+      log.info('Socket', 'disconnected', ev.code)
       this.onDisconnect.notify()
 
       if (ev.code === 1000) {
@@ -68,19 +68,24 @@ export default class SocketClient {
       }
 
       setTimeout(() => {
-        console.log('reconnecting...')
+        log.info('Socket', 'reconnecting...')
 
         this.connect()
       }, 1000)
     }
   }
 
+  private send(data: string) {
+    log.out('Socket', '->', data)
+    this.ws?.send(data)
+  }
+
   public sendPosition(x: number, y: number) {
-    this.ws?.send(`MOVE~${x},${y}`)
+    this.send(`MOVE~${x},${y}`)
   }
 
   public stop() {
-    console.log('stop client')
+    log.out('Socket', 'Shutdown')
     if (this.ws) {
       this.ws.close(1000)
     }

@@ -12,10 +12,10 @@ export default class GameClient {
   private ui = new Interface(this.state)
 
   public constructor() {
-    console.log('init client')
+    log.out('Game', 'Init')
 
     if (module.hot) {
-      console.log('enable hmr')
+      log.out('Debug', 'Enable HMR')
 
       module.hot.accept('./graphics/Renderer', async () => {
         this.renderer.stop()
@@ -106,6 +106,7 @@ export default class GameClient {
   }
 
   public stop() {
+    log.out('Game', 'Shutdown')
     this.renderer.stop()
     this.client.stop()
   }
