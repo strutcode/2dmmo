@@ -5,7 +5,7 @@ import Observable from '../../common/Observable'
 export default class Interface {
   public onTriggerInput = new Observable<(name: string) => void>()
 
-  private wrapper = document.createElement('div')
+  private wrapper: HTMLDivElement = document.createElement('div')
   private names: HTMLDivElement[] = []
   private boundMatchCanvas = this.matchCanvas.bind(this)
   // private boundUpdate = this.update.bind(this)
@@ -14,6 +14,7 @@ export default class Interface {
   constructor(private state: GameState) { }
 
   public start() {
+    this.wrapper = document.createElement('div')
     this.wrapper.id = 'ui'
 
     this.setupNameTags()

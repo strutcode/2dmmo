@@ -66,7 +66,7 @@ export default class GameClient {
     })
 
     this.client.onDisconnect.observe(() => {
-      this.state = new GameState()
+      this.state.reset()
       this.ui.reset()
     })
 

@@ -10,6 +10,11 @@ export default class GameState {
   public onMobileRemove = new Observable<(mob: Mobile) => void>()
   public onMobileUpdate = new Observable<(mob: Mobile) => void>()
 
+  public reset() {
+    this.mobs = new Map<string, Mobile>()
+    this.self = undefined
+  }
+
   public setSelf(id: string) {
     this.self = this.addMobile(id, {})
   }
