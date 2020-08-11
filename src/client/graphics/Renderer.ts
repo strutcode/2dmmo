@@ -1,5 +1,6 @@
 import GameState from '../GameState'
 import spritemap from './spritemap'
+import Camera from './Camera'
 
 export default class Renderer {
   private canvas = document.createElement('canvas')
@@ -14,6 +15,7 @@ export default class Renderer {
 
   private assets: Record<string, HTMLImageElement> = {}
   private frameCounter = new Map<string, number>()
+  private camera = new Camera()
 
   public constructor(private state: GameState) {
     const context = this.canvas.getContext('2d')
@@ -152,13 +154,23 @@ export default class Renderer {
       }
     }
 
+    if (this.state.self) {
+      this.camera.set(this.state.self.x, this.state.self.y)
+    }
+
     this.state.mobs.forEach((player) => {
       const { id, x, y, sprite, action } = player
       const frame = this.frameCounter.get(id) || Math.random()
 
       this.frameCounter.set(id, frame + delta * 4)
 
-      this.drawSprite(sprite, action, frame, x, y)
+      this.drawSprite(
+        sprite,
+        action,
+        frame,
+        x - this.camera.x + 12,
+        y - this.camera.y + 12,
+      )
       // this.drawText(name, x * 16 + 8, y * 16 + 16)
     })
 

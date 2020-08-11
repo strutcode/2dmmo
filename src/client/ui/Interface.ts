@@ -11,7 +11,7 @@ export default class Interface {
   // private boundUpdate = this.update.bind(this)
   // private run = true
 
-  constructor(private state: GameState) { }
+  constructor(private state: GameState) {}
 
   public start() {
     this.wrapper = document.createElement('div')
@@ -53,45 +53,6 @@ export default class Interface {
     document.querySelectorAll('.nameTag').forEach((el) => {
       if (el instanceof HTMLElement) {
         const mob = (el as any).mob
-        this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
-      }
-    })
-  }
-
-  private setupNameTags() {
-    const addNameTag = (mob: Mobile) => {
-      console.log('add nametag', mob.x, mob.y, mob)
-      const el = document.createElement('div')
-
-      el.id = mob.id
-      el.classList.add('nameTag')
-      el.innerText = mob.name
-        ; (el as any).mob = mob
-
-      this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
-
-      this.names.push(el)
-      this.wrapper.appendChild(el)
-    }
-
-    this.state.mobs.forEach((mob) => {
-      addNameTag(mob)
-    })
-
-    this.state.onMobileAdd.observe((mob) => {
-      addNameTag(mob)
-    })
-
-    this.state.onMobileRemove.observe((mob) => {
-      const el = document.getElementById(mob.name)
-
-      if (el) el.remove()
-    })
-
-    this.state.onMobileUpdate.observe((mob) => {
-      const el = document.getElementById(mob.id)
-
-      if (el) {
         this.positionOnCanvas(el, mob.x * 16 + 8, mob.y * 16 - 2)
       }
     })
