@@ -52,7 +52,7 @@ export default function (mode: Configuration['mode']): Configuration {
       hotUpdateChunkFilename: '.hot/[id].[hash].hot-update.js',
       hotUpdateMainFilename: '.hot/[hash].hot-update.json',
     },
-    devtool: 'cheap-module-source-map',
+    devtool: 'source-map',
   }
 
   if (mode === 'development') {

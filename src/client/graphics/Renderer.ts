@@ -109,16 +109,19 @@ export default class Renderer {
     hAlign: CanvasTextAlign = 'center',
     vAlign: CanvasTextBaseline = 'top',
   ) {
-    this.context.font = '14px "Courier New"'
+    this.context.font = 'small-caps 12pt Verdana'
     this.context.textAlign = hAlign
     this.context.textBaseline = vAlign
-    this.context.fillStyle = 'white'
+    this.context.fillStyle = 'rgb(124, 240, 255)'
     this.context.strokeStyle = 'black'
+    this.context.lineWidth = 3
 
-    const finalX =
-      window.innerWidth / 2 + (x - this.camera.x) * this.camera.scale
-    const finalY =
-      window.innerHeight / 2 + (y - this.camera.y) * this.camera.scale
+    const finalX = Math.floor(
+      window.innerWidth / 2 + (x - this.camera.x) * this.camera.scale,
+    )
+    const finalY = Math.floor(
+      window.innerHeight / 2 + (y - this.camera.y) * this.camera.scale,
+    )
 
     this.context.strokeText(text, finalX, finalY)
     this.context.fillText(text, finalX, finalY)
@@ -176,13 +179,13 @@ export default class Renderer {
     }
 
     this.state.mobs.forEach((player) => {
-      const { id, x, y, sprite, action } = player
+      const { id, x, y, name, sprite, action } = player
       const frame = this.frameCounter.get(id) || Math.random()
 
       this.frameCounter.set(id, frame + delta * 4)
 
       this.drawSprite(sprite, action, frame, x, y)
-      this.drawText(name, x * 16 + 8, y * 16 + 16)
+      this.drawText(name, x * 16 + 8, y * 16 - 4)
     })
 
     this.lastTime += delta * 1000
