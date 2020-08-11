@@ -59,20 +59,27 @@ export default class SocketServer {
   public addScope(scope: NetworkScope) {
     scope.onChange.observe((id, changes) => {
       const socket = this.id2socket.get(id)
-      if (changes.added.length) {
+
+      if (!socket) return
+
+      if (changes.added) {
         socket?.send(
-          `JOIN~${changes.added.map((p) => `${p.id},${p.x},${p.y}`).join('|')}`,
+          `JOIN~${changes.added
+            .map((m) => `${m.id},${m.name},${m.sprite},${m.x},${m.y}`)
+            .join('|')}`,
         )
       }
 
-      if (changes.removed.length) {
-        socket?.send(`EXIT~${changes.removed.map((p) => p.id).join('|')}`)
+      if (changes.updated) {
+        const socket = this.id2socket.get(id)
+        changes.updated.forEach((m) => {
+          socket?.send(`MOVE~${m.id},${m.x},${m.y}`)
+        })
       }
-    })
 
-    scope.onUpdate.observe((id, updated) => {
-      const socket = this.id2socket.get(id)
-      socket?.send(`MOVE~${updated.id},${updated.x},${updated.y}`)
+      if (changes.removed) {
+        socket?.send(`EXIT~${changes.removed.map((m) => m.id).join('|')}`)
+      }
     })
   }
 }

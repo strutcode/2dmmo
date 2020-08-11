@@ -10,10 +10,10 @@ export default class SocketClient {
 
   private url = `${location.protocol.replace('http', 'ws')}//${location.host}${
     location.pathname
-    }`
+  }`
   private ws?: WebSocket
 
-  public constructor(private state: GameState) { }
+  public constructor(private state: GameState) {}
 
   public start() {
     console.log('start client')
@@ -35,8 +35,11 @@ export default class SocketClient {
         this.onLogin.notify(content)
       } else if (type === 'JOIN') {
         content.split('|').forEach((change) => {
-          const [id, x, y] = change.split(',')
+          const [id, name, sprite, x, y] = change.split(',')
+
           this.onPlayerJoin.notify(id, {
+            name,
+            sprite,
             x: +x,
             y: +y,
           })

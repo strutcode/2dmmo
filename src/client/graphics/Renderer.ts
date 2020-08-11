@@ -1,6 +1,6 @@
+import Camera from './Camera'
 import GameState from '../GameState'
 import spritemap from './spritemap'
-import Camera from './Camera'
 
 export default class Renderer {
   private canvas = document.createElement('canvas')
@@ -178,15 +178,17 @@ export default class Renderer {
       this.camera.set(this.state.self.x * 16 + 8, this.state.self.y * 16 + 8)
     }
 
-    this.state.mobs.forEach((player) => {
-      const { id, x, y, name, sprite, action } = player
-      const frame = this.frameCounter.get(id) || Math.random()
+    ;[...this.state.mobs.values()]
+      .sort((a, b) => a.y - b.y)
+      .forEach((mob) => {
+        const { id, x, y, name, sprite, action } = mob
+        const frame = this.frameCounter.get(id) || Math.random()
 
-      this.frameCounter.set(id, frame + delta * 4)
+        this.frameCounter.set(id, frame + delta * 4)
 
-      this.drawSprite(sprite, action, frame, x, y)
-      this.drawText(name, x * 16 + 8, y * 16 - 4)
-    })
+        this.drawSprite(sprite, action, frame, x, y)
+        this.drawText(name, x * 16 + 8, y * 16 - 4)
+      })
 
     this.lastTime += delta * 1000
     requestAnimationFrame(this.boundDraw)

@@ -1,4 +1,5 @@
 import Database from './database/Database'
+import Mobile from './entities/Mobile'
 import NetworkScope from './network/NetworkScope'
 import Player from './entities/Player'
 import SocketServer from './network/SocketServer'
@@ -8,7 +9,7 @@ export default class GameServer {
   private webServer = new WebServer()
   private socketServer = new SocketServer(this.webServer)
   private database = new Database()
-  private players: Player[] = []
+  private players = new Map<string, Player>()
   private globalScope = new NetworkScope()
 
   // public constructor() {
@@ -38,13 +39,13 @@ export default class GameServer {
       const player = new Player(id)
       log.info('Game', `Player created: ${id}`)
 
-      this.players.push(player)
-      this.globalScope.addPlayer(player)
+      this.players.set(id, player)
+      this.globalScope.addMobile(player)
     })
 
     this.socketServer.onMessage.observe((id, type, data) => {
       if (type === 'move') {
-        const player = this.players.find((p) => p.id === id)
+        const player = this.players.get(id)
 
         if (player) {
           player.teleport(data.x, data.y)
@@ -53,15 +54,56 @@ export default class GameServer {
     })
 
     this.socketServer.onDisconnect.observe((id) => {
-      const index = this.players.findIndex((p) => p.id === id)
-      const player = this.players[index]
-      log.info('Game', `Player destroyed: ${id}`)
+      const player = this.players.get(id)
 
-      this.players.splice(index, 1)
-      this.globalScope.removePlayer(player)
+      if (player) {
+        log.info('Game', `Player destroyed: ${player.name} (${player.id})`)
+        this.players.delete(id)
+        this.globalScope.removeMobile(player)
+      } else {
+        log.error('Game', `Non-existent player disconnected: ${id}`)
+      }
     })
 
-    // this.globalScope.addPlayer()
+    const allDeer = []
+    let id = 0
+
+    setInterval(() => {
+      if (allDeer.length > 10) return
+
+      const deer = new Mobile(`deer_${id++}`, {
+        name: 'A deer',
+        sprite: 'deer',
+        x: Math.floor(Math.random() * 20 - 10),
+        y: Math.floor(Math.random() * 20 - 10),
+      })
+
+      this.globalScope.addMobile(deer)
+
+      setInterval(() => {
+        let x = Math.round(Math.random() * 2 + 1 - 2)
+        let y = Math.round(Math.random() * 2 + 1 - 2)
+
+        if (deer.x < -10) x = 1
+        if (deer.x > 10) x = -1
+
+        if (deer.y < -10) y = 1
+        if (deer.y > 10) y = -1
+
+        if (x !== 0 && y !== 0) {
+          if (Math.random() < 0.5) x = 0
+          else y = 0
+        }
+
+        if (x === 0 && y === 0) {
+          return
+        }
+
+        deer.move(x, y)
+      }, 5000)
+
+      allDeer.push(deer)
+    }, 10000)
 
     this.webServer.start()
   }

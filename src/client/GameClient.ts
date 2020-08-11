@@ -51,13 +51,6 @@ export default class GameClient {
     this.setupClient()
     this.setupInput()
     this.setupUi()
-
-    this.state.addMobile('abc', {
-      sprite: 'deer',
-      name: 'A deer',
-      x: 1,
-      y: 1
-    })
   }
 
   private setupClient() {

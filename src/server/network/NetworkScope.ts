@@ -1,47 +1,51 @@
+import Mobile from '../entities/Mobile'
 import Observable from '../../common/Observable'
-import Player from '../entities/Player'
 
 interface ChangeList {
-  added: Player[]
-  removed: Player[]
+  added?: Mobile[]
+  updated?: Mobile[]
+  removed?: Mobile[]
 }
 
 export default class NetworkScope {
-  public onChange = new Observable<(id: string, changes: ChangeList) => void>()
-  public onUpdate = new Observable<(id: string, changed: Player) => void>()
+  public onChange = new Observable<(id: string, change: ChangeList) => void>()
 
-  private players: Player[] = []
-  private mobs: Player[] = []
+  private mobs: Mobile[] = []
 
-  public addPlayer(player: Player) {
-    this.onChange.notify(player.id, {
-      added: this.players,
-      removed: [],
-    })
+  public addMobile(mob: Mobile) {
+    if (this.mobs.length) {
+      this.onChange.notify(mob.id, {
+        added: this.mobs,
+      })
+    }
 
-    this.players.forEach((other) => {
+    this.mobs.forEach((other) => {
       this.onChange.notify(other.id, {
-        added: [player],
-        removed: [],
+        added: [mob],
       })
     })
 
-    player.onMove.observe(() => {
-      this.players.forEach((other) => {
-        this.onUpdate.notify(other.id, player)
+    mob.onMove.observe(() => {
+      this.mobs.forEach((other) => {
+        if (other === mob) return
+
+        this.onChange.notify(other.id, {
+          updated: [mob],
+        })
       })
     })
 
-    this.players.push(player)
+    this.mobs.push(mob)
   }
 
-  public removePlayer(player: Player) {
-    this.players = this.players.filter((p) => p !== player)
+  public updateMobile(mob: Mobile) {}
 
-    this.players.forEach((other) => {
+  public removeMobile(mob: Mobile) {
+    this.mobs = this.mobs.filter((m) => m !== mob)
+
+    this.mobs.forEach((other) => {
       this.onChange.notify(other.id, {
-        added: [],
-        removed: [player],
+        removed: [mob],
       })
     })
   }
