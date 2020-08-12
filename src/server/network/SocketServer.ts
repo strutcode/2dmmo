@@ -3,6 +3,7 @@ import WebSocket, { Server } from 'ws'
 import NetworkScope from './NetworkScope'
 import Observable from '../../common/Observable'
 import WebServer from './WebServer'
+import Player from '../entities/Player'
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
@@ -32,7 +33,6 @@ export default class SocketServer {
 
       this.id2socket.set(uid, socket)
 
-      socket.send(`IDNT~${uid}`)
       this.onConnect.notify(uid)
 
       socket.on('message', (data) => {
@@ -81,5 +81,13 @@ export default class SocketServer {
         socket?.send(`EXIT~${changes.removed.map((m) => m.id).join('|')}`)
       }
     })
+  }
+
+  public sendLogin(player: Player) {
+    const socket = this.id2socket.get(player.id)
+
+    if (socket) {
+      socket.send(`IDNT~${player.id},${player.name},${player.sprite},${player.x},${player.y}`)
+    }
   }
 }

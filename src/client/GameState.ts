@@ -15,8 +15,8 @@ export default class GameState {
     this.self = undefined
   }
 
-  public setSelf(id: string) {
-    this.self = this.addMobile(id, {})
+  public setSelf(id: string, props: object) {
+    this.self = this.addMobile(id, props)
   }
 
   public addMobile(id: string, props: Record<string, any>) {
@@ -42,6 +42,7 @@ export default class GameState {
     const mob = this.mobs.get(id)
 
     if (mob) {
+      log.out('Entities', 'change', change)
       mob.teleport(change.x, change.y)
       this.onMobileUpdate.notify(mob)
     }

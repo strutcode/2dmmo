@@ -1,15 +1,16 @@
 import Mobile, { MobileOptions } from './Mobile'
 
 export interface EnemyOptions extends MobileOptions {
-  ai?: (this: Mobile) => void
+  ai?: (this: Enemy, state: Record<string, any>) => void
   aiDelay?: number
 }
 
-const noop = () => {}
+const noop = () => { }
 
 export default class Enemy extends Mobile {
-  private ai: (this: Mobile) => void
+  private ai: (this: Enemy, state: Record<string, any>) => void
   private aiDelay: number
+  private state: Record<string, any> = {}
 
   constructor(id: string, options: EnemyOptions) {
     super(id, options)
@@ -19,7 +20,7 @@ export default class Enemy extends Mobile {
 
     // TODO: cleanup
     setInterval(() => {
-      this.ai.call(this)
+      this.ai.call(this, this.state)
     }, this.aiDelay)
   }
 }

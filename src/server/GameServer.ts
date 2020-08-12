@@ -1,10 +1,10 @@
 import Database from './database/Database'
-import Mobile from './entities/Mobile'
 import NetworkScope from './network/NetworkScope'
 import Player from './entities/Player'
 import SocketServer from './network/SocketServer'
 import Spawner from './entities/Spawner'
 import WebServer from './network/WebServer'
+import Enemy from './entities/Enemy'
 
 export default class GameServer {
   private webServer = new WebServer()
@@ -12,6 +12,7 @@ export default class GameServer {
   private database = new Database()
   private globalScope = new NetworkScope()
   private players = new Map<string, Player>()
+  private enemies: Enemy[] = []
   private spawners: Spawner[] = []
 
   // public constructor() {
@@ -43,6 +44,7 @@ export default class GameServer {
 
       this.players.set(id, player)
       this.globalScope.addMobile(player)
+      this.socketServer.sendLogin(player)
     })
 
     this.socketServer.onMessage.observe((id, type, data) => {
@@ -50,7 +52,14 @@ export default class GameServer {
         const player = this.players.get(id)
 
         if (player) {
-          player.teleport(data.x, data.y)
+          const enemy = this.enemies.find(e => e.x === data.x && e.y === data.y)
+
+          if (enemy) {
+            player.teleport(player.x, player.y)
+          }
+          else {
+            player.teleport(data.x, data.y)
+          }
         }
       }
     })
@@ -70,7 +79,9 @@ export default class GameServer {
     this.addSpawner([-10, -10, 10, 10], 10, {
       name: 'Deerling',
       sprite: 'deer',
-      ai() {
+      ai(state) {
+        if (state.attackMode) { }
+
         let x = Math.round(Math.random() * 2 + 1 - 2)
         let y = Math.round(Math.random() * 2 + 1 - 2)
 
@@ -111,6 +122,7 @@ export default class GameServer {
         `Spawned ${mob.name} (${mob.id}) from #${spawner['id']}`,
       )
       this.globalScope.addMobile(mob)
+      this.enemies.push(mob)
     })
 
     this.spawners.push(spawner)

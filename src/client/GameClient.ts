@@ -54,8 +54,8 @@ export default class GameClient {
   }
 
   private setupClient() {
-    this.client.onLogin.observe((id) => {
-      this.state.setSelf(id)
+    this.client.onLogin.observe((id, props) => {
+      this.state.setSelf(id, props)
     })
 
     this.client.onDisconnect.observe(() => {

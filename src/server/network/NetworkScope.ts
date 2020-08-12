@@ -27,8 +27,6 @@ export default class NetworkScope {
 
     mob.onMove.observe(() => {
       this.mobs.forEach((other) => {
-        if (other === mob) return
-
         this.onChange.notify(other.id, {
           updated: [mob],
         })
@@ -38,7 +36,7 @@ export default class NetworkScope {
     this.mobs.push(mob)
   }
 
-  public updateMobile(mob: Mobile) {}
+  public updateMobile(mob: Mobile) { }
 
   public removeMobile(mob: Mobile) {
     this.mobs = this.mobs.filter((m) => m !== mob)

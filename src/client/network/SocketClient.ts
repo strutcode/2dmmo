@@ -2,7 +2,7 @@ import GameState from '../GameState'
 import Observable from '../../common/Observable'
 
 export default class SocketClient {
-  public onLogin = new Observable<(id: string) => void>()
+  public onLogin = new Observable<(id: string, props: object) => void>()
   public onDisconnect = new Observable<() => void>()
   public onPlayerJoin = new Observable<(id: string, props: object) => void>()
   public onPlayerLeave = new Observable<(id: string) => void>()
@@ -10,10 +10,10 @@ export default class SocketClient {
 
   private url = `${location.protocol.replace('http', 'ws')}//${location.host}${
     location.pathname
-  }`
+    }`
   private ws?: WebSocket
 
-  public constructor(private state: GameState) {}
+  public constructor(private state: GameState) { }
 
   public start() {
     log.out('Socket', 'Init')
@@ -32,7 +32,13 @@ export default class SocketClient {
       const [type, content] = (ev.data as string).split('~')
 
       if (type === 'IDNT') {
-        this.onLogin.notify(content)
+        const [id, name, sprite, x, y] = content.split(',')
+        this.onLogin.notify(id, {
+          name,
+          sprite,
+          x: +x,
+          y: +y
+        })
       } else if (type === 'JOIN') {
         content.split('|').forEach((change) => {
           const [id, name, sprite, x, y] = change.split(',')

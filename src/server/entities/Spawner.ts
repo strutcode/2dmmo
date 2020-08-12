@@ -13,7 +13,13 @@ export default class Spawner {
     private area: [number, number, number, number],
     private limit: number,
     private template: EnemyOptions,
-  ) {}
+  ) {
+    setTimeout(() => {
+      for (let i = 0; i < this.limit; i++) {
+        this.update()
+      }
+    })
+  }
 
   update() {
     const minX = this.area[0]
