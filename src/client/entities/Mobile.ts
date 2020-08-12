@@ -37,4 +37,8 @@ export default class Mobile {
     if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => (this.action = 'idle'), 1000)
   }
+
+  public kill() {
+    this.action = 'die'
+  }
 }

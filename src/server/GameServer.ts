@@ -55,7 +55,7 @@ export default class GameServer {
           const enemy = this.enemies.find(e => e.x === data.x && e.y === data.y)
 
           if (enemy) {
-            player.teleport(player.x, player.y)
+            enemy.kill()
           }
           else {
             player.teleport(data.x, data.y)

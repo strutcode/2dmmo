@@ -81,13 +81,23 @@ export default class SocketServer {
         socket?.send(`EXIT~${changes.removed.map((m) => m.id).join('|')}`)
       }
     })
+
+    scope.onKill.observe((id, mob) => {
+      const socket = this.id2socket.get(id)
+
+      if (!socket) return
+
+      socket.send(`KILL~${mob.id}`)
+    })
   }
 
   public sendLogin(player: Player) {
     const socket = this.id2socket.get(player.id)
 
     if (socket) {
-      socket.send(`IDNT~${player.id},${player.name},${player.sprite},${player.x},${player.y}`)
+      socket.send(
+        `IDNT~${player.id},${player.name},${player.sprite},${player.x},${player.y}`,
+      )
     }
   }
 }

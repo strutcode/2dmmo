@@ -1,6 +1,7 @@
 import Camera from './Camera'
 import GameState from '../GameState'
 import spritemap from './spritemap'
+import Mobile from '../entities/Mobile'
 
 export default class Renderer {
   private canvas = document.createElement('canvas')
@@ -15,6 +16,7 @@ export default class Renderer {
 
   private assets: Record<string, HTMLImageElement> = {}
   private frameCounter = new Map<string, number>()
+  private lastAction = new Map<string, string>()
   private camera = new Camera()
 
   public constructor(private state: GameState) {
@@ -78,6 +80,21 @@ export default class Renderer {
     this.assets.creaturesRampart = await loadImage(
       require('../../../assets/HAS Creature Pack/Rampart/Rampact(AllFrame).png')
         .default,
+    )
+  }
+
+  private animate(mob: Mobile, delta: number) {
+    const last = this.lastAction.get(mob.id)
+    const time =
+      last === mob.action ? this.frameCounter.get(mob.id) || Math.random() : 0
+    const info = (spritemap as any)[mob.sprite][mob.action]
+    const loop = info.loop ?? true
+
+    this.frameCounter.set(mob.id, time + delta * 4)
+    this.lastAction.set(mob.id, mob.action)
+
+    return Math.floor(
+      loop ? time % info.frames : Math.min(time, info.frames - 1),
     )
   }
 
@@ -182,10 +199,8 @@ export default class Renderer {
       .sort((a, b) => a.y - b.y)
       .forEach((mob) => {
         const { id, x, y, name, sprite, action } = mob
-        const frame = this.frameCounter.get(id) || Math.random()
 
-        this.frameCounter.set(id, frame + delta * 4)
-
+        const frame = this.animate(mob, delta)
         this.drawSprite(sprite, action, frame, x, y)
         this.drawText(name, x * 16 + 8, y * 16 - 2)
       })

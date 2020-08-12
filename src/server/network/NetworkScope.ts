@@ -9,6 +9,7 @@ interface ChangeList {
 
 export default class NetworkScope {
   public onChange = new Observable<(id: string, change: ChangeList) => void>()
+  public onKill = new Observable<(id: string, mob: Mobile) => void>()
 
   private mobs: Mobile[] = []
 
@@ -33,10 +34,17 @@ export default class NetworkScope {
       })
     })
 
+    mob.onKill.observe(() => {
+      this.mobs.forEach((other) => {
+        this.onKill.notify(other.id, mob)
+        this.mobs = this.mobs.filter((m) => m !== mob)
+      })
+    })
+
     this.mobs.push(mob)
   }
 
-  public updateMobile(mob: Mobile) { }
+  public updateMobile(mob: Mobile) {}
 
   public removeMobile(mob: Mobile) {
     this.mobs = this.mobs.filter((m) => m !== mob)

@@ -75,6 +75,12 @@ export default class GameClient {
       this.state.updateMobile(id, update)
     })
 
+    this.client.onMobileDie.observe((id) => {
+      this.state.updateMobile(id, {
+        kill: true
+      })
+    })
+
     this.client.start()
   }
 

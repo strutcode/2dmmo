@@ -7,13 +7,14 @@ export default class SocketClient {
   public onPlayerJoin = new Observable<(id: string, props: object) => void>()
   public onPlayerLeave = new Observable<(id: string) => void>()
   public onPlayerUpdate = new Observable<(id: string, change: object) => void>()
+  public onMobileDie = new Observable<(id: string) => void>()
 
   private url = `${location.protocol.replace('http', 'ws')}//${location.host}${
     location.pathname
-    }`
+  }`
   private ws?: WebSocket
 
-  public constructor(private state: GameState) { }
+  public constructor(private state: GameState) {}
 
   public start() {
     log.out('Socket', 'Init')
@@ -37,7 +38,7 @@ export default class SocketClient {
           name,
           sprite,
           x: +x,
-          y: +y
+          y: +y,
         })
       } else if (type === 'JOIN') {
         content.split('|').forEach((change) => {
@@ -50,6 +51,8 @@ export default class SocketClient {
             y: +y,
           })
         })
+      } else if (type === 'KILL') {
+        this.onMobileDie.notify(content)
       } else if (type === 'EXIT') {
         content.split('|').forEach((id) => {
           this.onPlayerLeave.notify(id)

@@ -35,6 +35,10 @@ export default class Spawner {
       y: Math.floor(minY + Math.random() * maxY),
     })
 
+    mob.onDestroy.observe(() => {
+      this.mobs = this.mobs.filter(m => m !== mob)
+    })
+
     this.onSpawn.notify(mob)
 
     this.mobs.push(mob)

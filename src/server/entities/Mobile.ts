@@ -9,6 +9,8 @@ export interface MobileOptions {
 
 export default class Mobile {
   public onMove = new Observable()
+  public onKill = new Observable()
+  public onDestroy = new Observable()
 
   private pos = [0, 0]
   public name = 'Soandso'
@@ -40,5 +42,14 @@ export default class Mobile {
     this.pos[1] = y
 
     this.onMove.notify()
+  }
+
+  public kill() {
+    this.onKill.notify()
+    this.destroy()
+  }
+
+  public destroy() {
+    this.onDestroy.notify()
   }
 }

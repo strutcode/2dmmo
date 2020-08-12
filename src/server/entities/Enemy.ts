@@ -5,11 +5,12 @@ export interface EnemyOptions extends MobileOptions {
   aiDelay?: number
 }
 
-const noop = () => { }
+const noop = () => {}
 
 export default class Enemy extends Mobile {
   private ai: (this: Enemy, state: Record<string, any>) => void
   private aiDelay: number
+  private aiInt?: ReturnType<typeof setInterval>
   private state: Record<string, any> = {}
 
   constructor(id: string, options: EnemyOptions) {
@@ -18,9 +19,19 @@ export default class Enemy extends Mobile {
     this.ai = options.ai ?? noop
     this.aiDelay = options.aiDelay ?? 5000
 
-    // TODO: cleanup
-    setInterval(() => {
+    this.aiInt = setInterval(() => {
       this.ai.call(this, this.state)
     }, this.aiDelay)
+  }
+
+  public setState(key: string, value: any) {
+    this.state[key] = value
+  }
+
+  public kill() {
+    if (this.aiInt) clearInterval(this.aiInt)
+    this.ai = noop
+
+    super.kill()
   }
 }
