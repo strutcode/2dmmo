@@ -1,6 +1,6 @@
 import Observable from '../../common/Observable'
 
-interface MobileOptions {
+export interface MobileOptions {
   name?: string
   sprite?: string
   x?: number

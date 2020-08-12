@@ -3,14 +3,16 @@ import Mobile from './entities/Mobile'
 import NetworkScope from './network/NetworkScope'
 import Player from './entities/Player'
 import SocketServer from './network/SocketServer'
+import Spawner from './entities/Spawner'
 import WebServer from './network/WebServer'
 
 export default class GameServer {
   private webServer = new WebServer()
   private socketServer = new SocketServer(this.webServer)
   private database = new Database()
-  private players = new Map<string, Player>()
   private globalScope = new NetworkScope()
+  private players = new Map<string, Player>()
+  private spawners: Spawner[] = []
 
   // public constructor() {
   //   if (module.hot) {
@@ -65,30 +67,18 @@ export default class GameServer {
       }
     })
 
-    const allDeer = []
-    let id = 0
-
-    setInterval(() => {
-      if (allDeer.length > 10) return
-
-      const deer = new Mobile(`deer_${id++}`, {
-        name: 'Deerling',
-        sprite: 'deer',
-        x: Math.floor(Math.random() * 20 - 10),
-        y: Math.floor(Math.random() * 20 - 10),
-      })
-
-      this.globalScope.addMobile(deer)
-
-      setInterval(() => {
+    this.addSpawner([-10, -10, 10, 10], 10, {
+      name: 'Deerling',
+      sprite: 'deer',
+      ai() {
         let x = Math.round(Math.random() * 2 + 1 - 2)
         let y = Math.round(Math.random() * 2 + 1 - 2)
 
-        if (deer.x < -10) x = 1
-        if (deer.x > 10) x = -1
+        if (this.x < -10) x = 1
+        if (this.x > 10) x = -1
 
-        if (deer.y < -10) y = 1
-        if (deer.y > 10) y = -1
+        if (this.y < -10) y = 1
+        if (this.y > 10) y = -1
 
         if (x !== 0 && y !== 0) {
           if (Math.random() < 0.5) x = 0
@@ -99,12 +89,30 @@ export default class GameServer {
           return
         }
 
-        deer.move(x, y)
-      }, 5000)
+        this.move(x, y)
+      },
+    })
 
-      allDeer.push(deer)
+    setInterval(() => {
+      this.spawners.forEach((spawner) => {
+        spawner.update()
+      })
     }, 10000)
 
     this.webServer.start()
+  }
+
+  public addSpawner(...args: ConstructorParameters<typeof Spawner>) {
+    const spawner = new Spawner(...args)
+
+    spawner.onSpawn.observe((mob) => {
+      log.out(
+        'Entities',
+        `Spawned ${mob.name} (${mob.id}) from #${spawner['id']}`,
+      )
+      this.globalScope.addMobile(mob)
+    })
+
+    this.spawners.push(spawner)
   }
 }
