@@ -1,7 +1,15 @@
 import Camera from './Camera'
 import GameState from '../GameState'
-import spritemap from './spritemap'
 import Mobile from '../entities/Mobile'
+import spritemap from './spritemap'
+
+interface Transition {
+  x1: number
+  y1: number
+  x2: number
+  y2: number
+  a: number
+}
 
 export default class Renderer {
   private canvas = document.createElement('canvas')
@@ -17,6 +25,7 @@ export default class Renderer {
   private assets: Record<string, HTMLImageElement> = {}
   private frameCounter = new Map<string, number>()
   private lastAction = new Map<string, string>()
+  private transitionState = new Map<string, Transition>()
   private camera = new Camera()
 
   public constructor(private state: GameState) {
@@ -98,10 +107,42 @@ export default class Renderer {
     )
   }
 
+  private transition(mob: Mobile, delta: number) {
+    const mX = mob.x * 16
+    const mY = mob.y * 16
+    const t = this.transitionState.get(mob.id) ?? {
+      x1: mX,
+      y1: mY,
+      x2: mX,
+      y2: mY,
+      a: 1,
+    }
+
+    if (t.x2 !== mX || t.y2 !== mY) {
+      t.x1 = t.x2
+      t.y1 = t.y2
+      t.x2 = mX
+      t.y2 = mY
+      t.a = 0
+    }
+
+    if (t.a < 1) {
+      t.a += delta * 4
+      if (t.a > 1) t.a = 1
+    }
+
+    this.transitionState.set(mob.id, t)
+
+    return {
+      x: t.x1 + (t.x2 - t.x1) * t.a,
+      y: t.y1 + (t.y2 - t.y1) * t.a,
+    }
+  }
+
   private drawTile(type: string, sx: number, sy: number, x: number, y: number) {
     if (!this.assets[type]) {
       this.context.fillStyle = 'magenta'
-      this.context.fillRect(x * 16, y * 16, 16, 16)
+      this.context.fillRect(x, y, 16, 16)
       return
     }
 
@@ -112,8 +153,8 @@ export default class Renderer {
       sy * 16,
       16,
       16,
-      window.innerWidth / 2 + (x * 16 - this.camera.x) * this.camera.scale,
-      window.innerHeight / 2 + (y * 16 - this.camera.y) * this.camera.scale,
+      window.innerWidth / 2 + (x - this.camera.x) * this.camera.scale,
+      window.innerHeight / 2 + (y - this.camera.y) * this.camera.scale,
       16 * this.camera.scale,
       16 * this.camera.scale,
     )
@@ -153,7 +194,7 @@ export default class Renderer {
   ) {
     if (!(spritemap as any)[name][action]) {
       this.context.fillStyle = 'magenta'
-      this.context.fillRect(x * 16, y * 16, 16, 16)
+      this.context.fillRect(x, y, 16, 16)
       return
     }
 
@@ -190,19 +231,20 @@ export default class Renderer {
     this.context.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
     this.drawTileMap()
-
-    if (this.state.self) {
-      this.camera.set(this.state.self.x * 16 + 8, this.state.self.y * 16 + 8)
-    }
-
     ;[...this.state.mobs.values()]
       .sort((a, b) => a.y - b.y)
       .forEach((mob) => {
-        const { id, x, y, name, sprite, action } = mob
+        const { name, sprite, action } = mob
 
         const frame = this.animate(mob, delta)
+        const { x, y } = this.transition(mob, delta)
+
+        if (mob === this.state.self) {
+          this.camera.set(x + 8, y + 8)
+        }
+
         this.drawSprite(sprite, action, frame, x, y)
-        this.drawText(name, x * 16 + 8, y * 16 - 2)
+        this.drawText(name, x + 8, y - 2)
       })
 
     this.lastTime += delta * 1000
