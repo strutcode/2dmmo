@@ -27,7 +27,7 @@ export default class Spawner {
     const maxX = this.area[2] - this.area[0]
     const maxY = this.area[3] - this.area[1]
 
-    if (this.mobs.length > this.limit) return
+    if (this.mobs.length >= this.limit) return
 
     const mob = new Enemy(`${this.id}_${this.uid++}`, {
       ...this.template,
@@ -36,7 +36,7 @@ export default class Spawner {
     })
 
     mob.onDestroy.observe(() => {
-      this.mobs = this.mobs.filter(m => m !== mob)
+      this.mobs = this.mobs.filter((m) => m !== mob)
     })
 
     this.onSpawn.notify(mob)
