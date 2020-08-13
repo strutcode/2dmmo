@@ -44,11 +44,11 @@ export default class GameState {
     if (mob) {
       log.out('Entities', 'change', change)
 
-      if (change.x && change.y) {
+      if (change.x != null && change.y != null) {
         mob.teleport(change.x, change.y)
       }
 
-      if (change.kill) {
+      if (change.kill != null) {
         mob.kill()
       }
 
