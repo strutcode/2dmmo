@@ -40,5 +40,6 @@ export default class Mobile {
 
   public kill() {
     this.action = 'die'
+    this.name += `'s corpse`
   }
 }

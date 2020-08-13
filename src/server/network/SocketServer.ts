@@ -71,9 +71,8 @@ export default class SocketServer {
       }
 
       if (changes.updated) {
-        const socket = this.id2socket.get(id)
         changes.updated.forEach((m) => {
-          socket?.send(`MOVE~${m.id},${m.x},${m.y}`)
+          socket?.send(`INFO~${m.id},${m.x},${m.y},${m.hp > 0 ? 1 : 0}`)
         })
       }
 
@@ -82,12 +81,16 @@ export default class SocketServer {
       }
     })
 
-    scope.onKill.observe((id, mob) => {
+    scope.onAction.observe((id, type, props) => {
       const socket = this.id2socket.get(id)
 
       if (!socket) return
 
-      socket.send(`KILL~${mob.id}`)
+      switch (type) {
+        case 'hurt':
+          socket.send(`HURT~${props.mob.id},${props.amount}`)
+          break
+      }
     })
   }
 

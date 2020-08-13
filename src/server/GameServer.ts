@@ -5,6 +5,9 @@ import SocketServer from './network/SocketServer'
 import Spawner from './entities/Spawner'
 import WebServer from './network/WebServer'
 import Enemy from './entities/Enemy'
+import Mobile from './entities/Mobile'
+import { tileDistance } from '../common/util/Geometry'
+import Battle from './entities/Battle'
 
 export default class GameServer {
   private webServer = new WebServer()
@@ -52,12 +55,15 @@ export default class GameServer {
         const player = this.players.get(id)
 
         if (player) {
-          const enemy = this.enemies.find(e => e.x === data.x && e.y === data.y)
+          const enemy = this.enemies.find(
+            (e) => e.x === data.x && e.y === data.y,
+          )
 
           if (enemy) {
-            enemy.kill()
-          }
-          else {
+            player.teleport(player.x, player.y)
+            new Battle(player, enemy)
+            enemy.setState('aggro', player)
+          } else {
             player.teleport(data.x, data.y)
           }
         }
@@ -79,8 +85,27 @@ export default class GameServer {
     this.addSpawner([-10, -10, 10, 10], 10, {
       name: 'Deerling',
       sprite: 'deer',
+      hp: 50,
+      str: 5,
       ai(state) {
-        if (state.attackMode) { }
+        if (state.aggro) {
+          const target: Mobile = state.aggro
+          const distance = tileDistance(this.x, this.y, target.x, target.y)
+
+          if (distance > 10) {
+            state.aggro = false
+          } else if (distance > 1) {
+            if (Math.abs(this.x - target.x) > Math.abs(this.y - target.y)) {
+              this.move(Math.sign(target.x - this.x), 0)
+            } else {
+              this.move(0, Math.sign(target.y - this.y))
+            }
+
+            return
+          }
+
+          return
+        }
 
         let x = Math.round(Math.random() * 2 + 1 - 2)
         let y = Math.round(Math.random() * 2 + 1 - 2)

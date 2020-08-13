@@ -44,12 +44,10 @@ export default class GameState {
     if (mob) {
       log.out('Entities', 'change', change)
 
-      if (change.x != null && change.y != null) {
-        mob.teleport(change.x, change.y)
-      }
-
-      if (change.kill != null) {
+      if (change.kill) {
         mob.kill()
+      } else if (change.x != null && change.y != null) {
+        mob.teleport(change.x, change.y)
       }
 
       this.onMobileUpdate.notify(mob)

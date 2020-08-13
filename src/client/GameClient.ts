@@ -63,22 +63,16 @@ export default class GameClient {
       this.ui.reset()
     })
 
-    this.client.onPlayerJoin.observe((id, props) => {
+    this.client.onMobileAdd.observe((id, props) => {
       this.state.addMobile(id, props)
     })
 
-    this.client.onPlayerLeave.observe((id) => {
+    this.client.onMobileRemove.observe((id) => {
       this.state.removeMobile(id)
     })
 
-    this.client.onPlayerUpdate.observe((id, update) => {
+    this.client.onMobileUpdate.observe((id, update) => {
       this.state.updateMobile(id, update)
-    })
-
-    this.client.onMobileDie.observe((id) => {
-      this.state.updateMobile(id, {
-        kill: true
-      })
     })
 
     this.client.start()

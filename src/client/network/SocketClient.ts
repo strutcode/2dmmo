@@ -4,10 +4,9 @@ import Observable from '../../common/Observable'
 export default class SocketClient {
   public onLogin = new Observable<(id: string, props: object) => void>()
   public onDisconnect = new Observable<() => void>()
-  public onPlayerJoin = new Observable<(id: string, props: object) => void>()
-  public onPlayerLeave = new Observable<(id: string) => void>()
-  public onPlayerUpdate = new Observable<(id: string, change: object) => void>()
-  public onMobileDie = new Observable<(id: string) => void>()
+  public onMobileAdd = new Observable<(id: string, props: object) => void>()
+  public onMobileRemove = new Observable<(id: string) => void>()
+  public onMobileUpdate = new Observable<(id: string, change: object) => void>()
 
   private url = `${location.protocol.replace('http', 'ws')}//${location.host}${
     location.pathname
@@ -42,27 +41,27 @@ export default class SocketClient {
         })
       } else if (type === 'JOIN') {
         content.split('|').forEach((change) => {
-          const [id, name, sprite, x, y] = change.split(',')
+          const [id, name, sprite, x, y, hp] = change.split(',')
 
-          this.onPlayerJoin.notify(id, {
+          this.onMobileAdd.notify(id, {
             name,
             sprite,
             x: +x,
             y: +y,
+            hp: +hp,
           })
         })
-      } else if (type === 'KILL') {
-        this.onMobileDie.notify(content)
       } else if (type === 'EXIT') {
         content.split('|').forEach((id) => {
-          this.onPlayerLeave.notify(id)
+          this.onMobileRemove.notify(id)
         })
-      } else if (type === 'MOVE') {
-        const [id, x, y] = content.split(',')
+      } else if (type === 'INFO') {
+        const [id, x, y, alive] = content.split(',')
 
-        this.onPlayerUpdate.notify(id, {
+        this.onMobileUpdate.notify(id, {
           x: +x,
           y: +y,
+          kill: !+alive,
         })
       }
     }
