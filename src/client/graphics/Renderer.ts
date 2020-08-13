@@ -209,14 +209,14 @@ export default class Renderer {
   }
 
   public drawTileMap() {
-    const minX = this.camera.x / 16 - 13
-    const minY = this.camera.y / 16 - 13
-    const maxX = this.camera.x / 16 + 13
-    const maxY = this.camera.y / 16 + 13
+    const minX = Math.floor(this.camera.x / 16) * 16 - 14 * 16
+    const minY = Math.floor(this.camera.y / 16) * 16 - 14 * 16
+    const maxX = Math.floor(this.camera.x / 16) * 16 + 14 * 16
+    const maxY = Math.floor(this.camera.y / 16) * 16 + 14 * 16
 
     let x, y
-    for (y = minY; y < maxY; y++) {
-      for (x = minX; x < maxX; x++) {
+    for (y = minY; y < maxY; y += 16) {
+      for (x = minX; x < maxX; x += 16) {
         this.drawTile('grassTiles', 1, 1, Math.floor(x), Math.floor(y))
       }
     }
