@@ -21,9 +21,20 @@ interface TextProperties {
   vAlign?: CanvasTextBaseline
 }
 
+interface SpriteProperties {
+  sprite: string
+  action: string
+  frame: number
+  x: number
+  y: number
+  flip?: boolean
+}
+
 export default class Renderer {
   private canvas = document.createElement('canvas')
   private context: CanvasRenderingContext2D
+  private flipCanvas = document.createElement('canvas')
+  private flipCtx: CanvasRenderingContext2D
 
   private boundDraw = this.draw.bind(this)
   private boundResize = this.resize.bind(this)
@@ -40,13 +51,15 @@ export default class Renderer {
   private hitIndicators: HitIndicator[] = []
 
   public constructor(private state: GameState) {
-    const context = this.canvas.getContext('2d')
+    const contextA = this.canvas.getContext('2d')
+    const contextB = this.flipCanvas.getContext('2d')
 
-    if (!context) {
+    if (!contextA || !contextB) {
       throw `Couldn't initialize renderer`
     }
 
-    this.context = context
+    this.context = contextA
+    this.flipCtx = contextB
   }
 
   public start() {
@@ -55,6 +68,8 @@ export default class Renderer {
 
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
+    this.flipCanvas.width = 16
+    this.flipCanvas.height = 16
 
     this.resize()
     window.addEventListener('resize', this.boundResize)
@@ -113,7 +128,7 @@ export default class Renderer {
     ;[...this.state.mobs.values()]
       .sort((a, b) => a.y - b.y)
       .forEach((mob) => {
-        const { name, sprite, action } = mob
+        const { name, sprite, action, flip } = mob
 
         const frame = this.animate(mob, delta)
         const { x, y } = this.transition(mob, delta)
@@ -122,7 +137,7 @@ export default class Renderer {
           this.camera.set(x + 8, y + 8)
         }
 
-        this.drawSprite(sprite, action, frame, x, y)
+        this.drawSprite({ sprite, action, frame, x, y, flip })
         this.drawText(name, {
           x: x + 8,
           y: y - 2,
@@ -207,18 +222,41 @@ export default class Renderer {
     }
   }
 
-  private drawTile(type: string, sx: number, sy: number, x: number, y: number) {
+  private drawTile(
+    type: string,
+    sx: number,
+    sy: number,
+    x: number,
+    y: number,
+    flip = false,
+  ) {
     if (!this.assets[type]) {
       this.context.fillStyle = 'magenta'
       this.context.fillRect(x, y, 16, 16)
       return
     }
 
+    if (flip) {
+      this.flipCtx.clearRect(0, 0, -16, 16)
+      this.flipCtx.setTransform(-1, 0, 0, 1, 0, 0)
+      this.flipCtx.drawImage(
+        this.assets[type],
+        sx * 16,
+        sy * 16,
+        16,
+        16,
+        0,
+        0,
+        -16,
+        16,
+      )
+    }
+
     this.context.imageSmoothingEnabled = false
     this.context.drawImage(
-      this.assets[type],
-      sx * 16,
-      sy * 16,
+      flip ? this.flipCanvas : this.assets[type],
+      flip ? 0 : sx * 16,
+      flip ? 0 : sy * 16,
       16,
       16,
       window.innerWidth / 2 + (x - this.camera.x) * this.camera.scale,
@@ -252,26 +290,23 @@ export default class Renderer {
     this.context.fillText(text, finalX, finalY)
   }
 
-  private drawSprite(
-    name: string,
-    action: string,
-    frame: number,
-    x: number,
-    y: number,
-  ) {
-    if (!(spritemap as any)[name][action]) {
+  private drawSprite(options: SpriteProperties) {
+    const { sprite, action, frame, x, y, flip } = options
+
+    if (!(spritemap as any)[sprite][action]) {
       this.context.fillStyle = 'magenta'
       this.context.fillRect(x, y, 16, 16)
       return
     }
 
-    const { row, frames } = (spritemap as any)[name][action]
+    const { row, frames } = (spritemap as any)[sprite][action]
     this.drawTile(
-      spritemap[name as keyof typeof spritemap]._asset,
+      spritemap[sprite as keyof typeof spritemap]._asset,
       Math.floor(frame % frames),
       row,
       x,
       y,
+      flip,
     )
   }
 

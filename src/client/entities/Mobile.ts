@@ -1,6 +1,13 @@
 export default class Mobile {
+  public static all: Mobile[] = []
+
+  public static anyAt(x: number, y: number) {
+    return !!Mobile.all.find((m) => m.x === x && m.y === y)
+  }
+
   public sprite = 'soldier'
   public action = 'idle'
+  public flip = false
 
   private pos: [number, number]
   private timeout: any
@@ -12,6 +19,7 @@ export default class Mobile {
     y = 0,
   ) {
     this.pos = [x, y]
+    Mobile.all.push(this)
   }
 
   public get x() {
@@ -27,6 +35,8 @@ export default class Mobile {
   }
 
   public teleport(x: number, y: number) {
+    if (x !== this.pos[0]) this.flip = x < this.pos[0]
+
     this.pos[0] = x
     this.pos[1] = y
 
@@ -41,5 +51,13 @@ export default class Mobile {
   public kill() {
     this.action = 'die'
     this.name += `'s corpse`
+
+    setTimeout(() => {
+      this.destroy()
+    }, 4000)
+  }
+
+  public destroy() {
+    Mobile.all = Mobile.all.filter((m) => m !== this)
   }
 }

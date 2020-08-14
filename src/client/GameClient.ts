@@ -3,6 +3,7 @@ import Input from './ui/Input'
 import Interface from './ui/Interface'
 import Renderer from './graphics/Renderer'
 import SocketClient from './network/SocketClient'
+import Mobile from './entities/Mobile'
 
 export default class GameClient {
   private state = new GameState()
@@ -93,17 +94,23 @@ export default class GameClient {
   private setupInput() {
     this.input.onAction.observe((name) => {
       if (this.state.self) {
+        let newX = this.state.self.x
+        let newY = this.state.self.y
+
         if (name === 'up') {
-          this.state.self.move(0, -1)
+          newY--
         } else if (name === 'down') {
-          this.state.self.move(0, 1)
+          newY++
         } else if (name === 'left') {
-          this.state.self.move(-1, 0)
+          newX--
         } else if (name === 'right') {
-          this.state.self.move(1, 0)
+          newX++
         }
 
-        this.client.sendPosition(this.state.self.x, this.state.self.y)
+        this.client.sendPosition(newX, newY)
+        if (!Mobile.anyAt(newX, newY)) {
+          this.state.self.teleport(newX, newY)
+        }
       }
     })
 
