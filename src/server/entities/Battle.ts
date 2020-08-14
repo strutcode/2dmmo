@@ -2,9 +2,16 @@ import Mobile from './Mobile'
 import { tileDistance } from '../../common/util/Geometry'
 
 export default class Battle {
+  public static all: Battle[] = []
+
   private intervals: NodeJS.Timeout[] = []
 
-  public constructor(mob1: Mobile, mob2: Mobile) {
+  public constructor(protected mob1: Mobile, protected mob2: Mobile) {
+    if (Battle.all.find((b) => b.mob1 === mob1 && b.mob2 === mob2)) {
+      log.out('Combat', `Already in combat: ${mob1.id} ${mob2.id}`)
+      return
+    }
+
     log.out('Combat', `Starting combat between ${mob1.name} and ${mob2.name}`)
     const initiative = Math.random()
 
@@ -22,6 +29,8 @@ export default class Battle {
       }, 750)
       this.fight(mob2, mob1)
     }
+
+    Battle.all.push(this)
   }
 
   private fight(tori: Mobile, uke: Mobile) {
@@ -41,5 +50,6 @@ export default class Battle {
 
   public end() {
     this.intervals.map(clearInterval)
+    Battle.all = Battle.all.filter((b) => b !== this)
   }
 }
