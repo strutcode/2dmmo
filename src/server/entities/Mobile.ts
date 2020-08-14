@@ -11,7 +11,7 @@ export interface MobileOptions {
 
 export default class Mobile {
   public onMove = new Observable()
-  public onDamage = new Observable()
+  public onDamage = new Observable<(who: Mobile, amount: number) => void>()
   public onKill = new Observable()
   public onDestroy = new Observable()
 
@@ -65,9 +65,9 @@ export default class Mobile {
     return this.stats.hp
   }
 
-  public damage(amount: number) {
+  public damage(who: Mobile, amount: number) {
     this.stats.hp -= amount
-    this.onDamage.notify()
+    this.onDamage.notify(who, amount)
 
     if (this.hp <= 0) {
       this.kill()

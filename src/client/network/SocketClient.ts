@@ -1,12 +1,19 @@
 import GameState from '../GameState'
 import Observable from '../../common/Observable'
 
+interface HitInfo {
+  attackerId: string
+  defenderId: string
+  amount: number
+}
+
 export default class SocketClient {
   public onLogin = new Observable<(id: string, props: object) => void>()
   public onDisconnect = new Observable<() => void>()
   public onMobileAdd = new Observable<(id: string, props: object) => void>()
   public onMobileRemove = new Observable<(id: string) => void>()
   public onMobileUpdate = new Observable<(id: string, change: object) => void>()
+  public onMobileHit = new Observable<(info: HitInfo) => void>()
 
   private url = `${location.protocol.replace('http', 'ws')}//${location.host}${
     location.pathname
@@ -62,6 +69,13 @@ export default class SocketClient {
           x: +x,
           y: +y,
           kill: !+alive,
+        })
+      } else if (type === 'HURT') {
+        const [attackerId, defenderId, amount] = content.split(',')
+        this.onMobileHit.notify({
+          attackerId,
+          defenderId,
+          amount: +amount,
         })
       }
     }

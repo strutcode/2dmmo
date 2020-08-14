@@ -8,14 +8,21 @@ export default {
     walk: {
       row: 16,
       frames: 4,
+      next: 'idle',
     },
     attack: {
       row: 17,
       frames: 4,
+      fps: 8,
+      loop: false,
+      next: 'idle',
     },
     hit: {
       row: 18,
       frames: 4,
+      fps: 8,
+      loop: false,
+      next: 'idle',
     },
     die: {
       row: 19,
@@ -32,14 +39,21 @@ export default {
     walk: {
       row: 21,
       frames: 4,
+      next: 'idle',
     },
     attack: {
       row: 22,
       frames: 4,
+      fps: 8,
+      loop: false,
+      next: 'idle',
     },
     hit: {
       row: 23,
       frames: 4,
+      fps: 8,
+      loop: false,
+      next: 'idle',
     },
     die: {
       row: 24,

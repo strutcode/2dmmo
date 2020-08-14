@@ -45,9 +45,13 @@ export default class NetworkScope {
       })
     })
 
-    mob.onDamage.observe((amount) => {
+    mob.onDamage.observe((who, amount) => {
       this.mobs.forEach((other) => {
-        this.onAction.notify(other.id, 'hurt', { mob, amount })
+        this.onAction.notify(other.id, 'hurt', {
+          attacker: who,
+          defender: mob,
+          amount,
+        })
       })
     })
 

@@ -2,6 +2,7 @@ import Camera from './Camera'
 import GameState from '../GameState'
 import Mobile from '../entities/Mobile'
 import spritemap from './spritemap'
+import HitIndicator from './HitIndicator'
 
 interface Transition {
   x1: number
@@ -9,6 +10,15 @@ interface Transition {
   x2: number
   y2: number
   a: number
+}
+
+interface TextProperties {
+  color?: string
+  size?: number
+  x?: number
+  y?: number
+  hAlign?: CanvasTextAlign
+  vAlign?: CanvasTextBaseline
 }
 
 export default class Renderer {
@@ -22,11 +32,12 @@ export default class Renderer {
   private height = 16 * 25
   private lastTime = performance.now()
 
+  private camera = new Camera()
   private assets: Record<string, HTMLImageElement> = {}
   private frameCounter = new Map<string, number>()
   private lastAction = new Map<string, string>()
   private transitionState = new Map<string, Transition>()
-  private camera = new Camera()
+  private hitIndicators: HitIndicator[] = []
 
   public constructor(private state: GameState) {
     const context = this.canvas.getContext('2d')
@@ -58,17 +69,6 @@ export default class Renderer {
     this.canvas.remove()
   }
 
-  private resize() {
-    this.canvas.width = window.innerWidth
-    this.canvas.height = window.innerHeight
-
-    if (window.innerWidth > window.innerHeight) {
-      this.camera.scale = window.innerWidth / this.width
-    } else {
-      this.camera.scale = window.innerHeight / this.height
-    }
-  }
-
   public async load() {
     const loadImage = async (src: string): Promise<HTMLImageElement> =>
       new Promise((resolve, reject) => {
@@ -92,18 +92,86 @@ export default class Renderer {
     )
   }
 
+  public mobileHit(source: Mobile, target: Mobile, amount: number) {
+    const indicator = new HitIndicator(source, target, amount)
+
+    this.hitIndicators.push(indicator)
+    indicator.onDie.observe(() => {
+      this.hitIndicators = this.hitIndicators.filter((i) => i !== indicator)
+    })
+  }
+
+  public draw(time: number) {
+    const delta = (time - this.lastTime) / 1000
+
+    if (!this.run) return
+
+    this.context.fillStyle = 'black'
+    this.context.fillRect(0, 0, window.innerWidth, window.innerHeight)
+
+    this.drawTileMap()
+    ;[...this.state.mobs.values()]
+      .sort((a, b) => a.y - b.y)
+      .forEach((mob) => {
+        const { name, sprite, action } = mob
+
+        const frame = this.animate(mob, delta)
+        const { x, y } = this.transition(mob, delta)
+
+        if (mob === this.state.self) {
+          this.camera.set(x + 8, y + 8)
+        }
+
+        this.drawSprite(sprite, action, frame, x, y)
+        this.drawText(name, {
+          x: x + 8,
+          y: y - 2,
+        })
+      })
+
+    this.hitIndicators.forEach((indicator) => {
+      this.drawText(indicator.text, {
+        color: 'red',
+        size: 14,
+        x: indicator.x,
+        y: indicator.y,
+      })
+      indicator.update(delta)
+    })
+
+    this.lastTime += delta * 1000
+    requestAnimationFrame(this.boundDraw)
+  }
+
+  private resize() {
+    this.canvas.width = window.innerWidth
+    this.canvas.height = window.innerHeight
+
+    if (window.innerWidth > window.innerHeight) {
+      this.camera.scale = window.innerWidth / this.width
+    } else {
+      this.camera.scale = window.innerHeight / this.height
+    }
+  }
+
   private animate(mob: Mobile, delta: number) {
     const last = this.lastAction.get(mob.id)
     const time =
       last === mob.action ? this.frameCounter.get(mob.id) || Math.random() : 0
     const info = (spritemap as any)[mob.sprite][mob.action]
     const loop = info.loop ?? true
+    const fps = info.fps ?? 4
+    const next = info.next
 
-    this.frameCounter.set(mob.id, time + delta * 4)
+    this.frameCounter.set(mob.id, time + delta)
     this.lastAction.set(mob.id, mob.action)
 
+    if (!loop && next && time * fps > info.frames) {
+      mob.action = next
+    }
+
     return Math.floor(
-      loop ? time % info.frames : Math.min(time, info.frames - 1),
+      loop ? (time * fps) % info.frames : Math.min(time * fps, info.frames - 1),
     )
   }
 
@@ -160,17 +228,16 @@ export default class Renderer {
     )
   }
 
-  private drawText(
-    text: string,
-    x: number,
-    y: number,
-    hAlign: CanvasTextAlign = 'center',
-    vAlign: CanvasTextBaseline = 'top',
-  ) {
-    this.context.font = 'small-caps bold 12pt Arial'
-    this.context.textAlign = hAlign
-    this.context.textBaseline = vAlign
-    this.context.fillStyle = 'rgb(124, 240, 255)'
+  private drawText(text: string, options?: TextProperties) {
+    options = options || {}
+    const x = options.x ?? 0
+    const y = options.y ?? 0
+    const size = options.size ?? 12
+
+    this.context.font = `small-caps bold ${size}pt Arial`
+    this.context.textAlign = options.hAlign || 'center'
+    this.context.textBaseline = options.vAlign || 'top'
+    this.context.fillStyle = options.color ?? 'rgb(124, 240, 255)'
     this.context.strokeStyle = 'black'
     this.context.lineWidth = 3
 
@@ -208,7 +275,7 @@ export default class Renderer {
     )
   }
 
-  public drawTileMap() {
+  private drawTileMap() {
     const minX = Math.floor(this.camera.x / 16) * 16 - 14 * 16
     const minY = Math.floor(this.camera.y / 16) * 16 - 14 * 16
     const maxX = Math.floor(this.camera.x / 16) * 16 + 14 * 16
@@ -220,34 +287,5 @@ export default class Renderer {
         this.drawTile('grassTiles', 1, 1, Math.floor(x), Math.floor(y))
       }
     }
-  }
-
-  public draw(time: number) {
-    const delta = (time - this.lastTime) / 1000
-
-    if (!this.run) return
-
-    this.context.fillStyle = 'black'
-    this.context.fillRect(0, 0, window.innerWidth, window.innerHeight)
-
-    this.drawTileMap()
-    ;[...this.state.mobs.values()]
-      .sort((a, b) => a.y - b.y)
-      .forEach((mob) => {
-        const { name, sprite, action } = mob
-
-        const frame = this.animate(mob, delta)
-        const { x, y } = this.transition(mob, delta)
-
-        if (mob === this.state.self) {
-          this.camera.set(x + 8, y + 8)
-        }
-
-        this.drawSprite(sprite, action, frame, x, y)
-        this.drawText(name, x + 8, y - 2)
-      })
-
-    this.lastTime += delta * 1000
-    requestAnimationFrame(this.boundDraw)
   }
 }

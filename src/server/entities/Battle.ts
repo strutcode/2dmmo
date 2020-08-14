@@ -30,7 +30,7 @@ export default class Battle {
         'Combat',
         `${tori.name} hit ${uke.name} for ${tori.strength} damage`,
       )
-      uke.damage(tori.strength)
+      uke.damage(tori, tori.strength)
 
       if (uke.hp <= 0) {
         log.out('Combat', `${tori.name} killed ${uke.name}`)

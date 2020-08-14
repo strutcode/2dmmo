@@ -75,6 +75,18 @@ export default class GameClient {
       this.state.updateMobile(id, update)
     })
 
+    this.client.onMobileHit.observe((info) => {
+      const { attackerId, defenderId, amount } = info
+      const attacker = this.state.mobs.get(attackerId)
+      const defender = this.state.mobs.get(defenderId)
+
+      if (attacker && defender) {
+        attacker.action = 'attack'
+        defender.action = 'hit'
+        this.renderer.mobileHit(attacker, defender, amount)
+      }
+    })
+
     this.client.start()
   }
 

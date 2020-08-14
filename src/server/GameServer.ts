@@ -148,6 +148,9 @@ export default class GameServer {
       )
       this.globalScope.addMobile(mob)
       this.enemies.push(mob)
+      mob.onDestroy.observe(() => {
+        this.enemies = this.enemies.filter((e) => e !== mob)
+      })
     })
 
     this.spawners.push(spawner)

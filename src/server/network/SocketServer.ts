@@ -88,7 +88,7 @@ export default class SocketServer {
 
       switch (type) {
         case 'hurt':
-          socket.send(`HURT~${props.mob.id},${props.amount}`)
+          socket.send(`HURT~${props.attacker.id},${props.defender.id},${props.amount}`)
           break
       }
     })
