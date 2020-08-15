@@ -108,7 +108,11 @@ export default class GameClient {
         }
 
         this.client.sendPosition(newX, newY)
-        if (!Mobile.anyAt(newX, newY)) {
+
+        const mob = Mobile.firstAt(newX, newY)
+        if (mob) {
+          mob.bump(this.state.self)
+        } else {
           this.state.self.teleport(newX, newY)
         }
       }

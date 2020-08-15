@@ -1,7 +1,7 @@
 import Camera from './Camera'
 import GameState from '../GameState'
 import Mobile from '../entities/Mobile'
-import spritemap from './spritemap'
+import spritemap from '../../common/data/spritemap'
 import HitIndicator from './HitIndicator'
 
 interface Transition {
@@ -230,9 +230,18 @@ export default class Renderer {
     y: number,
     flip = false,
   ) {
+    const scale = this.camera.scale
+    const finalX = Math.floor(
+      window.innerWidth / 2 + (x - this.camera.x) * scale,
+    )
+    const finalY = Math.floor(
+      window.innerHeight / 2 + (y - this.camera.y) * scale,
+    )
+    const size = Math.ceil(16 * scale)
+
     if (!this.assets[type]) {
       this.context.fillStyle = 'magenta'
-      this.context.fillRect(x, y, 16, 16)
+      this.context.fillRect(finalX, finalY, size, size)
       return
     }
 
@@ -259,10 +268,10 @@ export default class Renderer {
       flip ? 0 : sy * 16,
       16,
       16,
-      window.innerWidth / 2 + (x - this.camera.x) * this.camera.scale,
-      window.innerHeight / 2 + (y - this.camera.y) * this.camera.scale,
-      16 * this.camera.scale,
-      16 * this.camera.scale,
+      finalX,
+      finalY,
+      size,
+      size,
     )
   }
 

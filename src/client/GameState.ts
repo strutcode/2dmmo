@@ -21,8 +21,12 @@ export default class GameState {
 
   public addMobile(id: string, props: Record<string, any>) {
     const mob = new Mobile(id, props.name, props.x, props.y)
-
     if (props.sprite) mob.sprite = props.sprite
+
+    mob.onDestroy.observe(() => {
+      this.mobs.delete(mob.id)
+    })
+
     this.mobs.set(id, mob)
     this.onMobileAdd.notify(mob)
 

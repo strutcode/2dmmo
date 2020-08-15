@@ -61,4 +61,4 @@ export default {
       loop: false,
     },
   },
-}
+} as const
