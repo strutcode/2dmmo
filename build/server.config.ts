@@ -44,7 +44,7 @@ export default function (mode: Configuration['mode']): Configuration {
       }),
     ],
     plugins: [
-      new FriendlyErrorsWebpackPlugin(),
+      // new FriendlyErrorsWebpackPlugin(),
       new webpack.DefinePlugin({ BUILD_MODE: `'${mode}'` }),
     ],
     output: {
@@ -63,7 +63,10 @@ export default function (mode: Configuration['mode']): Configuration {
     )
     config.plugins?.push(new webpack.HotModuleReplacementPlugin())
   } else {
-    config.plugins?.push(new webpack.ProgressPlugin())
+    config.plugins?.push(
+      new webpack.ProgressPlugin(),
+      new FriendlyErrorsWebpackPlugin(),
+    )
   }
 
   return config

@@ -8,6 +8,7 @@ import clientConfig from '../../../build/client.config'
 import { resolve } from 'path'
 import { rmdirSync } from 'fs'
 import webpack from 'webpack'
+import editorConfig from '../../../build/editor.config'
 
 export default class WebServer {
   private app: Express
@@ -26,6 +27,7 @@ export default class WebServer {
   public start() {
     if (BUILD_MODE === 'development') {
       this.applyDevMiddleware()
+      this.enableEditor()
     }
 
     log.info('Server', 'Booting server...')
@@ -39,20 +41,39 @@ export default class WebServer {
     this.httpServer.close()
   }
 
-  private applyDevMiddleware() {
-    const config = clientConfig('development')
-    config.plugins = config.plugins?.filter(
-      (p) => !(p instanceof FriendlyErrorsWebpackPlugin),
+  private enableEditor() {
+    const compiler = webpack(editorConfig('development'))
+
+    log.warn('Server', 'Enabling world editor...')
+    rmdirSync(resolve('./final/editor/.hot'), {
+      recursive: true,
+    })
+
+    this.app.use(
+      WebpackDevMiddleware(compiler, {
+        publicPath: '/editor',
+        stats: 'errors-only',
+        logLevel: 'silent',
+      }),
     )
 
-    const compiler = webpack(config)
+    this.app.use(
+      WebpackHotMiddleware(compiler, {
+        path: '/editor/__hmr',
+      }),
+    )
 
-    log.out('Server', 'Cleanup HMR...')
+    this.app.use(express.static(resolve('./final/client')))
+  }
+
+  private applyDevMiddleware() {
+    const compiler = webpack(clientConfig('development'))
+
+    log.out('Server', 'Setup client hot module reloading...')
     rmdirSync(resolve('./final/client/.hot'), {
       recursive: true,
     })
 
-    log.out('Server', 'Setup hot module reloading')
     this.app.use(
       WebpackDevMiddleware(compiler, {
         publicPath: '/',
@@ -61,6 +82,10 @@ export default class WebServer {
       }),
     )
 
-    this.app.use(WebpackHotMiddleware(compiler))
+    this.app.use(
+      WebpackHotMiddleware(compiler, {
+        path: '/__hmr',
+      }),
+    )
   }
 }

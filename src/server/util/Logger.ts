@@ -8,9 +8,6 @@ export default class Logger {
     global.console.log = (message: any, ...args: any[]) => {
       this.info('External', message, ...args)
     }
-
-    global.console.clear()
-    this.log('')
   }
 
   public out(category: string, message: any, ...params: any[]) {
@@ -31,7 +28,7 @@ export default class Logger {
 
   public warn(category: string, message: any, ...params: any[]) {
     this.log(
-      `${' WARN '.bgYellow}${` ${category.padStart(10, ' ')} `.bgBlue}`,
+      `${' WARN '.bgYellow.black}${` ${category.padStart(10, ' ')} `.bgBlue}`,
       message,
       ...params,
     )

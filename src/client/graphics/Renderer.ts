@@ -302,15 +302,9 @@ export default class Renderer {
   private drawSprite(options: SpriteProperties) {
     const { sprite, action, frame, x, y, flip } = options
 
-    if (!(spritemap as any)[sprite][action]) {
-      this.context.fillStyle = 'magenta'
-      this.context.fillRect(x, y, 16, 16)
-      return
-    }
-
     const { row, frames } = (spritemap as any)[sprite][action]
     this.drawTile(
-      spritemap[sprite as keyof typeof spritemap]._asset,
+      spritemap[sprite as keyof typeof spritemap]?._asset,
       Math.floor(frame % frames),
       row,
       x,

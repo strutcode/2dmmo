@@ -1,0 +1,21 @@
+body,
+html {
+  background: black;
+}
+
+.layout-v,
+.layout-h {
+  display: flex;
+}
+
+.layout-v {
+  flex-flow: column nowrap;
+}
+
+.layout-h {
+  flex-flow: row nowrap;
+}
+
+.layout-fill {
+  flex-grow: 1;
+}
