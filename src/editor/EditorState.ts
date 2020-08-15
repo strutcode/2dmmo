@@ -1,4 +1,5 @@
 import GameMap, { TileData } from './GameMap'
+import floodFill from './util/FloodFill'
 
 export type ToolType = 'pencil' | 'fill' | 'select'
 export type ModKeys = {
@@ -32,13 +33,35 @@ export default class EditorState {
   }
 
   public onClick(x: number, y: number, mod: ModKeys) {
-    if (this.currentTool === 'pencil') {
-      if (this.currentMap && this.selectedTile) {
-        this.currentMap.setTile(x, y, this.selectedTile)
+    if (this.currentMap) {
+      if (this.currentTool === 'select') {
+        this.startSelection(x, y)
+      } else if (this.selectedTile) {
+        if (this.currentTool === 'pencil') {
+          if (this.selectedTile) {
+            this.currentMap.setTile(x, y, this.selectedTile)
+          }
+        } else if (this.currentTool === 'fill') {
+          floodFill(
+            x,
+            y,
+            this.selectedTile,
+            (x, y) => {
+              return this.currentMap?.getTile(x, y) || { x: 0, y: 0, set: '' }
+            },
+            this.currentMap.setTile.bind(this.currentMap),
+            [0, 0, this.currentMap.width, this.currentMap.height],
+            (a, b) => {
+              if (!a || !b) return false
+              if (a.x !== b.x) return false
+              if (a.y !== b.y) return false
+              if (a.set !== b.set) return false
+
+              return true
+            },
+          )
+        }
       }
-    } else if (this.currentTool === 'select') {
-      this.startSelection(x, y)
-    } else if (this.currentTool === 'fill') {
     }
   }
 

@@ -16,12 +16,13 @@ export default class WorldViewRenderer {
   private context: CanvasRenderingContext2D
   private boundDraw = this.draw.bind(this)
   private running = true
+  private lastDraw = performance.now()
 
   private pan = {
     x: 0,
     y: 0,
   }
-  private zoom = 1
+  private zoom = 3
 
   constructor(private canvas: HTMLCanvasElement, private state: EditorState) {
     const context = this.canvas.getContext('2d')
@@ -73,6 +74,8 @@ export default class WorldViewRenderer {
     if (!this.running) return
 
     const ctx = this.context
+    const start = performance.now()
+    const delta = (start - this.lastDraw) / 1000
 
     ctx.setTransform(this.zoom, 0, 0, this.zoom, this.pan.x, this.pan.y)
     ctx.clearRect(
@@ -106,9 +109,9 @@ export default class WorldViewRenderer {
           }
         }
       }
-      ctx.fillStyle = ``
 
       ctx.strokeStyle = 'magenta'
+      ctx.setLineDash([])
       ctx.beginPath()
       ctx.rect(0, 0, map.width * 16, map.height * 16)
       ctx.stroke()
@@ -116,13 +119,21 @@ export default class WorldViewRenderer {
       if (this.state.selection) {
         const { x, y, w, h } = this.state.selection
 
-        ctx.strokeStyle = 'orange'
+        ctx.strokeStyle = 'black'
+        ctx.setLineDash([4, 4])
+        ctx.lineDashOffset += delta * 8
+        ctx.beginPath()
+        ctx.rect(x * 16, y * 16 + 1, w * 16, h * 16)
+        ctx.stroke()
+
+        ctx.strokeStyle = 'white'
         ctx.beginPath()
         ctx.rect(x * 16, y * 16, w * 16, h * 16)
         ctx.stroke()
       }
     }
 
+    this.lastDraw = start
     requestAnimationFrame(this.boundDraw)
   }
 
