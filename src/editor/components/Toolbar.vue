@@ -10,7 +10,12 @@
     methods: {
       newMap() {
         this.$state.createMap()
-      }
-    }
+      },
+    },
   })
 </script>
+<style scoped>
+  .toolbar {
+    padding: 0.25rem;
+  }
+</style>

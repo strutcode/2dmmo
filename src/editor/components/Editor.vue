@@ -1,7 +1,10 @@
 <template>
   <div class="layout layout-v">
-    <toolbar />
-    <world-view />
+    <toolbar class="chrome" />
+    <div class="layout-h layout-fill">
+      <tile-list class="chrome panel" />
+      <world-view />
+    </div>
   </div>
 </template>
 
@@ -9,11 +12,13 @@
   import Vue from 'vue'
   import Toolbar from './Toolbar.vue'
   import WorldView from './WorldView.vue'
+  import TileList from './TileList.vue'
 
   export default Vue.extend({
     components: {
       Toolbar,
       WorldView,
+      TileList,
     },
   })
 </script>

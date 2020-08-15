@@ -10,12 +10,24 @@ html {
 
 .layout-v {
   flex-flow: column nowrap;
+  max-width: 100%;
 }
 
 .layout-h {
   flex-flow: row nowrap;
+  max-height: 100%;
 }
 
 .layout-fill {
   flex-grow: 1;
+}
+
+.chrome {
+  background: rgb(29, 39, 44);
+  color: rgb(214, 219, 228);
+}
+
+.panel {
+  padding: 1rem;
+  overflow: auto;
 }
