@@ -10,6 +10,10 @@ export default class GameMap {
   }
 
   public setTile(x: number, y: number, tile: TileData) {
+    if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
+      return
+    }
+
     this.data[x + y * this.width] = tile
   }
 }
