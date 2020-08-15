@@ -37,31 +37,44 @@
     methods: {
       click(ev: PointerEvent) {
         const button = ev.button
-        let distance = 0
-
-        const setTile = (ev: PointerEvent) => {
-          if (this.$state.currentMap && this.$state.selectedTile) {
-            const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
-
-            this.$state.currentMap.setTile(x, y, this.$state.selectedTile)
-          }
+        const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
+        const mod = {
+          ctrl: ev.ctrlKey,
+          alt: ev.altKey,
+          shift: ev.shiftKey,
         }
 
-        setTile(ev)
+        if (button !== 1) {
+          this.$state.onClick(x, y, mod)
+        }
 
         const move = (ev: PointerEvent) => {
-          distance += Math.abs(ev.movementX)
-          distance += Math.abs(ev.movementY)
-
-          if (button === 0) {
-            setTile(ev)
+          const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
+          const mod = {
+            ctrl: ev.ctrlKey,
+            alt: ev.altKey,
+            shift: ev.shiftKey,
           }
+
           if (button === 1) {
             this.view.panBy(ev.movementX, ev.movementY)
+          } else {
+            this.$state.onDrag(x, y, mod)
           }
         }
 
         const stop = (ev: PointerEvent) => {
+          const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
+          const mod = {
+            ctrl: ev.ctrlKey,
+            alt: ev.altKey,
+            shift: ev.shiftKey,
+          }
+
+          if (button !== 1) {
+            this.$state.onDrag(x, y, mod)
+          }
+
           window.removeEventListener('pointermove', move)
           window.removeEventListener('pointerup', stop)
         }
