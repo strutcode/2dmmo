@@ -39,18 +39,24 @@
         const button = ev.button
         let distance = 0
 
+        const setTile = (ev: PointerEvent) => {
+          if (this.$state.currentMap && this.$state.selectedTile) {
+            const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
+
+            this.$state.currentMap.setTile(x, y, this.$state.selectedTile)
+          }
+        }
+
+        setTile(ev)
+
         const move = (ev: PointerEvent) => {
           distance += Math.abs(ev.movementX)
           distance += Math.abs(ev.movementY)
 
           if (button === 0) {
-            if (this.$state.currentMap && this.$state.selectedTile) {
-              const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
-
-              this.$state.currentMap.setTile(x, y, this.$state.selectedTile)
-            }
+            setTile(ev)
           }
-          if (button === 2) {
+          if (button === 1) {
             this.view.panBy(ev.movementX, ev.movementY)
           }
         }
@@ -67,7 +73,7 @@
       scroll(ev: WheelEvent) {
         if (ev.deltaY < 0) {
           this.view.zoomIn()
-        } else {
+        } else if (ev.deltaY > 0) {
           this.view.zoomOut()
         }
       },
