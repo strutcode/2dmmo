@@ -40,6 +40,10 @@ export default class WorldViewRenderer {
     this.running = false
   }
 
+  public setZoom(value: number) {
+    this.zoom = value
+  }
+
   public zoomIn() {
     this.zoom *= 1.1
   }
@@ -51,6 +55,11 @@ export default class WorldViewRenderer {
   public panBy(x: number, y: number) {
     this.pan.x += x
     this.pan.y += y
+  }
+
+  public panTo(x: number, y: number) {
+    this.pan.x = x
+    this.pan.y = y
   }
 
   public pointToWorld(x: number, y: number): [number, number] {
@@ -103,6 +112,15 @@ export default class WorldViewRenderer {
       ctx.beginPath()
       ctx.rect(0, 0, map.width * 16, map.height * 16)
       ctx.stroke()
+
+      if (this.state.selection) {
+        const { x, y, w, h } = this.state.selection
+
+        ctx.strokeStyle = 'orange'
+        ctx.beginPath()
+        ctx.rect(x * 16, y * 16, w * 16, h * 16)
+        ctx.stroke()
+      }
     }
 
     requestAnimationFrame(this.boundDraw)
