@@ -1,5 +1,5 @@
 <template>
-  <div class="toolbar layout-h">
+  <div class="menubar layout-h">
     <button @click="newMap">New Map</button>
   </div>
 </template>
@@ -15,7 +15,7 @@
   })
 </script>
 <style scoped>
-  .toolbar {
+  .menubar {
     padding: 0.25rem;
   }
 </style>

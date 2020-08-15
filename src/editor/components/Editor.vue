@@ -1,22 +1,27 @@
 <template>
   <div class="layout layout-v">
-    <toolbar class="chrome" />
+    <menu-bar class="chrome secondary" />
     <div class="layout-h layout-fill">
       <tile-list class="chrome panel" />
-      <world-view />
+      <div class="layout-v layout-fill">
+        <tool-bar class="chrome" />
+        <world-view class="layout-fill" />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
-  import Toolbar from './Toolbar.vue'
+  import ToolBar from './ToolBar.vue'
+  import MenuBar from './MenuBar.vue'
   import WorldView from './WorldView.vue'
   import TileList from './TileList.vue'
 
   export default Vue.extend({
     components: {
-      Toolbar,
+      MenuBar,
+      ToolBar,
       WorldView,
       TileList,
     },

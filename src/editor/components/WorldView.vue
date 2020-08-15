@@ -1,5 +1,5 @@
 <template>
-  <canvas class="layout-fill" @contextmenu.prevent @pointerdown="click" @wheel="scroll"></canvas>
+  <canvas @contextmenu.prevent @pointerdown="click" @wheel="scroll"></canvas>
 </template>
 
 <script lang="ts">

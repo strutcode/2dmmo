@@ -27,6 +27,10 @@ html {
   color: rgb(214, 219, 228);
 }
 
+.chrome.secondary {
+  background: rgb(18, 25, 29);
+}
+
 .panel {
   padding: 1rem;
   overflow: auto;

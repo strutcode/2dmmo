@@ -6,7 +6,23 @@ import EditorState from './EditorState'
 const el = document.createElement('div')
 document.body.appendChild(el)
 
-Vue.prototype.$state = new EditorState()
+const mixin = Vue.observable({
+  state: new EditorState(),
+})
+
+if (module.hot) {
+  module.hot.accept('./EditorState', () => {
+    mixin.state = Vue.observable(new EditorState())
+  })
+}
+
+Vue.mixin({
+  computed: {
+    $state() {
+      return mixin.state
+    },
+  },
+})
 
 new Vue({
   el,
