@@ -1,5 +1,5 @@
 <template>
-  <canvas class="layout-fill" @pointerdown="click" @wheel="scroll"></canvas>
+  <canvas class="layout-fill" @contextmenu.prevent @pointerdown="click" @wheel="scroll"></canvas>
 </template>
 
 <script lang="ts">
@@ -36,8 +36,23 @@
 
     methods: {
       click(ev: PointerEvent) {
+        const button = ev.button
+        let distance = 0
+
         const move = (ev: PointerEvent) => {
-          this.view.panBy(ev.movementX, ev.movementY)
+          distance += Math.abs(ev.movementX)
+          distance += Math.abs(ev.movementY)
+
+          if (button === 0) {
+            if (this.$state.currentMap && this.$state.selectedTile) {
+              const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
+
+              this.$state.currentMap.setTile(x, y, this.$state.selectedTile)
+            }
+          }
+          if (button === 2) {
+            this.view.panBy(ev.movementX, ev.movementY)
+          }
         }
 
         const stop = (ev: PointerEvent) => {
@@ -48,6 +63,7 @@
         window.addEventListener('pointermove', move)
         window.addEventListener('pointerup', stop)
       },
+
       scroll(ev: WheelEvent) {
         if (ev.deltaY < 0) {
           this.view.zoomIn()
@@ -58,3 +74,11 @@
     },
   })
 </script>
+
+<style scoped>
+  canvas {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: pixelated;
+  }
+</style>

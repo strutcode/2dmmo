@@ -19,7 +19,7 @@ class ServerRunnerPlugin {
   }
 }
 
-export default function (mode: Configuration['mode']): Configuration {
+export default function(mode: Configuration['mode']): Configuration {
   const config: Configuration = {
     mode,
     entry: ['./src/server/index.ts'],

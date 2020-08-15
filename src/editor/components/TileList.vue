@@ -7,33 +7,20 @@
       <template v-for="(_, y) in tilesH">
         <div
           class="tile"
-          :class="{ selected: selected === `${x},${y}`}"
+          :class="tileClass(x, y)"
           v-for="(_, x) in tilesW"
           :key="`${x},${y}`"
           :style="{ backgroundPosition: `${-x * 32}px ${-y * 32}px`, backgroundSize: `${tilesW * 16 * 2}px ${tilesH * 16 * 2}px`, backgroundImage: `url(${tileSets[tilesKey]})` }"
-          @click="selected = `${x},${y}`"
+          @click="$state.selectTile(tilesKey, x, y)"
         ></div>
       </template>
-      <!-- <img :src="tileSets[tilesKey]" /> -->
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
-
-  const tilesCtx = require.context(
-    '../../../assets/HAS Overworld 2.0/',
-    true,
-    /LandTileset\.png$/,
-  )
-  const tileSets = tilesCtx.keys().reduce((acc, key) => {
-    const [, name] = key.match(/\.\/(.+?)\/.*/)
-
-    acc[name] = tilesCtx(key).default
-
-    return acc
-  }, {} as Record<string, string>)
+  import tileSets from '../data/tilesets'
 
   export default Vue.extend({
     data() {
@@ -57,6 +44,19 @@
       document.body.appendChild(this.img)
     },
 
+    methods: {
+      tileClass(x: number, y: number): object {
+        if (!this.$state.selectedTile) return {}
+
+        return {
+          selected:
+            this.$state.selectedTile.x === x &&
+            this.$state.selectedTile.y === y &&
+            this.$state.selectedTile.set === this.tilesKey,
+        }
+      },
+    },
+
     watch: {
       tilesKey() {
         this.img.src = tileSets[this.tilesKey]
@@ -67,7 +67,7 @@
 
 <style scoped>
   .tileList {
-    flex: 0 0 146px;
+    flex: 0 0 164px;
   }
 
   .tiles {
@@ -81,13 +81,14 @@
     display: inline-block;
     width: 32px;
     height: 32px;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
     image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    image-rendering: optimizespeed;
+    margin: 2px;
   }
 
   .tile.selected {
     border: 2px solid magenta;
-    margin: -2px;
+    margin: 0;
   }
 </style>

@@ -1,4 +1,16 @@
 import EditorState from '../EditorState'
+import tileSets from '../data/tilesets'
+
+const tiles: Record<string, HTMLImageElement> = {}
+Object.entries(tileSets).forEach(([name, url]) => {
+  const img = new Image()
+
+  img.src = url
+  img.style.display = 'none'
+  document.body.appendChild(img)
+
+  tiles[name] = img
+})
 
 export default class WorldViewRenderer {
   private context: CanvasRenderingContext2D
@@ -41,6 +53,13 @@ export default class WorldViewRenderer {
     this.pan.y += y
   }
 
+  public pointToWorld(x: number, y: number): [number, number] {
+    return [
+      Math.floor((x - this.pan.x) / this.zoom / 16),
+      Math.floor((y - this.pan.y) / this.zoom / 16),
+    ]
+  }
+
   private draw() {
     if (!this.running) return
 
@@ -53,13 +72,36 @@ export default class WorldViewRenderer {
       this.canvas.width / this.zoom,
       this.canvas.height / this.zoom,
     )
+    ctx.imageSmoothingEnabled = false
 
     if (this.state.currentMap) {
-      const { width, height } = this.state.currentMap
+      const map = this.state.currentMap
+
+      let x, y
+      for (y = 0; y < map.height; y++) {
+        for (x = 0; x < map.width; x++) {
+          const tile = map.getTile(x, y)
+
+          if (tile) {
+            ctx.drawImage(
+              tiles[tile.set],
+              tile.x * 16,
+              tile.y * 16,
+              16,
+              16,
+              x * 16,
+              y * 16,
+              16.1,
+              16.1,
+            )
+          }
+        }
+      }
+      ctx.fillStyle = ``
 
       ctx.strokeStyle = 'magenta'
       ctx.beginPath()
-      ctx.rect(0, 0, width * 16, height * 16)
+      ctx.rect(0, 0, map.width * 16, map.height * 16)
       ctx.stroke()
     }
 
