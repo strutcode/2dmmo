@@ -1,9 +1,17 @@
+import EditorState from '../EditorState'
+
 export default class WorldViewRenderer {
   private context: CanvasRenderingContext2D
   private boundDraw = this.draw.bind(this)
   private running = true
 
-  constructor(private canvas: HTMLCanvasElement) {
+  private pan = {
+    x: 0,
+    y: 0,
+  }
+  private zoom = 1
+
+  constructor(private canvas: HTMLCanvasElement, private state: EditorState) {
     const context = this.canvas.getContext('2d')
 
     if (!context) {
@@ -20,21 +28,40 @@ export default class WorldViewRenderer {
     this.running = false
   }
 
+  public zoomIn() {
+    this.zoom *= 1.1
+  }
+
+  public zoomOut() {
+    this.zoom *= 0.9
+  }
+
+  public panBy(x: number, y: number) {
+    this.pan.x += x
+    this.pan.y += y
+  }
+
   private draw() {
     if (!this.running) return
 
     const ctx = this.context
-    const { width, height } = this.canvas
 
-    ctx.strokeStyle = 'green'
-    ctx.beginPath()
-    ctx.rect(
-      Math.random() * width,
-      Math.random() * height,
-      Math.random() * width,
-      Math.random() * height,
+    ctx.setTransform(this.zoom, 0, 0, this.zoom, this.pan.x, this.pan.y)
+    ctx.clearRect(
+      -this.pan.x / this.zoom,
+      -this.pan.y / this.zoom,
+      this.canvas.width / this.zoom,
+      this.canvas.height / this.zoom,
     )
-    ctx.stroke()
+
+    if (this.state.currentMap) {
+      const { width, height } = this.state.currentMap
+
+      ctx.strokeStyle = 'magenta'
+      ctx.beginPath()
+      ctx.rect(0, 0, width * 16, height * 16)
+      ctx.stroke()
+    }
 
     requestAnimationFrame(this.boundDraw)
   }

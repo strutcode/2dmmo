@@ -1,5 +1,5 @@
 <template>
-  <canvas class="layout-fill"></canvas>
+  <canvas class="layout-fill" @pointerdown="click" @wheel="scroll"></canvas>
 </template>
 
 <script lang="ts">
@@ -14,11 +14,47 @@
     },
 
     mounted() {
-      this.view = new WorldViewRenderer(this.$el as HTMLCanvasElement)
+      this.view = new WorldViewRenderer(
+        this.$el as HTMLCanvasElement,
+        this.$state,
+      )
+
+      if (module.hot) {
+        module.hot.accept('../graphics/WorldViewRenderer', () => {
+          this.view.destroy()
+          this.view = new WorldViewRenderer(
+            this.$el as HTMLCanvasElement,
+            this.$state,
+          )
+        })
+      }
     },
 
     beforeDestroy() {
       this.view.destroy()
+    },
+
+    methods: {
+      click(ev: PointerEvent) {
+        const move = (ev: PointerEvent) => {
+          this.view.panBy(ev.movementX, ev.movementY)
+        }
+
+        const stop = (ev: PointerEvent) => {
+          window.removeEventListener('pointermove', move)
+          window.removeEventListener('pointerup', stop)
+        }
+
+        window.addEventListener('pointermove', move)
+        window.addEventListener('pointerup', stop)
+      },
+      scroll(ev: WheelEvent) {
+        if (ev.deltaY < 0) {
+          this.view.zoomIn()
+        } else {
+          this.view.zoomOut()
+        }
+      },
     },
   })
 </script>
