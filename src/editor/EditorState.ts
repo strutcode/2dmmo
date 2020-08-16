@@ -40,8 +40,49 @@ export default class EditorState {
     this.activeLayer = index
   }
 
-  public addLayer() {
+  public layerAdd() {
     this.currentMap?.addLayer()
+  }
+
+  public layerRename() {
+    if (this.currentMap?.layers[this.activeLayer]) {
+      const value = prompt(
+        'Enter a new name',
+        this.currentMap?.layers[this.activeLayer].name,
+      )
+
+      if (value) {
+        this.currentMap.layers[this.activeLayer].name = value
+      }
+    }
+  }
+
+  public layerUp() {
+    if (this.activeLayer > 0) {
+      const layer = this.currentMap?.layers.splice(this.activeLayer, 1)
+
+      if (layer) {
+        this.currentMap?.layers.splice(this.activeLayer - 1, 0, layer[0])
+        this.activeLayer--
+      }
+    }
+  }
+
+  public layerDown() {
+    const length = this.currentMap?.layers?.length || 0
+
+    if (this.activeLayer < length - 1) {
+      const layer = this.currentMap?.layers.splice(this.activeLayer, 1)
+
+      if (layer) {
+        this.currentMap?.layers.splice(this.activeLayer + 1, 0, layer[0])
+        this.activeLayer++
+      }
+    }
+  }
+
+  public layerDelete() {
+    this.currentMap?.layers.splice(this.activeLayer, 1)
   }
 
   public onClick(x: number, y: number, mod: ModKeys) {

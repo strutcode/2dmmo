@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar layout-h">
     <button :class="{ selected: currentTool === 'pencil' }" @click="setTool('pencil')">
-      <i class="fa fa-edit"></i>
+      <i class="fa fa-pencil-alt"></i>
     </button>
     <button :class="{ selected: currentTool === 'eraser' }" @click="setTool('eraser')">
       <i class="fa fa-eraser"></i>

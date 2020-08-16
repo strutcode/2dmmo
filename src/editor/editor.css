@@ -44,6 +44,10 @@ html {
   color: rgb(214, 219, 228);
 }
 
+.chrome button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .chrome button.selected {
   background: rgba(0, 0, 0, 0.5);
 }

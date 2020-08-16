@@ -1,8 +1,20 @@
 <template>
   <div class="layerList layout-v">
-    <div>
-      <button @click="() => $state.addLayer()">
+    <div class="tools">
+      <button @click="() => $state.layerAdd()">
         <i class="fa fa-plus"></i>
+      </button>
+      <button @click="() => $state.layerRename()">
+        <i class="fa fa-edit"></i>
+      </button>
+      <button @click="() => $state.layerUp()">
+        <i class="fa fa-chevron-up"></i>
+      </button>
+      <button @click="() => $state.layerDown()">
+        <i class="fa fa-chevron-down"></i>
+      </button>
+      <button @click="() => $state.layerDelete()">
+        <i class="fa fa-trash"></i>
       </button>
     </div>
     <div class="layers layout-fill chrome secondary">
@@ -32,6 +44,15 @@
 <style scoped>
   .layerList {
     flex: 0 1 180px;
+  }
+
+  .tools {
+    margin-bottom: 0.5em;
+  }
+
+  .tools button {
+    width: 32px;
+    height: 32px;
   }
 
   .layer {
