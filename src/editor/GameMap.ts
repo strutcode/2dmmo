@@ -1,16 +1,20 @@
 export type TileData = { x: number; y: number; set: string }
+export type TileLayer = { name: string; data: TileData[][] }
 
 export default class GameMap {
-  private data: TileData[][] = []
+  public layers: TileLayer[] = [{ name: 'default', data: [] }]
+  private l = 0
 
   constructor(public width = 10, public height = 10) {}
 
   public getTile(x: number, y: number): TileData | undefined {
-    if (!this.data[y]) {
+    const l = this.l
+
+    if (!this.layers[l]?.data || !this.layers[l].data[y]) {
       return undefined
     }
 
-    return this.data[y][x]
+    return this.layers[l].data[y][x]
   }
 
   public setTile(x: number, y: number, tile: TileData) {
@@ -18,11 +22,13 @@ export default class GameMap {
       return
     }
 
-    if (!this.data[y]) {
-      this.data[y] = Array(this.width)
+    const l = this.l
+
+    if (!this.layers[l].data[y]) {
+      this.layers[l].data[y] = []
     }
 
-    this.data[y][x] = tile
+    this.layers[l].data[y][x] = tile
   }
 
   public getTiles(
@@ -56,12 +62,16 @@ export default class GameMap {
   }
 
   public clearTiles(x: number, y: number, w: number, h: number) {
+    const l = this.l
+
+    if (!this.layers[l].data) return
+
     let u, v
     for (v = y; v < y + h; v++) {
-      if (!this.data[v]) continue
+      if (!this.layers[l].data[v]) continue
 
       for (u = x; u < x + w; u++) {
-        delete this.data[v][u]
+        delete this.layers[l].data[v][u]
       }
     }
   }

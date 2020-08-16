@@ -21,7 +21,7 @@ export interface Selection {
 export default class EditorState {
   public currentMap: GameMap | null = null
   public selectedTile: TileData | null = null
-  public currentTool: ToolType = 'select'
+  public currentTool: ToolType = 'pencil'
 
   public selection: Selection | null = null
   public floatingSelection: (TileData | undefined)[][] | null = null

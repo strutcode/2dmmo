@@ -26,12 +26,12 @@ html {
 }
 
 .chrome {
-  background: rgb(23, 28, 43);
+  background: rgb(30, 36, 56);
   color: rgb(214, 219, 228);
 }
 
 .chrome.secondary {
-  background: rgb(13, 16, 26);
+  background: rgb(17, 21, 34);
 }
 
 .chrome.accent {
