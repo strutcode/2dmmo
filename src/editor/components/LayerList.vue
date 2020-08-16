@@ -10,7 +10,7 @@
         v-for="(layer, l) in layers"
         :key="l"
         class="layer"
-        :class="{ chrome: l === $state.activeLayer, accent: l === $state.activeLayer }"
+        :class="{ selected: l === $state.activeLayer }"
         @click="() => $state.selectLayer(l)"
       >{{ layer.name }}</div>
     </div>
@@ -36,5 +36,9 @@
 
   .layer {
     padding: 0.5rem;
+  }
+
+  .layer.selected {
+    background: rgba(0, 0, 0, 0.5);
   }
 </style>
