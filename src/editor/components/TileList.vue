@@ -3,17 +3,17 @@
     <select v-model="tilesKey">
       <option v-for="(url, key) in tileSets" :key="key">{{ key }}</option>
     </select>
-    <div class="tiles">
-      <template v-for="(_, y) in tilesH">
+    <div class="tiles layout-v">
+      <div class="layout-h" v-for="(_, y) in tilesH" :key="y">
         <div
           class="tile"
           :class="tileClass(x, y)"
           v-for="(_, x) in tilesW"
-          :key="`${x},${y}`"
+          :key="x"
           :style="{ backgroundPosition: `${-x * 32}px ${-y * 32}px`, backgroundSize: `${tilesW * 16 * 2}px ${tilesH * 16 * 2}px`, backgroundImage: `url(${tileSets[tilesKey]})` }"
           @click="$state.selectTile(tilesKey, x, y)"
         ></div>
-      </template>
+      </div>
     </div>
   </div>
 </template>
@@ -71,14 +71,11 @@
   }
 
   .tiles {
-    display: flex;
-    flex-flow: row wrap;
-    overflow: scroll;
-    line-height: 16px;
+    overflow: auto;
   }
 
   .tile {
-    display: inline-block;
+    flex: 0 0 32px;
     width: 32px;
     height: 32px;
     image-rendering: -webkit-optimize-contrast;
