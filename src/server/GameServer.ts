@@ -8,6 +8,7 @@ import Enemy from './entities/Enemy'
 import Mobile from './entities/Mobile'
 import { tileDistance } from '../common/util/Geometry'
 import Battle from './entities/Battle'
+import Wizard from './entities/Wizard'
 
 export default class GameServer {
   private webServer = new WebServer()
@@ -15,6 +16,7 @@ export default class GameServer {
   private database = new Database()
   private globalScope = new NetworkScope()
   private players = new Map<string, Player>()
+  private wizards = new Map<string, Wizard>()
   private enemies: Enemy[] = []
   private spawners: Spawner[] = []
 
@@ -41,13 +43,20 @@ export default class GameServer {
 
     this.socketServer.addScope(this.globalScope)
 
-    this.socketServer.onConnect.observe((id) => {
-      const player = new Player(id)
-      log.info('Game', `Player created: ${id}`)
+    this.socketServer.onAuth.observe((id, authString) => {
+      if (/auth=supersecret/.test(authString)) {
+        const wizard = new Wizard(id)
+        log.warn('Game', 'Wizard connected')
 
-      this.players.set(id, player)
-      this.globalScope.addMobile(player)
-      this.socketServer.sendLogin(player)
+        this.wizards.set(id, wizard)
+      } else {
+        const player = new Player(id)
+        log.info('Game', `Player created: ${id}`)
+
+        this.players.set(id, player)
+        this.globalScope.addMobile(player)
+        this.socketServer.sendLogin(player)
+      }
     })
 
     this.socketServer.onMessage.observe((id, type, data) => {
@@ -55,9 +64,7 @@ export default class GameServer {
         const player = this.players.get(id)
 
         if (player) {
-          const enemy = this.enemies.find(
-            (e) => e.x === data.x && e.y === data.y,
-          )
+          const enemy = this.enemies.find(e => e.x === data.x && e.y === data.y)
 
           if (enemy) {
             player.teleport(player.x, player.y)
@@ -70,13 +77,17 @@ export default class GameServer {
       }
     })
 
-    this.socketServer.onDisconnect.observe((id) => {
+    this.socketServer.onDisconnect.observe(id => {
       const player = this.players.get(id)
+      const wizard = this.wizards.get(id)
 
       if (player) {
         log.info('Game', `Player destroyed: ${player.name} (${player.id})`)
         this.players.delete(id)
         this.globalScope.removeMobile(player)
+      } else if (wizard) {
+        log.info('Game', `Wizard disconnected`)
+        this.wizards.delete(id)
       } else {
         log.error('Game', `Non-existent player disconnected: ${id}`)
       }
@@ -130,7 +141,7 @@ export default class GameServer {
     })
 
     setInterval(() => {
-      this.spawners.forEach((spawner) => {
+      this.spawners.forEach(spawner => {
         spawner.update()
       })
     }, 10000)
@@ -141,7 +152,7 @@ export default class GameServer {
   public addSpawner(...args: ConstructorParameters<typeof Spawner>) {
     const spawner = new Spawner(...args)
 
-    spawner.onSpawn.observe((mob) => {
+    spawner.onSpawn.observe(mob => {
       log.out(
         'Entities',
         `Spawned ${mob.name} (${mob.id}) from #${spawner['id']}`,
@@ -149,7 +160,7 @@ export default class GameServer {
       this.globalScope.addMobile(mob)
       this.enemies.push(mob)
       mob.onDestroy.observe(() => {
-        this.enemies = this.enemies.filter((e) => e !== mob)
+        this.enemies = this.enemies.filter(e => e !== mob)
       })
     })
 

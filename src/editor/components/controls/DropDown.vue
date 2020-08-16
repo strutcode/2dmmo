@@ -81,7 +81,7 @@
     min-height: 1.8em;
     line-height: 1.8em;
     padding: 0 0.5em;
-    cursor: pointer;
+    cursor: default;
   }
 
   .dropdown-panel {
