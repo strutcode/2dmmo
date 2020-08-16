@@ -1,6 +1,7 @@
 body,
 html {
   background: black;
+  font-family: 'Cousine';
 }
 
 .layout-v,
@@ -29,6 +30,16 @@ html {
 
 .chrome.secondary {
   background: rgb(18, 25, 29);
+}
+
+.chrome button {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: transparent;
+  color: rgb(214, 219, 228);
+}
+
+.chrome button.selected {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .panel {

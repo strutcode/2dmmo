@@ -1,3 +1,4 @@
+import '../../assets/fonts/fontawesome-free-5.14.0-web/css/all.css'
 import './editor.css'
 import Vue from 'vue'
 import Editor from './components/Editor.vue'

@@ -4,7 +4,7 @@ import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { VueLoaderPlugin } from 'vue-loader'
 
-export default function (mode: Configuration['mode']): Configuration {
+export default function(mode: Configuration['mode']): Configuration {
   const config: Configuration = {
     mode,
     entry: ['./src/editor/index.ts'],
@@ -30,7 +30,7 @@ export default function (mode: Configuration['mode']): Configuration {
           use: ['style-loader', 'css-loader'],
         },
         {
-          test: /\.png$/,
+          test: /\.(png|ttf|woff2?|eot|svg)$/,
           use: {
             loader: 'file-loader',
             options: {
@@ -51,7 +51,7 @@ export default function (mode: Configuration['mode']): Configuration {
     ],
     output: {
       path: resolve('./final/editor'),
-      publicPath: '/editor',
+      publicPath: '/editor/',
       hotUpdateChunkFilename: '.hot/[id].[hash].hot-update.js',
       hotUpdateMainFilename: '.hot/[hash].hot-update.json',
     },

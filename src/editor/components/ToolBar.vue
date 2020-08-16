@@ -1,8 +1,14 @@
 <template>
   <div class="toolbar layout-h">
-    <button :class="{ selected: currentTool === 'pencil' }" @click="setTool('pencil')">P</button>
-    <button :class="{ selected: currentTool === 'fill' }" @click="setTool('fill')">F</button>
-    <button :class="{ selected: currentTool === 'select' }" @click="setTool('select')">S</button>
+    <button :class="{ selected: currentTool === 'pencil' }" @click="setTool('pencil')">
+      <i class="fa fa-edit"></i>
+    </button>
+    <button :class="{ selected: currentTool === 'fill' }" @click="setTool('fill')">
+      <i class="fa fa-fill-drip"></i>
+    </button>
+    <button :class="{ selected: currentTool === 'select' }" @click="setTool('select')">
+      <i class="fa fa-vector-square"></i>
+    </button>
   </div>
 </template>
 
@@ -34,9 +40,5 @@
     width: 32px;
     height: 32px;
     margin-right: 0.25rem;
-  }
-
-  .toolbar button.selected {
-    background: blue;
   }
 </style>
