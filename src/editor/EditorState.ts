@@ -44,7 +44,9 @@ export default class EditorState {
         }
       } else if (this.selectedTile) {
         if (this.currentTool === 'pencil') {
-          if (this.selectedTile) {
+          if (mod.ctrl) {
+            this.selectedTile = this.currentMap.getTile(x, y) || null
+          } else if (this.selectedTile) {
             this.currentMap.setTile(x, y, this.selectedTile)
           }
         } else if (this.currentTool === 'fill') {
@@ -73,8 +75,12 @@ export default class EditorState {
 
   public onDrag(x: number, y: number, mod: ModKeys) {
     if (this.currentTool === 'pencil') {
-      if (this.currentMap && this.selectedTile) {
-        this.currentMap.setTile(x, y, this.selectedTile)
+      if (this.currentMap) {
+        if (mod.ctrl) {
+          this.selectedTile = this.currentMap.getTile(x, y) || null
+        } else if (this.selectedTile) {
+          this.currentMap.setTile(x, y, this.selectedTile)
+        }
       }
     } else if (this.currentTool === 'select') {
       if (this.selection) {

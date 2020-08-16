@@ -6,6 +6,10 @@
   import Vue from 'vue'
   import WorldViewRenderer from '../graphics/WorldViewRenderer'
 
+  // For HMR
+  import EditorState from '../EditorState'
+  EditorState
+
   export default Vue.extend({
     data() {
       return {
@@ -20,8 +24,6 @@
       )
 
       if (module.hot) {
-        const EditorState = import('../EditorState')
-
         module.hot.accept(
           ['../graphics/WorldViewRenderer', '../EditorState'],
           () => {
