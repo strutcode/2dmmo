@@ -20,7 +20,7 @@ export interface Selection {
 
 export default class EditorState {
   public connected = false
-  
+
   public currentMap: GameMap | null = null
   public selectedTile: TileData | null = null
   public activeLayer: number = 0

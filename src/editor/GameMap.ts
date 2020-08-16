@@ -1,5 +1,6 @@
 export type TileData = { x: number; y: number; set: string }
 export type TileLayer = { name: string; data: TileData[][] }
+export type SerializedMap = string
 
 export default class GameMap {
   public layers: TileLayer[] = [{ name: 'Untitled Layer', data: [] }]
@@ -108,5 +109,13 @@ export default class GameMap {
         delete this.layers[l].data[v][u]
       }
     }
+  }
+
+  public serialize(): SerializedMap {
+    return JSON.stringify(this.layers)
+  }
+
+  public deserialize(data: SerializedMap) {
+    this.layers = JSON.parse(data)
   }
 }
