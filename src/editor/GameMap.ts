@@ -38,6 +38,8 @@ export default class GameMap {
     tile: TileData | undefined,
     l: number = this.l,
   ) {
+    if (!this.layers[l]) return
+
     if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
       return
     }

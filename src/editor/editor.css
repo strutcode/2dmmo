@@ -55,5 +55,9 @@ html {
 .panel {
   padding: 1rem;
   overflow: auto;
-  border: 1px solid rgb(11, 19, 22);
+  border: 1px solid rgb(19, 23, 39);
+}
+
+.control {
+  background: rgb(59, 69, 97);
 }

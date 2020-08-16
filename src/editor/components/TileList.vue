@@ -1,8 +1,10 @@
 <template>
   <div class="tileList layout-v">
-    <select v-model="tilesKey">
-      <option v-for="(url, key) in tileSets" :key="key">{{ key }}</option>
-    </select>
+    <div class="controls">
+      <drop-down v-model="tilesKey">
+        <div v-for="(url, key) in tileSets" :key="key" :value="key">{{ key }}</div>
+      </drop-down>
+    </div>
     <div class="tiles layout-v">
       <div class="layout-h" v-for="(_, y) in tilesH" :key="y">
         <div
@@ -21,8 +23,11 @@
 <script lang="ts">
   import Vue from 'vue'
   import tileSets from '../data/tilesets'
+  import DropDown from './controls/DropDown.vue'
 
   export default Vue.extend({
+    components: { DropDown },
+
     data() {
       return {
         tilesKey: 'GrassBiome',
@@ -68,6 +73,10 @@
 <style scoped>
   .tileList {
     flex: 0 0 164px;
+  }
+
+  .controls {
+    margin-bottom: 0.5rem;
   }
 
   .tiles {
