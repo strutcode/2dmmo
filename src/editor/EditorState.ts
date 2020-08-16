@@ -9,6 +9,7 @@ export type ModKeys = {
 }
 
 export interface Selection {
+  drag: boolean
   startX: number
   startY: number
   x: number
@@ -23,6 +24,7 @@ export default class EditorState {
   public currentTool: ToolType = 'select'
 
   public selection: Selection | null = null
+  public floatingSelection: (TileData | undefined)[][] | null = null
 
   public createMap() {
     this.currentMap = new GameMap()
@@ -35,7 +37,11 @@ export default class EditorState {
   public onClick(x: number, y: number, mod: ModKeys) {
     if (this.currentMap) {
       if (this.currentTool === 'select') {
-        this.startSelection(x, y)
+        if (this.selection && this.insideSelection(x, y)) {
+          this.grabSelection(x, y)
+        } else {
+          this.startSelection(x, y)
+        }
       } else if (this.selectedTile) {
         if (this.currentTool === 'pencil') {
           if (this.selectedTile) {
@@ -72,12 +78,7 @@ export default class EditorState {
       }
     } else if (this.currentTool === 'select') {
       if (this.selection) {
-        this.updateSelection(
-          Math.min(x, this.selection.startX),
-          Math.min(y, this.selection.startY),
-          Math.abs(this.selection.startX - x) + 1,
-          Math.abs(this.selection.startY - y) + 1,
-        )
+        this.updateSelection(x, y)
       }
     }
   }
@@ -88,25 +89,80 @@ export default class EditorState {
     }
   }
 
+  private insideSelection(x: number, y: number) {
+    if (!this.selection) return false
+    if (x < this.selection.x) return false
+    if (y < this.selection.y) return false
+    if (x >= this.selection.x + this.selection.w) return false
+    if (y >= this.selection.y + this.selection.h) return false
+
+    return true
+  }
+
   private startSelection(x: number, y: number) {
+    if (this.selection && this.floatingSelection) {
+      this.currentMap?.setTiles(
+        this.selection.x,
+        this.selection.y,
+        this.floatingSelection,
+      )
+    }
+
+    this.floatingSelection = null
     this.selection = {
+      drag: false,
       startX: x,
       startY: y,
       x,
       y,
-      w: 1,
-      h: 1,
+      w: 0,
+      h: 0,
     }
   }
 
-  private updateSelection(x: number, y: number, w: number, h: number) {
+  private grabSelection(x: number, y: number) {
     if (this.selection) {
-      this.selection.x = x
-      this.selection.y = y
-      this.selection.w = w
-      this.selection.h = h
+      this.selection.drag = true
+      this.selection.startX = x
+      this.selection.startY = y
     }
   }
 
-  private commitSelection() {}
+  private updateSelection(x: number, y: number) {
+    if (this.selection) {
+      if (this.selection.drag) {
+        this.selection.x += x - this.selection.startX
+        this.selection.y += y - this.selection.startY
+        this.selection.startX = x
+        this.selection.startY = y
+      } else {
+        this.selection.x = Math.min(x, this.selection.startX)
+        this.selection.y = Math.min(y, this.selection.startY)
+        this.selection.w = Math.abs(this.selection.startX - x) + 1
+        this.selection.h = Math.abs(this.selection.startY - y) + 1
+      }
+    }
+  }
+
+  private commitSelection() {
+    if (this.selection && !this.selection.drag) {
+      if (this.selection.w === 0 || this.selection.h === 0) {
+        this.selection = null
+      } else if (this.currentMap) {
+        this.floatingSelection = this.currentMap.getTiles(
+          this.selection.x,
+          this.selection.y,
+          this.selection.w,
+          this.selection.h,
+        )
+
+        this.currentMap.clearTiles(
+          this.selection.x,
+          this.selection.y,
+          this.selection.w,
+          this.selection.h,
+        )
+      }
+    }
+  }
 }

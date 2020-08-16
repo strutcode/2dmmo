@@ -130,6 +130,33 @@ export default class WorldViewRenderer {
         ctx.beginPath()
         ctx.rect(x * 16, y * 16, w * 16, h * 16)
         ctx.stroke()
+
+        if (this.state.floatingSelection) {
+          const data = this.state.floatingSelection
+
+          let u, v
+          for (v = 0; v < data.length; v++) {
+            if (!data[v]) continue
+
+            for (u = 0; u < data[v].length; u++) {
+              const tile = data[v][u]
+
+              if (tile) {
+                ctx.drawImage(
+                  tiles[tile.set],
+                  tile.x * 16,
+                  tile.y * 16,
+                  16,
+                  16,
+                  (x + u) * 16,
+                  (y + v) * 16,
+                  16.1,
+                  16.1,
+                )
+              }
+            }
+          }
+        }
       }
     }
 

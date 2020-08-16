@@ -5,7 +5,6 @@
 <script lang="ts">
   import Vue from 'vue'
   import WorldViewRenderer from '../graphics/WorldViewRenderer'
-  import EditorState from '../EditorState' // HMR dependency
 
   export default Vue.extend({
     data() {
@@ -21,9 +20,12 @@
       )
 
       if (module.hot) {
+        const EditorState = import('../EditorState')
+
         module.hot.accept(
           ['../graphics/WorldViewRenderer', '../EditorState'],
           () => {
+            console.log('worldview updated')
             this.view.destroy()
             this.view = new WorldViewRenderer(
               this.$el as HTMLCanvasElement,
@@ -76,7 +78,7 @@
           }
 
           if (button !== 1) {
-            this.$state.onDrag(x, y, mod)
+            this.$state.onDrop(x, y, mod)
           }
 
           window.removeEventListener('pointermove', move)
