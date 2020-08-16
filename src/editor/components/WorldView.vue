@@ -29,7 +29,6 @@
         module.hot.accept(
           ['../graphics/WorldViewRenderer', '../EditorState'],
           () => {
-            console.log('worldview updated')
             this.view.destroy()
             this.view = new WorldViewRenderer(
               this.$refs.canvas as HTMLCanvasElement,

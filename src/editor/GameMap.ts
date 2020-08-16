@@ -32,7 +32,12 @@ export default class GameMap {
     return this.layers[l].data[y][x]
   }
 
-  public setTile(x: number, y: number, tile: TileData, l: number = this.l) {
+  public setTile(
+    x: number,
+    y: number,
+    tile: TileData | undefined,
+    l: number = this.l,
+  ) {
     if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
       return
     }
@@ -41,7 +46,11 @@ export default class GameMap {
       this.layers[l].data[y] = []
     }
 
-    this.layers[l].data[y][x] = tile
+    if (tile) {
+      this.layers[l].data[y][x] = tile
+    } else {
+      delete this.layers[l].data[y][x]
+    }
   }
 
   public getTiles(

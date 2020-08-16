@@ -1,7 +1,7 @@
 import GameMap, { TileData } from './GameMap'
 import floodFill from './util/FloodFill'
 
-export type ToolType = 'pencil' | 'fill' | 'select'
+export type ToolType = 'pencil' | 'eraser' | 'fill' | 'select'
 export type ModKeys = {
   ctrl: boolean
   alt: boolean
@@ -59,6 +59,8 @@ export default class EditorState {
           } else if (this.selectedTile) {
             this.currentMap.setTile(x, y, this.selectedTile)
           }
+        } else if (this.currentTool === 'eraser') {
+          this.currentMap.setTile(x, y, undefined)
         } else if (this.currentTool === 'fill') {
           floodFill(
             x,
@@ -84,13 +86,15 @@ export default class EditorState {
   }
 
   public onDrag(x: number, y: number, mod: ModKeys) {
-    if (this.currentTool === 'pencil') {
-      if (this.currentMap) {
+    if (this.currentMap) {
+      if (this.currentTool === 'pencil') {
         if (mod.ctrl) {
           this.selectedTile = this.currentMap.getTile(x, y) || null
         } else if (this.selectedTile) {
           this.currentMap.setTile(x, y, this.selectedTile)
         }
+      } else if (this.currentTool === 'eraser') {
+        this.currentMap.setTile(x, y, undefined)
       }
     } else if (this.currentTool === 'select') {
       if (this.selection) {

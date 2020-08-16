@@ -3,6 +3,9 @@
     <button :class="{ selected: currentTool === 'pencil' }" @click="setTool('pencil')">
       <i class="fa fa-edit"></i>
     </button>
+    <button :class="{ selected: currentTool === 'eraser' }" @click="setTool('eraser')">
+      <i class="fa fa-eraser"></i>
+    </button>
     <button :class="{ selected: currentTool === 'fill' }" @click="setTool('fill')">
       <i class="fa fa-fill-drip"></i>
     </button>
