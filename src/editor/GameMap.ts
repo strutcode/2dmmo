@@ -2,14 +2,29 @@ export type TileData = { x: number; y: number; set: string }
 export type TileLayer = { name: string; data: TileData[][] }
 
 export default class GameMap {
-  public layers: TileLayer[] = [{ name: 'default', data: [] }]
+  public layers: TileLayer[] = [{ name: 'Untitled Layer', data: [] }]
   private l = 0
 
-  constructor(public width = 10, public height = 10) {}
+  public constructor(public width = 10, public height = 10) {}
 
-  public getTile(x: number, y: number): TileData | undefined {
-    const l = this.l
+  public selectLayer(index: number) {
+    if (this.layers[index]) {
+      this.l = index
+    }
+  }
 
+  public addLayer(name?: string) {
+    this.layers.unshift({
+      name: name || `Untitled Layer`,
+      data: [],
+    })
+  }
+
+  public getTile(
+    x: number,
+    y: number,
+    l: number = this.l,
+  ): TileData | undefined {
     if (!this.layers[l]?.data || !this.layers[l].data[y]) {
       return undefined
     }
@@ -17,12 +32,10 @@ export default class GameMap {
     return this.layers[l].data[y][x]
   }
 
-  public setTile(x: number, y: number, tile: TileData) {
+  public setTile(x: number, y: number, tile: TileData, l: number = this.l) {
     if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
       return
     }
-
-    const l = this.l
 
     if (!this.layers[l].data[y]) {
       this.layers[l].data[y] = []
@@ -36,6 +49,7 @@ export default class GameMap {
     y: number,
     w: number,
     h: number,
+    l: number = this.l,
   ): (TileData | undefined)[][] {
     const result = []
 
@@ -44,26 +58,35 @@ export default class GameMap {
       result[v] = [] as (TileData | undefined)[]
 
       for (u = 0; u < w; u++) {
-        result[v][u] = this.getTile(x + u, y + v)
+        result[v][u] = this.getTile(x + u, y + v, l)
       }
     }
 
     return result
   }
 
-  public setTiles(x: number, y: number, data: (TileData | undefined)[][]) {
+  public setTiles(
+    x: number,
+    y: number,
+    data: (TileData | undefined)[][],
+    l: number = this.l,
+  ) {
     data.forEach((row, v) => {
       row.forEach((col, u) => {
         if (col != null) {
-          this.setTile(x + u, y + v, col)
+          this.setTile(x + u, y + v, col, l)
         }
       })
     })
   }
 
-  public clearTiles(x: number, y: number, w: number, h: number) {
-    const l = this.l
-
+  public clearTiles(
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    l: number = this.l,
+  ) {
     if (!this.layers[l].data) return
 
     let u, v

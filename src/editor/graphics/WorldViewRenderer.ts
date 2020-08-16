@@ -98,23 +98,25 @@ export default class WorldViewRenderer {
     if (this.state.currentMap) {
       const map = this.state.currentMap
 
-      let x, y
-      for (y = 0; y < map.height; y++) {
-        for (x = 0; x < map.width; x++) {
-          const tile = map.getTile(x, y)
+      let x, y, l
+      for (l = map.layers.length - 1; l >= 0; l--) {
+        for (y = 0; y < map.height; y++) {
+          for (x = 0; x < map.width; x++) {
+            const tile = map.getTile(x, y, l)
 
-          if (tile) {
-            ctx.drawImage(
-              tiles[tile.set],
-              tile.x * 16,
-              tile.y * 16,
-              16,
-              16,
-              x * 16,
-              y * 16,
-              16.1,
-              16.1,
-            )
+            if (tile) {
+              ctx.drawImage(
+                tiles[tile.set],
+                tile.x * 16,
+                tile.y * 16,
+                16,
+                16,
+                x * 16,
+                y * 16,
+                16.1,
+                16.1,
+              )
+            }
           }
         }
       }

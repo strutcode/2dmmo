@@ -1,7 +1,18 @@
 <template>
   <div class="layerList layout-v">
+    <div>
+      <button @click="() => $state.addLayer()">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
     <div class="layers layout-fill chrome secondary">
-      <div v-for="layer in layers" :key="layer.name" class="layer">{{ layer.name }}</div>
+      <div
+        v-for="(layer, l) in layers"
+        :key="l"
+        class="layer"
+        :class="{ chrome: l === $state.activeLayer, accent: l === $state.activeLayer }"
+        @click="() => $state.selectLayer(l)"
+      >{{ layer.name }}</div>
     </div>
   </div>
 </template>

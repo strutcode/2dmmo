@@ -21,6 +21,7 @@ export interface Selection {
 export default class EditorState {
   public currentMap: GameMap | null = null
   public selectedTile: TileData | null = null
+  public activeLayer: number = 0
   public currentTool: ToolType = 'pencil'
 
   public selection: Selection | null = null
@@ -32,6 +33,15 @@ export default class EditorState {
 
   public selectTile(set: string, x: number, y: number) {
     this.selectedTile = { x, y, set }
+  }
+
+  public selectLayer(index: number) {
+    this.currentMap?.selectLayer(index)
+    this.activeLayer = index
+  }
+
+  public addLayer() {
+    this.currentMap?.addLayer()
   }
 
   public onClick(x: number, y: number, mod: ModKeys) {
