@@ -1,7 +1,11 @@
 body,
 html {
   background: black;
-  font-family: 'Cousine';
+}
+
+* {
+  font-family: 'Lato';
+  font-size: 14px;
 }
 
 .layout-v,
@@ -11,12 +15,10 @@ html {
 
 .layout-v {
   flex-flow: column nowrap;
-  max-width: 100%;
 }
 
 .layout-h {
   flex-flow: row nowrap;
-  max-height: 100%;
 }
 
 .layout-fill {
@@ -24,12 +26,16 @@ html {
 }
 
 .chrome {
-  background: rgb(29, 39, 44);
+  background: rgb(23, 28, 43);
   color: rgb(214, 219, 228);
 }
 
 .chrome.secondary {
-  background: rgb(18, 25, 29);
+  background: rgb(13, 16, 26);
+}
+
+.chrome.accent {
+  background: rgb(35, 61, 146);
 }
 
 .chrome button {
@@ -45,4 +51,5 @@ html {
 .panel {
   padding: 1rem;
   overflow: auto;
+  border: 1px solid rgb(11, 19, 22);
 }

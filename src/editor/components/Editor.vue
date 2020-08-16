@@ -1,13 +1,15 @@
 <template>
   <div class="layout layout-v">
-    <menu-bar class="chrome secondary" />
-    <div class="layout-h layout-fill">
+    <menu-bar class="chrome accent" />
+    <div class="layout-h layout-fill" style="min-height: 0">
       <tile-list class="chrome panel" />
       <div class="layout-v layout-fill">
-        <tool-bar class="chrome" />
+        <tool-bar class="chrome panel" />
         <world-view class="layout-fill" />
       </div>
+      <layer-list class="chrome panel" />
     </div>
+    <status-bar class="chrome secondary" />
   </div>
 </template>
 
@@ -17,6 +19,8 @@
   import MenuBar from './MenuBar.vue'
   import WorldView from './WorldView.vue'
   import TileList from './TileList.vue'
+  import LayerList from './LayerList.vue'
+  import StatusBar from './StatusBar.vue'
 
   export default Vue.extend({
     components: {
@@ -24,6 +28,8 @@
       ToolBar,
       WorldView,
       TileList,
+      LayerList,
+      StatusBar,
     },
   })
 </script>

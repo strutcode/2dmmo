@@ -1,5 +1,7 @@
 <template>
-  <canvas @contextmenu.prevent @pointerdown="click" @wheel="scroll"></canvas>
+  <div class="worldView">
+    <canvas ref="canvas" @contextmenu.prevent @pointerdown="click" @wheel="scroll"></canvas>
+  </div>
 </template>
 
 <script lang="ts">
@@ -19,7 +21,7 @@
 
     mounted() {
       this.view = new WorldViewRenderer(
-        this.$el as HTMLCanvasElement,
+        this.$refs.canvas as HTMLCanvasElement,
         this.$state,
       )
 
@@ -30,7 +32,7 @@
             console.log('worldview updated')
             this.view.destroy()
             this.view = new WorldViewRenderer(
-              this.$el as HTMLCanvasElement,
+              this.$refs.canvas as HTMLCanvasElement,
               this.$state,
             )
           },
@@ -103,7 +105,16 @@
 </script>
 
 <style scoped>
+  .worldView {
+    position: relative;
+  }
+
   canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: -moz-crisp-edges;
     image-rendering: pixelated;

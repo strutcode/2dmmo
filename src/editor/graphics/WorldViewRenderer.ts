@@ -73,6 +73,15 @@ export default class WorldViewRenderer {
   private draw() {
     if (!this.running) return
 
+    const bounds = this.canvas.getBoundingClientRect()
+    if (
+      Math.floor(bounds.width) !== this.canvas.width ||
+      Math.floor(bounds.height) !== this.canvas.height
+    ) {
+      this.canvas.width = bounds.width
+      this.canvas.height = bounds.height
+    }
+
     const ctx = this.context
     const start = performance.now()
     const delta = (start - this.lastDraw) / 1000

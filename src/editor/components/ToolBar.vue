@@ -33,7 +33,7 @@
 
 <style scoped>
   .toolbar {
-    padding: 0.25rem;
+    padding: 0.5rem;
   }
 
   .toolbar button {
