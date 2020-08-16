@@ -4,6 +4,7 @@ import NetworkScope from './NetworkScope'
 import Observable from '../../common/Observable'
 import WebServer from './WebServer'
 import Player from '../entities/Player'
+import Uid from '../util/Uid'
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
@@ -14,6 +15,7 @@ export default class SocketServer {
   public onDisconnect = new Observable<(id: string) => void>()
 
   private wss: Server
+  private id = 0
   private id2socket = new Map<string, WebSocket>()
 
   constructor(webServer: WebServer) {
@@ -28,9 +30,7 @@ export default class SocketServer {
         `Accept connection: ${request.connection.remoteAddress}`,
       )
 
-      const uid = (Math.random() * Number.MAX_SAFE_INTEGER)
-        .toString(36)
-        .substr(2)
+      const uid = Uid.from(this.id++)
 
       this.id2socket.set(uid, socket)
 
