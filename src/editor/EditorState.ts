@@ -86,7 +86,11 @@ export default class EditorState {
   }
 
   public onDrag(x: number, y: number, mod: ModKeys) {
-    if (this.currentMap) {
+    if (this.currentTool === 'select') {
+      if (this.selection) {
+        this.updateSelection(x, y)
+      }
+    } else if (this.currentMap) {
       if (this.currentTool === 'pencil') {
         if (mod.ctrl) {
           this.selectedTile = this.currentMap.getTile(x, y) || null
@@ -95,10 +99,6 @@ export default class EditorState {
         }
       } else if (this.currentTool === 'eraser') {
         this.currentMap.setTile(x, y, undefined)
-      }
-    } else if (this.currentTool === 'select') {
-      if (this.selection) {
-        this.updateSelection(x, y)
       }
     }
   }
