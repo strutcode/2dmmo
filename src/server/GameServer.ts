@@ -56,10 +56,17 @@ export default class GameServer {
         this.players.set(id, player)
         this.globalScope.addMobile(player)
         this.socketServer.sendLogin(player)
+        this.database.addPlayer(player)
       }
     })
 
     this.socketServer.onMessage.observe((id, type, data) => {
+      if (type === 'wizard') {
+        if (!this.wizards.get(id)) return
+
+        // Parse message
+      }
+
       if (type === 'move') {
         const player = this.players.get(id)
 
@@ -85,6 +92,7 @@ export default class GameServer {
         log.info('Game', `Player destroyed: ${player.name} (${player.id})`)
         this.players.delete(id)
         this.globalScope.removeMobile(player)
+        this.database.removePlayer(player)
       } else if (wizard) {
         log.info('Game', `Wizard disconnected`)
         this.wizards.delete(id)

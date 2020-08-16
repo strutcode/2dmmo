@@ -1,15 +1,18 @@
 import nano, { ServerScope } from 'nano'
+import Observable from '../../common/Observable'
+import Player from '../entities/Player'
 
 export default class Database {
-  private connection: ServerScope
+  public onSync = new Observable()
 
-  constructor() {
+  private connection: ServerScope
+  private timers = new Map<string, NodeJS.Timeout>()
+
+  public constructor() {
     this.connection = nano('http://root:test@db:5984')
   }
 
-  async init() {
-    const db = this.connection
-
+  public async init() {
     log.info('Database', 'Connecting to database...')
 
     const dbs = await this.connection.db.list()
@@ -23,9 +26,12 @@ export default class Database {
 
       const dbCreates = []
 
-      if (!dbs.includes('_users')) dbCreates.push(this.connection.db.create('_users'))
-      if (!dbs.includes('_replicator')) dbCreates.push(this.connection.db.create('_replicator'))
-      if (!dbs.includes('_global_changes')) dbCreates.push(this.connection.db.create('_global_changes'))
+      if (!dbs.includes('_users'))
+        dbCreates.push(this.connection.db.create('_users'))
+      if (!dbs.includes('_replicator'))
+        dbCreates.push(this.connection.db.create('_replicator'))
+      if (!dbs.includes('_global_changes'))
+        dbCreates.push(this.connection.db.create('_global_changes'))
 
       await Promise.all(dbCreates)
 
@@ -34,7 +40,7 @@ export default class Database {
 
     const gameDbs = ['players']
     await Promise.all(
-      gameDbs.map(async (name) => {
+      gameDbs.map(async name => {
         if (!dbs.includes(name)) {
           log.info('Database', `Creating store '${name}'...`)
           await this.connection.db.create(name)
@@ -43,5 +49,27 @@ export default class Database {
     )
 
     log.info('Database', 'Database connected')
+  }
+
+  public addPlayer(player: Player) {
+    this.timers.set(
+      player.id,
+      setInterval(() => {
+        this.syncPlayer(player)
+      }, 5000),
+    )
+  }
+
+  public removePlayer(player: Player) {
+    const timer = this.timers.get(player.id)
+
+    if (timer) {
+      clearTimeout(timer)
+      this.timers.delete(player.id)
+    }
+  }
+
+  private syncPlayer(player: Player) {
+    log.out('Database', `Sync player ${player.name} (${player.id})`)
   }
 }

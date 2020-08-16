@@ -48,6 +48,8 @@ export default class SocketServer {
               x: +x,
               y: +y,
             })
+          } else if (type === 'WZRD') {
+            this.onMessage.notify(uid, 'wizard', content)
           }
         }
       })
