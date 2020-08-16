@@ -1,6 +1,6 @@
 <template>
   <div class="statusBar layout-h">
-    <div class="layout-fill">I'm a little status bar short and stout</div>
+    <div class="layout-fill">Disconnected from server</div>
   </div>
 </template>
 
