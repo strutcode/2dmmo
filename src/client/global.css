@@ -3,6 +3,26 @@ body {
   background: black;
 }
 
+#auth {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(231, 211, 165);
+}
+
+#welcome {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#welcome .login input {
+  display: block;
+}
+
 canvas {
   position: fixed;
   top: 0;

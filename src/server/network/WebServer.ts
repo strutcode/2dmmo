@@ -1,7 +1,7 @@
 import { Server, createServer } from 'http'
 import express, { Express } from 'express'
+import CookieParser from 'cookie-parser'
 
-import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import WebpackDevMiddleware from 'webpack-dev-middleware'
 import WebpackHotMiddleware from 'webpack-hot-middleware'
 import clientConfig from '../../../build/client.config'
@@ -9,18 +9,25 @@ import { resolve } from 'path'
 import { rmdirSync } from 'fs'
 import webpack from 'webpack'
 import editorConfig from '../../../build/editor.config'
+import Observable from '../../common/Observable'
+import Database from '../database/Database'
+import Authentication from './Authentication'
 
 export default class WebServer {
-  private app: Express
-  public httpServer: Server
+  public onLogin = new Observable<(user: string, pass: string) => void>()
 
-  constructor() {
-    log.info('Server', 'Init express')
+  public httpServer: Server
+  private app: Express
+
+  constructor(private database: Database) {
+    log.info('Network', 'Init express')
     this.app = express()
 
     this.app.use(express.static(resolve('./final/client')))
+    this.app.use(express.json())
+    this.app.use(CookieParser())
 
-    log.info('Server', 'Init http server')
+    log.info('Network', 'Init http server')
     this.httpServer = createServer(this.app)
   }
 
@@ -30,21 +37,50 @@ export default class WebServer {
       this.enableEditor()
     }
 
-    log.info('Server', 'Booting server...')
+    this.app.get('/auth', async (req, res) => {
+      if (req.cookies['auth']) {
+        try {
+          const jwt = Authentication.verifyToken(req.cookies['auth'])
+
+          if (jwt) {
+            res.sendStatus(200)
+          }
+        } catch (e) {
+          res.sendStatus(404)
+        }
+      }
+    })
+
+    this.app.post('/auth', async (req, res) => {
+      const { user, pass } = req.body
+
+      const result = await this.database.findUser(user, pass)
+
+      if (result._id) {
+        const jwt = Authentication.createToken(result._id)
+        res.cookie('auth', jwt, { httpOnly: true })
+
+        res.sendStatus(200)
+      } else {
+        res.sendStatus(500)
+      }
+    })
+
+    log.info('Network', 'Booting server...')
     this.httpServer.listen(9001, '0.0.0.0', () => {
-      log.info('Server', 'OK - Listening for connections')
+      log.info('Network', 'OK - Listening for connections')
     })
   }
 
   public stop() {
-    log.info('Server', 'Stopping server...')
+    log.info('Network', 'Stopping server...')
     this.httpServer.close()
   }
 
   private enableEditor() {
     const compiler = webpack(editorConfig('development'))
 
-    log.warn('Server', 'Enabling world editor...')
+    log.warn('Network', 'Enabling world editor...')
     rmdirSync(resolve('./final/editor/.hot'), {
       recursive: true,
     })

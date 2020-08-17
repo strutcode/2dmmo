@@ -4,19 +4,25 @@ import Interface from './ui/Interface'
 import Renderer from './graphics/Renderer'
 import SocketClient from './network/SocketClient'
 import Mobile from './entities/Mobile'
+import Authenticator from './ui/Authenticator'
 
 export default class GameClient {
   private state = new GameState()
+  private authenticator = new Authenticator()
   private renderer = new Renderer(this.state)
   private client = new SocketClient(this.state)
   private input = new Input(this.state)
   private ui = new Interface(this.state)
 
   public constructor() {
-    log.out('Game', 'Init')
-
     if (module.hot) {
       log.out('Debug', 'Enable HMR')
+
+      module.hot.accept('./ui/Authenticator', async () => {
+        this.authenticator.stop()
+        this.authenticator = new Authenticator()
+        this.setupAuthenticator()
+      })
 
       module.hot.accept('./graphics/Renderer', async () => {
         this.renderer.stop()
@@ -44,11 +50,26 @@ export default class GameClient {
     }
   }
 
-  public load() {
+  public init() {
+    log.out('Game', 'Init')
+    this.setupAuthenticator()
+  }
+
+  private startGame() {
+    log.out('Game', 'Starting game!')
     this.setupSocket()
     this.setupRenderer()
     this.setupInput()
     this.setupUi()
+  }
+
+  private setupAuthenticator() {
+    this.authenticator.start()
+
+    this.authenticator.onDone.observe(() => {
+      this.authenticator.stop()
+      this.startGame()
+    })
   }
 
   private async setupRenderer() {
@@ -137,7 +158,10 @@ export default class GameClient {
 
   public stop() {
     log.out('Game', 'Shutdown')
+    this.authenticator.stop()
     this.renderer.stop()
     this.client.stop()
+    this.input.stop()
+    this.ui.stop()
   }
 }

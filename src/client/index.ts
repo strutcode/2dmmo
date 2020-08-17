@@ -7,13 +7,13 @@ window.log = new Logger()
 
 let client = new GameClient()
 
-client.load()
+client.init()
 
 if (module.hot) {
   module.hot.accept('./GameClient', () => {
     log.out('Game', 'Hot module reload')
     client.stop()
     client = new (require('./GameClient').default)()
-    client.load()
+    client.init()
   })
 }

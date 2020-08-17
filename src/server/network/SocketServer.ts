@@ -1,4 +1,5 @@
 import WebSocket, { Server } from 'ws'
+import { JWT, JWK } from 'jose'
 
 import NetworkScope from './NetworkScope'
 import Observable from '../../common/Observable'
@@ -6,10 +7,11 @@ import WebServer from './WebServer'
 import Uid from '../util/Uid'
 import Wizard from '../entities/Wizard'
 import Player from '../entities/Player'
+import { readFileSync } from 'fs'
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
-  public onAuth = new Observable<(id: string, authString: string) => void>()
+  public onAuth = new Observable<(id: string, jwt: string) => void>()
   public onMessage = new Observable<
     (id: string, type: string, data: any) => void
   >()
@@ -21,7 +23,8 @@ export default class SocketServer {
   private id2socket = new Map<string, WebSocket>()
 
   constructor(webServer: WebServer) {
-    log.info('Server', 'Init socket server')
+    log.info('Network', 'Init socket server')
+
     this.wss = new Server({
       server: webServer.httpServer,
     })

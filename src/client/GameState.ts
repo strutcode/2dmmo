@@ -1,7 +1,6 @@
 import Mobile from './entities/Mobile'
 import Observable from '../common/Observable'
 
-let id = 0
 export default class GameState {
   public self?: Mobile
   public mobs = new Map<string, Mobile>()

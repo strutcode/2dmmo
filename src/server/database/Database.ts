@@ -1,14 +1,20 @@
-import nano, { ServerScope } from 'nano'
+import nano, { ServerScope, DocumentScope, MaybeDocument } from 'nano'
 import Observable from '../../common/Observable'
 import Player from '../entities/Player'
 import Wizard from '../entities/Wizard'
 import Uid from '../util/Uid'
+
+interface DbPlayer extends MaybeDocument {
+  username: string
+  password: string
+}
 
 export default class Database {
   public onSync = new Observable()
 
   private gid = 0
   private connection: ServerScope
+  private db!: DocumentScope<DbPlayer>
   private timers = new Map<string, NodeJS.Timeout>()
 
   public constructor() {
@@ -41,7 +47,7 @@ export default class Database {
       log.info('Database', 'System databases created!')
     }
 
-    const gameDbs = ['players']
+    const gameDbs = ['players', 'wizards']
     await Promise.all(
       gameDbs.map(async name => {
         if (!dbs.includes(name)) {
@@ -69,6 +75,31 @@ export default class Database {
     if (timer) {
       clearTimeout(timer)
       this.timers.delete(player.id)
+    }
+  }
+
+  public async findUser(username: string, password: string): Promise<DbPlayer> {
+    const players = this.connection.use<DbPlayer>('players')
+    const result = await players.find({
+      selector: {
+        username,
+        password,
+      },
+    })
+
+    if (result.docs.length) {
+      return result.docs[0]
+    } else {
+      const insert = await players.insert({
+        username,
+        password,
+      } as DbPlayer)
+
+      return {
+        _id: insert.id,
+        username,
+        password,
+      }
     }
   }
 

@@ -9,11 +9,12 @@ import Mobile from './entities/Mobile'
 import { tileDistance } from '../common/util/Geometry'
 import Battle from './entities/Battle'
 import Wizard from './entities/Wizard'
+import Authentication from './network/Authentication'
 
 export default class GameServer {
-  private webServer = new WebServer()
-  private socketServer = new SocketServer(this.webServer)
   private database = new Database()
+  private webServer = new WebServer(this.database)
+  private socketServer = new SocketServer(this.webServer)
   private globalScope = new NetworkScope()
   private players = new Map<string, Player>()
   private wizards = new Map<string, Wizard>()
@@ -39,6 +40,8 @@ export default class GameServer {
   // }
 
   public async init() {
+    Authentication.init()
+
     await this.database.init()
 
     this.socketServer.addScope(this.globalScope)
@@ -49,7 +52,7 @@ export default class GameServer {
       this.socketServer.authResponse(token, client)
 
       if (client instanceof Wizard) {
-        log.warn('Game', 'Wizard joined')
+        log.warn('Game', `Wizard joined: ${client.id}`)
 
         this.wizards.set(client.id, client)
       } else if (client instanceof Player) {
