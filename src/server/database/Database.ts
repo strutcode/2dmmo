@@ -1,10 +1,13 @@
 import nano, { ServerScope } from 'nano'
 import Observable from '../../common/Observable'
 import Player from '../entities/Player'
+import Wizard from '../entities/Wizard'
+import Uid from '../util/Uid'
 
 export default class Database {
   public onSync = new Observable()
 
+  private gid = 0
   private connection: ServerScope
   private timers = new Map<string, NodeJS.Timeout>()
 
@@ -66,6 +69,14 @@ export default class Database {
     if (timer) {
       clearTimeout(timer)
       this.timers.delete(player.id)
+    }
+  }
+
+  public authenticate(input: string) {
+    if (/auth=supersecret/.test(input)) {
+      return new Wizard(Uid.from(this.gid++))
+    } else {
+      return new Player(Uid.from(this.gid++))
     }
   }
 

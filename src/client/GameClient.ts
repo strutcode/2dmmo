@@ -21,14 +21,13 @@ export default class GameClient {
       module.hot.accept('./graphics/Renderer', async () => {
         this.renderer.stop()
         this.renderer = new Renderer(this.state)
-        await this.renderer.load()
-        this.renderer.start()
+        this.setupRenderer()
       })
 
       module.hot.accept('./network/SocketClient', async () => {
         this.client.stop()
         this.client = new SocketClient(this.state)
-        this.setupClient()
+        this.setupSocket()
       })
 
       module.hot.accept('./ui/Input', async () => {
@@ -45,16 +44,24 @@ export default class GameClient {
     }
   }
 
-  public async load() {
-    await this.renderer.load()
-
-    this.renderer.start()
-    this.setupClient()
+  public load() {
+    this.setupSocket()
+    this.setupRenderer()
     this.setupInput()
     this.setupUi()
   }
 
-  private setupClient() {
+  private async setupRenderer() {
+    await this.renderer.load()
+
+    this.renderer.start()
+  }
+
+  private setupSocket() {
+    this.client.onConnect.observe(() => {
+      log.info('Game', 'Check authentication')
+    })
+
     this.client.onLogin.observe((id, props) => {
       this.state.setSelf(id, props)
     })
@@ -68,7 +75,7 @@ export default class GameClient {
       this.state.addMobile(id, props)
     })
 
-    this.client.onMobileRemove.observe((id) => {
+    this.client.onMobileRemove.observe(id => {
       this.state.removeMobile(id)
     })
 
@@ -76,7 +83,7 @@ export default class GameClient {
       this.state.updateMobile(id, update)
     })
 
-    this.client.onMobileHit.observe((info) => {
+    this.client.onMobileHit.observe(info => {
       const { attackerId, defenderId, amount } = info
       const attacker = this.state.mobs.get(attackerId)
       const defender = this.state.mobs.get(defenderId)
@@ -92,7 +99,7 @@ export default class GameClient {
   }
 
   private setupInput() {
-    this.input.onAction.observe((name) => {
+    this.input.onAction.observe(name => {
       if (this.state.self) {
         let newX = this.state.self.x
         let newY = this.state.self.y
@@ -122,7 +129,7 @@ export default class GameClient {
   }
 
   private setupUi() {
-    this.ui.onTriggerInput.observe((name) => {
+    this.ui.onTriggerInput.observe(name => {
       this.input.simulate(name)
     })
     this.ui.start()

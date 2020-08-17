@@ -3,8 +3,11 @@ import WebSocket, { Server } from 'ws'
 import NetworkScope from './NetworkScope'
 import Observable from '../../common/Observable'
 import WebServer from './WebServer'
-import Player from '../entities/Player'
 import Uid from '../util/Uid'
+import Wizard from '../entities/Wizard'
+import Player from '../entities/Player'
+
+export type AuthResponse = { success: boolean; client: Player | Wizard }
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
@@ -15,7 +18,7 @@ export default class SocketServer {
   public onDisconnect = new Observable<(id: string) => void>()
 
   private wss: Server
-  private id = 0
+  private connection = 0
   private id2socket = new Map<string, WebSocket>()
 
   constructor(webServer: WebServer) {
@@ -30,34 +33,50 @@ export default class SocketServer {
         `Accept connection: ${request.connection.remoteAddress}`,
       )
 
-      const uid = Uid.from(this.id++)
+      const token = Uid.from(this.connection++)
 
-      this.id2socket.set(uid, socket)
+      this.id2socket.set(token, socket)
 
-      this.onConnect.notify(uid)
-      this.onAuth.notify(uid, request.url?.replace(/^.*?\?/, '') || '')
-
-      socket.on('message', data => {
-        if (typeof data === 'string') {
-          const [type, content] = data.split('~')
-
-          if (type === 'MOVE') {
-            const [x, y] = content.split(',')
-
-            this.onMessage.notify(uid, 'move', {
-              x: +x,
-              y: +y,
-            })
-          } else if (type === 'WZRD') {
-            this.onMessage.notify(uid, 'wizard', content)
-          }
-        }
-      })
-
-      socket.on('close', () => {
-        this.onDisconnect.notify(uid)
-      })
+      this.onConnect.notify(token)
+      this.onAuth.notify(token, request.url?.replace(/^.*?\?/, '') || '')
     })
+  }
+
+  public authResponse(token: string, info: AuthResponse) {
+    const { success, client } = info
+
+    if (success) {
+      const socket = this.id2socket.get(client.id)
+
+      if (socket) {
+        socket.on('message', data => {
+          if (typeof data === 'string') {
+            const [type, content] = data.split('~')
+
+            if (type === 'MOVE') {
+              const [x, y] = content.split(',')
+
+              this.onMessage.notify(client.id, 'move', {
+                x: +x,
+                y: +y,
+              })
+            } else if (type === 'WZRD') {
+              this.onMessage.notify(client.id, 'wizard', content)
+            }
+          }
+        })
+
+        socket.on('close', () => {
+          this.onDisconnect.notify(client.id)
+        })
+
+        if (client instanceof Player) {
+          socket.send(
+            `IDNT~${client.id},${client.name},${client.sprite},${client.x},${client.y}`,
+          )
+        }
+      }
+    }
   }
 
   public addScope(scope: NetworkScope) {
@@ -98,15 +117,5 @@ export default class SocketServer {
           break
       }
     })
-  }
-
-  public sendLogin(player: Player) {
-    const socket = this.id2socket.get(player.id)
-
-    if (socket) {
-      socket.send(
-        `IDNT~${player.id},${player.name},${player.sprite},${player.x},${player.y}`,
-      )
-    }
   }
 }

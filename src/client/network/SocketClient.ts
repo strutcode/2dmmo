@@ -8,6 +8,7 @@ interface HitInfo {
 }
 
 export default class SocketClient {
+  public onConnect = new Observable<() => void>()
   public onLogin = new Observable<(id: string, props: object) => void>()
   public onDisconnect = new Observable<() => void>()
   public onMobileAdd = new Observable<(id: string, props: object) => void>()
@@ -32,9 +33,10 @@ export default class SocketClient {
 
     this.ws.onopen = () => {
       log.info('Socket', 'connected')
+      this.onConnect.notify()
     }
 
-    this.ws.onmessage = (ev) => {
+    this.ws.onmessage = ev => {
       log.out('Socket', '<-', ev.data)
       const [type, content] = (ev.data as string).split('~')
 
@@ -47,7 +49,7 @@ export default class SocketClient {
           y: +y,
         })
       } else if (type === 'JOIN') {
-        content.split('|').forEach((change) => {
+        content.split('|').forEach(change => {
           const [id, name, sprite, x, y, hp] = change.split(',')
 
           this.onMobileAdd.notify(id, {
@@ -59,7 +61,7 @@ export default class SocketClient {
           })
         })
       } else if (type === 'EXIT') {
-        content.split('|').forEach((id) => {
+        content.split('|').forEach(id => {
           this.onMobileRemove.notify(id)
         })
       } else if (type === 'INFO') {
@@ -80,7 +82,7 @@ export default class SocketClient {
       }
     }
 
-    this.ws.onclose = (ev) => {
+    this.ws.onclose = ev => {
       log.info('Socket', 'disconnected', ev.code)
       this.onDisconnect.notify()
 
