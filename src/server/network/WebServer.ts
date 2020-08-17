@@ -1,6 +1,7 @@
 import { Server, createServer } from 'http'
 import express, { Express } from 'express'
 import CookieParser from 'cookie-parser'
+import bcrypt from 'bcryptjs'
 
 import WebpackDevMiddleware from 'webpack-dev-middleware'
 import WebpackHotMiddleware from 'webpack-hot-middleware'
@@ -52,17 +53,52 @@ export default class WebServer {
     })
 
     this.app.post('/auth', async (req, res) => {
-      const { user, pass } = req.body
+      const { username, password } = req.body
 
-      const result = await this.database.findUser(user, pass)
+      if (req.body.signup) {
+        log.out('Auth', `Signup: ${username}`)
+        const salt = await bcrypt.genSalt()
+        const hash = await bcrypt.hash(password, salt)
+        const result = await this.database.createUser({
+          username,
+          password: hash,
+          salt,
+        })
 
-      if (result._id) {
-        const jwt = Authentication.createToken(result._id)
-        res.cookie('auth', jwt, { httpOnly: true })
+        if (result) {
+          log.out('Auth', 'Signup complete')
+          const jwt = Authentication.createToken(result.id)
+          res.cookie('auth', jwt, { httpOnly: true })
 
-        res.sendStatus(200)
+          res.sendStatus(200)
+          return
+        } else {
+          log.out('Auth', 'User already exists')
+        }
+
+        res.sendStatus(401)
       } else {
-        res.sendStatus(500)
+        log.out('Auth', `Login: ${username}`)
+        const result = await this.database.findUser(username)
+
+        if (result) {
+          const challenge = await bcrypt.hash(password, result.salt)
+
+          if (challenge === result.password) {
+            log.out('Auth', 'Login successful')
+            const jwt = Authentication.createToken(result.id)
+            res.cookie('auth', jwt, { httpOnly: true })
+
+            res.sendStatus(200)
+            return
+          } else {
+            log.out('Auth', 'Password match failed')
+          }
+        } else {
+          log.out('Auth', `No such user: ${username}`)
+        }
+
+        res.sendStatus(404)
       }
     })
 

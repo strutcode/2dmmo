@@ -1,6 +1,10 @@
 import { readFileSync } from 'fs'
 import { JWK, JWT } from 'jose'
 
+export interface AuthToken {
+  sub: string
+}
+
 export default class Authentication {
   private static key: JWK.Key
 
@@ -13,7 +17,7 @@ export default class Authentication {
     return JWT.sign({ sub: id }, this.key)
   }
 
-  public static verifyToken(token: string) {
-    return JWT.verify(token, this.key)
+  public static verifyToken(token: string): AuthToken {
+    return JWT.verify(token, this.key) as AuthToken
   }
 }

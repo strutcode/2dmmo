@@ -46,8 +46,8 @@ export default class GameServer {
 
     this.socketServer.addScope(this.globalScope)
 
-    this.socketServer.onAuth.observe((token, authString) => {
-      const client = this.database.authenticate(authString)
+    this.socketServer.onAuth.observe(async (token, id) => {
+      const client = await this.database.getUser(id)
 
       this.socketServer.authResponse(token, client)
 

@@ -2,19 +2,17 @@ import nano, { ServerScope, DocumentScope, MaybeDocument } from 'nano'
 import Observable from '../../common/Observable'
 import Player from '../entities/Player'
 import Wizard from '../entities/Wizard'
-import Uid from '../util/Uid'
 
 interface DbPlayer extends MaybeDocument {
   username: string
   password: string
+  salt: string
 }
 
 export default class Database {
   public onSync = new Observable()
 
-  private gid = 0
   private connection: ServerScope
-  private db!: DocumentScope<DbPlayer>
   private timers = new Map<string, NodeJS.Timeout>()
 
   public constructor() {
@@ -78,38 +76,69 @@ export default class Database {
     }
   }
 
-  public async findUser(username: string, password: string): Promise<DbPlayer> {
+  public async getUser(id: string) {
+    const wizards = this.connection.use<DbPlayer>('wizards')
+    const wizard = await wizards.find({ selector: { _id: id } })
+
+    if (wizard.docs[0]) {
+      return new Wizard(wizard.docs[0]._id)
+    }
+
+    const players = this.connection.use<DbPlayer>('players')
+    const player = await players.find({ selector: { _id: id } })
+
+    if (player.docs[0]) {
+      return new Player(player.docs[0]._id, {
+        name: player.docs[0].username,
+      })
+    }
+
+    return undefined
+  }
+
+  public async findUser(
+    username: string,
+  ): Promise<
+    { id: string; username: string; password: string; salt: string } | undefined
+  > {
     const players = this.connection.use<DbPlayer>('players')
     const result = await players.find({
       selector: {
         username,
-        password,
       },
     })
 
-    if (result.docs.length) {
-      return result.docs[0]
-    } else {
-      const insert = await players.insert({
-        username,
-        password,
-      } as DbPlayer)
+    if (!result.docs[0]) {
+      return undefined
+    }
 
-      return {
-        _id: insert.id,
-        username,
-        password,
-      }
+    return {
+      id: result.docs[0]._id,
+      username: result.docs[0].username,
+      password: result.docs[0].password,
+      salt: result.docs[0].salt,
     }
   }
 
-  public authenticate(input: string) {
-    if (/auth=supersecret/.test(input)) {
-      log.out('Database', 'Client authenticated as wizard')
-      return new Wizard('w' + Uid.from(this.gid++))
-    } else {
-      log.out('Database', 'Client authenticated as player')
-      return new Player(Uid.from(this.gid++))
+  public async createUser(form: Record<string, any>) {
+    const { username, password, salt } = form
+
+    if (await this.findUser(username)) {
+      return undefined
+    }
+
+    const players = this.connection.use<DbPlayer>('players')
+    const insert = await players.insert({
+      username,
+      password,
+      salt,
+    } as DbPlayer)
+
+    return {
+      id: insert.id,
+      username,
+      password,
+      salt,
     }
   }
 

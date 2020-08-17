@@ -31,6 +31,7 @@ export default class Authenticator {
     form.innerHTML = `
       <input name="username" />
       <input name="password" type="password" />
+      <input name="signup" type="checkbox" />
       <button>Login</button>
     `
 

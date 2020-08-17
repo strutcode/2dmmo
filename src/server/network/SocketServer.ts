@@ -1,5 +1,4 @@
 import WebSocket, { Server } from 'ws'
-import { JWT, JWK } from 'jose'
 
 import NetworkScope from './NetworkScope'
 import Observable from '../../common/Observable'
@@ -7,8 +6,8 @@ import WebServer from './WebServer'
 import Uid from '../util/Uid'
 import Wizard from '../entities/Wizard'
 import Player from '../entities/Player'
-import { readFileSync } from 'fs'
 import Authentication from './Authentication'
+import cookieParser from 'cookie-parser'
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
@@ -40,23 +39,35 @@ export default class SocketServer {
       this.onConnect.notify(token)
 
       try {
-        const authCookie = (request.headers.cookie || '').replace('auth=', '')
-        Authentication.verifyToken(authCookie)
+        const cookies = (request.headers.cookie || '')
+          .split(';')
+          .map(s => s.trim())
+          .reduce((acc, cookie) => {
+            const [key, ...rest] = cookie.split('=')
+
+            acc[key] = rest.join('=')
+
+            return acc
+          }, {} as Record<string, string>)
+
+        const authCookie = cookies['auth']
+        const jwt = Authentication.verifyToken(authCookie)
+
+        log.out('Socket', `Auth handshake: ${token}`)
+        this.onAuth.notify(token, jwt.sub)
       } catch (e) {
         log.out('Socket', 'Failed authentication')
         socket.close()
         return
       }
-
-      log.out('Socket', `Auth handshake: ${token}`)
-      this.onAuth.notify(token, request.url?.replace(/^.*?\?/, '') || '')
     })
   }
 
-  public authResponse(token: string, client: null | Player | Wizard) {
+  public authResponse(token: string, client: Player | Wizard | undefined) {
     log.out('Socket', `Auth response: ${token}`)
 
     if (client) {
+      log.out('Socket', `Got client: ${client.id}`)
       const socket = this.token2socket.get(token)
 
       if (socket) {
