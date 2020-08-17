@@ -8,6 +8,7 @@ import Uid from '../util/Uid'
 import Wizard from '../entities/Wizard'
 import Player from '../entities/Player'
 import { readFileSync } from 'fs'
+import Authentication from './Authentication'
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
@@ -34,13 +35,20 @@ export default class SocketServer {
         'Socket',
         `Accept connection: ${request.connection.remoteAddress}`,
       )
-
       const token = Uid.from(this.connection++)
-
       this.token2socket.set(token, socket)
+      this.onConnect.notify(token)
+
+      try {
+        const authCookie = (request.headers.cookie || '').replace('auth=', '')
+        Authentication.verifyToken(authCookie)
+      } catch (e) {
+        log.out('Socket', 'Failed authentication')
+        socket.close()
+        return
+      }
 
       log.out('Socket', `Auth handshake: ${token}`)
-      this.onConnect.notify(token)
       this.onAuth.notify(token, request.url?.replace(/^.*?\?/, '') || '')
     })
   }
