@@ -1,6 +1,6 @@
 import webpackNodeExternals from 'webpack-node-externals'
 import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
-import { ChildProcess, fork } from 'child_process'
+import { ChildProcess, spawn } from 'child_process'
 import webpack, { Compiler, Configuration } from 'webpack'
 import { resolve } from 'path'
 
@@ -14,7 +14,9 @@ class ServerRunnerPlugin {
       }
 
       console.log('Reloading server process...')
-      this.process = fork('./final/server/main.js')
+      this.process = spawn('node', ['./final/server/main.js', '--color'], {
+        stdio: 'inherit',
+      })
     })
   }
 }

@@ -4,7 +4,6 @@ services:
     build: .
     container_name: 2dmmo
     env_file: .env
-    # tty: true
     restart: always
     depends_on:
       - db
