@@ -8,7 +8,7 @@ class ServerRunnerPlugin {
   private process?: ChildProcess
 
   apply(compiler: Compiler) {
-    compiler.hooks.emit.tap('StartServer', () => {
+    compiler.hooks.afterEmit.tap('StartServer', () => {
       if (this.process) {
         this.process.kill()
       }
