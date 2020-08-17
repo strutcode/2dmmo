@@ -15,18 +15,32 @@ document.head.append(font)
 const el = document.createElement('div')
 document.body.appendChild(el)
 
-const mixin = Vue.observable({
-  state: new EditorState(),
+let state = new EditorState()
+let client = new EditorClient(state)
+
+client.start()
+
+let mixin = Vue.observable({
+  state,
+  client,
 })
 
 if (module.hot) {
-  module.hot.accept('./EditorState', () => {
-    mixin.state = Vue.observable(new EditorState())
+  module.hot.accept(['./EditorState', './network/EditorClient'], () => {
+    client.stop()
+    state.destroy()
+
+    state = new EditorState()
+    client = new EditorClient(state)
+
+    client.start()
+
+    mixin = Vue.observable({
+      state,
+      client,
+    })
   })
 }
-
-const client = new EditorClient(mixin.state)
-client.start()
 
 Vue.mixin({
   computed: {

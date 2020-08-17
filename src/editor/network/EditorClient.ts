@@ -2,13 +2,16 @@ import EditorState from '../EditorState'
 import Observable from '../../common/Observable'
 
 export default class EditorClient {
-  public onLogin = new Observable<() => void>()
   public onDisconnect = new Observable<() => void>()
 
   private url = location.href.replace('http', 'ws')
   private ws?: WebSocket
 
-  public constructor(private state: EditorState) {}
+  public constructor(private state: EditorState) {
+    state.onRequestData.observe((type, params) => {
+      this.requestData(type, params)
+    })
+  }
 
   public start() {
     log.out('Socket', 'Init')
@@ -25,7 +28,8 @@ export default class EditorClient {
 
     this.ws.onmessage = ev => {
       log.out('Socket', '<-', ev.data)
-      const [type, content] = (ev.data as string).split('~')
+      const data = JSON.parse(ev.data)
+      this.state.receiveData(data.type, data.params)
     }
 
     this.ws.onclose = ev => {
@@ -46,13 +50,13 @@ export default class EditorClient {
     }
   }
 
+  private requestData(type: string, params: any) {
+    this.send('WZRD~' + JSON.stringify({ type, params }))
+  }
+
   private send(data: string) {
     log.out('Socket', '->', data)
     this.ws?.send(data)
-  }
-
-  public sendPosition(x: number, y: number) {
-    this.send(`MOVE~${x},${y}`)
   }
 
   public stop() {

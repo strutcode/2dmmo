@@ -3,10 +3,11 @@ import Observable from '../../common/Observable'
 import Player from '../entities/Player'
 import Wizard from '../entities/Wizard'
 
-interface DbPlayer extends MaybeDocument {
+interface DbUser extends MaybeDocument {
   username: string
   password: string
   salt: string
+  wizard: boolean
 }
 
 export default class Database {
@@ -45,7 +46,7 @@ export default class Database {
       log.info('Database', 'System databases created!')
     }
 
-    const gameDbs = ['players', 'wizards']
+    const gameDbs = ['users']
     await Promise.all(
       gameDbs.map(async name => {
         if (!dbs.includes(name)) {
@@ -54,6 +55,8 @@ export default class Database {
         }
       }),
     )
+
+    console.log(await this.getAllUsers())
 
     log.info('Database', 'Database connected')
   }
@@ -77,23 +80,38 @@ export default class Database {
   }
 
   public async getUser(id: string) {
-    const wizards = this.connection.use<DbPlayer>('wizards')
-    const wizard = await wizards.find({ selector: { _id: id } })
+    const users = this.connection.use<DbUser>('users')
+    const user = await users.get(id)
 
-    if (wizard.docs[0]) {
-      return new Wizard(wizard.docs[0]._id)
-    }
+    if (user) {
+      if (user.wizard) {
+        return new Wizard(user._id)
+      }
 
-    const players = this.connection.use<DbPlayer>('players')
-    const player = await players.find({ selector: { _id: id } })
-
-    if (player.docs[0]) {
-      return new Player(player.docs[0]._id, {
-        name: player.docs[0].username,
+      return new Player(user._id, {
+        name: user.username,
       })
     }
 
     return undefined
+  }
+
+  public async getAllUsers() {
+    const users = this.connection.use<DbUser>('users')
+    const list = await users.list({
+      include_docs: true,
+    })
+
+    return list.rows.map(row => {
+      const doc = row.doc
+
+      if (doc) {
+        delete doc.password
+        delete doc.salt
+      }
+
+      return doc
+    })
   }
 
   public async findUser(
@@ -101,8 +119,8 @@ export default class Database {
   ): Promise<
     { id: string; username: string; password: string; salt: string } | undefined
   > {
-    const players = this.connection.use<DbPlayer>('players')
-    const result = await players.find({
+    const users = this.connection.use<DbUser>('users')
+    const result = await users.find({
       selector: {
         username,
       },
@@ -127,12 +145,12 @@ export default class Database {
       return undefined
     }
 
-    const players = this.connection.use<DbPlayer>('players')
-    const insert = await players.insert({
+    const users = this.connection.use<DbUser>('users')
+    const insert = await users.insert({
       username,
       password,
       salt,
-    } as DbPlayer)
+    } as DbUser)
 
     return {
       id: insert.id,

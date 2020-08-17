@@ -63,11 +63,15 @@ export default class GameServer {
       }
     })
 
-    this.socketServer.onMessage.observe((id, type, data) => {
+    this.socketServer.onMessage.observe(async (id, type, data) => {
       if (type === 'wizard') {
         if (!this.wizards.get(id)) return
 
-        // Parse message
+        if (data.type === 'users') {
+          const users = await this.database.getAllUsers()
+
+          this.socketServer.wizardData(id, data.type, users)
+        }
       }
 
       if (type === 'move') {

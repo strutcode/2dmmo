@@ -17,7 +17,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { ToolType } from '../EditorState'
+  import { ToolType } from '../../EditorState'
 
   export default Vue.extend({
     computed: {

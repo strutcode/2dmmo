@@ -22,8 +22,8 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import tileSets from '../data/tilesets'
-  import DropDown from './controls/DropDown.vue'
+  import tileSets from '../../data/tilesets'
+  import DropDown from '../controls/DropDown.vue'
 
   export default Vue.extend({
     components: { DropDown },

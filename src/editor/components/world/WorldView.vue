@@ -6,10 +6,10 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import WorldViewRenderer from '../graphics/WorldViewRenderer'
+  import WorldViewRenderer from '../../graphics/WorldViewRenderer'
 
   // For HMR
-  import EditorState from '../EditorState'
+  import EditorState from '../../EditorState'
   EditorState
 
   export default Vue.extend({
@@ -27,7 +27,7 @@
 
       if (module.hot) {
         module.hot.accept(
-          ['../graphics/WorldViewRenderer', '../EditorState'],
+          ['../../graphics/WorldViewRenderer', '../../EditorState'],
           () => {
             this.view.destroy()
             this.view = new WorldViewRenderer(

@@ -1,5 +1,6 @@
 import GameMap, { TileData } from './GameMap'
 import floodFill from './util/FloodFill'
+import Observable from '../common/Observable'
 
 export type ToolType = 'pencil' | 'eraser' | 'fill' | 'select'
 export type ModKeys = {
@@ -18,16 +19,35 @@ export interface Selection {
   h: number
 }
 
+export type EditorMode = 'world' | 'enemies' | 'items' | 'users'
+export type DataRequestCategory = 'users'
+
 export default class EditorState {
+  public onRequestData = new Observable<(type: string, params: any) => void>()
+
+  public mode: EditorMode = 'world'
   public connected = false
 
   public currentMap: GameMap | null = null
   public selectedTile: TileData | null = null
   public activeLayer: number = 0
   public currentTool: ToolType = 'pencil'
-
   public selection: Selection | null = null
   public floatingSelection: (TileData | undefined)[][] | null = null
+
+  public users = []
+
+  public destroy() {}
+
+  public requestData(type: DataRequestCategory) {
+    this.onRequestData.notify(type, null)
+  }
+
+  public receiveData(type: DataRequestCategory, data: any) {
+    if (type === 'users') {
+      this.users = data
+    }
+  }
 
   public createMap() {
     this.currentMap = new GameMap()

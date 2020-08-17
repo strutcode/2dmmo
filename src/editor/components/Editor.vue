@@ -1,35 +1,27 @@
 <template>
   <div class="layout layout-v">
-    <menu-bar class="chrome accent" />
-    <div class="layout-h layout-fill" style="min-height: 0">
-      <tile-list class="chrome panel" />
-      <div class="layout-v layout-fill">
-        <tool-bar class="chrome panel" />
-        <world-view class="layout-fill" />
-      </div>
-      <layer-list class="chrome panel" />
-    </div>
+    <main-bar class="chrome accent" />
+    <world-editor v-if="$state.mode === 'world'" />
+    <div class="chrome layout-fill" v-else-if="$state.mode === 'enemies'" />
+    <div class="chrome layout-fill" v-else-if="$state.mode === 'items'" />
+    <user-editor class="chrome layout-fill" v-else-if="$state.mode === 'users'" />
     <status-bar class="chrome secondary" />
   </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
-  import ToolBar from './ToolBar.vue'
-  import MenuBar from './MenuBar.vue'
-  import WorldView from './WorldView.vue'
-  import TileList from './TileList.vue'
-  import LayerList from './LayerList.vue'
+  import MainBar from './MainBar.vue'
   import StatusBar from './StatusBar.vue'
+  import WorldEditor from './world/WorldEditor.vue'
+  import UserEditor from './users/UserEditor.vue'
 
   export default Vue.extend({
     components: {
-      MenuBar,
-      ToolBar,
-      WorldView,
-      TileList,
-      LayerList,
+      MainBar,
       StatusBar,
+      WorldEditor,
+      UserEditor,
     },
   })
 </script>

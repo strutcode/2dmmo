@@ -63,6 +63,14 @@ export default class SocketServer {
     })
   }
 
+  public wizardData(id: string, type: string, params: any) {
+    const socket = this.id2socket.get(id)
+
+    if (socket) {
+      socket.send(JSON.stringify({ type, params }))
+    }
+  }
+
   public authResponse(token: string, client: Player | Wizard | undefined) {
     log.out('Socket', `Auth response: ${token}`)
 
@@ -77,7 +85,8 @@ export default class SocketServer {
 
         socket.on('message', data => {
           if (typeof data === 'string') {
-            const [type, content] = data.split('~')
+            const type = data.substr(0, 4)
+            const content = data.substr(5)
 
             if (type === 'MOVE') {
               const [x, y] = content.split(',')
@@ -87,7 +96,9 @@ export default class SocketServer {
                 y: +y,
               })
             } else if (type === 'WZRD') {
-              this.onMessage.notify(client.id, 'wizard', content)
+              this.onMessage.notify(client.id, 'wizard', JSON.parse(content))
+            } else {
+              log.warn('Socket', `Invalid message type: ${type}`)
             }
           }
         })
