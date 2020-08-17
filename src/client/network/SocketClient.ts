@@ -24,7 +24,7 @@ export default class SocketClient {
   public constructor(private state: GameState) {}
 
   public start() {
-    log.out('Socket', 'Init')
+    log.out('Network', 'Init')
     this.connect()
   }
 
@@ -32,7 +32,7 @@ export default class SocketClient {
     this.ws = new WebSocket(this.url)
 
     this.ws.onopen = () => {
-      log.info('Socket', 'connected')
+      log.info('Network', 'Connected')
       this.onConnect.notify()
     }
 
@@ -42,6 +42,9 @@ export default class SocketClient {
 
       if (type === 'IDNT') {
         const [id, name, sprite, x, y] = content.split(',')
+
+        log.info('Network', `Logged in as ${name}`)
+
         this.onLogin.notify(id, {
           name,
           sprite,
@@ -83,7 +86,7 @@ export default class SocketClient {
     }
 
     this.ws.onclose = ev => {
-      log.info('Socket', 'disconnected', ev.code)
+      log.info('Network', `Disconnected (${ev.code})`)
       this.onDisconnect.notify()
 
       if (ev.code === 1000) {
@@ -92,7 +95,7 @@ export default class SocketClient {
       }
 
       setTimeout(() => {
-        log.info('Socket', 'reconnecting...')
+        log.info('Network', 'Reconnecting...')
 
         this.connect()
       }, 1000)
@@ -109,7 +112,7 @@ export default class SocketClient {
   }
 
   public stop() {
-    log.out('Socket', 'Shutdown')
+    log.out('Network', 'Shutdown')
     if (this.ws) {
       this.ws.close(1000)
     }

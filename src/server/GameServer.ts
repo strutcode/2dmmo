@@ -46,19 +46,16 @@ export default class GameServer {
     this.socketServer.onAuth.observe((token, authString) => {
       const client = this.database.authenticate(authString)
 
+      this.socketServer.authResponse(token, client)
+
       if (client instanceof Wizard) {
-        log.warn('Game', 'Wizard connected')
+        log.warn('Game', 'Wizard joined')
 
         this.wizards.set(client.id, client)
-      } else {
-        log.info('Game', `Player created: ${client.id}`)
-
+      } else if (client instanceof Player) {
+        log.info('Game', `Player joined: ${client.name} (${client.id})`)
         this.players.set(client.id, client)
         this.globalScope.addMobile(client)
-        this.socketServer.authResponse(token, {
-          success: true,
-          client,
-        })
         this.database.addPlayer(client)
       }
     })

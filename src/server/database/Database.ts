@@ -74,8 +74,10 @@ export default class Database {
 
   public authenticate(input: string) {
     if (/auth=supersecret/.test(input)) {
-      return new Wizard(Uid.from(this.gid++))
+      log.out('Database', 'Client authenticated as wizard')
+      return new Wizard('w' + Uid.from(this.gid++))
     } else {
+      log.out('Database', 'Client authenticated as player')
       return new Player(Uid.from(this.gid++))
     }
   }

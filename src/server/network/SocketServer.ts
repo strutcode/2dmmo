@@ -7,8 +7,6 @@ import Uid from '../util/Uid'
 import Wizard from '../entities/Wizard'
 import Player from '../entities/Player'
 
-export type AuthResponse = { success: boolean; client: Player | Wizard }
-
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
   public onAuth = new Observable<(id: string, authString: string) => void>()
@@ -19,6 +17,7 @@ export default class SocketServer {
 
   private wss: Server
   private connection = 0
+  private token2socket = new Map<string, WebSocket>()
   private id2socket = new Map<string, WebSocket>()
 
   constructor(webServer: WebServer) {
@@ -35,20 +34,25 @@ export default class SocketServer {
 
       const token = Uid.from(this.connection++)
 
-      this.id2socket.set(token, socket)
+      this.token2socket.set(token, socket)
 
+      log.out('Socket', `Auth handshake: ${token}`)
       this.onConnect.notify(token)
       this.onAuth.notify(token, request.url?.replace(/^.*?\?/, '') || '')
     })
   }
 
-  public authResponse(token: string, info: AuthResponse) {
-    const { success, client } = info
+  public authResponse(token: string, client: null | Player | Wizard) {
+    log.out('Socket', `Auth response: ${token}`)
 
-    if (success) {
-      const socket = this.id2socket.get(client.id)
+    if (client) {
+      const socket = this.token2socket.get(token)
 
       if (socket) {
+        // Convert the authentication token to an id assignment
+        this.id2socket.set(client.id, socket)
+        this.token2socket.delete(client.id)
+
         socket.on('message', data => {
           if (typeof data === 'string') {
             const [type, content] = data.split('~')
