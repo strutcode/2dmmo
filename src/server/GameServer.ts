@@ -70,7 +70,19 @@ export default class GameServer {
         if (data.type === 'users') {
           const users = await this.database.getAllUsers()
 
-          this.socketServer.wizardData(id, data.type, users)
+          const onlineUsers = users.map(user => {
+            return {
+              id: user?._id,
+              username: user?.username,
+              wizard: user?.wizard,
+              online: !!(
+                this.players.get(user?._id || '') ||
+                this.wizards.get(user?._id || '')
+              ),
+            }
+          })
+
+          this.socketServer.wizardData(id, data.type, onlineUsers)
         }
       }
 
