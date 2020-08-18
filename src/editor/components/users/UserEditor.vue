@@ -5,7 +5,7 @@
       <template v-slot:col-username>Username</template>
       <template v-slot:col-wizard>Wizard?</template>
       <template v-slot:col-online>
-        <i class="fa fa-globe"></i>
+        <i class="fa fa-network-wired"></i>
       </template>
 
       <template v-slot:row-online="{ row }">
@@ -49,6 +49,7 @@
     height: 0.6em;
     border-radius: 50%;
     border: 2px solid rgba(0, 0, 0, 0.5);
+    margin: 0 auto;
   }
 
   .indicator.online {

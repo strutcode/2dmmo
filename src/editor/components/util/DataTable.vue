@@ -124,13 +124,11 @@
   td {
     padding: 0.75em 1.5em;
   }
-
-  th:hover,
-  td:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
   tr:nth-child(even) {
     background: rgba(0, 0, 0, 0.2);
+  }
+
+  tr:hover {
+    background: rgba(255, 255, 255, 0.1);
   }
 </style>

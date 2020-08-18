@@ -4,7 +4,7 @@
     <world-editor v-if="$state.mode === 'world'" />
     <div class="chrome layout-fill" v-else-if="$state.mode === 'enemies'" />
     <div class="chrome layout-fill" v-else-if="$state.mode === 'items'" />
-    <user-editor class="chrome layout-fill" v-else-if="$state.mode === 'users'" />
+    <user-editor class="chrome panel layout-fill" v-else-if="$state.mode === 'users'" />
     <status-bar class="chrome secondary" />
   </div>
 </template>
