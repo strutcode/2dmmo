@@ -8,6 +8,7 @@ import Wizard from '../entities/Wizard'
 import Player from '../entities/Player'
 import Authentication from './Authentication'
 import cookieParser from 'cookie-parser'
+import { Socket } from 'dgram'
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
@@ -73,45 +74,61 @@ export default class SocketServer {
 
   public authResponse(token: string, client: Player | Wizard | undefined) {
     log.out('Socket', `Auth response: ${token}`)
+    const socket = this.token2socket.get(token)
 
-    if (client) {
-      log.out('Socket', `Got client: ${client.id}`)
-      const socket = this.token2socket.get(token)
+    if (socket) {
+      if (client) {
+        log.out('Socket', `Got client: ${client.id}`)
 
-      if (socket) {
         // Convert the authentication token to an id assignment
         this.id2socket.set(client.id, socket)
         this.token2socket.delete(client.id)
 
-        socket.on('message', data => {
-          if (typeof data === 'string') {
-            const type = data.substr(0, 4)
-            const content = data.substr(5)
+        if (client instanceof Wizard) {
+          socket.on('message', data => {
+            if (typeof data === 'string') {
+              const type = data.substr(0, 4)
+              const content = data.substr(5)
 
-            if (type === 'MOVE') {
-              const [x, y] = content.split(',')
-
-              this.onMessage.notify(client.id, 'move', {
-                x: +x,
-                y: +y,
-              })
-            } else if (type === 'WZRD') {
-              this.onMessage.notify(client.id, 'wizard', JSON.parse(content))
-            } else {
-              log.warn('Socket', `Invalid message type: ${type}`)
+              if (type === 'WZRD') {
+                this.onMessage.notify(client.id, 'wizard', JSON.parse(content))
+              } else {
+                log.warn('Socket', `Invalid message type: ${type}`)
+              }
             }
-          }
-        })
+          })
 
-        socket.on('close', () => {
-          this.onDisconnect.notify(client.id)
-        })
+          socket.send('WZRD~')
+        } else {
+          socket.on('message', data => {
+            if (typeof data === 'string') {
+              const type = data.substr(0, 4)
+              const content = data.substr(5)
 
-        if (client instanceof Player) {
+              if (type === 'MOVE') {
+                const [x, y] = content.split(',')
+
+                this.onMessage.notify(client.id, 'move', {
+                  x: +x,
+                  y: +y,
+                })
+              } else {
+                log.warn('Socket', `Invalid message type: ${type}`)
+              }
+            }
+          })
+
           socket.send(
             `IDNT~${client.id},${client.name},${client.sprite},${client.x},${client.y}`,
           )
         }
+
+        socket.on('close', () => {
+          this.onDisconnect.notify(client.id)
+        })
+      } else {
+        log.out('Socket', 'No such user')
+        socket.send('NENT~')
       }
     }
   }

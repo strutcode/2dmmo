@@ -28,6 +28,16 @@ export default class EditorClient {
 
     this.ws.onmessage = ev => {
       log.out('Socket', '<-', ev.data)
+
+      if (ev.data.substr(0, 4) === 'NENT') {
+        location.href = location.origin
+        return
+      }
+      if (ev.data.substr(0, 4) === 'WZRD') {
+        // Meant for the client to redirect
+        return
+      }
+
       const data = JSON.parse(ev.data)
       this.state.receiveData(data.type, data.params)
     }

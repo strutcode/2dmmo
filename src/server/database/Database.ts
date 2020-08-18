@@ -81,19 +81,23 @@ export default class Database {
 
   public async getUser(id: string) {
     const users = this.connection.use<DbUser>('users')
-    const user = await users.get(id)
 
-    if (user) {
-      if (user.wizard) {
-        return new Wizard(user._id)
+    try {
+      const user = await users.get(id)
+
+      if (user) {
+        if (user.wizard) {
+          return new Wizard(user._id)
+        }
+
+        return new Player(user._id, {
+          name: user.username,
+        })
       }
-
-      return new Player(user._id, {
-        name: user.username,
-      })
+    } catch (e) {
+      log.out('Database', `Couldn't get ${id}`)
+      return undefined
     }
-
-    return undefined
   }
 
   public async getAllUsers() {

@@ -42,6 +42,12 @@ export default class WebServer {
       if (req.cookies['auth']) {
         try {
           const jwt = Authentication.verifyToken(req.cookies['auth'])
+          const user = await this.database.getUser(jwt.sub)
+
+          if (!user) {
+            res.sendStatus(404)
+            return
+          }
 
           if (jwt) {
             res.sendStatus(200)

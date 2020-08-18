@@ -40,7 +40,9 @@ export default class SocketClient {
       log.out('Socket', '<-', ev.data)
       const [type, content] = (ev.data as string).split('~')
 
-      if (type === 'IDNT') {
+      if (type === 'WZRD') {
+        location.href = `${location.origin}/editor`
+      } else if (type === 'IDNT') {
         const [id, name, sprite, x, y] = content.split(',')
 
         log.info('Network', `Logged in as ${name}`)
