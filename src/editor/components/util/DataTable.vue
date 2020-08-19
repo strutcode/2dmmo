@@ -57,7 +57,7 @@
           return columns
         }
       },
-      computedRows() {
+      computedRows(): object[] {
         const col = this.sort.column
         const left = this.sort.asc ? -1 : 1
         const right = -left
@@ -83,11 +83,11 @@
 
           Object.entries(item).forEach((entry) => {
             const [key, val] = entry
-            if (!this.indexes[key]) {
+            if (this.indexes[key] == null) {
               this.$set(this.indexes, key, {})
             }
 
-            if (!this.indexes[key][val]) {
+            if (this.indexes[key][val] == null) {
               this.$set(this.indexes[key], String(val), [])
             }
 

@@ -1,62 +1,43 @@
-import nano, { ServerScope, DocumentScope, MaybeDocument } from 'nano'
+import { Tedis } from 'tedis'
+import bcrypt from 'bcryptjs'
+
 import Observable from '../../common/Observable'
 import Player from '../entities/Player'
 import Wizard from '../entities/Wizard'
 
-interface DbUser extends MaybeDocument {
-  username: string
-  password: string
-  salt: string
-  wizard: boolean
-}
-
 export default class Database {
   public onSync = new Observable()
 
-  private connection: ServerScope
+  private db: Tedis
   private timers = new Map<string, NodeJS.Timeout>()
+  private id = 0
 
   public constructor() {
-    this.connection = nano('http://root:test@db:5984')
+    this.db = new Tedis({ host: 'redis' })
   }
 
   public async init() {
     log.info('Database', 'Connecting to database...')
 
-    const dbs = await this.connection.db.list()
-    if (
-      !dbs.includes('_users') ||
-      !dbs.includes('_replicator') ||
-      !dbs.includes('_global_changes')
-    ) {
-      log.warn('Database', `Missing system database(s)`)
-      log.info('Database', 'Performing first time setup...')
+    this.id = (await +this.db.get('userid')) || 0
 
-      const dbCreates = []
+    const users = await this.db.smembers('users')
 
-      if (!dbs.includes('_users'))
-        dbCreates.push(this.connection.db.create('_users'))
-      if (!dbs.includes('_replicator'))
-        dbCreates.push(this.connection.db.create('_replicator'))
-      if (!dbs.includes('_global_changes'))
-        dbCreates.push(this.connection.db.create('_global_changes'))
+    if (!users.length) {
+      log.warn('Database', 'No users, creating default wizard account')
 
-      await Promise.all(dbCreates)
+      const salt = await bcrypt.genSalt()
+      const password = await bcrypt.hash('admin', salt)
 
-      log.info('Database', 'System databases created!')
+      this.createUser(
+        {
+          username: 'admin',
+          password,
+          salt,
+        },
+        true,
+      )
     }
-
-    const gameDbs = ['users']
-    await Promise.all(
-      gameDbs.map(async name => {
-        if (!dbs.includes(name)) {
-          log.info('Database', `Creating store '${name}'...`)
-          await this.connection.db.create(name)
-        }
-      }),
-    )
-
-    console.log(await this.getAllUsers())
 
     log.info('Database', 'Database connected')
   }
@@ -80,87 +61,65 @@ export default class Database {
   }
 
   public async getUser(id: string) {
-    const users = this.connection.use<DbUser>('users')
+    const exists = await this.db.exists(`user:${id}`)
 
-    try {
-      const user = await users.get(id)
+    if (!exists) return undefined
 
-      if (user) {
-        if (user.wizard) {
-          return new Wizard(user._id)
-        }
+    const user = await this.db.hgetall(`user:${id}`)
 
-        return new Player(user._id, {
-          name: user.username,
-        })
+    if (user) {
+      if (+user.wizard) {
+        return new Wizard(user.id)
       }
-    } catch (e) {
-      log.out('Database', `Couldn't get ${id}`)
-      return undefined
+
+      return new Player(user.id, {
+        name: user.username,
+      })
     }
   }
 
   public async getAllUsers() {
-    const users = this.connection.use<DbUser>('users')
-    const list = await users.list({
-      include_docs: true,
-    })
+    const ids = await this.db.smembers('users')
 
-    return list.rows.map(row => {
-      const doc = row.doc
+    const users = await Promise.all(
+      ids.map(async id => {
+        const user = await this.db.hgetall(`user:${id}`)
 
-      if (doc) {
-        delete doc.password
-        delete doc.salt
-      }
+        delete user.password
+        delete user.salt
 
-      return doc
-    })
+        return user
+      }),
+    )
+
+    return users
   }
 
-  public async findUser(
-    username: string,
-  ): Promise<
-    { id: string; username: string; password: string; salt: string } | undefined
-  > {
-    const users = this.connection.use<DbUser>('users')
-    const result = await users.find({
-      selector: {
-        username,
-      },
-    })
+  public async findUser(username: string) {
+    const id = await this.db.get(`uname2id:${username}`)
 
-    if (!result.docs[0]) {
-      return undefined
-    }
+    if (id == null) return undefined
 
-    return {
-      id: result.docs[0]._id,
-      username: result.docs[0].username,
-      password: result.docs[0].password,
-      salt: result.docs[0].salt,
-    }
+    return this.db.hgetall(`user:${id}`)
   }
 
-  public async createUser(form: Record<string, any>) {
-    const { username, password, salt } = form
+  public async createUser(form: Record<string, any>, wizard = false) {
+    const id = String(this.id++)
+    log.info('Database', `Create user ${id}`)
 
-    if (await this.findUser(username)) {
-      return undefined
-    }
+    await this.db.hmset(`user:${id}`, {
+      id,
+      ...form,
+      wizard: +wizard,
+    })
 
-    const users = this.connection.use<DbUser>('users')
-    const insert = await users.insert({
-      username,
-      password,
-      salt,
-    } as DbUser)
+    await this.db.sadd('users', id)
+    await this.db.set(`uname2id:${form.username}`, id)
+    await this.db.incr('userid')
 
     return {
-      id: insert.id,
-      username,
-      password,
-      salt,
+      id,
+      ...form,
     }
   }
 

@@ -6,7 +6,7 @@ services:
     env_file: .env
     restart: always
     depends_on:
-      - db
+      - redis
     networks:
       - default
       - proxy
@@ -24,14 +24,9 @@ services:
       - traefik.http.routers.2dmmo-secure.entrypoints=websecure
       - traefik.http.routers.2dmmo-secure.tls.certresolver=leresolver
 
-  db:
-    image: couchdb:3.1
+  redis:
+    image: redis:6.0.6-alpine
     restart: always
-    ports:
-      - 5984:5984
-    environment:
-      COUCHDB_USER: root
-      COUCHDB_PASSWORD: test
 
 networks:
   proxy:

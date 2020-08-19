@@ -72,9 +72,7 @@ export default class GameServer {
 
           const onlineUsers = users.map(user => {
             return {
-              id: user?._id,
-              username: user?.username,
-              wizard: user?.wizard,
+              ...user,
               online: !!(
                 this.players.get(user?._id || '') ||
                 this.wizards.get(user?._id || '')
