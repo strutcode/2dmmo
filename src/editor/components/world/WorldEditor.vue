@@ -1,11 +1,11 @@
 <template>
   <div class="layout-h layout-fill" style="min-height: 0">
     <map-list class="chrome panel" />
-    <tile-list class="chrome panel" />
     <div class="layout-v layout-fill">
       <tool-bar class="chrome panel" />
       <world-view class="layout-fill" />
     </div>
+    <tile-list class="chrome panel" />
     <layer-list class="chrome panel" />
   </div>
 </template>

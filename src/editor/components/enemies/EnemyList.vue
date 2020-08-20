@@ -1,14 +1,13 @@
 <template>
-  <div class="mapList layout-v">
-    <action-bar :items="mapActions" />
+  <div class="enemyList layout-v">
+    <action-bar :items="enemyActions" />
     <div class="layout-fill chrome secondary">
       <div
-        v-for="map in $state.maps"
-        :key="map"
-        class="map"
-        :class="{ selected: $state.currentMap.name === map }"
-        @click="() => $state.loadMap(map)"
-      >{{ map }}</div>
+        class="enemy"
+        v-for="enemy in $state.enemies"
+        :key="enemy"
+        @click="() => $state.loadEnemy(enemy)"
+      >{{ enemy }}</div>
     </div>
   </div>
 </template>
@@ -24,7 +23,7 @@
 
     data() {
       return {
-        mapActions: [
+        enemyActions: [
           {
             icon: 'plus',
           },
@@ -34,7 +33,7 @@
           {
             icon: 'save',
             action: () => {
-              this.$state.saveMap()
+              this.$state.saveEnemy()
             },
           },
           {
@@ -45,23 +44,23 @@
     },
 
     async created() {
-      this.$state.requestData('maps')
+      this.$state.requestData('enemies')
     },
   })
 </script>
 
 <style scoped>
-  .mapList {
+  .enemyList {
     flex: 0 0 140px;
   }
 
-  .map {
+  .enemy {
     position: relative;
     padding: 0.5rem;
     cursor: default;
   }
 
-  .map:hover:before {
+  .enemy:hover:before {
     content: '';
     display: block;
     position: absolute;
@@ -72,7 +71,7 @@
     background: rgba(255, 255, 255, 0.1);
   }
 
-  .map.selected {
+  .enemy.selected {
     background: rgba(0, 0, 0, 0.5);
   }
 </style>

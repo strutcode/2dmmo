@@ -2,7 +2,7 @@
   <div class="layout layout-v">
     <main-bar class="chrome accent" />
     <world-editor v-if="$state.mode === 'world'" />
-    <div class="chrome layout-fill" v-else-if="$state.mode === 'enemies'" />
+    <enemy-editor class="chrome layout-fill" v-else-if="$state.mode === 'enemies'" />
     <div class="chrome layout-fill" v-else-if="$state.mode === 'items'" />
     <user-editor class="chrome panel layout-fill" v-else-if="$state.mode === 'users'" />
     <status-bar class="chrome secondary" />
@@ -14,6 +14,7 @@
   import MainBar from './MainBar.vue'
   import StatusBar from './StatusBar.vue'
   import WorldEditor from './world/WorldEditor.vue'
+  import EnemyEditor from './enemies/EnemyEditor.vue'
   import UserEditor from './users/UserEditor.vue'
 
   export default Vue.extend({
@@ -21,6 +22,7 @@
       MainBar,
       StatusBar,
       WorldEditor,
+      EnemyEditor,
       UserEditor,
     },
   })

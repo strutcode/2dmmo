@@ -1,6 +1,7 @@
 import GameMap, { TileData } from './GameMap'
 import floodFill from './util/FloodFill'
 import Observable from '../common/Observable'
+import EnemyData from './EnemyData'
 
 export type ToolType = 'pencil' | 'eraser' | 'fill' | 'select'
 export type ModKeys = {
@@ -20,13 +21,25 @@ export interface Selection {
 }
 
 export type EditorMode = 'world' | 'enemies' | 'items' | 'users'
-export type DataRequestCategory = 'maps' | 'map' | 'saveMap' | 'users'
+export type DataRequestCategory =
+  | 'maps'
+  | 'map'
+  | 'saveMap'
+  | 'enemies'
+  | 'enemy'
+  | 'saveEnemy'
+  | 'users'
 
 export default class EditorState {
   public onRequestData = new Observable<(type: string, params: any) => void>()
 
   public mode: EditorMode = 'world'
   public connected = false
+
+  public maps = []
+  public enemies = []
+  public items = []
+  public users = []
 
   public currentMap: GameMap | null = null
   public selectedTile: TileData | null = null
@@ -35,8 +48,7 @@ export default class EditorState {
   public selection: Selection | null = null
   public floatingSelection: (TileData | undefined)[][] | null = null
 
-  public maps = []
-  public users = []
+  public currentEnemy: EnemyData | null = null
 
   public destroy() {}
 
@@ -69,6 +81,16 @@ export default class EditorState {
   public async saveMap() {
     if (this.currentMap) {
       this.requestData('saveMap', this.currentMap.serialize())
+    }
+  }
+
+  public async loadEnemy(name: string) {
+    this.requestData('enemy', name)
+  }
+
+  public async saveEnemy() {
+    if (this.currentEnemy) {
+      this.requestData('saveEnemy', this.currentEnemy.serialize())
     }
   }
 
