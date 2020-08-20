@@ -6,7 +6,7 @@
         v-for="map in $state.maps"
         :key="map"
         class="map"
-        :class="{ selected: $state.currentMap.name === map }"
+        :class="{ selected: $state.currentMap && $state.currentMap.name === map }"
         @click="() => $state.loadMap(map)"
       >{{ map }}</div>
     </div>

@@ -26,9 +26,5 @@
       LayerList,
       ToolBar,
     },
-
-    created() {
-      this.$state.createMap()
-    },
   })
 </script>
