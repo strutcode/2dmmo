@@ -74,8 +74,8 @@ export default class GameServer {
             return {
               ...user,
               online: !!(
-                this.players.get(user?._id || '') ||
-                this.wizards.get(user?._id || '')
+                this.players.get(user.id || '') ||
+                this.wizards.get(user.id || '')
               ),
             }
           })

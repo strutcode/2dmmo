@@ -19,7 +19,7 @@ export default class Database {
   public async init() {
     log.info('Database', 'Connecting to database...')
 
-    this.id = (await +this.db.get('userid')) || 0
+    this.id = Number((await this.db.get('userid')) || 0)
 
     const users = await this.db.smembers('users')
 
