@@ -2,6 +2,7 @@ import EditorState from '../EditorState'
 import Observable from '../../common/Observable'
 
 export default class EditorClient {
+  public onConnect = new Observable<() => void>()
   public onDisconnect = new Observable<() => void>()
 
   private url = location.href.replace('http', 'ws')
@@ -24,6 +25,7 @@ export default class EditorClient {
     this.ws.onopen = () => {
       log.info('Socket', 'connected')
       this.state.connected = true
+      this.onConnect.notify()
     }
 
     this.ws.onmessage = ev => {

@@ -57,6 +57,7 @@
 
   .layer {
     padding: 0.5rem;
+    cursor: default;
   }
 
   .layer.selected {

@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs'
 import Observable from '../../common/Observable'
 import Player from '../entities/Player'
 import Wizard from '../entities/Wizard'
+import { readdir, readFile, stat, access, writeFile } from 'fs/promises'
 
 export default class Database {
   public onSync = new Observable()
@@ -78,7 +79,7 @@ export default class Database {
     }
   }
 
-  public async getAllUsers() {
+  public async listUsers() {
     const ids = await this.db.smembers('users')
 
     const users = await Promise.all(
@@ -123,7 +124,46 @@ export default class Database {
     }
   }
 
-  private syncPlayer(player: Player) {
+  public async listMaps() {
+    const files = await readdir('./data/maps', {
+      encoding: 'utf8',
+    })
+
+    return files.map(name => name.substr(0, name.length - 5))
+  }
+
+  public async getMap(name: string): Promise<object | undefined> {
+    const filename = `./data/maps/${name}.json`
+
+    try {
+      await access(filename)
+
+      const content = await readFile(filename, { encoding: 'utf8' })
+
+      return JSON.parse(content)
+    } catch (e) {
+      log.error('Database', `Couldn't get map ${name}`)
+      return undefined
+    }
+  }
+
+  public async saveMap(name: string, data: object): Promise<boolean> {
+    const filename = `./data/maps/${name}.json`
+
+    try {
+      log.out('Database', `Update map '${name}'`)
+      await writeFile(filename, JSON.stringify(data, null, 2), {
+        encoding: 'utf8',
+      })
+
+      return true
+    } catch (e) {
+      log.error('Database', `Failed to update map '${name}'`)
+      return false
+    }
+  }
+
+  private async syncPlayer(player: Player) {
     log.out('Database', `Sync player ${player.name} (${player.id})`)
   }
 }

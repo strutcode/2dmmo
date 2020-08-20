@@ -44,6 +44,9 @@ export default function(mode: Configuration['mode']): Configuration {
           'webpack/hot/only-dev-server',
         ],
       }),
+      {
+        'fs/promises': 'commonjs fs/promises',
+      },
     ],
     plugins: [
       // new FriendlyErrorsWebpackPlugin(),

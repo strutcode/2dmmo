@@ -67,8 +67,29 @@ export default class GameServer {
       if (type === 'wizard') {
         if (!this.wizards.get(id)) return
 
-        if (data.type === 'users') {
-          const users = await this.database.getAllUsers()
+        if (data.type === 'maps') {
+          this.socketServer.wizardData(
+            id,
+            data.type,
+            await this.database.listMaps(),
+          )
+        } else if (data.type === 'map') {
+          const map = await this.database.getMap(data.params)
+
+          if (map) {
+            this.socketServer.wizardData(id, data.type, {
+              name: data.params,
+              ...map,
+            })
+          }
+        } else if (data.type === 'saveMap') {
+          this.socketServer.wizardData(
+            id,
+            data.type,
+            await this.database.saveMap(data.params.name, data.params),
+          )
+        } else if (data.type === 'users') {
+          const users = await this.database.listUsers()
 
           const onlineUsers = users.map(user => {
             return {

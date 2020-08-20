@@ -1,6 +1,9 @@
 {
   "name": "2dmmo",
   "license": "MIT",
+  "engines": {
+    "node": "14.8"
+  },
   "scripts": {
     "start": "docker-compose up",
     "dev": "ts-node -P build/tsconfig.json build/compile.ts watch",

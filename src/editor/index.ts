@@ -50,7 +50,17 @@ Vue.mixin({
   },
 })
 
-new Vue({
-  el,
-  render: f => f(Editor),
-})
+async function init() {
+  await new Promise(resolve => {
+    client.onConnect.observe(() => {
+      resolve()
+    })
+  })
+
+  new Vue({
+    el,
+    render: f => f(Editor),
+  })
+}
+
+init()

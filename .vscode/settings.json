@@ -2,7 +2,6 @@
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
   "typescript.tsserver.experimental.enableProjectDiagnostics": true,
-  "vetur.format.enable": true,
   "vetur.format.scriptInitialIndent": true,
   "vetur.format.styleInitialIndent": true,
   "remote.restoreForwardedPorts": true

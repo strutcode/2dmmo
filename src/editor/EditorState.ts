@@ -20,7 +20,7 @@ export interface Selection {
 }
 
 export type EditorMode = 'world' | 'enemies' | 'items' | 'users'
-export type DataRequestCategory = 'users'
+export type DataRequestCategory = 'maps' | 'map' | 'saveMap' | 'users'
 
 export default class EditorState {
   public onRequestData = new Observable<(type: string, params: any) => void>()
@@ -35,22 +35,41 @@ export default class EditorState {
   public selection: Selection | null = null
   public floatingSelection: (TileData | undefined)[][] | null = null
 
+  public maps = []
   public users = []
 
   public destroy() {}
 
-  public requestData(type: DataRequestCategory) {
-    this.onRequestData.notify(type, null)
+  public requestData(type: DataRequestCategory, params: any = null) {
+    this.onRequestData.notify(type, params)
   }
 
   public receiveData(type: DataRequestCategory, data: any) {
-    if (type === 'users') {
+    if (type === 'maps') {
+      this.maps = data
+    } else if (type === 'map') {
+      if (!this.currentMap) {
+        this.currentMap = new GameMap()
+      }
+
+      this.currentMap.deserialize(data)
+    } else if (type === 'users') {
       this.users = data
     }
   }
 
   public createMap() {
     this.currentMap = new GameMap()
+  }
+
+  public async loadMap(name: string) {
+    this.requestData('map', name)
+  }
+
+  public async saveMap() {
+    if (this.currentMap) {
+      this.requestData('saveMap', this.currentMap.serialize())
+    }
   }
 
   public selectTile(set: string, x: number, y: number) {
