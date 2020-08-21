@@ -2,7 +2,7 @@
   "key": "deerling",
   "name": "A deer",
   "sprite": {
-    "set": "Castle",
+    "set": "Rampart",
     "x": 0,
     "y": 0
   }

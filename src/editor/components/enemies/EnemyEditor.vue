@@ -4,19 +4,40 @@
     <div class="chrome panel layout-v layout-fill">
       <div v-if="$state.currentEnemy">
         <div>
-          <h3>Name</h3>
-          <input name="name" type="text" v-model="$state.currentEnemy.name" />
+          <h2>Name</h2>
+          <input type="text" v-model="$state.currentEnemy.name" />
         </div>
         <div>
-          <h3>Sprite</h3>
+          <h2>Sprite</h2>
           <div>
             <span>Set</span>
-            <input name="name" type="text" v-model="$state.currentEnemy.sprite.set" />
+            <drop-down v-model="$state.currentEnemy.sprite.set">
+              <div v-for="(filename, set) in enemies" :key="set">{{ set }}</div>
+            </drop-down>
           </div>
-          <span>X</span>
-          <input name="name" type="number" v-model="$state.currentEnemy.sprite.x" />
-          <span>Y</span>
-          <input name="name" type="number" v-model="$state.currentEnemy.sprite.y" />
+
+          <h2>Animations</h2>
+          <button @click="newAnim">
+            <i class="fa fa-plus"></i>
+          </button>
+          <div v-for="anim of $state.currentEnemy.sprite.animations">
+            <animation-player
+              :spritesheet="enemies[$state.currentEnemy.sprite.set]"
+              :animation="anim"
+            />
+            <span>Name</span>
+            <input type="text" size="5" v-model="anim.name" />
+            <span>X</span>
+            <input type="text" size="2" v-model="anim.x" />
+            <span>Y</span>
+            <input type="text" size="2" v-model="anim.y" />
+            <span>Frames</span>
+            <input type="text" size="2" v-model="anim.frames" />
+            <span>FPS</span>
+            <input type="text" size="2" v-model="anim.fps" />
+            <span>Loop</span>
+            <input type="checkbox" v-model="anim.loop" />
+          </div>
         </div>
       </div>
     </div>
@@ -27,15 +48,39 @@
   import Vue from 'vue'
   import EnemyList from './EnemyList.vue'
   import DropDown from '../controls/DropDown.vue'
+  import AnimationPlayer from '../util/AnimationPlayer.vue'
+  import enemies from '../../data/enemies'
 
   export default Vue.extend({
     components: {
       EnemyList,
       DropDown,
+      AnimationPlayer,
+    },
+
+    data() {
+      return {
+        enemies,
+      }
     },
 
     created() {
       this.$state.requestData('enemies')
+    },
+
+    methods: {
+      newAnim() {
+        if (!this.$state.currentEnemy) return
+
+        this.$state.currentEnemy.sprite.animations.push({
+          name: '',
+          x: 0,
+          y: 0,
+          frames: 4,
+          fps: 4,
+          loop: true,
+        })
+      },
     },
   })
 </script>

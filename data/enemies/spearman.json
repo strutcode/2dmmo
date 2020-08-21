@@ -1,0 +1,51 @@
+{
+  "key": "spearman",
+  "name": "Spearman",
+  "sprite": {
+    "set": "Castle",
+    "animations": [
+      {
+        "name": "idle",
+        "x": "0",
+        "y": "35",
+        "frames": 4,
+        "fps": "4",
+        "loop": true
+      },
+      {
+        "name": "move",
+        "x": 0,
+        "y": "36",
+        "frames": "4",
+        "fps": "4",
+        "loop": true
+      },
+      {
+        "name": "attack",
+        "x": 0,
+        "y": "37",
+        "frames": 4,
+        "fps": "8",
+        "loop": true
+      },
+      {
+        "name": "hit",
+        "x": 0,
+        "y": "38",
+        "frames": 4,
+        "fps": "8",
+        "loop": true
+      },
+      {
+        "name": "die",
+        "x": 0,
+        "y": "39",
+        "frames": 4,
+        "fps": 4,
+        "loop": true
+      }
+    ],
+    "x": "10",
+    "y": "10"
+  }
+}

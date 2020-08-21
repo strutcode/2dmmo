@@ -58,12 +58,13 @@
 
 <style scoped>
   .enemyList {
-    flex: 0 0 140px;
+    flex: 0 0 200px;
   }
 
   .enemy {
     position: relative;
-    padding: 0.5rem;
+    padding: 0 1.2em;
+    line-height: 2.5em;
     cursor: default;
   }
 

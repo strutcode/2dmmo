@@ -3,6 +3,24 @@
   "name": "New Enemy",
   "sprite": {
     "set": "Castle",
+    "animations": [
+      {
+        "name": "idle",
+        "x": "0",
+        "y": "42",
+        "frames": 4,
+        "fps": 4,
+        "loop": true
+      },
+      {
+        "name": "move",
+        "x": 0,
+        "y": "43",
+        "frames": 4,
+        "fps": 4,
+        "loop": true
+      }
+    ],
     "x": "10",
     "y": "10"
   }

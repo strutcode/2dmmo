@@ -4,5 +4,6 @@
   "typescript.tsserver.experimental.enableProjectDiagnostics": true,
   "vetur.format.scriptInitialIndent": true,
   "vetur.format.styleInitialIndent": true,
-  "remote.restoreForwardedPorts": true
+  "remote.restoreForwardedPorts": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
