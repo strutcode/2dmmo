@@ -5,6 +5,7 @@
     <enemy-editor class="chrome layout-fill" v-else-if="$state.mode === 'enemies'" />
     <div class="chrome layout-fill" v-else-if="$state.mode === 'items'" />
     <user-editor class="chrome panel layout-fill" v-else-if="$state.mode === 'users'" />
+    <config-editor class="chrome panel layout-fill" v-else-if="$state.mode === 'config'" />
     <status-bar class="chrome secondary" />
   </div>
 </template>
@@ -16,6 +17,7 @@
   import WorldEditor from './world/WorldEditor.vue'
   import EnemyEditor from './enemies/EnemyEditor.vue'
   import UserEditor from './users/UserEditor.vue'
+  import ConfigEditor from './config/ConfigEditor.vue'
 
   export default Vue.extend({
     components: {
@@ -24,6 +26,7 @@
       WorldEditor,
       EnemyEditor,
       UserEditor,
+      ConfigEditor,
     },
   })
 </script>

@@ -20,7 +20,7 @@ export interface Selection {
   h: number
 }
 
-export type EditorMode = 'world' | 'enemies' | 'items' | 'users'
+export type EditorMode = 'world' | 'enemies' | 'items' | 'users' | 'config'
 export type DataRequestCategory =
   | 'maps'
   | 'map'
