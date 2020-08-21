@@ -88,6 +88,27 @@ export default class GameServer {
             data.type,
             await this.database.saveMap(data.params.name, data.params),
           )
+        } else if (data.type === 'enemies') {
+          this.socketServer.wizardData(
+            id,
+            data.type,
+            await this.database.listEnemies(),
+          )
+        } else if (data.type === 'enemy') {
+          const enemy = await this.database.getEnemy(data.params)
+
+          if (enemy) {
+            this.socketServer.wizardData(id, data.type, {
+              name: data.params,
+              ...enemy,
+            })
+          }
+        } else if (data.type === 'saveEnemy') {
+          this.socketServer.wizardData(
+            id,
+            data.type,
+            await this.database.saveEnemy(data.params.key, data.params),
+          )
         } else if (data.type === 'users') {
           const users = await this.database.listUsers()
 

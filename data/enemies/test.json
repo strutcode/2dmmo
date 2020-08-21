@@ -1,0 +1,9 @@
+{
+  "key": "test",
+  "name": "New Enemy",
+  "sprite": {
+    "set": "Castle",
+    "x": "10",
+    "y": "10"
+  }
+}

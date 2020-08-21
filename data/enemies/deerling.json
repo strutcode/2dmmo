@@ -1,0 +1,9 @@
+{
+  "key": "deerling",
+  "name": "A deer",
+  "sprite": {
+    "set": "Castle",
+    "x": 0,
+    "y": 0
+  }
+}

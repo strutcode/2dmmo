@@ -6,8 +6,10 @@ export default class EnemyData {
     y: 0,
   }
 
+  constructor(public key: string) {}
+
   serialize() {
-    return this
+    return { ...this }
   }
 
   deserialize(data: any) {

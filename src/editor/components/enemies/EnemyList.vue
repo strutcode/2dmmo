@@ -3,9 +3,10 @@
     <action-bar :items="enemyActions" />
     <div class="layout-fill chrome secondary">
       <div
-        class="enemy"
         v-for="enemy in $state.enemies"
         :key="enemy"
+        class="enemy"
+        :class="{ selected: $state.currentEnemy && $state.currentEnemy.key === enemy }"
         @click="() => $state.loadEnemy(enemy)"
       >{{ enemy }}</div>
     </div>
@@ -26,9 +27,15 @@
         enemyActions: [
           {
             icon: 'plus',
+            action: () => {
+              this.$state.createEnemy()
+            },
           },
           {
             icon: 'pencil-alt',
+            action: () => {
+              this.$state.renameEnemy()
+            },
           },
           {
             icon: 'save',

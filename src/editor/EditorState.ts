@@ -27,6 +27,7 @@ export type DataRequestCategory =
   | 'saveMap'
   | 'enemies'
   | 'enemy'
+  | 'renameEnemy'
   | 'saveEnemy'
   | 'users'
 
@@ -36,9 +37,9 @@ export default class EditorState {
   public mode: EditorMode = 'world'
   public connected = false
 
-  public maps = []
-  public enemies = []
-  public items = []
+  public maps: string[] = []
+  public enemies: string[] = []
+  public items: string[] = []
   public users = []
 
   public currentMap: GameMap | null = null
@@ -65,6 +66,14 @@ export default class EditorState {
       }
 
       this.currentMap.deserialize(data)
+    } else if (type === 'enemies') {
+      this.enemies = data
+    } else if (type === 'enemy') {
+      if (!this.currentEnemy) {
+        this.currentEnemy = new EnemyData(data.key)
+      }
+
+      this.currentEnemy.deserialize(data)
     } else if (type === 'users') {
       this.users = data
     }
@@ -86,6 +95,34 @@ export default class EditorState {
 
   public async loadEnemy(name: string) {
     this.requestData('enemy', name)
+  }
+
+  public createEnemy() {
+    let name = 'New Enemy'
+
+    this.currentEnemy = new EnemyData(name)
+
+    if (!this.enemies.includes('New Enemy')) {
+      this.enemies.push(name)
+    }
+  }
+
+  public renameEnemy() {
+    if (this.currentEnemy) {
+      const oldVal = this.currentEnemy.key
+      const newVal = prompt('Enter a new name', oldVal)
+
+      if (newVal) {
+        this.currentEnemy.key = newVal
+        this.enemies = this.enemies.map(name =>
+          name === oldVal ? newVal : name,
+        )
+        this.requestData('renameEnemy', {
+          from: oldVal,
+          to: this.currentEnemy.key,
+        })
+      }
+    }
   }
 
   public async saveEnemy() {

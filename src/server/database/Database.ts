@@ -163,6 +163,45 @@ export default class Database {
     }
   }
 
+  public async listEnemies() {
+    const files = await readdir('./data/enemies', {
+      encoding: 'utf8',
+    })
+
+    return files.map(name => name.substr(0, name.length - 5))
+  }
+
+  public async getEnemy(name: string): Promise<object | undefined> {
+    const filename = `./data/enemies/${name}.json`
+
+    try {
+      await access(filename)
+
+      const content = await readFile(filename, { encoding: 'utf8' })
+
+      return JSON.parse(content)
+    } catch (e) {
+      log.error('Database', `Couldn't get enemy ${name}`)
+      return undefined
+    }
+  }
+
+  public async saveEnemy(name: string, data: object): Promise<boolean> {
+    const filename = `./data/enemies/${name}.json`
+
+    try {
+      log.out('Database', `Update enemy '${name}'`)
+      await writeFile(filename, JSON.stringify(data, null, 2), {
+        encoding: 'utf8',
+      })
+
+      return true
+    } catch (e) {
+      log.error('Database', `Failed to update enemy '${name}'`)
+      return false
+    }
+  }
+
   private async syncPlayer(player: Player) {
     log.out('Database', `Sync player ${player.name} (${player.id})`)
   }
