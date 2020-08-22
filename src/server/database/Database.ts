@@ -136,12 +136,18 @@ export default class Database {
   }
 
   public async createUser(form: Record<string, any>, wizard = false) {
+    const { username, password } = form
     const id = String(this.id++)
     log.info('Database', `Create user ${id}`)
 
+    const salt = await bcrypt.genSalt()
+    const passwordHash = await bcrypt.hash(password, salt)
+
     await this.db.hmset(`user:${id}`, {
       id,
-      ...form,
+      username,
+      password: passwordHash,
+      salt,
       wizard: +wizard,
     })
 
@@ -151,7 +157,8 @@ export default class Database {
 
     return {
       id,
-      ...form,
+      username,
+      wizard
     }
   }
 

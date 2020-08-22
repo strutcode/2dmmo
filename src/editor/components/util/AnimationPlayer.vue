@@ -16,6 +16,10 @@
         type: Object,
         required: true,
       },
+      scale: {
+        type: Number,
+        default: 2,
+      },
     },
 
     data() {
@@ -40,16 +44,19 @@
         let sheetWidth = 'auto'
 
         if (this.$refs.img instanceof HTMLImageElement) {
-          sheetWidth = `${this.$refs.img.naturalWidth * 2}px`
+          sheetWidth = `${this.$refs.img.naturalWidth * this.scale}px`
         }
 
         const left = this.animation.x + (this.frames % this.animation.frames)
         const top = this.animation.y
+        const size = 16 * this.scale
 
         return {
+          width: `${size}px`,
+          height: `${size}px`,
           backgroundImage: `url(${this.spritesheet})`,
           backgroundSize: `${sheetWidth} auto`,
-          backgroundPosition: `${-left * 32}px ${-top * 32}px`,
+          backgroundPosition: `${-left * size}px ${-top * size}px`,
         }
       },
     },
@@ -68,8 +75,6 @@
 <style scoped>
   .player {
     display: inline-block;
-    width: 32px;
-    height: 32px;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: -moz-crisp-edges;
     image-rendering: pixelated;

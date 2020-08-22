@@ -20,24 +20,32 @@
           <button @click="newAnim">
             <i class="fa fa-plus"></i>
           </button>
-          <div class="animRow" v-for="anim of $state.currentEnemy.sprite.animations">
-            <animation-player
-              :spritesheet="enemies[$state.currentEnemy.sprite.set]"
-              :animation="anim"
-            />
-            <span>Name</span>
-            <input type="text" size="5" v-model="anim.name" />
-            <span>X</span>
-            <input type="text" size="2" v-model="anim.x" />
-            <span>Y</span>
-            <input type="text" size="2" v-model="anim.y" />
-            <span>Frames</span>
-            <input type="text" size="2" v-model="anim.frames" />
-            <span>FPS</span>
-            <input type="text" size="2" v-model="anim.fps" />
-            <span>Loop</span>
-            <input type="checkbox" v-model="anim.loop" />
-          </div>
+          <data-table
+            :columns="['preview', 'name', 'x', 'y', 'frames', 'fps', 'loop']"
+            :rows="computedAnimations"
+          >
+            <template v-slot:row-preview="{ row }">
+              <animation-player :spritesheet="row.preview" :animation="row.anim" :scale="3" />
+            </template>
+            <template v-slot:row-name="{ row }">
+              <input type="text" size="5" v-model="row.anim.name" />
+            </template>
+            <template v-slot:row-x="{ row }">
+              <input type="text" size="2" v-model="row.anim.x" />
+            </template>
+            <template v-slot:row-y="{ row }">
+              <input type="text" size="2" v-model="row.anim.y" />
+            </template>
+            <template v-slot:row-frames="{ row }">
+              <input type="text" size="2" v-model="row.anim.frames" />
+            </template>
+            <template v-slot:row-fps="{ row }">
+              <input type="text" size="2" v-model="row.anim.fps" />
+            </template>
+            <template v-slot:row-loop="{ row }">
+              <input type="checkbox" v-model="row.anim.loop" />
+            </template>
+          </data-table>
         </div>
       </div>
     </div>
@@ -49,6 +57,7 @@
   import EnemyList from './EnemyList.vue'
   import DropDown from '../controls/DropDown.vue'
   import AnimationPlayer from '../util/AnimationPlayer.vue'
+  import DataTable from '../util/DataTable.vue'
   import enemies from '../../data/enemies'
 
   export default Vue.extend({
@@ -56,6 +65,7 @@
       EnemyList,
       DropDown,
       AnimationPlayer,
+      DataTable,
     },
 
     data() {
@@ -66,6 +76,23 @@
 
     created() {
       this.$state.requestData('enemies')
+    },
+
+    computed: {
+      computedAnimations() {
+        const enemy = this.$state.currentEnemy
+
+        if (!enemy) {
+          return []
+        }
+
+        return enemy.sprite.animations.map((anim) => {
+          return {
+            preview: enemies[enemy.sprite.set],
+            anim,
+          }
+        })
+      },
     },
 
     methods: {
