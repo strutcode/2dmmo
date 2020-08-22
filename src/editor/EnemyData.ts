@@ -21,7 +21,14 @@ export default class EnemyData {
   }
 
   deserialize(data: any) {
-    this.name ||= data.name
-    Object.assign(this.sprite, data.sprite)
+    this.name = data.name ?? this.name
+    Object.assign(
+      this.sprite,
+      {
+        set: 'Castle',
+        animations: [] as Animation[],
+      },
+      data.sprite,
+    )
   }
 }
