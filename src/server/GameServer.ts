@@ -123,6 +123,18 @@ export default class GameServer {
           })
 
           this.socketServer.wizardData(id, data.type, onlineUsers)
+        } else if (data.type === 'config') {
+          this.socketServer.wizardData(
+            id,
+            data.type,
+            await this.database.loadConfig(),
+          )
+        } else if (data.type === 'saveConfig') {
+          this.socketServer.wizardData(
+            id,
+            data.type,
+            await this.database.saveConfig(data.params),
+          )
         }
       }
 

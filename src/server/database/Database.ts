@@ -43,6 +43,37 @@ export default class Database {
     log.info('Database', 'Database connected')
   }
 
+  public async loadConfig(): Promise<object | undefined> {
+    const filename = `./data/config.json`
+
+    try {
+      const content = await readFile(filename, {
+        encoding: 'utf8',
+      })
+
+      return JSON.parse(content)
+    } catch (e) {
+      log.error('Database', `Failed to load game config`)
+      return undefined
+    }
+  }
+
+  public async saveConfig(data: object) {
+    const filename = `./data/config.json`
+
+    try {
+      log.out('Database', `Update game config`)
+      await writeFile(filename, JSON.stringify(data, null, 2), {
+        encoding: 'utf8',
+      })
+
+      return true
+    } catch (e) {
+      log.error('Database', `Failed to update game config`)
+      return false
+    }
+  }
+
   public addPlayer(player: Player) {
     this.timers.set(
       player.id,

@@ -1,9 +1,11 @@
 <template>
   <div>
     <div>Default map</div>
-    <drop-down>
-      <div>Test</div>
+    <drop-down v-model="$state.config.defaultMap">
+      <div v-for="map in $state.maps" :key="map">{{ map }}</div>
     </drop-down>
+
+    <button @click="() => $state.saveConfig()">Save</button>
   </div>
 </template>
 
@@ -14,6 +16,10 @@
   export default Vue.extend({
     components: {
       DropDown,
+    },
+
+    created() {
+      this.$state.loadConfig()
     },
   })
 </script>

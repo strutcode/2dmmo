@@ -2,6 +2,7 @@ import GameMap, { TileData } from './GameMap'
 import floodFill from './util/FloodFill'
 import Observable from '../common/Observable'
 import EnemyData from './EnemyData'
+import GameConfig from './GameConfig'
 
 export type ToolType = 'pencil' | 'eraser' | 'fill' | 'select'
 export type ModKeys = {
@@ -30,6 +31,8 @@ export type DataRequestCategory =
   | 'renameEnemy'
   | 'saveEnemy'
   | 'users'
+  | 'config'
+  | 'saveConfig'
 
 export default class EditorState {
   public onRequestData = new Observable<(type: string, params: any) => void>()
@@ -50,6 +53,8 @@ export default class EditorState {
   public floatingSelection: (TileData | undefined)[][] | null = null
 
   public currentEnemy: EnemyData | null = null
+
+  public config = new GameConfig()
 
   public destroy() {}
 
@@ -76,6 +81,10 @@ export default class EditorState {
       this.currentEnemy.deserialize(data)
     } else if (type === 'users') {
       this.users = data
+    } else if (type === 'config') {
+      if (data) {
+        this.config.deserialize(data)
+      }
     }
   }
 
@@ -129,6 +138,14 @@ export default class EditorState {
     if (this.currentEnemy) {
       this.requestData('saveEnemy', this.currentEnemy.serialize())
     }
+  }
+
+  public async loadConfig() {
+    this.requestData('config')
+  }
+
+  public async saveConfig() {
+    this.requestData('saveConfig', this.config.serialize())
   }
 
   public selectTile(set: string, x: number, y: number) {
