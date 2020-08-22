@@ -70,6 +70,9 @@
     display: inline-block;
     width: 32px;
     height: 32px;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: pixelated;
   }
 
   img {

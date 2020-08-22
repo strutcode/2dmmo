@@ -20,7 +20,7 @@
           <button @click="newAnim">
             <i class="fa fa-plus"></i>
           </button>
-          <div v-for="anim of $state.currentEnemy.sprite.animations">
+          <div class="animRow" v-for="anim of $state.currentEnemy.sprite.animations">
             <animation-player
               :spritesheet="enemies[$state.currentEnemy.sprite.set]"
               :animation="anim"
@@ -84,3 +84,14 @@
     },
   })
 </script>
+
+<style scoped>
+  .animRow {
+    display: flex;
+    align-items: center;
+  }
+
+  .animRow > *:not(:first-child) {
+    margin-left: 1em;
+  }
+</style>
