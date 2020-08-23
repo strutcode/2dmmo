@@ -27,6 +27,9 @@
         mapActions: [
           {
             icon: 'plus',
+            action: () => {
+              this.$state.createMap()
+            },
           },
           {
             icon: 'pencil-alt',

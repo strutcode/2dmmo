@@ -12,6 +12,9 @@
     <button :class="{ selected: currentTool === 'select' }" @click="setTool('select')">
       <i class="fa fa-vector-square"></i>
     </button>
+    <button @click="() => $state.resizeMap()">
+      <i class="fa fa-crop-alt"></i>
+    </button>
   </div>
 </template>
 

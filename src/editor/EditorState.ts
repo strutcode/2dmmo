@@ -69,7 +69,7 @@ export default class EditorState {
       this.maps = data
     } else if (type === 'map') {
       if (!this.currentMap) {
-        this.currentMap = new GameMap()
+        this.currentMap = new GameMap(data.name)
       }
 
       this.currentMap.deserialize(data)
@@ -93,11 +93,29 @@ export default class EditorState {
   }
 
   public createMap() {
-    this.currentMap = new GameMap()
+    let name = 'New Map'
+
+    this.currentMap = new GameMap(name)
+
+    if (!this.maps.includes(name)) {
+      this.maps.push(name)
+    }
   }
 
   public async loadMap(name: string) {
     this.requestData('map', name)
+  }
+
+  public resizeMap() {
+    if (this.currentMap) {
+      const width = prompt('Enter width')
+      if (!width) return
+
+      const height = prompt('Enter height')
+      if (!height) return
+
+      this.currentMap.resize(+width, +height)
+    }
   }
 
   public async saveMap() {

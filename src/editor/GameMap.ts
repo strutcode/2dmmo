@@ -8,11 +8,14 @@ export type SerializedMap = {
 }
 
 export default class GameMap {
-  public name = 'Untitled'
   public layers: TileLayer[] = [{ name: 'Untitled Layer', data: [] }]
   private l = 0
 
-  public constructor(public width = 10, public height = 10) {}
+  public constructor(
+    public name: string,
+    public width = 10,
+    public height = 10,
+  ) {}
 
   public selectLayer(index: number) {
     if (this.layers[index]) {
@@ -115,6 +118,27 @@ export default class GameMap {
         delete this.layers[l].data[v][u]
       }
     }
+  }
+
+  public resize(width: number, height: number) {
+    let x, y
+
+    this.layers = this.layers.map(oldLayer => {
+      const newLayer: TileLayer = { name: oldLayer.name, data: [] }
+
+      for (y = 0; y < height; y++) {
+        newLayer.data[y] = []
+        if (!oldLayer.data[y]) continue
+
+        for (x = 0; x < width; x++) {
+          newLayer.data[y][x] = oldLayer.data[y][x]
+        }
+      }
+
+      return newLayer
+    })
+    this.width = width
+    this.height = height
   }
 
   public serialize(): SerializedMap {
