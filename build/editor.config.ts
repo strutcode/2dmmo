@@ -27,7 +27,7 @@ export default function(mode: Configuration['mode']): Configuration {
         },
         {
           test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
+          use: ['style-loader', 'css-loader', 'postcss-loader'],
         },
         {
           test: /\.(png|ttf|woff2?|eot|svg)$/,
