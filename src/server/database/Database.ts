@@ -34,14 +34,10 @@ export default class Database {
     if (!users.length) {
       log.warn('Database', 'No users, creating default wizard account')
 
-      const salt = await bcrypt.genSalt()
-      const password = await bcrypt.hash('admin', salt)
-
       this.createUser(
         {
           username: 'admin',
-          password,
-          salt,
+          password: 'admin',
         },
         true,
       )
