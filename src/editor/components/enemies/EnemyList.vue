@@ -47,6 +47,9 @@
           },
           {
             icon: 'trash',
+            action: () => {
+              this.$state.deleteEnemy()
+            },
           },
         ],
       }

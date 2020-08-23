@@ -30,6 +30,7 @@ export type DataRequestCategory =
   | 'enemy'
   | 'renameEnemy'
   | 'saveEnemy'
+  | 'deleteEnemy'
   | 'users'
   | 'config'
   | 'saveConfig'
@@ -137,6 +138,13 @@ export default class EditorState {
   public async saveEnemy() {
     if (this.currentEnemy) {
       this.requestData('saveEnemy', this.currentEnemy.serialize())
+    }
+  }
+  public async deleteEnemy() {
+    if (this.currentEnemy) {
+      this.requestData('deleteEnemy', this.currentEnemy.key)
+      this.enemies = this.enemies.filter(k => k !== this.currentEnemy?.key)
+      this.currentEnemy = null
     }
   }
 

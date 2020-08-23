@@ -4,7 +4,14 @@ import bcrypt from 'bcryptjs'
 import Observable from '../../common/Observable'
 import Player from '../entities/Player'
 import Wizard from '../entities/Wizard'
-import { readdir, readFile, stat, access, writeFile } from 'fs/promises'
+import {
+  readdir,
+  readFile,
+  access,
+  writeFile,
+  rename,
+  unlink,
+} from 'fs/promises'
 
 export default class Database {
   public onSync = new Observable()
@@ -127,12 +134,22 @@ export default class Database {
     return users
   }
 
-  public async findUser(username: string) {
+  public async findUser(username: string, password: string) {
     const id = await this.db.get(`uname2id:${username}`)
 
     if (id == null) return undefined
 
-    return this.db.hgetall(`user:${id}`)
+    const user = await this.db.hgetall(`user:${id}`)
+    const challenge = await bcrypt.hash(password, user.salt)
+
+    if (challenge !== user.password) {
+      return undefined
+    }
+
+    delete user.password
+    delete user.salt
+
+    return user
   }
 
   public async createUser(form: Record<string, any>, wizard = false) {
@@ -158,7 +175,7 @@ export default class Database {
     return {
       id,
       username,
-      wizard
+      wizard,
     }
   }
 
@@ -216,26 +233,64 @@ export default class Database {
       await access(filename)
 
       const content = await readFile(filename, { encoding: 'utf8' })
-
-      return JSON.parse(content)
+      const enemy = JSON.parse(content)
+      return {
+        ...enemy,
+        key: name,
+      }
     } catch (e) {
       log.error('Database', `Couldn't get enemy ${name}`)
       return undefined
     }
   }
 
-  public async saveEnemy(name: string, data: object): Promise<boolean> {
+  public async saveEnemy(
+    name: string,
+    data: Record<string, any>,
+  ): Promise<boolean> {
     const filename = `./data/enemies/${name}.json`
 
     try {
       log.out('Database', `Update enemy '${name}'`)
-      await writeFile(filename, JSON.stringify(data, null, 2), {
+
+      const saveData = { ...data }
+      delete saveData.key
+
+      await writeFile(filename, JSON.stringify(saveData, null, 2), {
         encoding: 'utf8',
       })
 
       return true
     } catch (e) {
       log.error('Database', `Failed to update enemy '${name}'`)
+      return false
+    }
+  }
+
+  public async renameEnemy(oldName: string, newName: string): Promise<boolean> {
+    try {
+      await rename(
+        `./data/enemies/${oldName}.json`,
+        `./data/enemies/${newName}.json`,
+      )
+
+      return true
+    } catch (e) {
+      log.error(
+        'Database',
+        `Failed to rename enemy '${oldName}' -> '${newName}`,
+      )
+      return false
+    }
+  }
+
+  public async deleteEnemy(name: string): Promise<boolean> {
+    try {
+      await unlink(`./data/enemies/${name}.json`)
+
+      return true
+    } catch (e) {
+      log.error('Database', `Failed to delete enemy '${name}'`)
       return false
     }
   }

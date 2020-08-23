@@ -103,6 +103,10 @@ export default class GameServer {
               ...enemy,
             })
           }
+        } else if (data.type === 'renameEnemy') {
+          await this.database.renameEnemy(data.params.from, data.params.to)
+        } else if (data.type === 'deleteEnemy') {
+          await this.database.deleteEnemy(data.params)
         } else if (data.type === 'saveEnemy') {
           this.socketServer.wizardData(
             id,

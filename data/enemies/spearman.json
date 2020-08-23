@@ -42,7 +42,7 @@
         "y": "39",
         "frames": 4,
         "fps": 4,
-        "loop": true
+        "loop": false
       }
     ],
     "x": "10",

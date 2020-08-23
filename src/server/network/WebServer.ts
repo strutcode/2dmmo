@@ -63,13 +63,7 @@ export default class WebServer {
 
       if (req.body.signup) {
         log.out('Auth', `Signup: ${username}`)
-        const salt = await bcrypt.genSalt()
-        const hash = await bcrypt.hash(password, salt)
-        const result = await this.database.createUser({
-          username,
-          password: hash,
-          salt,
-        })
+        const result = await this.database.createUser(req.body)
 
         if (result) {
           log.out('Auth', 'Signup complete')
@@ -85,23 +79,17 @@ export default class WebServer {
         res.sendStatus(401)
       } else {
         log.out('Auth', `Login: ${username}`)
-        const result = await this.database.findUser(username)
+        const result = await this.database.findUser(username, password)
 
         if (result) {
-          const challenge = await bcrypt.hash(password, result.salt)
+          log.out('Auth', 'Login successful')
+          const jwt = Authentication.createToken(result.id)
+          res.cookie('auth', jwt, { httpOnly: true })
 
-          if (challenge === result.password) {
-            log.out('Auth', 'Login successful')
-            const jwt = Authentication.createToken(result.id)
-            res.cookie('auth', jwt, { httpOnly: true })
-
-            res.sendStatus(200)
-            return
-          } else {
-            log.out('Auth', 'Password match failed')
-          }
+          res.sendStatus(200)
+          return
         } else {
-          log.out('Auth', `No such user: ${username}`)
+          log.out('Auth', `Authentication failed: ${username}`)
         }
 
         res.sendStatus(404)
