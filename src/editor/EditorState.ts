@@ -270,6 +270,8 @@ export default class EditorState {
         } else {
           this.startSelection(x, y)
         }
+      } else if (this.currentTool === 'walkable') {
+        this.currentMap.setWalkable(x, y, mod.button !== 2)
       } else if (this.selectedTile) {
         if (this.currentTool === 'pencil') {
           if (mod.ctrl) {
@@ -305,8 +307,6 @@ export default class EditorState {
               return true
             },
           )
-        } else if (this.currentTool === 'walkable') {
-          this.currentMap.setWalkable(x, y, mod.button !== 2)
         }
       }
     }

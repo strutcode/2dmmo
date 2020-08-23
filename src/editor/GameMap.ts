@@ -72,7 +72,6 @@ export default class GameMap {
     l: number = this.l,
   ) {
     const tile = this.getTile(x, y, l)
-    console.log('walkable', tile)
 
     if (tile) {
       tile.walkable = walkable
