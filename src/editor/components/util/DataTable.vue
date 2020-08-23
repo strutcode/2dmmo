@@ -14,7 +14,7 @@
           ></i>
         </th>
       </tr>
-      <tr v-for="row in computedRows">
+      <tr v-for="row in computedRows" :key="row.__id__">
         <td v-for="col in computedColumns" :key="col">
           <slot :name="`row-${col}`" :row="row">{{ row[col] }}</slot>
         </td>
@@ -71,7 +71,7 @@ export default Vue.extend({
         return columns
       }
     },
-    computedRows(): object[] {
+    computedRows(): Record<string, any>[] {
       const col = this.sort.column
       const left = this.sort.asc ? -1 : 1
       const right = -left
@@ -80,11 +80,17 @@ export default Vue.extend({
         return this.rows
       }
 
-      return [...this.rows].sort((a, b) => {
-        if (a[col] < b[col]) return left
-        if (a[col] > b[col]) return right
-        return 0
-      })
+      return [...this.rows]
+        .sort((a, b) => {
+          if (a[col] < b[col]) return left
+          if (a[col] > b[col]) return right
+          return 0
+        })
+        .map((row, i) => {
+          row.__id__ = i
+
+          return row
+        })
     },
   },
 
@@ -143,6 +149,6 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
 }
 </style>
