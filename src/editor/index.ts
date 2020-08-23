@@ -27,6 +27,8 @@ let mixin = Vue.observable({
 
 if (module.hot) {
   module.hot.accept(['./EditorState', './network/EditorClient'], () => {
+    log.info('Develop', 'Reload editor state')
+
     client.stop()
     state.destroy()
 
@@ -35,10 +37,8 @@ if (module.hot) {
 
     client.start()
 
-    mixin = Vue.observable({
-      state,
-      client,
-    })
+    mixin.state = state
+    mixin.client = client
   })
 }
 
