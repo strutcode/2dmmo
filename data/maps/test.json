@@ -1462,22 +1462,26 @@
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 4,
@@ -1584,32 +1588,38 @@
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 6,
@@ -1711,32 +1721,38 @@
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 6,
@@ -1838,32 +1854,38 @@
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 6,
@@ -1965,32 +1987,38 @@
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 6,
@@ -2097,22 +2125,26 @@
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 1,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": true
           },
           {
             "x": 4,

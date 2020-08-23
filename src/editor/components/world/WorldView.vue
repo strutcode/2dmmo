@@ -48,6 +48,7 @@
         const button = ev.button
         const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
         const mod = {
+          button,
           ctrl: ev.ctrlKey,
           alt: ev.altKey,
           shift: ev.shiftKey,
@@ -60,6 +61,7 @@
         const move = (ev: PointerEvent) => {
           const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
           const mod = {
+            button,
             ctrl: ev.ctrlKey,
             alt: ev.altKey,
             shift: ev.shiftKey,
@@ -75,6 +77,7 @@
         const stop = (ev: PointerEvent) => {
           const [x, y] = this.view.pointToWorld(ev.offsetX, ev.offsetY)
           const mod = {
+            button,
             ctrl: ev.ctrlKey,
             alt: ev.altKey,
             shift: ev.shiftKey,

@@ -4,8 +4,9 @@ import Observable from '../common/Observable'
 import EnemyData from './EnemyData'
 import GameConfig from './GameConfig'
 
-export type ToolType = 'pencil' | 'eraser' | 'fill' | 'select'
+export type ToolType = 'pencil' | 'eraser' | 'fill' | 'select' | 'walkable'
 export type ModKeys = {
+  button: number
   ctrl: boolean
   alt: boolean
   shift: boolean
@@ -208,7 +209,7 @@ export default class EditorState {
   }
 
   public selectTile(set: string, x: number, y: number) {
-    this.selectedTile = { x, y, set }
+    this.selectedTile = { x, y, set, walkable: false }
   }
 
   public selectLayer(index: number) {
@@ -284,7 +285,14 @@ export default class EditorState {
             y,
             this.selectedTile,
             (x, y) => {
-              return this.currentMap?.getTile(x, y) || { x: 0, y: 0, set: '' }
+              return (
+                this.currentMap?.getTile(x, y) || {
+                  x: 0,
+                  y: 0,
+                  set: '',
+                  walkable: false,
+                }
+              )
             },
             this.currentMap.setTile.bind(this.currentMap),
             [0, 0, this.currentMap.width, this.currentMap.height],
@@ -297,6 +305,8 @@ export default class EditorState {
               return true
             },
           )
+        } else if (this.currentTool === 'walkable') {
+          this.currentMap.setWalkable(x, y, mod.button !== 2)
         }
       }
     }
@@ -316,6 +326,8 @@ export default class EditorState {
         }
       } else if (this.currentTool === 'eraser') {
         this.currentMap.setTile(x, y, undefined)
+      } else if (this.currentTool === 'walkable') {
+        this.currentMap.setWalkable(x, y, mod.button !== 2)
       }
     }
   }

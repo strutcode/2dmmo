@@ -117,6 +117,11 @@ export default class WorldViewRenderer {
                 16.1,
               )
             }
+
+            if (this.state.currentTool === 'walkable' && !tile?.walkable) {
+              ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'
+              ctx.fillRect(x * 16, y * 16, 16, 16)
+            }
           }
         }
       }

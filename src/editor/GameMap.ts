@@ -1,4 +1,4 @@
-export type TileData = { x: number; y: number; set: string }
+export type TileData = { x: number; y: number; set: string; walkable: boolean }
 export type TileLayer = { name: string; data: TileData[][] }
 export type SerializedMap = {
   name: string
@@ -62,6 +62,20 @@ export default class GameMap {
       this.layers[l].data[y][x] = tile
     } else {
       delete this.layers[l].data[y][x]
+    }
+  }
+
+  public setWalkable(
+    x: number,
+    y: number,
+    walkable: boolean,
+    l: number = this.l,
+  ) {
+    const tile = this.getTile(x, y, l)
+    console.log('walkable', tile)
+
+    if (tile) {
+      tile.walkable = walkable
     }
   }
 
