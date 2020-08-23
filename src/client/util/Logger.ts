@@ -7,7 +7,7 @@ enum LogLevel {
 }
 
 export default class Logger {
-  private level = LogLevel.INFO
+  private level = LogLevel.DEBUG
 
   public out(category: string, message: any, ...params: any[]) {
     if (this.level > LogLevel.DEBUG) return

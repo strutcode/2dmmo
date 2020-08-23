@@ -315,15 +315,19 @@ export default class Renderer {
   }
 
   private drawTileMap() {
-    const minX = Math.floor(this.camera.x / 16) * 16 - 14 * 16
-    const minY = Math.floor(this.camera.y / 16) * 16 - 14 * 16
-    const maxX = Math.floor(this.camera.x / 16) * 16 + 14 * 16
-    const maxY = Math.floor(this.camera.y / 16) * 16 + 14 * 16
+    const map = this.state.map
 
-    let x, y
-    for (y = minY; y < maxY; y += 16) {
-      for (x = minX; x < maxX; x += 16) {
-        this.drawTile('grassTiles', 1, 1, Math.floor(x), Math.floor(y))
+    if (!map) return
+
+    let x: number, y: number
+    for (y = 0; y < map.height; y++) {
+      for (x = 0; x < map.width; x++) {
+        map.layers.forEach((layer: any[][]) => {
+          if (layer[y] && layer[y][x]) {
+            const tile = layer[y][x]
+            this.drawTile('grassTiles', tile.x, tile.y, x * 16, y * 16)
+          }
+        })
       }
     }
   }

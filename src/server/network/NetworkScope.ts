@@ -22,14 +22,14 @@ export default class NetworkScope {
       })
     }
 
-    this.mobs.forEach((other) => {
+    this.mobs.forEach(other => {
       this.onChange.notify(other.id, {
         added: [mob],
       })
     })
 
     mob.onMove.observe(() => {
-      this.mobs.forEach((other) => {
+      this.mobs.forEach(other => {
         this.onChange.notify(other.id, {
           updated: [mob],
         })
@@ -37,16 +37,16 @@ export default class NetworkScope {
     })
 
     mob.onKill.observe(() => {
-      this.mobs.forEach((other) => {
+      this.mobs.forEach(other => {
         this.onChange.notify(other.id, {
           updated: [mob],
         })
-        this.mobs = this.mobs.filter((m) => m !== mob)
+        this.mobs = this.mobs.filter(m => m !== mob)
       })
     })
 
     mob.onDamage.observe((who, amount) => {
-      this.mobs.forEach((other) => {
+      this.mobs.forEach(other => {
         this.onAction.notify(other.id, 'hurt', {
           attacker: who,
           defender: mob,
@@ -61,9 +61,9 @@ export default class NetworkScope {
   public updateMobile(mob: Mobile) {}
 
   public removeMobile(mob: Mobile) {
-    this.mobs = this.mobs.filter((m) => m !== mob)
+    this.mobs = this.mobs.filter(m => m !== mob)
 
-    this.mobs.forEach((other) => {
+    this.mobs.forEach(other => {
       this.onChange.notify(other.id, {
         removed: [mob],
       })

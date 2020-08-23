@@ -11,6 +11,7 @@ export default class SocketClient {
   public onConnect = new Observable<() => void>()
   public onLogin = new Observable<(id: string, props: object) => void>()
   public onDisconnect = new Observable<() => void>()
+  public onMapData = new Observable<(map: Record<string, any>) => void>()
   public onMobileAdd = new Observable<(id: string, props: object) => void>()
   public onMobileRemove = new Observable<(id: string) => void>()
   public onMobileUpdate = new Observable<(id: string, change: object) => void>()
@@ -75,6 +76,10 @@ export default class SocketClient {
           y: +y,
           kill: !+alive,
         })
+      } else if (type === 'TILE') {
+        const map = JSON.parse(content)
+
+        this.onMapData.notify(map)
       } else if (type === 'HURT') {
         const [attackerId, defenderId, amount] = content.split(',')
         this.onMobileHit.notify({

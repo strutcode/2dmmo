@@ -138,6 +138,20 @@ export default class SocketServer {
     }
   }
 
+  public sendMap(id: string, map: Record<string, any>) {
+    const socket = this.id2socket.get(id)
+
+    if (!socket) return
+
+    const data = {
+      width: map.width,
+      height: map.height,
+      layers: map.layers.map((layer: any) => layer.data),
+    }
+
+    socket.send(`TILE~${JSON.stringify(data)}`)
+  }
+
   public addScope(scope: NetworkScope) {
     scope.onChange.observe((id, changes) => {
       const socket = this.id2socket.get(id)

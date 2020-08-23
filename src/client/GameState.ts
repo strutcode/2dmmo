@@ -4,6 +4,7 @@ import Observable from '../common/Observable'
 export default class GameState {
   public self?: Mobile
   public mobs = new Map<string, Mobile>()
+  public map?: Record<string, any>
 
   public onMobileAdd = new Observable<(mob: Mobile) => void>()
   public onMobileRemove = new Observable<(mob: Mobile) => void>()

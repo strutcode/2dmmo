@@ -92,6 +92,10 @@ export default class GameClient {
       this.ui.reset()
     })
 
+    this.client.onMapData.observe(map => {
+      this.state.map = map
+    })
+
     this.client.onMobileAdd.observe((id, props) => {
       this.state.addMobile(id, props)
     })
