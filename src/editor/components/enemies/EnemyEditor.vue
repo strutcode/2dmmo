@@ -57,7 +57,7 @@
   import DropDown from '../controls/DropDown.vue'
   import AnimationPlayer from '../util/AnimationPlayer.vue'
   import DataTable from '../util/DataTable.vue'
-  import enemies from '../../data/enemies'
+  import enemies from '../../../common/data/enemies'
 
   export default Vue.extend({
     components: {

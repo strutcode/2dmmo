@@ -12,7 +12,11 @@
           :class="tileClass(x, y)"
           v-for="(_, x) in tilesW"
           :key="x"
-          :style="{ backgroundPosition: `${-x * 32}px ${-y * 32}px`, backgroundSize: `${tilesW * 16 * 2}px ${tilesH * 16 * 2}px`, backgroundImage: `url(${tileSets[tilesKey]})` }"
+          :style="{
+            backgroundPosition: `${-x * 32}px ${-y * 32}px`,
+            backgroundSize: `${tilesW * 16 * 2}px ${tilesH * 16 * 2}px`,
+            backgroundImage: `url(${tileSets[tilesKey]})`,
+          }"
           @click="$state.selectTile(tilesKey, x, y)"
         ></div>
       </div>
@@ -22,7 +26,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import tileSets from '../../data/tilesets'
+  import tileSets from '../../../common/data/tilesets'
   import DropDown from '../controls/DropDown.vue'
 
   export default Vue.extend({

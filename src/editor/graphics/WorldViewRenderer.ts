@@ -1,5 +1,5 @@
 import EditorState from '../EditorState'
-import tileSets from '../data/tilesets'
+import tileSets from '../../common/data/tilesets'
 
 const tiles: Record<string, HTMLImageElement> = {}
 Object.entries(tileSets).forEach(([name, url]) => {

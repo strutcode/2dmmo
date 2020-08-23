@@ -1,8 +1,10 @@
 import Camera from './Camera'
 import GameState from '../GameState'
 import Mobile from '../entities/Mobile'
-import spritemap from '../../common/data/spritemap'
 import HitIndicator from './HitIndicator'
+import spritemap from '../../common/data/spritemap'
+import enemies from '../../common/data/enemies'
+import tilesets from '../../common/data/tilesets'
 
 interface Transition {
   x1: number
@@ -90,9 +92,8 @@ export default class Renderer {
         const img = new Image()
         img.src = src
         img.onload = () => resolve(img)
-        img.onerror = (e) => reject(e)
+        img.onerror = e => reject(e)
       })
-
     this.assets.grassTiles = await loadImage(
       require('../../../assets/HAS Overworld 2.0/GrassBiome/GB-LandTileset.png')
         .default,
@@ -112,7 +113,7 @@ export default class Renderer {
 
     this.hitIndicators.push(indicator)
     indicator.onDie.observe(() => {
-      this.hitIndicators = this.hitIndicators.filter((i) => i !== indicator)
+      this.hitIndicators = this.hitIndicators.filter(i => i !== indicator)
     })
   }
 
@@ -127,7 +128,7 @@ export default class Renderer {
     this.drawTileMap()
     ;[...this.state.mobs.values()]
       .sort((a, b) => a.y - b.y)
-      .forEach((mob) => {
+      .forEach(mob => {
         const { name, sprite, action, flip } = mob
 
         const frame = this.animate(mob, delta)
@@ -144,7 +145,7 @@ export default class Renderer {
         })
       })
 
-    this.hitIndicators.forEach((indicator) => {
+    this.hitIndicators.forEach(indicator => {
       this.drawText(indicator.text, {
         color: 'red',
         size: 14,
