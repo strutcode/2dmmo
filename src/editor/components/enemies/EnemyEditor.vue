@@ -10,7 +10,6 @@
         <div>
           <h2>Sprite</h2>
           <div>
-            <span>Set</span>
             <drop-down v-model="$state.currentEnemy.sprite.set">
               <div v-for="(filename, set) in enemies" :key="set">{{ set }}</div>
             </drop-down>

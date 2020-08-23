@@ -5,7 +5,9 @@
       <div v-for="map in $state.maps" :key="map">{{ map }}</div>
     </drop-down>
 
-    <button @click="() => $state.saveConfig()">Save</button>
+    <div>
+      <button class="primary" @click="() => $state.saveConfig()">Save</button>
+    </div>
   </div>
 </template>
 

@@ -52,13 +52,33 @@ html {
   background: rgba(0, 0, 0, 0.5);
 }
 
+.chrome button.primary {
+  background: rgb(35, 61, 146);
+  padding: 0.5rem 1rem;
+}
+
+button {
+  position: relative;
+}
+
+button:hover:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .panel {
   padding: 1rem;
   overflow: auto;
   border: 1px solid rgb(19, 23, 39);
 }
 
-.control, input {
+.control,
+input {
   background: rgb(59, 69, 97);
   color: rgb(214, 219, 228);
 }
@@ -66,5 +86,24 @@ html {
 input {
   border: 0;
   height: 2.5em;
-  padding: 0 1.2em;
+  padding: 0 0.5em;
+}
+
+input[type='checkbox'] {
+  appearance: none;
+  position: relative;
+  width: 1.5em;
+  height: 1.5em;
+  padding: 0;
+}
+
+input[type='checkbox']:checked:before {
+  content: '\f00c';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

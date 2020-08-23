@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown control" @click.stop="toggle" :style="{ width }">
     <div ref="header" class="layout-h">
-      <div class="header layout-fill">{{ value || placeholder || ''}}</div>
+      <div class="header layout-fill">{{ value || placeholder || '' }}</div>
       <div class="arrow control">
         <i class="fa fa-angle-down"></i>
       </div>
@@ -106,7 +106,7 @@
   }
 
   .header {
-    padding: 0 1.2em;
+    padding: 0 0.5em;
   }
 
   .arrow {
@@ -122,7 +122,7 @@
   }
 
   .dropdown-panel > * {
-    padding: 0 1.2em;
+    padding: 0 0.5em;
   }
 
   .dropdown-panel > *:hover {
