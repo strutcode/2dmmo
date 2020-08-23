@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs'
+import { existsSync, readFileSync, writeFileSync } from 'fs'
 import { JWK, JWT } from 'jose'
 
 export interface AuthToken {
@@ -10,7 +10,18 @@ export default class Authentication {
 
   public static init() {
     log.info('Security', 'Loading authentication keys...')
-    this.key = JWK.asKey(readFileSync('keys/jwt'))
+    if (existsSync('keys/jwt')) {
+      this.key = JWK.asKey(readFileSync('keys/jwt'))
+    } else {
+      log.warn('Security', 'No authentication key found, generating one...')
+      this.key = JWK.generateSync('EC', 'P-521')
+
+      const prvKey = this.key.toPEM(true)
+      const pubKey = this.key.toPEM(false)
+
+      writeFileSync('keys/jwt', prvKey)
+      writeFileSync('keys/jwt.pub', pubKey)
+    }
   }
 
   public static createToken(id: string) {
