@@ -33,6 +33,9 @@
           },
           {
             icon: 'pencil-alt',
+            action: () => {
+              this.$state.renameMap()
+            },
           },
           {
             icon: 'save',

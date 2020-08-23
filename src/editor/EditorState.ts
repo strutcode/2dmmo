@@ -25,6 +25,7 @@ export type EditorMode = 'world' | 'enemies' | 'items' | 'users' | 'config'
 export type DataRequestCategory =
   | 'maps'
   | 'map'
+  | 'renameMap'
   | 'saveMap'
   | 'enemies'
   | 'enemy'
@@ -104,6 +105,22 @@ export default class EditorState {
 
   public async loadMap(name: string) {
     this.requestData('map', name)
+  }
+
+  public renameMap() {
+    if (this.currentMap) {
+      const oldVal = this.currentMap.name
+      const newVal = prompt('Enter a new name', oldVal)
+
+      if (newVal) {
+        this.currentMap.name = newVal
+        this.maps = this.maps.map(name => (name === oldVal ? newVal : name))
+        this.requestData('renameMap', {
+          from: oldVal,
+          to: this.currentMap.name,
+        })
+      }
+    }
   }
 
   public resizeMap() {

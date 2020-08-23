@@ -91,6 +91,8 @@ export default class GameServer {
               ...map,
             })
           }
+        } else if (data.type === 'renameMap') {
+          await this.database.renameMap(data.params.from, data.params.to)
         } else if (data.type === 'saveMap') {
           this.socketServer.wizardData(
             id,

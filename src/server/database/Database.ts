@@ -214,11 +214,26 @@ export default class Database {
       await access(filename)
 
       const content = await readFile(filename, { encoding: 'utf8' })
+      const map = JSON.parse(content)
 
-      return JSON.parse(content)
+      return {
+        ...map,
+        name,
+      }
     } catch (e) {
       log.error('Database', `Couldn't get map ${name}`)
       return undefined
+    }
+  }
+
+  public async renameMap(oldName: string, newName: string): Promise<boolean> {
+    try {
+      await rename(`./data/maps/${oldName}.json`, `./data/maps/${newName}.json`)
+
+      return true
+    } catch (e) {
+      log.error('Database', `Failed to rename map '${oldName}' -> '${newName}`)
+      return false
     }
   }
 
