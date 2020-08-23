@@ -1,7 +1,7 @@
 <template>
   <div class="tileList layout-v">
     <div class="controls">
-      <drop-down v-model="tilesKey">
+      <drop-down v-model="tilesKey" style="width: 100%">
         <div v-for="(url, key) in tileSets" :key="key" :value="key">{{ key }}</div>
       </drop-down>
     </div>

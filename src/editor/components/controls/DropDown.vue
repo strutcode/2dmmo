@@ -119,6 +119,7 @@
     position: absolute;
     top: 100%;
     left: 0;
+    z-index: 10000;
   }
 
   .dropdown-panel > * {
