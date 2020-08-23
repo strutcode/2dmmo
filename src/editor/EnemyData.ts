@@ -21,6 +21,7 @@ export default class EnemyData {
   }
 
   deserialize(data: any) {
+    this.key = data.key ?? this.key
     this.name = data.name ?? this.name
     Object.assign(
       this.sprite,

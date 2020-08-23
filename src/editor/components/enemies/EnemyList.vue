@@ -6,7 +6,9 @@
         v-for="enemy in $state.enemies"
         :key="enemy"
         class="enemy"
-        :class="{ selected: $state.currentEnemy && $state.currentEnemy.key === enemy }"
+        :class="{
+          selected: $state.currentEnemy && $state.currentEnemy.key === enemy,
+        }"
         @click="() => $state.loadEnemy(enemy)"
       >{{ enemy }}</div>
     </div>
