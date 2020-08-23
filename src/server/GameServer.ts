@@ -46,8 +46,17 @@ export default class GameServer {
 
     this.socketServer.addScope(this.globalScope)
 
-    this.socketServer.onAuth.observe(async (token, id) => {
-      const client = await this.database.getUser(id)
+    this.socketServer.onAuth.observe(async (token, id, override) => {
+      let client = await this.database.getUser(id)
+
+      if (client instanceof Wizard && override) {
+        const user = await this.database.getUser(override)
+
+        if (user) {
+          log.warn('Game', `Wizard (${client.id}) joined as ${user.id}`)
+          client = user
+        }
+      }
 
       this.socketServer.authResponse(token, client)
 
@@ -127,6 +136,24 @@ export default class GameServer {
           })
 
           this.socketServer.wizardData(id, data.type, onlineUsers)
+        } else if (data.type === 'saveUser') {
+          const existing =
+            data.params.id != null &&
+            (await this.database.getUser(data.params.id))
+
+          if (existing) {
+            this.socketServer.wizardData(
+              id,
+              data.type,
+              await this.database.saveUser(existing.id, data.params),
+            )
+          } else {
+            this.socketServer.wizardData(
+              id,
+              data.type,
+              await this.database.createUser(data.params),
+            )
+          }
         } else if (data.type === 'config') {
           this.socketServer.wizardData(
             id,

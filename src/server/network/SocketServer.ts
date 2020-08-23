@@ -12,7 +12,9 @@ import { Socket } from 'dgram'
 
 export default class SocketServer {
   public onConnect = new Observable<(id: string) => void>()
-  public onAuth = new Observable<(id: string, jwt: string) => void>()
+  public onAuth = new Observable<
+    (token: string, id: string, override?: string) => void
+  >()
   public onMessage = new Observable<
     (id: string, type: string, data: any) => void
   >()
@@ -54,8 +56,11 @@ export default class SocketServer {
         const authCookie = cookies['auth']
         const jwt = Authentication.verifyToken(authCookie)
 
+        const idOverride = (request.url || '').match(/id=(\d+)/)
+        const override = idOverride ? idOverride[1] : undefined
+
         log.out('Socket', `Auth handshake: ${token}`)
-        this.onAuth.notify(token, jwt.sub)
+        this.onAuth.notify(token, jwt.sub, override)
       } catch (e) {
         log.out('Socket', 'Failed authentication')
         socket.close()

@@ -126,6 +126,7 @@ export default class Database {
 
         delete user.password
         delete user.salt
+        ;(user.wizard as any) = user.wizard === '1'
 
         return user
       }),
@@ -171,6 +172,25 @@ export default class Database {
     await this.db.sadd('users', id)
     await this.db.set(`uname2id:${form.username}`, id)
     await this.db.incr('userid')
+
+    return {
+      id,
+      username,
+      wizard,
+    }
+  }
+
+  public async saveUser(id: string, params: Record<string, any>) {
+    const { username, password, wizard } = params
+    log.info('Database', `Update user ${id}`)
+
+    if (username) await this.db.hset(`user:${id}`, 'username', username)
+    if (password) {
+      const salt = await bcrypt.genSalt()
+      const passwordHash = await bcrypt.hash(password, salt)
+      await this.db.hset(`user:${id}`, 'password', passwordHash)
+    }
+    if (wizard) await this.db.hset(`user:${id}`, 'wizard', wizard)
 
     return {
       id,

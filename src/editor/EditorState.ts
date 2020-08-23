@@ -32,6 +32,7 @@ export type DataRequestCategory =
   | 'saveEnemy'
   | 'deleteEnemy'
   | 'users'
+  | 'saveUser'
   | 'config'
   | 'saveConfig'
 
@@ -82,6 +83,8 @@ export default class EditorState {
       this.currentEnemy.deserialize(data)
     } else if (type === 'users') {
       this.users = data
+    } else if (type === 'saveUser') {
+      this.requestData('users')
     } else if (type === 'config') {
       if (data) {
         this.config.deserialize(data)
@@ -146,6 +149,19 @@ export default class EditorState {
       this.enemies = this.enemies.filter(k => k !== this.currentEnemy?.key)
       this.currentEnemy = null
     }
+  }
+
+  public async createUser() {
+    const username = prompt('Enter a username')
+    if (!username) return
+
+    const password = prompt('Enter a password')
+    if (!password) return
+
+    this.requestData('saveUser', {
+      username,
+      password,
+    })
   }
 
   public async loadConfig() {

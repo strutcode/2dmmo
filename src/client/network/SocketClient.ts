@@ -16,9 +16,7 @@ export default class SocketClient {
   public onMobileUpdate = new Observable<(id: string, change: object) => void>()
   public onMobileHit = new Observable<(info: HitInfo) => void>()
 
-  private url = `${location.protocol.replace('http', 'ws')}//${location.host}${
-    location.pathname
-  }`
+  private url = location.href.replace('http', 'ws')
   private ws?: WebSocket
 
   public constructor(private state: GameState) {}
