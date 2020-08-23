@@ -37,6 +37,7 @@ export default class GameState {
               sy: tile.y,
               dx: x,
               dy: y,
+              walkable: !!tile.walkable,
             })
           }
         }

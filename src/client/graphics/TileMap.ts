@@ -4,6 +4,7 @@ interface TileData {
   set: string
   x: number
   y: number
+  walkable: boolean
 }
 
 export default class TileMap {
@@ -18,6 +19,7 @@ export default class TileMap {
     img.src = tileSets[name]
     this.images[name] = img
     this.images[name].onload = () => {
+      log.out('Tilemap', `Load image: ${name} (${tileSets[name]})`)
       this.images[name].dataset.loaded = ''
       this.renderMap()
     }
@@ -26,7 +28,7 @@ export default class TileMap {
   public loadTiles(data: any[]) {
     log.out('Tilemap', 'Load tiles')
     data.forEach(tile => {
-      const { layer, set, sx, sy, dx, dy } = tile
+      const { layer, set, sx, sy, dx, dy, walkable } = tile
 
       if (!this.data[dy]) this.data[dy] = []
       if (!this.data[dy][dx]) this.data[dy][dx] = []
@@ -36,10 +38,15 @@ export default class TileMap {
 
       if (!this.images[set]) this.loadImage(set)
 
-      this.data[dy][dx][layer] = { set, x: sx, y: sy }
+      this.data[dy][dx][layer] = { set, x: sx, y: sy, walkable }
     })
 
     this.renderMap()
+  }
+  public walkable(x: number, y: number) {
+    if (!this.data[y] || !this.data[y][x] || !this.data[y][x][0]) return false
+
+    return !!this.data[y][x][0].walkable
   }
 
   public draw(context: CanvasRenderingContext2D) {

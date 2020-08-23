@@ -56,7 +56,7 @@ export default class GameClient {
   }
 
   private startGame() {
-    log.out('Game', 'Starting game!')
+    log.info('Game', 'Starting game!')
     this.setupSocket()
     this.setupRenderer()
     this.setupInput()
@@ -137,14 +137,18 @@ export default class GameClient {
           newX++
         }
 
-        this.client.sendPosition(newX, newY)
+        if (!this.state.map.walkable(newX, newY)) {
+          return
+        }
 
         const mob = Mobile.firstAt(newX, newY)
         if (mob) {
           mob.bump(this.state.self)
-        } else {
-          this.state.self.teleport(newX, newY)
+          return
         }
+
+        this.client.sendPosition(newX, newY)
+        this.state.self.teleport(newX, newY)
       }
     })
 

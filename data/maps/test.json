@@ -1,7 +1,7 @@
 {
   "name": "test",
-  "width": 25,
-  "height": 25,
+  "width": 40,
+  "height": 40,
   "layers": [
     {
       "name": "Untitled Layer",
@@ -10,1023 +10,1980 @@
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
@@ -1147,13 +2104,103 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
@@ -1274,9 +2321,1840 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
           {
             "x": 0,
             "y": 1,
@@ -1401,9 +4279,99 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
           {
             "x": 0,
             "y": 1,
@@ -1532,9 +4500,99 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
           {
             "x": 0,
             "y": 1,
@@ -1665,9 +4723,99 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
           {
             "x": 0,
             "y": 1,
@@ -1798,9 +4946,99 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
           {
             "x": 0,
             "y": 1,
@@ -1931,9 +5169,99 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
           {
             "x": 0,
             "y": 1,
@@ -2064,9 +5392,99 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
           {
             "x": 0,
             "y": 1,
@@ -2195,9 +5613,99 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
           {
             "x": 0,
             "y": 1,
@@ -2322,13 +5830,98 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
@@ -2449,13 +6042,103 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
@@ -2576,13 +6259,103 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
@@ -2703,13 +6476,103 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
@@ -2830,13 +6693,103 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
@@ -2957,13 +6910,103 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
@@ -3084,13 +7127,103 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ],
         [
           {
             "x": 0,
             "y": 1,
-            "set": "GrassBiome"
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           },
           {
             "x": 0,
@@ -3211,6 +7344,1753 @@
             "x": 0,
             "y": 1,
             "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome"
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          }
+        ],
+        [
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
+          },
+          {
+            "x": 0,
+            "y": 1,
+            "set": "GrassBiome",
+            "walkable": false
           }
         ]
       ]

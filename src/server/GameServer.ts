@@ -60,22 +60,36 @@ export default class GameServer {
         }
       }
 
-      this.socketServer.authResponse(token, client)
-
       if (client instanceof Wizard) {
         log.warn('Game', `Wizard joined: ${client.id}`)
 
         this.wizards.set(client.id, client)
+        this.socketServer.authResponse(token, client)
       } else if (client instanceof Player) {
         log.info('Game', `Player joined: ${client.name} (${client.id})`)
+
+        // Find a place for them
+        const map = (await this.database.getMap(this.config.defaultMap)) as any
+        if (map) {
+          ;(() => {
+            let x, y
+            for (y = 0; y < map.height; y++) {
+              for (x = 0; x < map.width; x++) {
+                if (map.layers[0].data[y][x].walkable) {
+                  client.teleport(x, y)
+                  return
+                }
+              }
+            }
+          })()
+        }
+
+        this.socketServer.authResponse(token, client)
+        this.socketServer.sendMap(client.id, map)
+
         this.players.set(client.id, client)
         this.globalScope.addMobile(client)
         this.database.addPlayer(client)
-
-        const map = await this.database.getMap(this.config.defaultMap)
-        if (map) {
-          this.socketServer.sendMap(client.id, map)
-        }
       }
     })
 
