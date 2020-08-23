@@ -331,6 +331,6 @@ export default class Database {
   }
 
   private async syncPlayer(player: Player) {
-    log.out('Database', `Sync player ${player.name} (${player.id})`)
+    // log.out('Database', `Sync player ${player.name} (${player.id})`)
   }
 }

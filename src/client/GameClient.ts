@@ -72,9 +72,7 @@ export default class GameClient {
     })
   }
 
-  private async setupRenderer() {
-    await this.renderer.load()
-
+  private setupRenderer() {
     this.renderer.start()
   }
 
@@ -92,8 +90,8 @@ export default class GameClient {
       this.ui.reset()
     })
 
-    this.client.onMapData.observe(map => {
-      this.state.map = map
+    this.client.onMapData.observe(data => {
+      this.state.updateMap(data)
     })
 
     this.client.onMobileAdd.observe((id, props) => {

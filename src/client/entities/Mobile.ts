@@ -4,13 +4,14 @@ export default class Mobile {
   public static all: Mobile[] = []
 
   public static firstAt(x: number, y: number) {
-    return Mobile.all.find((m) => m.x === x && m.y === y)
+    return Mobile.all.find(m => m.x === x && m.y === y)
   }
 
   public sprite = 'soldier'
   public action = 'idle'
   public flip = false
 
+  public onMove = new Observable<(x: number, y: number) => void>()
   public onDestroy = new Observable()
 
   private pos: [number, number]
@@ -52,12 +53,7 @@ export default class Mobile {
     this.pos[0] = x
     this.pos[1] = y
 
-    if (this.action !== 'walk') {
-      this.action = 'walk'
-    }
-
-    if (this.timeout) clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => (this.action = 'idle'), 1000)
+    this.onMove.notify(x, y)
   }
 
   public kill() {
@@ -71,6 +67,6 @@ export default class Mobile {
 
   public destroy() {
     this.onDestroy.notify()
-    Mobile.all = Mobile.all.filter((m) => m !== this)
+    Mobile.all = Mobile.all.filter(m => m !== this)
   }
 }

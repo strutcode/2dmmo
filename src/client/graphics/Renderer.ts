@@ -5,6 +5,8 @@ import HitIndicator from './HitIndicator'
 import spritemap from '../../common/data/spritemap'
 import enemies from '../../common/data/enemies'
 import tilesets from '../../common/data/tilesets'
+import Sprite from './Sprite'
+import MobileSprite from './MobileSprite'
 
 interface Transition {
   x1: number
@@ -41,11 +43,12 @@ export default class Renderer {
   private boundDraw = this.draw.bind(this)
   private boundResize = this.resize.bind(this)
   private run = true
-  private width = 16 * 25
-  private height = 16 * 25
+  private width = 25 * 16
+  private height = 25 * 16
   private lastTime = performance.now()
 
   private camera = new Camera()
+  private sprites = new Map<string, MobileSprite>()
   private assets: Record<string, HTMLImageElement> = {}
   private frameCounter = new Map<string, number>()
   private lastAction = new Map<string, string>()
@@ -73,6 +76,20 @@ export default class Renderer {
     this.flipCanvas.width = 16
     this.flipCanvas.height = 16
 
+    this.state.onMobileAdd.observe(mob => {
+      log.out('Renderer', 'Add sprite')
+      this.sprites.set(mob.id, new MobileSprite(mob))
+    })
+
+    this.state.onMobileRemove.observe(mob => {
+      log.out('Renderer', 'Destroy sprite')
+      this.sprites.delete(mob.id)
+    })
+
+    this.state.mobs.forEach(mob => {
+      this.sprites.set(mob.id, new MobileSprite(mob))
+    })
+
     this.resize()
     window.addEventListener('resize', this.boundResize)
 
@@ -84,28 +101,6 @@ export default class Renderer {
     this.run = false
     window.removeEventListener('resize', this.boundResize)
     this.canvas.remove()
-  }
-
-  public async load() {
-    const loadImage = async (src: string): Promise<HTMLImageElement> =>
-      new Promise((resolve, reject) => {
-        const img = new Image()
-        img.src = src
-        img.onload = () => resolve(img)
-        img.onerror = e => reject(e)
-      })
-    this.assets.grassTiles = await loadImage(
-      require('../../../assets/HAS Overworld 2.0/GrassBiome/GB-LandTileset.png')
-        .default,
-    )
-    this.assets.creaturesCastle = await loadImage(
-      require('../../../assets/HAS Creature Pack/Castle/Castle(AllFrame).png')
-        .default,
-    )
-    this.assets.creaturesRampart = await loadImage(
-      require('../../../assets/HAS Creature Pack/Rampart/Rampact(AllFrame).png')
-        .default,
-    )
   }
 
   public mobileHit(source: Mobile, target: Mobile, amount: number) {
@@ -122,38 +117,60 @@ export default class Renderer {
 
     if (!this.run) return
 
+    this.context.setTransform(1, 0, 0, 1, 0, 0)
     this.context.fillStyle = 'black'
     this.context.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
-    this.drawTileMap()
-    ;[...this.state.mobs.values()]
-      .sort((a, b) => a.y - b.y)
-      .forEach(mob => {
-        const { name, sprite, action, flip } = mob
+    if (this.state.self) {
+      this.camera.set(this.state.self.x * 16 + 8, this.state.self.y * 16 + 8)
+    }
 
-        const frame = this.animate(mob, delta)
-        const { x, y } = this.transition(mob, delta)
+    this.context.setTransform(
+      this.camera.scale,
+      0,
+      0,
+      this.camera.scale,
+      -this.camera.x * this.camera.scale + window.innerWidth / 2,
+      -this.camera.y * this.camera.scale + window.innerHeight / 2,
+    )
 
-        if (mob === this.state.self) {
-          this.camera.set(x + 8, y + 8)
-        }
+    if (this.state.map) {
+      this.state.map.draw(this.context)
+    }
 
-        this.drawSprite({ sprite, action, frame, x, y, flip })
-        this.drawText(name, {
-          x: x + 8,
-          y: y - 2,
-        })
-      })
+    for (let sprite of this.sprites.values()) {
+      sprite.draw(this.context)
+    }
 
-    this.hitIndicators.forEach(indicator => {
-      this.drawText(indicator.text, {
-        color: 'red',
-        size: 14,
-        x: indicator.x,
-        y: indicator.y,
-      })
-      indicator.update(delta)
-    })
+    // this.drawTileMap()
+    // ;[...this.state.mobs.values()]
+    //   .sort((a, b) => a.y - b.y)
+    //   .forEach(mob => {
+    //     const { name, sprite, action, flip } = mob
+
+    //     const frame = this.animate(mob, delta)
+    //     const { x, y } = this.transition(mob, delta)
+
+    //     if (mob === this.state.self) {
+    //       this.camera.set(x + 8, y + 8)
+    //     }
+
+    //     this.drawSprite({ sprite, action, frame, x, y, flip })
+    //     this.drawText(name, {
+    //       x: x + 8,
+    //       y: y - 2,
+    //     })
+    //   })
+
+    // this.hitIndicators.forEach(indicator => {
+    //   this.drawText(indicator.text, {
+    //     color: 'red',
+    //     size: 14,
+    //     x: indicator.x,
+    //     y: indicator.y,
+    //   })
+    //   indicator.update(delta)
+    // })
 
     this.lastTime += delta * 1000
     requestAnimationFrame(this.boundDraw)
@@ -315,20 +332,18 @@ export default class Renderer {
   }
 
   private drawTileMap() {
-    const map = this.state.map
-
-    if (!map) return
-
-    let x: number, y: number
-    for (y = 0; y < map.height; y++) {
-      for (x = 0; x < map.width; x++) {
-        map.layers.forEach((layer: any[][]) => {
-          if (layer[y] && layer[y][x]) {
-            const tile = layer[y][x]
-            this.drawTile('grassTiles', tile.x, tile.y, x * 16, y * 16)
-          }
-        })
-      }
-    }
+    // const map = this.state.map
+    // if (!map) return
+    // let x: number, y: number
+    // for (y = 0; y < map.height; y++) {
+    //   for (x = 0; x < map.width; x++) {
+    //     map.layers.forEach((layer: any[][]) => {
+    //       if (layer[y] && layer[y][x]) {
+    //         const tile = layer[y][x]
+    //         this.drawTile('grassTiles', tile.x, tile.y, x * 16, y * 16)
+    //       }
+    //     })
+    //   }
+    // }
   }
 }
