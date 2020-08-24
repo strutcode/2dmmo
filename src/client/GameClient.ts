@@ -72,7 +72,9 @@ export default class GameClient {
     })
   }
 
-  private setupRenderer() {
+  private async setupRenderer() {
+    await this.renderer.load()
+
     this.renderer.start()
   }
 

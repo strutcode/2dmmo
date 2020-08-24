@@ -1,9 +1,11 @@
+import sprites from '../../common/data/sprites'
 import Mobile from '../entities/Mobile'
 import NameTag from './NameTag'
 import Sprite from './Sprite'
 
 export default class MobileSprite {
-  private sprite = new Sprite({ x: 0, y: 0, set: 'Castle' })
+  private spriteData: Record<string, any> = sprites[this.mob.sprite]
+  private sprite = new Sprite({ x: 0, y: 0, set: this.spriteData.set })
   private nameTag = new NameTag(this.mob.name)
   private lerp = {
     x1: 0,
@@ -12,8 +14,8 @@ export default class MobileSprite {
     y2: 0,
     a: 0,
   }
-  private animation?: {}
-  private animTime = 0
+  private animTime = Math.random()
+  private lastAction = this.mob.action
 
   constructor(private mob: Mobile) {
     this.sprite.x = mob.x * 16
@@ -30,6 +32,12 @@ export default class MobileSprite {
       this.lerp.y2 = y * 16
       this.lerp.a = 0
     })
+
+    const anim = this.spriteData.animations[mob.action]
+    if (anim) {
+      this.sprite.data.x = anim.x
+      this.sprite.data.y = anim.y
+    }
   }
 
   public get x() {
@@ -51,6 +59,28 @@ export default class MobileSprite {
 
       this.sprite.x = this.nameTag.x = x1 + (x2 - x1) * a
       this.sprite.y = this.nameTag.y = y1 + (y2 - y1) * a
+    }
+
+    const info = this.spriteData.animations[this.mob.action]
+    if (info) {
+      const loop = info.loop ?? true
+      const fps = info.fps ?? 4
+      const next = info.next
+
+      this.animTime += delta
+
+      if (this.mob.action !== this.lastAction) this.animTime = 0
+      this.lastAction = this.mob.action
+
+      if (!loop && next && this.animTime * fps > info.frames) {
+        this.mob.action = next
+      }
+
+      const frame = loop
+        ? (this.animTime * fps) % info.frames
+        : Math.min(this.animTime * fps, info.frames - 1)
+
+      this.sprite.data.x = Math.floor(info.x + frame)
     }
 
     this.sprite.draw(ctx)

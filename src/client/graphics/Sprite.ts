@@ -5,8 +5,7 @@ export default class Sprite {
   private imageReady = false
   private pos = [0, 0]
 
-  public constructor(private data: Record<string, any>) {
-    log.out('Sprite', `Load image: ${data.set} (${enemies[data.set]})`)
+  public constructor(public data: Record<string, any>) {
     this.image = document.createElement('img')
     this.image.src = enemies[data.set]
     this.image.onload = () => {

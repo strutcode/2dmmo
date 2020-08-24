@@ -7,6 +7,8 @@ import enemies from '../../common/data/enemies'
 import tilesets from '../../common/data/tilesets'
 import Sprite from './Sprite'
 import MobileSprite from './MobileSprite'
+import { resolve } from 'path'
+import sprites from '../../common/data/sprites'
 
 interface Transition {
   x1: number
@@ -67,6 +69,25 @@ export default class Renderer {
     this.flipCtx = contextB
   }
 
+  public async load() {
+    const loadImage = (src: string) =>
+      new Promise(resolve => {
+        console.log(src)
+        const img = new Image()
+        img.src = src
+        img.onload = () => resolve(img)
+      })
+
+    log.out('Renderer', 'Loading assets')
+    await Promise.all(
+      Object.keys(tilesets).map(key => loadImage(tilesets[key])),
+    )
+    await Promise.all(
+      Object.keys(sprites).map(key => loadImage(enemies[sprites[key].set])),
+    )
+    log.out('Renderer', 'Done loading assets')
+  }
+
   public start() {
     log.out('Renderer', 'Init')
     document.body.appendChild(this.canvas)
@@ -77,12 +98,10 @@ export default class Renderer {
     this.flipCanvas.height = 16
 
     this.state.onMobileAdd.observe(mob => {
-      log.out('Renderer', 'Add sprite')
       this.sprites.set(mob.id, new MobileSprite(mob))
     })
 
     this.state.onMobileRemove.observe(mob => {
-      log.out('Renderer', 'Destroy sprite')
       this.sprites.delete(mob.id)
     })
 

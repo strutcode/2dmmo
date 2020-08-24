@@ -25,16 +25,16 @@
             <input type="text" size="5" v-model="row.anim.name" />
           </template>
           <template v-slot:row-x="{ row }">
-            <input type="text" size="2" v-model="row.anim.x" />
+            <input type="text" size="2" v-model.number="row.anim.x" />
           </template>
           <template v-slot:row-y="{ row }">
-            <input type="text" size="2" v-model="row.anim.y" />
+            <input type="text" size="2" v-model.number="row.anim.y" />
           </template>
           <template v-slot:row-frames="{ row }">
-            <input type="text" size="2" v-model="row.anim.frames" />
+            <input type="text" size="2" v-model.number="row.anim.frames" />
           </template>
           <template v-slot:row-fps="{ row }">
-            <input type="text" size="2" v-model="row.anim.fps" />
+            <input type="text" size="2" v-model.number="row.anim.fps" />
           </template>
           <template v-slot:row-loop="{ row }">
             <input type="checkbox" v-model="row.anim.loop" />

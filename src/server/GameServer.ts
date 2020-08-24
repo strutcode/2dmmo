@@ -67,6 +67,7 @@ export default class GameServer {
         this.socketServer.authResponse(token, client)
       } else if (client instanceof Player) {
         log.info('Game', `Player joined: ${client.name} (${client.id})`)
+        client.sprite = this.config.playerSprite
 
         // Find a place for them
         const map = (await this.database.getMap(this.config.defaultMap)) as any

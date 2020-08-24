@@ -15,10 +15,39 @@ export default class SpriteData {
   constructor(public name: string) {}
 
   serialize() {
-    return { ...this }
+    const result: Record<string, any> = {}
+
+    result.name = this.name
+    result.set = this.set
+    result.animations = this.animations.reduce((acc, anim) => {
+      acc[anim.name] = {
+        x: +anim.x,
+        y: +anim.y,
+        frames: +anim.frames,
+        fps: +anim.fps,
+        loop: !!anim.loop,
+        next: anim.next,
+      }
+
+      return acc
+    }, {} as any)
+
+    return result
   }
 
   deserialize(data: any) {
     Object.assign(this, data)
+
+    this.animations = Object.entries(data.animations).reduce(
+      (acc, [name, anim]) => {
+        acc.push({
+          name,
+          ...(anim as any),
+        })
+
+        return acc
+      },
+      [] as any[],
+    )
   }
 }
