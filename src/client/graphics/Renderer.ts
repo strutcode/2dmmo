@@ -90,7 +90,6 @@ export default class Renderer {
 
   public mobileHit(source: Mobile, target: Mobile, amount: number) {
     const indicator = new HitIndicator(source, target, amount)
-    console.log(source.name, 'hit', target.name, 'for', amount)
 
     this.hitIndicators.push(indicator)
     indicator.onDie.observe(() => {

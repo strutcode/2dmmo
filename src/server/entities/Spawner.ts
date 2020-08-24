@@ -32,9 +32,10 @@ export default class Spawner {
     let y = Math.floor(minY + Math.random() * maxY)
 
     const walkable = (x: number, y: number) =>
-      !!map.layers.find(
+      map.layers.find(
         (l: any) => l.data[y] && l.data[y][x] && l.data[y][x].walkable,
       )
+
     for (let i = 0; !walkable(x, y) && i < 100; i++) {
       x = Math.floor(minX + Math.random() * maxX)
       y = Math.floor(minY + Math.random() * maxY)
@@ -43,8 +44,8 @@ export default class Spawner {
     if (walkable(x, y)) {
       const mob = new Enemy(`${this.id}_${this.uid++}`, map, {
         ...this.template,
-        x: Math.floor(minX + Math.random() * maxX),
-        y: Math.floor(minY + Math.random() * maxY),
+        x,
+        y,
       })
 
       mob.onDestroy.observe(() => {
