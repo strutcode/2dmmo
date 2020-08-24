@@ -122,7 +122,10 @@ export default class Renderer {
     this.context.fillRect(0, 0, window.innerWidth, window.innerHeight)
 
     if (this.state.self) {
-      this.camera.set(this.state.self.x * 16 + 8, this.state.self.y * 16 + 8)
+      const sprite = this.sprites.get(this.state.self.id)
+      if (sprite) {
+        this.camera.set(sprite.x + 8, sprite.y + 8)
+      }
     }
 
     this.context.setTransform(
@@ -135,11 +138,11 @@ export default class Renderer {
     )
 
     if (this.state.map) {
-      this.state.map.draw(this.context)
+      this.state.map.draw(this.context, delta)
     }
 
     for (let sprite of this.sprites.values()) {
-      sprite.draw(this.context)
+      sprite.draw(this.context, delta)
     }
 
     // this.drawTileMap()

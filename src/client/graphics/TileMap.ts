@@ -49,7 +49,7 @@ export default class TileMap {
     return !!this.data[y][x][0].walkable
   }
 
-  public draw(context: CanvasRenderingContext2D) {
+  public draw(context: CanvasRenderingContext2D, delta: number) {
     context.imageSmoothingEnabled = false
     context.drawImage(this.canvas, 0, 0)
   }

@@ -15,17 +15,17 @@ export default class Sprite {
   }
 
   public get x() {
-    return Math.floor(this.pos[0] / 16)
+    return this.pos[0]
   }
   public set x(val) {
-    this.pos[0] = val * 16
+    this.pos[0] = val
   }
 
   public get y() {
-    return Math.floor(this.pos[1] / 16)
+    return this.pos[1]
   }
   public set y(val) {
-    this.pos[1] = val * 16
+    this.pos[1] = val
   }
 
   public draw(context: CanvasRenderingContext2D) {
