@@ -72,12 +72,17 @@ export default class GameServer {
         const map = (await this.database.getMap(this.config.defaultMap)) as any
         if (map) {
           ;(() => {
-            let x, y
+            let x, y, l
             for (y = 0; y < map.height; y++) {
               for (x = 0; x < map.width; x++) {
-                if (map.layers[0].data[y][x].walkable) {
-                  client.teleport(x, y)
-                  return
+                for (l = 0; l < map.layers.length; l++) {
+                  if (!map.layers[l].data[y]) continue
+                  if (!map.layers[l].data[y][x]) continue
+
+                  if (map.layers[l].data[y][x].walkable) {
+                    client.teleport(x, y)
+                    return
+                  }
                 }
               }
             }

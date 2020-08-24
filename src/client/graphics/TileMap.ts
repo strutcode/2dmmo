@@ -44,9 +44,9 @@ export default class TileMap {
     this.renderMap()
   }
   public walkable(x: number, y: number) {
-    if (!this.data[y] || !this.data[y][x] || !this.data[y][x][0]) return false
+    if (!this.data[y] || !this.data[y][x]) return false
 
-    return !!this.data[y][x][0].walkable
+    return !!this.data[y][x].find(t => t && t.walkable)
   }
 
   public draw(context: CanvasRenderingContext2D, delta: number) {
@@ -65,23 +65,25 @@ export default class TileMap {
     const ctx = this.canvas.getContext('2d')
     if (!ctx) return
 
-    let x: number, y: number
+    let x: number, y: number, l: number
     for (y = 0; y < this.height; y++) {
       if (!this.data[y]) continue
 
       for (x = 0; x < this.width; x++) {
         const tiles = this.data[y][x]
 
-        tiles.forEach(tile => {
-          if (!this.images[tile.set].dataset.loaded) {
-            ctx.fillStyle = 'magenta'
-            ctx.fillRect(x * 16, y * 16, 16, 16)
-          }
+        for (l = tiles.length - 1; l >= 0; l--) {
+          if (!tiles[l]) continue
+
+          // if (!this.images[tiles[l].set].dataset.loaded) {
+          //   ctx.fillStyle = 'magenta'
+          //   ctx.fillRect(x * 16, y * 16, 16, 16)
+          // }
 
           ctx.drawImage(
-            this.images[tile.set],
-            tile.x * 16,
-            tile.y * 16,
+            this.images[tiles[l].set],
+            tiles[l].x * 16,
+            tiles[l].y * 16,
             16,
             16,
             x * 16,
@@ -89,7 +91,7 @@ export default class TileMap {
             16,
             16,
           )
-        })
+        }
       }
     }
   }
