@@ -1,8 +1,13 @@
 <template>
   <div>
-    <div>Default map</div>
+    <h2>Default Map</h2>
     <drop-down v-model="$state.config.defaultMap">
       <div v-for="map in $state.maps" :key="map">{{ map }}</div>
+    </drop-down>
+
+    <h2>Player Sprite</h2>
+    <drop-down v-model="$state.config.playerSprite">
+      <div v-for="sprite in $state.sprites" :key="sprite">{{ sprite }}</div>
     </drop-down>
 
     <div style="margin-top: 1em">
@@ -21,6 +26,8 @@
     },
 
     created() {
+      this.$state.requestData('maps')
+      this.$state.requestData('sprites')
       this.$state.loadConfig()
     },
   })

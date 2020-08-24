@@ -2,6 +2,7 @@
   <div class="layout layout-v">
     <main-bar class="chrome accent" />
     <world-editor v-if="$state.mode === 'world'" />
+    <sprite-editor class="chrome layout-fill" v-else-if="$state.mode === 'sprites'" />
     <enemy-editor class="chrome layout-fill" v-else-if="$state.mode === 'enemies'" />
     <div class="chrome layout-fill" v-else-if="$state.mode === 'items'" />
     <user-editor class="chrome panel layout-fill" v-else-if="$state.mode === 'users'" />
@@ -15,6 +16,7 @@
   import MainBar from './MainBar.vue'
   import StatusBar from './StatusBar.vue'
   import WorldEditor from './world/WorldEditor.vue'
+  import SpriteEditor from './sprites/SpriteEditor.vue'
   import EnemyEditor from './enemies/EnemyEditor.vue'
   import UserEditor from './users/UserEditor.vue'
   import ConfigEditor from './config/ConfigEditor.vue'
@@ -24,6 +26,7 @@
       MainBar,
       StatusBar,
       WorldEditor,
+      SpriteEditor,
       EnemyEditor,
       UserEditor,
       ConfigEditor,

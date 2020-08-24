@@ -12,6 +12,8 @@ export default class MobileSprite {
     y2: 0,
     a: 0,
   }
+  private animation?: {}
+  private animTime = 0
 
   constructor(private mob: Mobile) {
     this.sprite.x = mob.x * 16

@@ -125,6 +125,31 @@ export default class GameServer {
             data.type,
             await this.database.saveMap(data.params.name, data.params),
           )
+        } else if (data.type === 'sprites') {
+          this.socketServer.wizardData(
+            id,
+            data.type,
+            await this.database.listSprites(),
+          )
+        } else if (data.type === 'sprite') {
+          const sprite = await this.database.getSprite(data.params)
+
+          if (sprite) {
+            this.socketServer.wizardData(id, data.type, {
+              name: data.params,
+              ...sprite,
+            })
+          }
+        } else if (data.type === 'renameSprite') {
+          await this.database.renameSprite(data.params.from, data.params.to)
+        } else if (data.type === 'deleteSprite') {
+          await this.database.deleteSprite(data.params)
+        } else if (data.type === 'saveSprite') {
+          this.socketServer.wizardData(
+            id,
+            data.type,
+            await this.database.saveSprite(data.params.name, data.params),
+          )
         } else if (data.type === 'enemies') {
           this.socketServer.wizardData(
             id,

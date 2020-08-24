@@ -1,0 +1,49 @@
+{
+  "name": "player",
+  "set": "Castle",
+  "animations": [
+    {
+      "name": "idle",
+      "x": 0,
+      "y": "15",
+      "frames": 4,
+      "fps": 4,
+      "loop": true
+    },
+    {
+      "name": "move",
+      "x": 0,
+      "y": "16",
+      "frames": 4,
+      "fps": 4,
+      "loop": false,
+      "next": "idle"
+    },
+    {
+      "name": "attack",
+      "x": 0,
+      "y": "17",
+      "frames": 4,
+      "fps": "8",
+      "loop": false,
+      "next": "idle"
+    },
+    {
+      "name": "hit",
+      "x": 0,
+      "y": "18",
+      "frames": 4,
+      "fps": "8",
+      "loop": false,
+      "next": "idle"
+    },
+    {
+      "name": "die",
+      "x": 0,
+      "y": "19",
+      "frames": 4,
+      "fps": 4,
+      "loop": true
+    }
+  ]
+}

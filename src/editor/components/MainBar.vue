@@ -4,71 +4,66 @@
       class="tab"
       :class="{ chrome: $state.mode === 'world' }"
       @click="$state.mode = 'world'"
-    >
-      World
-    </div>
+    >World</div>
+    <div
+      class="tab"
+      :class="{ chrome: $state.mode === 'sprites' }"
+      @click="$state.mode = 'sprites'"
+    >Sprites</div>
     <div
       class="tab"
       :class="{ chrome: $state.mode === 'enemies' }"
       @click="$state.mode = 'enemies'"
-    >
-      Enemies
-    </div>
+    >Enemies</div>
     <div
       class="tab"
       :class="{ chrome: $state.mode === 'items' }"
       @click="$state.mode = 'items'"
-    >
-      Items
-    </div>
+    >Items</div>
     <div
       class="tab"
       :class="{ chrome: $state.mode === 'users' }"
       @click="$state.mode = 'users'"
-    >
-      Users
-    </div>
+    >Users</div>
     <div
       class="tab"
       :class="{ chrome: $state.mode === 'config' }"
       @click="$state.mode = 'config'"
-    >
-      Config
-    </div>
+    >Config</div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import WorldView from './WorldView.vue'
-import TileList from './TileList.vue'
-import LayerList from './LayerList.vue'
+  import Vue from 'vue'
+  import WorldView from './WorldView.vue'
+  import TileList from './TileList.vue'
+  import LayerList from './LayerList.vue'
 
-export default Vue.extend({
-  methods: {
-    newMap() {
-      this.$state.createMap()
+  export default Vue.extend({
+    methods: {
+      newMap() {
+        this.$state.createMap()
+      },
     },
-  },
-})
+  })
 </script>
 <style scoped>
-.tab {
-  position: relative;
-  font-size: 120%;
-  padding: 0 1rem;
-  line-height: 3rem;
-  cursor: pointer;
-}
+  .tab {
+    position: relative;
+    font-size: 120%;
+    padding: 0 1rem;
+    line-height: 3rem;
+    cursor: pointer;
+  }
 
-.tab:hover:before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.1);
-}
+  .tab:hover:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+  }
 </style>

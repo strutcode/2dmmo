@@ -1,18 +1,6 @@
-interface Animation {
-  name: string
-  x: number
-  y: number
-  frames: number
-  fps: number
-  loop: boolean
-}
-
 export default class EnemyData {
   public name: string = 'New Enemy'
-  public sprite = {
-    set: 'Castle',
-    animations: [] as Animation[],
-  }
+  public sprite?: string
 
   constructor(public key: string) {}
 
@@ -21,15 +9,6 @@ export default class EnemyData {
   }
 
   deserialize(data: any) {
-    this.key = data.key ?? this.key
-    this.name = data.name ?? this.name
-    Object.assign(
-      this.sprite,
-      {
-        set: 'Castle',
-        animations: [] as Animation[],
-      },
-      data.sprite,
-    )
+    Object.assign(this, data)
   }
 }

@@ -1,3 +1,4 @@
 {
-  "defaultMap": "test"
+  "defaultMap": "test",
+  "playerSprite": "player"
 }

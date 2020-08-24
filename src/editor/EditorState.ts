@@ -3,6 +3,7 @@ import floodFill from './util/FloodFill'
 import Observable from '../common/Observable'
 import EnemyData from './EnemyData'
 import GameConfig from './GameConfig'
+import SpriteData from './SpriteData'
 
 export type ToolType = 'pencil' | 'eraser' | 'fill' | 'select' | 'walkable'
 export type ModKeys = {
@@ -22,12 +23,24 @@ export interface Selection {
   h: number
 }
 
-export type EditorMode = 'world' | 'enemies' | 'items' | 'users' | 'config'
+export type EditorMode =
+  | 'world'
+  | 'sprites'
+  | 'enemies'
+  | 'items'
+  | 'users'
+  | 'config'
+
 export type DataRequestCategory =
   | 'maps'
   | 'map'
   | 'renameMap'
   | 'saveMap'
+  | 'sprites'
+  | 'sprite'
+  | 'renameSprite'
+  | 'saveSprite'
+  | 'deleteSprite'
   | 'enemies'
   | 'enemy'
   | 'renameEnemy'
@@ -45,6 +58,7 @@ export default class EditorState {
   public connected = false
 
   public maps: string[] = []
+  public sprites: string[] = []
   public enemies: string[] = []
   public items: string[] = []
   public users = []
@@ -55,6 +69,8 @@ export default class EditorState {
   public currentTool: ToolType = 'pencil'
   public selection: Selection | null = null
   public floatingSelection: (TileData | undefined)[][] | null = null
+
+  public currentSprite: SpriteData | null = null
 
   public currentEnemy: EnemyData | null = null
 
@@ -75,6 +91,14 @@ export default class EditorState {
       }
 
       this.currentMap.deserialize(data)
+    } else if (type === 'sprites') {
+      this.sprites = data
+    } else if (type === 'sprite') {
+      if (!this.currentSprite) {
+        this.currentSprite = new SpriteData(data.name)
+      }
+
+      this.currentSprite.deserialize(data)
     } else if (type === 'enemies') {
       this.enemies = data
     } else if (type === 'enemy') {
@@ -142,12 +166,60 @@ export default class EditorState {
     }
   }
 
+  public async loadSprite(name: string) {
+    this.requestData('sprite', name)
+  }
+
+  public createSprite() {
+    const name = prompt('Enter a name')
+    if (!name) return
+
+    this.currentSprite = new SpriteData(name)
+
+    if (!this.sprites.includes('New Sprite')) {
+      this.sprites.push(name)
+    }
+  }
+
+  public renameSprite() {
+    if (this.currentSprite) {
+      const oldVal = this.currentSprite.name
+      const newVal = prompt('Enter a new name', oldVal)
+
+      if (newVal) {
+        this.currentSprite.name = newVal
+        this.sprites = this.sprites.map(name =>
+          name === oldVal ? newVal : name,
+        )
+        this.requestData('renameSprite', {
+          from: oldVal,
+          to: this.currentSprite.name,
+        })
+      }
+    }
+  }
+
+  public async saveSprite() {
+    if (this.currentSprite) {
+      this.requestData('saveSprite', this.currentSprite.serialize())
+    }
+  }
+
+  public async deleteSprite() {
+    if (this.currentSprite) {
+      this.requestData('deleteSprite', this.currentSprite.name)
+      this.sprites = this.sprites.filter(k => k !== this.currentSprite?.name)
+      this.currentSprite = null
+    }
+  }
+
   public async loadEnemy(name: string) {
     this.requestData('enemy', name)
   }
 
   public createEnemy() {
-    let name = 'New Enemy'
+    const name = prompt('Enter a name')
+    if (!name) return
 
     this.currentEnemy = new EnemyData(name)
 
@@ -179,6 +251,7 @@ export default class EditorState {
       this.requestData('saveEnemy', this.currentEnemy.serialize())
     }
   }
+
   public async deleteEnemy() {
     if (this.currentEnemy) {
       this.requestData('deleteEnemy', this.currentEnemy.key)

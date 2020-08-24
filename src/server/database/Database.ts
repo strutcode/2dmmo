@@ -249,6 +249,86 @@ export default class Database {
     }
   }
 
+  public async listSprites() {
+    const files = await readdir('./data/sprites', {
+      encoding: 'utf8',
+    })
+
+    return files.map(name => name.substr(0, name.length - 5))
+  }
+
+  public async getSprite(name: string): Promise<object | undefined> {
+    const filename = `./data/sprites/${name}.json`
+
+    try {
+      await access(filename)
+
+      const content = await readFile(filename, { encoding: 'utf8' })
+      const sprite = JSON.parse(content)
+      return {
+        ...sprite,
+        key: name,
+      }
+    } catch (e) {
+      log.error('Database', `Couldn't get sprite ${name}`)
+      return undefined
+    }
+  }
+
+  public async saveSprite(
+    name: string,
+    data: Record<string, any>,
+  ): Promise<boolean> {
+    const filename = `./data/sprites/${name}.json`
+
+    try {
+      log.out('Database', `Update sprite '${name}'`)
+
+      const saveData = { ...data }
+      delete saveData.key
+
+      await writeFile(filename, JSON.stringify(saveData, null, 2), {
+        encoding: 'utf8',
+      })
+
+      return true
+    } catch (e) {
+      log.error('Database', `Failed to update sprite '${name}'`)
+      return false
+    }
+  }
+
+  public async renameSprite(
+    oldName: string,
+    newName: string,
+  ): Promise<boolean> {
+    try {
+      await rename(
+        `./data/sprites/${oldName}.json`,
+        `./data/sprites/${newName}.json`,
+      )
+
+      return true
+    } catch (e) {
+      log.error(
+        'Database',
+        `Failed to rename sprite '${oldName}' -> '${newName}`,
+      )
+      return false
+    }
+  }
+
+  public async deleteSprite(name: string): Promise<boolean> {
+    try {
+      await unlink(`./data/sprites/${name}.json`)
+
+      return true
+    } catch (e) {
+      log.error('Database', `Failed to delete sprite '${name}'`)
+      return false
+    }
+  }
+
   public async listEnemies() {
     const files = await readdir('./data/enemies', {
       encoding: 'utf8',

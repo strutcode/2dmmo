@@ -1,12 +1,9 @@
 export default class GameConfig {
   defaultMap?: string = undefined
+  playerSprite?: string = undefined
 
   serialize() {
-    const { defaultMap } = this
-
-    return {
-      defaultMap,
-    }
+    return { ...this }
   }
 
   deserialize(data: object) {
