@@ -16,6 +16,7 @@ export default class GameServer {
   private webServer = new WebServer(this.database)
   private socketServer = new SocketServer(this.webServer)
   private config: Record<string, any> = {}
+  private map?: Record<string, any> = {}
   private globalScope = new NetworkScope()
   private players = new Map<string, Player>()
   private wizards = new Map<string, Wizard>()
@@ -45,6 +46,7 @@ export default class GameServer {
 
     await this.database.init()
     this.config = (await this.database.loadConfig()) ?? {}
+    this.map = await this.database.getMap(this.config.defaultMap)
 
     this.socketServer.addScope(this.globalScope)
 
@@ -70,17 +72,16 @@ export default class GameServer {
         client.sprite = this.config.playerSprite
 
         // Find a place for them
-        const map = (await this.database.getMap(this.config.defaultMap)) as any
-        if (map) {
+        if (this.map) {
           ;(() => {
             let x, y, l
-            for (y = 0; y < map.height; y++) {
-              for (x = 0; x < map.width; x++) {
-                for (l = 0; l < map.layers.length; l++) {
-                  if (!map.layers[l].data[y]) continue
-                  if (!map.layers[l].data[y][x]) continue
+            for (y = 0; y < this.map.height; y++) {
+              for (x = 0; x < this.map.width; x++) {
+                for (l = 0; l < this.map.layers.length; l++) {
+                  if (!this.map.layers[l].data[y]) continue
+                  if (!this.map.layers[l].data[y][x]) continue
 
-                  if (map.layers[l].data[y][x].walkable) {
+                  if (this.map.layers[l].data[y][x].walkable) {
                     client.teleport(x, y)
                     return
                   }
@@ -91,7 +92,7 @@ export default class GameServer {
         }
 
         this.socketServer.authResponse(token, client)
-        this.socketServer.sendMap(client.id, map)
+        if (this.map) this.socketServer.sendMap(client.id, this.map)
 
         this.players.set(client.id, client)
         this.globalScope.addMobile(client)
@@ -262,7 +263,7 @@ export default class GameServer {
       sprite: 'deer',
       hp: 50,
       str: 5,
-      ai(state) {
+      ai(state, map) {
         if (state.aggro) {
           const target: Mobile = state.aggro
           const distance = tileDistance(this.x, this.y, target.x, target.y)
@@ -300,13 +301,23 @@ export default class GameServer {
           return
         }
 
-        this.move(x, y)
+        x = this.x + x
+        y = this.y + y
+
+        const walkable = map.layers.find(
+          (l: any) => l.data[y] && l.data[y][x] && l.data[y][x].walkable,
+        )
+        if (walkable) {
+          this.teleport(x, y)
+        } else {
+          log.out('Enemy', `Couldn't find walkable terrain (${x}, ${y})`)
+        }
       },
     })
 
     setInterval(() => {
       this.spawners.forEach(spawner => {
-        spawner.update()
+        spawner.update(this.map || { layers: [] })
       })
     }, 1000)
 
@@ -327,6 +338,8 @@ export default class GameServer {
         this.enemies = this.enemies.filter(e => e !== mob)
       })
     })
+
+    spawner.seed(this.map || { layers: [] })
 
     this.spawners.push(spawner)
   }
