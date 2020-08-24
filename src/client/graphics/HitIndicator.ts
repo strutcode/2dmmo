@@ -27,7 +27,19 @@ export default class HitIndicator {
     }
   }
 
-  public update(delta: number) {
+  public draw(ctx: CanvasRenderingContext2D, delta: number) {
+    const alpha = Math.min(1, this.lifetime * 5)
+    ctx.fillStyle = alpha < 1 ? `rgba(255, 0, 0, ${alpha})` : 'red'
+    ctx.strokeStyle = alpha < 1 ? `rgba(0, 0, 0, ${alpha})` : 'black'
+    ctx.lineWidth = 1
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'bottom'
+    ctx.font = `bold 3pt Palantino`
+    ctx.imageSmoothingEnabled = true
+
+    ctx.strokeText(this.text.toUpperCase(), this.x, this.y, 1000)
+    ctx.fillText(this.text.toUpperCase(), this.x, this.y, 1000)
+
     this.x += this.velocity.x * this.direction
     this.y -= this.velocity.y
 

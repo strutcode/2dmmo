@@ -7,7 +7,7 @@ export default class Battle {
   private intervals: NodeJS.Timeout[] = []
 
   public constructor(protected mob1: Mobile, protected mob2: Mobile) {
-    if (Battle.all.find((b) => b.mob1 === mob1 && b.mob2 === mob2)) {
+    if (Battle.all.find(b => b.mob1 === mob1 && b.mob2 === mob2)) {
       log.out('Combat', `Already in combat: ${mob1.id} ${mob2.id}`)
       return
     }
@@ -18,16 +18,19 @@ export default class Battle {
     if (initiative < 0.5) {
       this.fight(mob1, mob2)
 
-      this.intervals.push(setInterval(() => this.fight(mob2, mob1), 1500))
       setTimeout(() => {
-        this.intervals.push(setInterval(() => this.fight(mob1, mob2), 1500))
-      }, 750)
-    } else {
-      this.intervals.push(setInterval(() => this.fight(mob1, mob2), 1500))
-      setTimeout(() => {
+        this.fight(mob2, mob1)
         this.intervals.push(setInterval(() => this.fight(mob2, mob1), 1500))
       }, 750)
+      this.intervals.push(setInterval(() => this.fight(mob1, mob2), 1500))
+    } else {
       this.fight(mob2, mob1)
+
+      setTimeout(() => {
+        this.fight(mob1, mob2)
+        this.intervals.push(setInterval(() => this.fight(mob1, mob2), 1500))
+      }, 750)
+      this.intervals.push(setInterval(() => this.fight(mob2, mob1), 1500))
     }
 
     Battle.all.push(this)
@@ -50,6 +53,6 @@ export default class Battle {
 
   public end() {
     this.intervals.map(clearInterval)
-    Battle.all = Battle.all.filter((b) => b !== this)
+    Battle.all = Battle.all.filter(b => b !== this)
   }
 }

@@ -1,5 +1,7 @@
+import Mobile from '../entities/Mobile'
+
 export default class NameTag {
-  public constructor(public text: string, public x = 0, public y = 0) {}
+  public constructor(public mob: Mobile, public x = 0, public y = 0) {}
 
   public draw(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = 'white'
@@ -9,9 +11,8 @@ export default class NameTag {
     ctx.textBaseline = 'bottom'
     ctx.font = `bold 3pt Palantino`
     ctx.imageSmoothingEnabled = true
-    ctx.canvas.style.letterSpacing = '10px'
 
-    ctx.strokeText(this.text.toUpperCase(), this.x + 8, this.y, 1000)
-    ctx.fillText(this.text.toUpperCase(), this.x + 8, this.y, 1000)
+    ctx.strokeText(this.mob.name.toUpperCase(), this.x + 8, this.y, 1000)
+    ctx.fillText(this.mob.name.toUpperCase(), this.x + 8, this.y, 1000)
   }
 }

@@ -257,58 +257,58 @@ export default class GameServer {
       }
     })
 
-    // this.addSpawner([-10, -10, 10, 10], 10, {
-    //   name: 'Deerling',
-    //   sprite: 'deer',
-    //   hp: 50,
-    //   str: 5,
-    //   ai(state) {
-    //     if (state.aggro) {
-    //       const target: Mobile = state.aggro
-    //       const distance = tileDistance(this.x, this.y, target.x, target.y)
+    this.addSpawner([15, 15, 25, 25], 1, {
+      name: 'Deerling',
+      sprite: 'deer',
+      hp: 50,
+      str: 5,
+      ai(state) {
+        if (state.aggro) {
+          const target: Mobile = state.aggro
+          const distance = tileDistance(this.x, this.y, target.x, target.y)
 
-    //       if (distance > 10) {
-    //         state.aggro = false
-    //       } else if (distance > 1) {
-    //         if (Math.abs(this.x - target.x) > Math.abs(this.y - target.y)) {
-    //           this.move(Math.sign(target.x - this.x), 0)
-    //         } else {
-    //           this.move(0, Math.sign(target.y - this.y))
-    //         }
+          if (distance > 10) {
+            state.aggro = false
+          } else if (distance > 1) {
+            if (Math.abs(this.x - target.x) > Math.abs(this.y - target.y)) {
+              this.move(Math.sign(target.x - this.x), 0)
+            } else {
+              this.move(0, Math.sign(target.y - this.y))
+            }
 
-    //         return
-    //       }
+            return
+          }
 
-    //       return
-    //     }
+          return
+        }
 
-    //     let x = Math.round(Math.random() * 2 + 1 - 2)
-    //     let y = Math.round(Math.random() * 2 + 1 - 2)
+        let x = Math.round(Math.random() * 2 + 1 - 2)
+        let y = Math.round(Math.random() * 2 + 1 - 2)
 
-    //     if (this.x < -10) x = 1
-    //     if (this.x > 10) x = -1
+        if (this.x < 15) x = 1
+        if (this.x > 25) x = -1
 
-    //     if (this.y < -10) y = 1
-    //     if (this.y > 10) y = -1
+        if (this.y < 15) y = 1
+        if (this.y > 25) y = -1
 
-    //     if (x !== 0 && y !== 0) {
-    //       if (Math.random() < 0.5) x = 0
-    //       else y = 0
-    //     }
+        if (x !== 0 && y !== 0) {
+          if (Math.random() < 0.5) x = 0
+          else y = 0
+        }
 
-    //     if (x === 0 && y === 0) {
-    //       return
-    //     }
+        if (x === 0 && y === 0) {
+          return
+        }
 
-    //     this.move(x, y)
-    //   },
-    // })
+        this.move(x, y)
+      },
+    })
 
     setInterval(() => {
       this.spawners.forEach(spawner => {
         spawner.update()
       })
-    }, 10000)
+    }, 1000)
 
     this.webServer.start()
   }

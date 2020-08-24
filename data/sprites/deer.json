@@ -13,7 +13,7 @@
       "x": 0,
       "y": 21,
       "frames": 4,
-      "fps": 4,
+      "fps": 8,
       "loop": false,
       "next": "idle"
     },
@@ -38,7 +38,7 @@
       "y": 24,
       "frames": 4,
       "fps": 4,
-      "loop": true
+      "loop": false
     }
   }
 }

@@ -53,6 +53,7 @@ export default class Mobile {
     this.pos[0] = x
     this.pos[1] = y
 
+    this.action = 'move'
     this.onMove.notify(x, y)
   }
 

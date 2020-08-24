@@ -6,7 +6,7 @@ import Sprite from './Sprite'
 export default class MobileSprite {
   private spriteData: Record<string, any> = sprites[this.mob.sprite]
   private sprite = new Sprite({ x: 0, y: 0, set: this.spriteData.set })
-  private nameTag = new NameTag(this.mob.name)
+  private nameTag = new NameTag(this.mob)
   private lerp = {
     x1: 0,
     y1: 0,
@@ -81,6 +81,7 @@ export default class MobileSprite {
         : Math.min(this.animTime * fps, info.frames - 1)
 
       this.sprite.data.x = Math.floor(info.x + frame)
+      this.sprite.data.y = info.y
     }
 
     this.sprite.draw(ctx)

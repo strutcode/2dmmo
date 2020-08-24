@@ -124,6 +124,7 @@ export default class Renderer {
 
   public mobileHit(source: Mobile, target: Mobile, amount: number) {
     const indicator = new HitIndicator(source, target, amount)
+    console.log(source.name, 'hit', target.name, 'for', amount)
 
     this.hitIndicators.push(indicator)
     indicator.onDie.observe(() => {
@@ -160,9 +161,11 @@ export default class Renderer {
       this.state.map.draw(this.context, delta)
     }
 
-    for (let sprite of this.sprites.values()) {
-      sprite.draw(this.context, delta)
-    }
+    ;[...this.sprites.values()]
+      .sort((a, b) => a.y - b.y)
+      .forEach(sprite => {
+        sprite.draw(this.context, delta)
+      })
 
     // this.drawTileMap()
     // ;[...this.state.mobs.values()]
@@ -184,15 +187,9 @@ export default class Renderer {
     //     })
     //   })
 
-    // this.hitIndicators.forEach(indicator => {
-    //   this.drawText(indicator.text, {
-    //     color: 'red',
-    //     size: 14,
-    //     x: indicator.x,
-    //     y: indicator.y,
-    //   })
-    //   indicator.update(delta)
-    // })
+    this.hitIndicators.forEach(indicator => {
+      indicator.draw(this.context, delta)
+    })
 
     this.lastTime += delta * 1000
     requestAnimationFrame(this.boundDraw)
