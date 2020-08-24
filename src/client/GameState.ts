@@ -74,8 +74,6 @@ export default class GameState {
     const mob = this.mobs.get(id)
 
     if (mob) {
-      log.out('Entities', 'change', change)
-
       if (change.kill) {
         mob.kill()
       } else if (change.x != null && change.y != null) {

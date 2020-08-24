@@ -19,14 +19,13 @@ export default class TileMap {
     img.src = tileSets[name]
     this.images[name] = img
     this.images[name].onload = () => {
-      log.out('Tilemap', `Load image: ${name} (${tileSets[name]})`)
+      log.out('Tilemap', `Image loaded`)
       this.images[name].dataset.loaded = ''
       this.renderMap()
     }
   }
 
   public loadTiles(data: any[]) {
-    log.out('Tilemap', 'Load tiles')
     data.forEach(tile => {
       const { layer, set, sx, sy, dx, dy, walkable } = tile
 
@@ -57,7 +56,7 @@ export default class TileMap {
   private renderMap() {
     log.out(
       'Tilemap',
-      `Render map: ${this.width}x${this.height} (${this.data.length})`,
+      `Render map buffer (${this.width}x${this.height} l${this.data.length})`,
     )
     this.canvas.width = this.width * 16
     this.canvas.height = this.height * 16

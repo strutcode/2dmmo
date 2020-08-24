@@ -36,7 +36,6 @@ export default class SocketClient {
     }
 
     this.ws.onmessage = ev => {
-      log.out('Socket', '<-', ev.data)
       const [type, content] = (ev.data as string).split('~')
 
       if (type === 'WZRD') {
@@ -108,7 +107,6 @@ export default class SocketClient {
   }
 
   private send(data: string) {
-    log.out('Socket', '->', data)
     this.ws?.send(data)
   }
 

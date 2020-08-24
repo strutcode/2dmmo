@@ -39,7 +39,6 @@ export default class Renderer {
   public async load() {
     const loadImage = (src: string) =>
       new Promise(resolve => {
-        console.log(src)
         const img = new Image()
         img.src = src
         img.onload = () => resolve(img)

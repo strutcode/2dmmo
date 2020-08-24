@@ -139,9 +139,9 @@ export default class GameClient {
           newX++
         }
 
-        // if (!this.state.map.walkable(newX, newY)) {
-        //   return
-        // }
+        if (!this.state.map.walkable(newX, newY)) {
+          return
+        }
 
         const mob = Mobile.firstAt(newX, newY)
         if (mob) {
