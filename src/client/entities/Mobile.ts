@@ -15,7 +15,6 @@ export default class Mobile {
   public onDestroy = new Observable()
 
   private pos: [number, number]
-  private timeout: any
 
   constructor(
     public id: string,

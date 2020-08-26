@@ -1,0 +1,8 @@
+body {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+body > div {
+  flex: 0 0 50%;
+}

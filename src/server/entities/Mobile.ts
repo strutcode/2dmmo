@@ -20,7 +20,7 @@ export default class Mobile {
 
   private pos = [0, 0]
   private stats = {
-    hp: 100,
+    hp: 1000,
     str: 10,
   }
 
