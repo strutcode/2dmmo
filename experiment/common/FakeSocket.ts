@@ -3,6 +3,8 @@ type ConnectionCallback = (socket: FakeSocket) => void
 export default class FakeSocket {
   private static callbacks: ConnectionCallback[] = []
 
+  constructor() {}
+
   public static onConnection(callback: ConnectionCallback) {
     this.callbacks.push(callback)
   }

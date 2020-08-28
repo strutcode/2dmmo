@@ -1,3 +1,6 @@
+import NetworkSync from "../common/NetworkSync";
+
+@NetworkSync('name')
 export default class Item {
-  constructor(public icon: string) {}
+  constructor(public name: string) {}
 }

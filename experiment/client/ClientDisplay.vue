@@ -7,24 +7,23 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import NetworkView from './NetworkView'
+  import ClientView from '../common/ClientView'
 
   export default Vue.extend({
     data() {
       return {
-        entities: {} as Record<string, any>,
+        entities: [] as any[],
       }
     },
 
     created() {
-      const view = new NetworkView()
-      view.onAdd = (type, id, props) => {
-        if (!this.entities[type]) {
-          this.$set(this.entities, type, [])
-        }
+      const view = new ClientView()
 
-        this.entities[type].push(props)
+      view.onAdd = (object) => {
+        this.entities.push(object)
       }
+
+      view.connect()
     },
   })
 </script>

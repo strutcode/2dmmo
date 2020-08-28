@@ -1,8 +1,9 @@
-import NetworkSync from '../common/NetworkSync'
 import Character from './Character'
+import NetworkSync from '../common/NetworkSync'
 
-@NetworkSync('activeCharacter', 'characterNames')
+@NetworkSync('name', 'activeCharacter', 'characterNames')
 export default class User {
+  public name = ''
   public activeCharacter?: Character = undefined
   public characters: Character[] = []
 

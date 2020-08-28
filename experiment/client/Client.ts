@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import FakeSocket from '../common/FakeSocket'
 import ClientDisplay from './ClientDisplay.vue'
-import NetworkView from './NetworkView'
+import ClientView from '../common/ClientView'
+import FakeSocket from '../common/FakeSocket'
+import Vue from 'vue'
 
 export default class Client {
   private vue: Vue

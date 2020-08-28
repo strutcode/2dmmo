@@ -1,15 +1,11 @@
-type OnAddCallback = (
-  type: string,
-  id: string,
-  props: Record<string, any>,
-) => void
+import ServerView from './ServerView'
 
-type OnUpdateCallback = (
-  type: string,
-  id: string,
-  name: string,
-  value: any,
-) => void
+const AddSymbol = Symbol('add')
+const SetSymbol = Symbol('set')
+
+// interface Networkable {
+//   [AddSymbol]: (view: ClientView) => void
+// }
 
 function NetworkSync(...watchedFields: string[]) {
   let gid = 0
@@ -19,61 +15,106 @@ function NetworkSync(...watchedFields: string[]) {
       constructor(...args: any[]) {
         super(...args)
 
-        // console.log('construct', Base, this)
-
+        const type = Base.name
         const id = String(gid++)
 
-        const props = watchedFields.reduce((acc, name) => {
-          acc[name] = (this as any)[name]
-          return acc
-        }, {} as Record<string, any>)
+        const views: ServerView[] = []
+        const self = this as any
 
-        NetworkSync.listeners.add.forEach(listener =>
-          listener(Base.name, id, props),
-        )
+        self[AddSymbol] = (view: ServerView) => {
+          const props = watchedFields.reduce((acc, name) => {
+            acc[name] = self[name]
+            return acc
+          }, {} as Record<string, any>)
 
-        const obj = new Proxy(this, {
+          view.add(type, id, props)
+          views.push(view)
+        }
+
+        self[SetSymbol] = (newViews: ServerView[]) => {
+          views.splice(0, views.length)
+          newViews.forEach(view => {
+            self[AddSymbol](view)
+          })
+        }
+
+        const proxy = new Proxy(this, {
           set(obj, prop, value) {
-            // console.log(obj)
-            // console.log(Base.prototype)
+            const change: Record<string, any> = {}
 
-            // const descriptors = {
-            //   ...Object.getOwnPropertyDescriptors(obj),
-            //   ...Object.getOwnPropertyDescriptors(Base.prototype),
+            console.log(type, 'set value', prop, value)
+            // if (value[SetSymbol]) {
+            //   console.log('set views on value')
+            //   value[SetSymbol](views)
             // }
 
-            // console.log(descriptors)
+            if (watchedFields.includes(prop.toString())) {
+              change[prop.toString()] = value
+            }
 
-            NetworkSync.listeners.update.forEach(listener =>
-              listener(Base.name, id, prop.toString(), value),
+            const maybeGetters = Object.getOwnPropertyDescriptors(
+              Base.prototype,
             )
-            ;(obj as any)[prop] = value
+            Object.entries(maybeGetters).forEach(([field, desc]) => {
+              if (desc.get) {
+                change[field] = desc.get.call(obj)
+              }
+            })
+
+            views.forEach(view => {
+              view.update(type, id, change)
+            })
+
+            self[prop] = value
 
             return true
           },
         })
 
-        NetworkSync.objectMap.set(obj, id)
+        watchedFields.forEach(field => {
+          const desc = Object.getOwnPropertyDescriptor(this, field)
+          if (!desc) return
 
-        return obj
+          const parent = proxy as any
+          console.log('child', field, desc.value)
+          if (desc.value != null && desc.value[SetSymbol]) {
+            console.log('set views on child')
+            desc.value[SetSymbol](views)
+          }
+
+          if (!desc.get && Array.isArray(desc.value)) {
+            parent[field] = new Proxy(desc.value, {
+              set(obj, prop, value) {
+                console.log('array set')
+
+                obj[prop as any] = value
+                parent[field] = parent[field]
+
+                return true
+              },
+            })
+          }
+        })
+
+        return proxy
       }
     }
   }
 }
 
-NetworkSync.objectMap = new Map<any, string>()
+NetworkSync.objectMap = new Map<any, ServerView[]>()
 
-NetworkSync.listeners = {
-  add: [] as OnAddCallback[],
-  update: [] as OnUpdateCallback[],
-}
-
-NetworkSync.onAdd = (callback: OnAddCallback) => {
-  NetworkSync.listeners.add.push(callback)
-}
-
-NetworkSync.onUpdate = (callback: OnUpdateCallback) => {
-  NetworkSync.listeners.update.push(callback)
+NetworkSync.bindView = (obj: any, view: ServerView) => {
+  if (obj[AddSymbol]) {
+    obj[AddSymbol](view)
+  } else {
+    throw `Not a networked object!`
+  }
+  if (NetworkSync.objectMap.has(obj)) {
+    NetworkSync.objectMap.get(obj)?.push(view)
+  } else {
+    NetworkSync.objectMap.set(obj, [view])
+  }
 }
 
 export default NetworkSync
