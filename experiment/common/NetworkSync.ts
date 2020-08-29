@@ -1,5 +1,8 @@
 import ServerView from './ServerView'
 
+const ParentsSymbol = Symbol('parents')
+const ViewsSymbol = Symbol('views')
+const FieldsSymbol = Symbol('fields')
 const AddSymbol = Symbol('add')
 const SetSymbol = Symbol('set')
 
@@ -10,7 +13,7 @@ const SetSymbol = Symbol('set')
 function NetworkSync(...watchedFields: string[]) {
   let gid = 0
 
-  return function<T extends { new (...args: any[]): {} }>(Base: T) {
+  return function <T extends { new(...args: any[]): {} }>(Base: T) {
     return class extends Base {
       constructor(...args: any[]) {
         super(...args)
@@ -33,10 +36,17 @@ function NetworkSync(...watchedFields: string[]) {
 
         self[SetSymbol] = (newViews: ServerView[]) => {
           views.splice(0, views.length)
+
           newViews.forEach(view => {
             self[AddSymbol](view)
           })
         }
+
+        // self[FieldsSymbol] = watchedFields
+
+        self[ParentsSymbol] = null
+
+        self[ViewsSymbol] = views
 
         const proxy = new Proxy(this, {
           set(obj, prop, value) {
@@ -61,9 +71,19 @@ function NetworkSync(...watchedFields: string[]) {
               }
             })
 
-            views.forEach(view => {
-              view.update(type, id, change)
-            })
+            if (value[ParentsSymbol]) {
+              value[ParentsSymbol] = self
+            }
+
+            let target = self
+            while (target[ViewsSymbol].length) {
+              console.log('notify', target)
+              target[ViewsSymbol].forEach((view: ServerView) => {
+                view.update(type, id, change)
+              })
+
+              target = target[ParentsSymbol]
+            }
 
             self[prop] = value
 
@@ -71,30 +91,36 @@ function NetworkSync(...watchedFields: string[]) {
           },
         })
 
-        watchedFields.forEach(field => {
-          const desc = Object.getOwnPropertyDescriptor(this, field)
-          if (!desc) return
+        // watchedFields.forEach(field => {
+        //   const desc = Object.getOwnPropertyDescriptor(this, field)
+        //   if (!desc) return
 
-          const parent = proxy as any
-          console.log('child', field, desc.value)
-          if (desc.value != null && desc.value[SetSymbol]) {
-            console.log('set views on child')
-            desc.value[SetSymbol](views)
-          }
+        //   const parent = proxy as any
+        //   console.log('child', field, desc.value)
+        //   if (desc.value != null && desc.value[SetSymbol]) {
+        //     console.log('set views on child')
+        //     desc.value[SetSymbol](views)
+        //   }
 
-          if (!desc.get && Array.isArray(desc.value)) {
-            parent[field] = new Proxy(desc.value, {
-              set(obj, prop, value) {
-                console.log('array set')
+        //   if (!desc.get && Array.isArray(desc.value)) {
+        //     parent[field] = new Proxy(desc.value, {
+        //       set(obj, prop, value) {
+        //         console.log('array set')
 
-                obj[prop as any] = value
-                parent[field] = parent[field]
+        //         obj[prop as any] = value
+        //         parent[field] = parent[field]
 
-                return true
-              },
-            })
-          }
-        })
+        //         return true
+        //       },
+        //     })
+        //   }
+        // })
+
+        // watchedFields.forEach(field => {
+        //   if (self[field][ParentsSymbol]) {
+        //     self[field][ParentsSymbol].push(self)
+        //   }
+        // })
 
         return proxy
       }
@@ -110,11 +136,11 @@ NetworkSync.bindView = (obj: any, view: ServerView) => {
   } else {
     throw `Not a networked object!`
   }
-  if (NetworkSync.objectMap.has(obj)) {
-    NetworkSync.objectMap.get(obj)?.push(view)
-  } else {
-    NetworkSync.objectMap.set(obj, [view])
-  }
+  // if (NetworkSync.objectMap.has(obj)) {
+  //   NetworkSync.objectMap.get(obj)?.push(view)
+  // } else {
+  //   NetworkSync.objectMap.set(obj, [view])
+  // }
 }
 
 export default NetworkSync
