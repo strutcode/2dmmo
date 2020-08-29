@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 const TypeSymbol = Symbol('type')
 const IdSymbol = Symbol('id')
 const ParentSymbol = Symbol('parent')
@@ -95,32 +97,45 @@ class Socket {
   onMessage?: (data: any) => void
 }
 
+let clientGid = 0
 class ClientView {
-  constructor(private socket: Socket) {
+  private id = clientGid++
+
+  constructor(socket: Socket) {
     socket.onMessage = data => {
-      console.dir('Client recieved:', data)
+      console.dir(`Client ${this.id} recieved:`, data)
     }
   }
 }
 
-class ServerView {
-  constructor(private socket: Socket) {}
+class ServerView implements Record<string | number | symbol, any> {
+  constructor(private socket: Socket) {
+    return new Proxy(this, {
+      set(obj, prop, value) {
+        obj.sync(value)
+        obj[prop] = value
 
-  public sync(obj: any) {
-    if (!obj[IdSymbol]) {
-      throw `Not a networked object!`
+        return true
+      }
+    })
+  }
+
+  sync(value: any) {
+    if (!value[IdSymbol]) {
+      console.error(`Not a networked object!`)
+      return false
     }
 
     this.socket.send({
       action: 'create',
-      type: obj[TypeSymbol],
-      id: obj[IdSymbol],
-      delta: Object.keys(obj).reduce((acc, field) => {
-        if (obj[field][IdSymbol]) {
-          acc[field] = `${obj[field][TypeSymbol]}:${obj[field][IdSymbol]}`
+      type: value[TypeSymbol],
+      id: value[IdSymbol],
+      delta: Object.keys(value).reduce((acc, field) => {
+        if (value[field][IdSymbol]) {
+          acc[field] = `${value[field][TypeSymbol]}:${value[field][IdSymbol]}`
         }
-        else if (obj[FieldsSymbol].includes(field)) {
-          acc[field] = obj[field]
+        else if (value[FieldsSymbol].length < 1 || value[FieldsSymbol].includes(field)) {
+          acc[field] = value[field]
         }
 
         return acc
@@ -144,7 +159,7 @@ class ServerView {
       })
     }
 
-    observe(obj)
+    observe(value)
   }
 }
 
@@ -161,22 +176,77 @@ class Hero {
   inventory = new Container()
 }
 
-const serverSocket = new Socket()
-const clientSocket = new Socket()
+@NetworkSync()
+class HeroList {
+  list: Hero[] = []
 
-serverSocket.connectedTo = clientSocket
-clientSocket.connectedTo = serverSocket
+  add(hero: Hero) {
+    this.list.push(hero)
+  }
+}
 
-const serverView = new ServerView(clientSocket)
-const clientView = new ClientView(serverSocket)
+class MyView extends ServerView {
+  hero = new Hero()
+  players = new HeroList()
+}
 
-const hero = new Hero()
+class Server {
+  private clients: MyView[] = []
 
-console.log('Let there be sync')
-serverView.sync(hero)
+  connection(socket: Socket) {
+    const client = new Socket()
 
-Object.assign(global, {
-  hero,
-  localView: serverView,
-  remoteView: clientView,
+    socket.connectedTo = client
+    client.connectedTo = socket
+
+    const view = new MyView(client)
+
+    this.clients.forEach(client => {
+      view.players.add(client.hero)
+      client.players.add(view.hero)
+    })
+    this.clients.push(view)
+    console.log('client connected')
+  }
+}
+
+class Client {
+  private socket = new Socket()
+  public view = new ClientView(this.socket)
+
+  connect(server: Server) {
+    server.connection(this.socket)
+    console.log('connected to server')
+  }
+}
+
+const server = new Server()
+
+const ClientComponent = Vue.extend({
+  render(h): Vue.VNode {
+    return h('div', 'Hello world')
+  },
+  data() {
+    return {
+      client: new Client()
+    }
+  },
+  created() {
+    this.client.connect(server)
+  }
+})
+
+new Vue({
+  el: document.body,
+  render(h): Vue.VNode {
+    return h('div', [
+      h('div', this.clients.map(() => h(ClientComponent))),
+      h('button', { on: { click: () => { this.clients.push(Math.random().toString(36)) } } }, 'Add Client')
+    ])
+  },
+  data() {
+    return {
+      clients: [] as string[]
+    }
+  }
 })
