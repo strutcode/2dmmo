@@ -32,7 +32,7 @@ const compiler = webpack({
     ],
   },
   resolve: {
-    extensions: ['.js', '.ts'],
+    extensions: ['.js', '.json', '.ts'],
   },
   plugins: [
     new VueLoaderPlugin(),
