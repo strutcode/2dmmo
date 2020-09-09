@@ -5,13 +5,14 @@ import dialect from './dialects'
 const el = document.body
 const content = `Hello. Welcome to Crow's Tavern.
 [exclamation]! You don't know what you've done!
-Hey you! Come here. I want to talk to you.`
+Hey you! Come here. I want to talk to you.
+Tell me, do you know the way to Crow's Tavern?`
 
 new Vue({
   el,
   data: {
     content,
-    dialect: 'dwarven',
+    dialect: 'fancy',
   },
   computed: {
     output(): string {
@@ -42,13 +43,13 @@ new Vue({
               domProps: { value: this.dialect },
               on: {
                 input: (ev: InputEvent) => {
-                  if (ev.target instanceof HTMLInputElement) {
+                  if (ev.target instanceof HTMLSelectElement) {
                     this.dialect = ev.target.value
                   }
                 },
               },
             },
-            [h('option', 'dwarven')],
+            dialect.list.map((name) => h('option', name)),
           ),
         ]),
         h('pre', this.output),

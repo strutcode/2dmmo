@@ -51,3 +51,5 @@ export default function dialect(input: string, dialect: string) {
 
   return input
 }
+
+dialect.list = Object.keys(dialects)

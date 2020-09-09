@@ -13,6 +13,10 @@ export default {
       replace: 'Oi laddie',
     },
     {
+      test: /tell me/gi,
+      replace: "Answer m'this",
+    },
+    {
       test: /hello/gi,
       replace: 'Ey laddie',
     },
@@ -23,6 +27,10 @@ export default {
     {
       test: /welcome/gi,
       replace: "Y'come",
+    },
+    {
+      test: /the/gi,
+      replace: 'tha',
     },
     {
       test: /you/gi,
