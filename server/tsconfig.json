@@ -1,19 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
+    "target": "ES2017",
+    "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "incremental": true,
+    "watch": true,
+    "outDir": "./dist",
   },
   "include": [
-    "src/**/*.ts",
-    "build/**/*.ts",
-    "experiment/**/*.ts",
-    "dialoguesys/**/*",
-    "types"
+    "./src/**/*.ts"
   ]
 }

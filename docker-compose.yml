@@ -1,33 +1,39 @@
 version: '3'
 services:
-  app:
+  server:
     build: .
-    container_name: 2dmmo
     env_file: .env
     restart: always
     depends_on:
+      - db
       - redis
-    networks:
-      - default
-      - proxy
     ports:
       - 9001:9001
+    command: yarn start
     volumes:
-      - .:/home/app/
-      - /home/app/node_modules
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=proxy
-      - traefik.http.routers.2dmmo.rule=Host(`2dmmo.strutcode.dev`)
-      - traefik.http.routers.2dmmo.entrypoints=web
-      - traefik.http.routers.2dmmo-secure.rule=Host(`2dmmo.strutcode.dev`)
-      - traefik.http.routers.2dmmo-secure.entrypoints=websecure
-      - traefik.http.routers.2dmmo-secure.tls.certresolver=leresolver
+      - ./server:/home/app/
+
+  client:
+    build: .
+    env_file: .env
+    restart: always
+    ports:
+      - 9002:9002
+      - 9003:9003
+    command: yarn start
+    volumes:
+      - ./client:/home/app/
+
+  db:
+    image: mongo
+    restart: always
+    user: 1000:1000
+    volumes:
+      - ./server/data/mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: test
 
   redis:
     image: redis:6.0.6-alpine
     restart: always
-
-networks:
-  proxy:
-    external: true

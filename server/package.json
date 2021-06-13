@@ -1,0 +1,18 @@
+{
+  "name": "2dmmo-server",
+  "version": "0.0.1",
+  "author": "Tristan Shelton",
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "./start.sh"
+  },
+  "devDependencies": {
+    "@types/ws": "^7.4.4",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.3.2"
+  },
+  "dependencies": {
+    "ws": "^7.4.6"
+  }
+}

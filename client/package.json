@@ -1,0 +1,14 @@
+{
+  "name": "2dmmo-client",
+  "version": "0.0.1",
+  "author": "Tristan Shelton",
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "parcel serve --port 9002 --hmr-port 9003 ./src/index.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.0.0-beta.2",
+    "typescript": "^4.3.2"
+  }
+}
