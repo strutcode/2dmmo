@@ -1,6 +1,6 @@
 version: '3'
 services:
-  server:
+  web:
     build: .
     env_file: .env
     restart: always
@@ -9,9 +9,11 @@ services:
       - redis
     ports:
       - 9001:9001
+    working_dir: /home/app/web
     command: yarn start
     volumes:
-      - ./server:/home/app/
+      - ./assets:/home/app/assets
+      - ./web:/home/app/web
 
   client:
     build: .
@@ -19,10 +21,27 @@ services:
     restart: always
     ports:
       - 9002:9002
-      - 9003:9003
+    working_dir: /home/app/client
     command: yarn start
     volumes:
-      - ./client:/home/app/
+      - ./client:/home/app/client
+      - ./common:/home/app/common
+
+  server:
+    build: .
+    env_file: .env
+    restart: always
+    depends_on:
+      - db
+      - redis
+    ports:
+      - 9003:9003
+    working_dir: /home/app/server
+    command: yarn start
+    volumes:
+      - ./assets:/home/app/assets
+      - ./server:/home/app/server
+      - ./common:/home/app/common
 
   db:
     image: mongo

@@ -1,12 +1,16 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es5",
+    "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "sourceMap": true
-  }
+  },
+  "include": [
+    "./**/*.ts",
+    "../common/**/*.ts"
+  ]
 }

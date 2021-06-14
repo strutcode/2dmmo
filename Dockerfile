@@ -1,4 +1,6 @@
 FROM node:14.8.0-alpine
 EXPOSE 9001 9002 9003
 
+USER 1000:1000
+
 WORKDIR /home/app

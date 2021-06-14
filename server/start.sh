@@ -1,2 +1,2 @@
 yarn tsc &
-yarn nodemon -w dist dist/index.js
+yarn nodemon -w dist dist/server/src/index.js

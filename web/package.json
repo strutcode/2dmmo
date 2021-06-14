@@ -1,0 +1,14 @@
+{
+  "name": "2dmmo-web",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "author": "Tristan Shelton",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "parcel serve --port 9001 src/index.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.0.0-beta.2"
+  }
+}
