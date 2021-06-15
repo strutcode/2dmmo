@@ -1,7 +1,7 @@
-import System from '../engine/System'
+import System from '../../../common/engine/System'
 import { Server } from 'ws'
 import Protocol, { Packet } from '../../../common/Protocol'
-import Entity from '../engine/Entity'
+import Entity from '../../../common/engine/Entity'
 
 type PendingPacket = {
   entity: Entity

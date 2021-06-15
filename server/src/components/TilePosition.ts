@@ -1,4 +1,4 @@
-import Component from '../engine/Component'
+import Component from '../../../common/engine/Component'
 
 export default class TilePosition extends Component {
   public x = 0

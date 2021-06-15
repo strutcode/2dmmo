@@ -1,4 +1,4 @@
-import Engine from './engine/Engine'
+import Engine from '../../common/engine/Engine'
 import NetworkServer from './systems/NetworkServer'
 
 export default class Game {
