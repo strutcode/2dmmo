@@ -1,6 +1,7 @@
 import System from '../../../common/engine/System'
 import Protocol, { Packet } from '../../../common/Protocol'
 import InputQueue from '../components/InputQueue'
+import Sprite from '../components/Sprite'
 
 export default class NetworkClient extends System {
   private socket?: WebSocket
@@ -11,7 +12,7 @@ export default class NetworkClient extends System {
     this.socket.addEventListener('open', () => {
       let pingTime = 0
 
-      this.engine.createEntity([InputQueue])
+      this.engine.createEntity([InputQueue, Sprite])
 
       setInterval(() => {
         pingTime = performance.now()
@@ -36,8 +37,6 @@ export default class NetworkClient extends System {
       queue.actions.forEach((action) => {
         this.send({ type: 'input', key: action })
       })
-
-      queue.actions = []
     }
   }
 

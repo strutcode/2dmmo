@@ -7,6 +7,10 @@ export default class Input extends System {
     ArrowDown: 'down',
     ArrowLeft: 'left',
     ArrowRight: 'right',
+    w: 'up',
+    s: 'down',
+    a: 'left',
+    d: 'right',
   }
 
   public start() {
@@ -17,5 +21,13 @@ export default class Input extends System {
 
       queue?.addAction(this.keyMap[ev.key])
     })
+  }
+
+  public update() {
+    const queue = this.engine.getComponent(InputQueue)
+
+    if (queue) {
+      queue.actions = []
+    }
   }
 }

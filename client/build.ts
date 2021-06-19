@@ -5,13 +5,17 @@ import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const compiler = webpack({
-  entry: './src/index.ts',
+  entry: ['./src/style.css', './src/index.ts'],
   mode: 'development',
   module: {
     rules: [
       {
         test: /\.ts$/,
         use: 'ts-loader',
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
