@@ -2,7 +2,7 @@ import Protocol, { Packet } from '../../common/Protocol'
 
 console.log('client start')
 
-const socket = new WebSocket('ws://localhost:9003')
+const socket = new WebSocket(`${location.origin.replace('http', 'ws')}/data`)
 const keyMap: Record<string, string> = {
   ArrowUp: 'up',
   ArrowDown: 'down',
