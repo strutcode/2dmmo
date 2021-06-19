@@ -1,23 +1,24 @@
 import {
   Application,
   Container,
-  Rectangle,
+  Graphics,
   Sprite as PixiSprite,
   Texture,
 } from 'pixi.js'
+
 import Entity from '../../../common/engine/Entity'
 import System from '../../../common/engine/System'
 import CameraFollow from '../components/CameraFollow'
 import InputQueue from '../components/InputQueue'
+import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
 
 export default class Renderer2d extends System {
   private app = new Application({
     resizeTo: window,
-    // resolution: window.devicePixelRatio || 1,
-    // backgroundColor: 0x1099bb,
   })
   private world = new Container()
+  private latency = new Graphics()
 
   private spriteMap = new Map<Entity, PixiSprite>()
 
@@ -27,8 +28,9 @@ export default class Renderer2d extends System {
 
       this.world.scale.x = 4
       this.world.scale.y = 4
-
       this.app.stage.addChild(this.world)
+
+      this.app.stage.addChild(this.latency)
     })
   }
 
@@ -80,6 +82,37 @@ export default class Renderer2d extends System {
         this.world.y =
           this.app.view.height / 2 - targetSprite.y * this.world.scale.y
       }
+    }
+
+    const graph = this.engine.getComponent(LatencyGraph)
+
+    if (graph) {
+      this.latency.x = this.app.view.width - 100
+      this.latency.y = this.app.view.height - 50
+
+      this.latency.clear()
+
+      // wtf pixi
+      this.latency.beginFill(0xffffff, 0)
+      this.latency.drawRect(0, 0, 100, 50)
+      this.latency.endFill()
+
+      const history = graph.historyWindow
+      const max = 100
+      const barWidth = this.latency.width / 50
+
+      this.latency.beginFill(0xff0000)
+      history.reverse().forEach((point, n) => {
+        const percent = point / max
+
+        this.latency.drawRect(
+          this.latency.width - barWidth * n,
+          this.latency.height - this.latency.height * percent,
+          barWidth,
+          this.latency.height * percent,
+        )
+      })
+      this.latency.endFill()
     }
   }
 }

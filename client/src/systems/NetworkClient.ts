@@ -2,6 +2,7 @@ import System from '../../../common/engine/System'
 import Protocol, { Packet } from '../../../common/Protocol'
 import CameraFollow from '../components/CameraFollow'
 import InputQueue from '../components/InputQueue'
+import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
 
 export default class NetworkClient extends System {
@@ -18,14 +19,16 @@ export default class NetworkClient extends System {
       setInterval(() => {
         pingTime = performance.now()
         this.send({ type: 'ping' })
-      }, 5000)
+      }, 500)
 
       this.socket?.addEventListener('message', (msg) => {
         const now = performance.now()
         const packet = Protocol.decode(msg.data)
 
         if (packet.type === 'ping') {
-          console.log(`latency: ${now - pingTime}ms`)
+          const graph = this.engine.getComponent(LatencyGraph)
+
+          graph?.logLatency(now - pingTime)
         }
       })
     })
