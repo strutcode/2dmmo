@@ -1,7 +1,11 @@
-export type Packet = {
-  type: 'input'
-  key: 'up' | 'down' | 'left' | 'right'
-}
+export type Packet =
+  | {
+      type: 'input'
+      key: string
+    }
+  | {
+      type: 'ping'
+    }
 
 export type Message = string
 

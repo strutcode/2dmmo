@@ -38,6 +38,11 @@ export default class NetworkServer extends System {
 
         const packet = Protocol.decode(data)
 
+        if (packet.type === 'ping') {
+          socket.send(Protocol.encode({ type: 'ping' }))
+          return
+        }
+
         this.pending.push({
           entity,
           packet,
