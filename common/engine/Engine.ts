@@ -34,6 +34,12 @@ export default class Engine {
     return (this.components.get(type) ?? []) as InstanceType<T>[]
   }
 
+  public getComponent<T extends typeof Component>(
+    type: T,
+  ): InstanceType<T> | undefined {
+    return (this.components.get(type) ?? [])[0] as InstanceType<T> | undefined
+  }
+
   public start() {
     setInterval(() => {
       this.systems.forEach((system) => system.update())

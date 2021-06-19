@@ -59,8 +59,10 @@ export default class NetworkServer extends System {
     this.pending.forEach(({ entity, packet }) => {
       const input = entity.getComponent(Input)
 
-      if (input) {
-        input.addInput(packet.key)
+      if (packet.type === 'input') {
+        if (input) {
+          input.addInput(packet.key)
+        }
       }
     })
 
