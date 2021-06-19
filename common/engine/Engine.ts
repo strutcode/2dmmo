@@ -2,7 +2,15 @@ import Component from './Component'
 import Entity from './Entity'
 import System from './System'
 
+type CreateEntityOptions = {
+  id?: number
+  components?: typeof Component[]
+}
+
+let gid = 1
+
 export default class Engine {
+  private entities = new Map<number, Entity>()
   private components = new Map<typeof Component, Component[]>()
   private systems: System[] = []
 
@@ -10,10 +18,24 @@ export default class Engine {
     this.systems.push(new type(this))
   }
 
-  public createEntity(components: typeof Component[]) {
+  public createEntity(options: CreateEntityOptions): Entity
+  public createEntity(components: typeof Component[]): Entity
+  public createEntity(options: CreateEntityOptions | typeof Component[]) {
     const entity = new Entity()
 
-    components.forEach((type) => {
+    const normalizedOptions = Array.isArray(options)
+      ? { components: options }
+      : options
+
+    entity.id = normalizedOptions.id ?? gid++
+
+    if (this.entities.has(entity.id)) {
+      throw new Error('Entity ID collision')
+    }
+
+    this.entities.set(entity.id, entity)
+
+    normalizedOptions.components?.forEach((type) => {
       const comp = new type(entity)
 
       const comps = entity.components.get(type) ?? []
@@ -26,6 +48,10 @@ export default class Engine {
     })
 
     return entity
+  }
+
+  public getEntity(id: number) {
+    return this.entities.get(id)
   }
 
   public getAllComponents<T extends typeof Component>(

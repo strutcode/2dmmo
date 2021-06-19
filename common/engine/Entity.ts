@@ -1,9 +1,7 @@
 import Component from './Component'
 
-let gid = 1
-
 export default class Entity {
-  public id = gid++
+  public id = 0
   public components = new Map<typeof Component, Component[]>()
 
   public getComponents<T extends typeof Component>(type: T): InstanceType<T>[] {

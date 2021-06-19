@@ -1,10 +1,26 @@
 export type Packet =
   | {
+      type: 'ping'
+    }
+  | {
       type: 'input'
       key: string
     }
   | {
-      type: 'ping'
+      type: 'authorize'
+      id: number
+    }
+  | {
+      type: 'spawn'
+      id: number
+      x: number
+      y: number
+    }
+  | {
+      type: 'move'
+      id: number
+      x: number
+      y: number
     }
 
 export type Message = string

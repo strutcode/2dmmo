@@ -11,25 +11,46 @@ type PendingPacket = {
 }
 
 export default class NetworkServer extends System {
+  private wss?: Server
   private pending: PendingPacket[] = []
 
   public start() {
     console.log('Starting network server...')
 
-    const wss = new Server({
+    this.wss = new Server({
       port: 9003,
     })
 
-    wss.on('listening', () => {
+    this.wss.on('listening', () => {
       console.log('Server ready on port 9003')
     })
 
-    wss.on('connection', (socket, req) => {
+    this.wss.on('connection', (socket, req) => {
       const ip = req.socket.remoteAddress
       const entity = this.engine.createEntity([Input, TilePosition])
 
       console.log(`Got connection from ${ip}`)
+
+      socket.send(Protocol.encode({ type: 'authorize', id: entity.id }))
       console.log(`Player ${entity.id} joined`)
+
+      this.engine.getAllComponents(TilePosition).forEach((pos) => {
+        socket.send(
+          Protocol.encode({
+            type: 'spawn',
+            id: pos.entity.id,
+            x: pos.x,
+            y: pos.y,
+          }),
+        )
+      })
+
+      this.broadcast({
+        type: 'spawn',
+        id: entity.id,
+        x: 0,
+        y: 0,
+      })
 
       socket.on('message', (data) => {
         if (typeof data !== 'string') {
@@ -57,9 +78,9 @@ export default class NetworkServer extends System {
 
   public update() {
     this.pending.forEach(({ entity, packet }) => {
-      const input = entity.getComponent(Input)
-
       if (packet.type === 'input') {
+        const input = entity.getComponent(Input)
+
         if (input) {
           input.addInput(packet.key)
         }
@@ -67,5 +88,23 @@ export default class NetworkServer extends System {
     })
 
     this.pending = []
+
+    this.engine.getAllComponents(TilePosition).forEach((pos) => {
+      if (pos.dirty) {
+        this.broadcast({
+          type: 'move',
+          id: pos.entity.id,
+          x: pos.x,
+          y: pos.y,
+        })
+        pos.dirty = false
+      }
+    })
+  }
+
+  public broadcast(packet: Packet) {
+    this.wss?.clients.forEach((client) => {
+      client.send(Protocol.encode(packet))
+    })
   }
 }

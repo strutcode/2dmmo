@@ -6,6 +6,7 @@ import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
 
 export default class NetworkClient extends System {
+  private localId?: number
   private socket?: WebSocket
 
   public start() {
@@ -13,8 +14,6 @@ export default class NetworkClient extends System {
 
     this.socket.addEventListener('open', () => {
       let pingTime = 0
-
-      this.engine.createEntity([InputQueue, CameraFollow, Sprite])
 
       setInterval(() => {
         pingTime = performance.now()
@@ -29,6 +28,25 @@ export default class NetworkClient extends System {
           const graph = this.engine.getComponent(LatencyGraph)
 
           graph?.logLatency(now - pingTime)
+        } else if (packet.type === 'authorize') {
+          this.localId = packet.id
+          this.engine.createEntity([InputQueue, CameraFollow, Sprite])
+          console.log(`Connected as player ${packet.id}`)
+        } else if (packet.type === 'spawn') {
+          if (packet.id === this.localId) return
+
+          this.engine.createEntity([Sprite])
+        } else if (packet.type === 'move') {
+          const entity = this.engine.getEntity(packet.id)
+
+          if (entity) {
+            const visual = entity.getComponent(Sprite)
+
+            if (visual) {
+              visual.x = packet.x * 16
+              visual.y = packet.y * 16
+            }
+          }
         }
       })
     })
