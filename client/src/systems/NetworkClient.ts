@@ -1,5 +1,6 @@
 import System from '../../../common/engine/System'
 import Protocol, { Packet } from '../../../common/Protocol'
+import CameraFollow from '../components/CameraFollow'
 import InputQueue from '../components/InputQueue'
 import Sprite from '../components/Sprite'
 
@@ -12,7 +13,7 @@ export default class NetworkClient extends System {
     this.socket.addEventListener('open', () => {
       let pingTime = 0
 
-      this.engine.createEntity([InputQueue, Sprite])
+      this.engine.createEntity([InputQueue, CameraFollow, Sprite])
 
       setInterval(() => {
         pingTime = performance.now()
