@@ -3,6 +3,7 @@ import { Server } from 'ws'
 import Protocol, { Packet } from '../../../common/Protocol'
 import Entity from '../../../common/engine/Entity'
 import TilePosition from '../components/TilePosition'
+import Input from '../components/Input'
 
 type PendingPacket = {
   entity: Entity
@@ -25,9 +26,7 @@ export default class NetworkServer extends System {
 
     wss.on('connection', (socket, req) => {
       const ip = req.socket.remoteAddress
-      const entity = this.engine.createEntity([
-        TilePosition
-      ])
+      const entity = this.engine.createEntity([Input, TilePosition])
 
       console.log(`Got connection from ${ip}`)
       console.log(`Player ${entity.id} joined`)
@@ -53,18 +52,10 @@ export default class NetworkServer extends System {
 
   public update() {
     this.pending.forEach(({ entity, packet }) => {
-      const pos = entity.getComponent(TilePosition)
+      const input = entity.getComponent(Input)
 
-      if (pos) {
-        if (packet.key === 'up') {
-          pos.moveIntentY = -1
-        } else if (packet.key === 'down') {
-          pos.moveIntentY = 1
-        } else if (packet.key === 'left') {
-          pos.moveIntentX = -1
-        } else if (packet.key === 'right') {
-          pos.moveIntentX = 1
-        }
+      if (input) {
+        input.addInput(packet.key)
       }
     })
 
