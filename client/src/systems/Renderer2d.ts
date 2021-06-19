@@ -114,5 +114,13 @@ export default class Renderer2d extends System {
       })
       this.latency.endFill()
     }
+
+    // ugly cleanup code
+    this.spriteMap.forEach((pixiSprite, entity) => {
+      if (!this.engine.getEntity(entity.id)) {
+        pixiSprite.destroy()
+        this.spriteMap.delete(entity)
+      }
+    })
   }
 }

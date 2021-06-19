@@ -50,6 +50,28 @@ export default class Engine {
     return entity
   }
 
+  public destroyEntity(id: number): void
+  public destroyEntity(entity: Entity): void
+  public destroyEntity(input: number | Entity) {
+    const id = input instanceof Entity ? input.id : input
+    const entity = this.getEntity(id)
+
+    if (entity) {
+      for (const [type, instances] of entity.components.entries()) {
+        const comps = this.components.get(type)
+
+        if (comps) {
+          this.components.set(
+            type,
+            comps.filter((c) => !instances.includes(c)),
+          )
+        }
+      }
+    }
+
+    this.entities.delete(id)
+  }
+
   public getEntity(id: number) {
     return this.entities.get(id)
   }

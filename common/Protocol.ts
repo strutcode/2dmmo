@@ -17,6 +17,10 @@ export type Packet =
       y: number
     }
   | {
+      type: 'despawn'
+      id: number
+    }
+  | {
       type: 'move'
       id: number
       x: number

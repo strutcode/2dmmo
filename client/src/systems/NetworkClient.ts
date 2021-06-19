@@ -30,12 +30,25 @@ export default class NetworkClient extends System {
           graph?.logLatency(now - pingTime)
         } else if (packet.type === 'authorize') {
           this.localId = packet.id
-          this.engine.createEntity([InputQueue, CameraFollow, Sprite])
-          console.log(`Connected as player ${packet.id}`)
+          this.engine.createEntity({
+            id: packet.id,
+            components: [InputQueue, CameraFollow, Sprite],
+          })
         } else if (packet.type === 'spawn') {
           if (packet.id === this.localId) return
 
-          this.engine.createEntity([Sprite])
+          const entity = this.engine.createEntity({
+            id: packet.id,
+            components: [Sprite],
+          })
+
+          const visual = entity.getComponent(Sprite)
+          if (visual) {
+            visual.x = packet.x * 16
+            visual.y = packet.y * 16
+          }
+        } else if (packet.type === 'despawn') {
+          this.engine.destroyEntity(packet.id)
         } else if (packet.type === 'move') {
           const entity = this.engine.getEntity(packet.id)
 
@@ -46,6 +59,8 @@ export default class NetworkClient extends System {
               visual.x = packet.x * 16
               visual.y = packet.y * 16
             }
+          } else {
+            console.warn(`No entity by id ${packet.id}`)
           }
         }
       })

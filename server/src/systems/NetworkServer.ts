@@ -72,6 +72,10 @@ export default class NetworkServer extends System {
 
       socket.on('close', () => {
         console.log(`Lost connection from ${ip}`)
+
+        this.broadcast({ type: 'despawn', id: entity.id })
+        this.engine.destroyEntity(entity)
+        console.log(`Player ${entity.id} left`)
       })
     })
   }

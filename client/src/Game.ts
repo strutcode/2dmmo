@@ -12,7 +12,10 @@ export default class Game {
     this.engine.addSystem(Renderer2d)
     this.engine.addSystem(Input)
 
-    this.engine.createEntity([LatencyGraph])
+    this.engine.createEntity({
+      id: Number.MAX_SAFE_INTEGER,
+      components: [LatencyGraph],
+    })
 
     this.engine.start()
   }
