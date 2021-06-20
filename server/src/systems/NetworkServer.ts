@@ -141,8 +141,9 @@ export default class NetworkServer extends System {
     })
   }
 
-  /** Sends image data over the socket to a player
-   * 
+  /**
+   * Sends image data over the socket to a player
+   *
    * @param socket The destination
    * @param name The asset identifier
    * @param filename The location on disk

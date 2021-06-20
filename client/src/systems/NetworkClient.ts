@@ -68,6 +68,16 @@ export default class NetworkClient extends System {
 
       // When the connection is lost
       this.socket?.addEventListener('close', () => {
+        console.log('Connection lost.')
+
+        // The client state is going to be messed up now so clear it all out
+        this.engine.getEntities().forEach((entity) => {
+          // Ignore the global entity
+          if (entity.getComponent(InputQueue)) return
+
+          this.engine.destroyEntity(entity)
+        })
+
         // Attempt to reconnect
         this.reconnect()
       })
@@ -77,6 +87,14 @@ export default class NetworkClient extends System {
   /** Attempts to re-establish a failed connectino to the server */
   private reconnect() {
     if (this.reconnectData.attempts > 0) {
+      let reconnectTime: number | string = this.reconnectData.time / 1000
+
+      if (Math.floor(reconnectTime) != reconnectTime) {
+        reconnectTime = reconnectTime.toFixed(1)
+      }
+
+      console.log(`Attempting to reconnect in ${reconnectTime}s...`)
+
       // Attempt to connect after the specified time
       setTimeout(() => this.connect(), this.reconnectData.time)
 

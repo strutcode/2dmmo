@@ -65,10 +65,12 @@ export default class Engine {
   public destroyEntity(id: number): void
   public destroyEntity(entity: Entity): void
   public destroyEntity(input: number | Entity) {
+    // Handle overloads
     const id = input instanceof Entity ? input.id : input
     const entity = this.getEntity(id)
 
     if (entity) {
+      // Unregister each component from the engine
       for (const [type, instances] of entity.components.entries()) {
         const comps = this.components.get(type)
 
@@ -81,7 +83,13 @@ export default class Engine {
       }
     }
 
+    // Unregister the entity
     this.entities.delete(id)
+  }
+
+  /** Returns all entities in this engine */
+  public getEntities() {
+    return [...this.entities.values()]
   }
 
   /** Returns an entity from its ID */
