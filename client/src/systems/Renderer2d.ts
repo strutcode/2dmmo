@@ -2,7 +2,9 @@ import {
   Application,
   Container,
   Graphics,
+  ISpritesheetData,
   Sprite as PixiSprite,
+  Spritesheet,
   Texture,
 } from 'pixi.js'
 
@@ -13,6 +15,87 @@ import InputQueue from '../components/InputQueue'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
 import SpriteLoadQueue from '../components/SpriteLoadQueue'
+
+const sheetData: Record<string, ISpritesheetData> = {
+  'tilemap/grass': {
+    frames: {
+      0_0: {
+        frame: {
+          x: 0,
+          y: 0,
+          w: 16,
+          h: 16,
+        },
+      },
+      1_0: {
+        frame: {
+          x: 16,
+          y: 0,
+          w: 16,
+          h: 16,
+        },
+      },
+      0_1: {
+        frame: {
+          x: 0,
+          y: 16,
+          w: 16,
+          h: 16,
+        },
+      },
+      1_1: {
+        frame: {
+          x: 16,
+          y: 16,
+          w: 16,
+          h: 16,
+        },
+      },
+    },
+    meta: {
+      scale: '1',
+    },
+  },
+  'creatures/castle': {
+    frames: {
+      soldier_stand_0: {
+        frame: {
+          x: 0,
+          y: 16 * 16,
+          w: 16,
+          h: 16,
+        },
+      },
+      soldier_stand_1: {
+        frame: {
+          x: 16,
+          y: 16 * 16,
+          w: 16,
+          h: 16,
+        },
+      },
+      soldier_stand_2: {
+        frame: {
+          x: 32,
+          y: 16 * 16,
+          w: 16,
+          h: 16,
+        },
+      },
+      soldier_stand_3: {
+        frame: {
+          x: 48,
+          y: 16 * 16,
+          w: 16,
+          h: 16,
+        },
+      },
+    },
+    meta: {
+      scale: '1',
+    },
+  },
+}
 
 export default class Renderer2d extends System {
   /** The Pixi.js application currently used for rendering */
@@ -59,14 +142,26 @@ export default class Renderer2d extends System {
     const queue = this.engine.getComponent(SpriteLoadQueue)
     if (queue) {
       // For each image waiting to be processed...
-      queue.data.forEach((sprite) => {
+      queue.data.forEach((sprite, i) => {
         // Create a data url image and pass it to Pixi
         const img = new Image()
         img.src = `data:image/png;base64,${sprite.data}`
         const tex = Texture.from(img)
 
+        const sheet = new Spritesheet(tex, sheetData[sprite.name])
+
+        sheet.parse(() => {
+          // Add all the sheet entries to the cache
+          for (let name in sheet.textures) {
+            this.textureMap.set(name, sheet.textures[name])
+          }
+        })
+
         // Record it in asset cache
         this.textureMap.set(sprite.name, tex)
+
+        // Clear the entry from the queue
+        queue.data.splice(i, 1)
       })
     }
 
@@ -103,9 +198,11 @@ export default class Renderer2d extends System {
       // Get the graphics representation for this component
       const pixiSprite = this.spriteMap.get(sprite.entity)
       if (pixiSprite) {
+        const spriteName = `${sprite.name}_${sprite.currentFrame}`
+
         // If the asset is loaded, assign the texture
-        if (this.textureMap.has(sprite.name)) {
-          pixiSprite.texture = this.textureMap.get(sprite.name) as Texture
+        if (this.textureMap.has(spriteName)) {
+          pixiSprite.texture = this.textureMap.get(spriteName) as Texture
         }
 
         // Synchronize the properties

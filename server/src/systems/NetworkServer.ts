@@ -59,11 +59,16 @@ export default class NetworkServer extends System {
         y: 0,
       })
 
-      // Send a default debug sprite
+      // Always send basic resources for now
       this.sendImage(
         socket,
-        'default',
+        'tilemap/grass',
         'HAS Overworld 2.0/GrassBiome/GB-LandTileset.png',
+      )
+      this.sendImage(
+        socket,
+        'creatures/castle',
+        'HAS Creature Pack/Castle/Castle(AllFrame).png',
       )
 
       // When the client sends data...

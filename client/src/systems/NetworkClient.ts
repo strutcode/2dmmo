@@ -167,6 +167,7 @@ export default class NetworkClient extends System {
       if (visual) {
         visual.x = packet.x * 16
         visual.y = packet.y * 16
+        visual.name = 'soldier_stand'
       }
     }
     // An entity disappeared
