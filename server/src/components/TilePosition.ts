@@ -2,6 +2,10 @@ import Component from '../../../common/engine/Component'
 
 /** A component which tracks an integer tile-wise position */
 export default class TilePosition extends Component {
+  /** Whether this component has been updated */
+  public dirty = false
+
+  // TODO: Massive hack because I can't monitor component updates... yet
   private _x = 0
   private _y = 0
 
@@ -20,6 +24,4 @@ export default class TilePosition extends Component {
     this._y = v
     this.dirty = true
   }
-
-  public dirty = false
 }
