@@ -3,6 +3,8 @@ import {
   Container,
   Graphics,
   ISpritesheetData,
+  MIPMAP_MODES,
+  SCALE_MODES,
   Sprite as PixiSprite,
   Spritesheet,
   Texture,
@@ -146,7 +148,11 @@ export default class Renderer2d extends System {
         // Create a data url image and pass it to Pixi
         const img = new Image()
         img.src = `data:image/png;base64,${sprite.data}`
-        const tex = Texture.from(img)
+        const tex = Texture.from(img, {
+          mipmap: MIPMAP_MODES.OFF,
+          anisotropicLevel: 0,
+          scaleMode: SCALE_MODES.NEAREST,
+        })
 
         const sheet = new Spritesheet(tex, sheetData[sprite.name])
 
