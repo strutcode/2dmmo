@@ -63,7 +63,7 @@ const sheetData: Record<string, ISpritesheetData> = {
       soldier_stand_0: {
         frame: {
           x: 0,
-          y: 16 * 16,
+          y: 16 * 15,
           w: 16,
           h: 16,
         },
@@ -71,7 +71,7 @@ const sheetData: Record<string, ISpritesheetData> = {
       soldier_stand_1: {
         frame: {
           x: 16,
-          y: 16 * 16,
+          y: 16 * 15,
           w: 16,
           h: 16,
         },
@@ -79,7 +79,7 @@ const sheetData: Record<string, ISpritesheetData> = {
       soldier_stand_2: {
         frame: {
           x: 32,
-          y: 16 * 16,
+          y: 16 * 15,
           w: 16,
           h: 16,
         },
@@ -87,7 +87,7 @@ const sheetData: Record<string, ISpritesheetData> = {
       soldier_stand_3: {
         frame: {
           x: 48,
-          y: 16 * 16,
+          y: 16 * 15,
           w: 16,
           h: 16,
         },
@@ -97,6 +97,11 @@ const sheetData: Record<string, ISpritesheetData> = {
       scale: '1',
     },
   },
+}
+
+type AnimationData = {
+  lastTime: number
+  cumulativeTime: number
 }
 
 export default class Renderer2d extends System {
@@ -122,6 +127,8 @@ export default class Renderer2d extends System {
   private spriteMap = new Map<Entity, PixiSprite>()
   /** Stores textures by asset name */
   private textureMap = new Map<string, Texture>()
+  /** Stores animation data for a sprite */
+  private animationData = new Map<Sprite, AnimationData>()
 
   public start() {
     // Pixi doesn't initialize right away so wait a loop
@@ -183,6 +190,35 @@ export default class Renderer2d extends System {
 
         // Save it to the data map
         this.spriteMap.set(sprite.entity, newSprite)
+      }
+
+      // Simple animation
+      {
+        // Get data or default
+        const animData = this.animationData.get(sprite) || {
+          lastTime: performance.now(),
+          cumulativeTime: 0,
+        }
+
+        // Advance time
+        const nextTime = performance.now()
+        animData.cumulativeTime += nextTime - animData.lastTime
+        animData.lastTime = nextTime
+
+        // Update frame
+        const frameTime = 1000 / sprite.fps
+        const remainder = animData.cumulativeTime % frameTime
+        sprite.currentFrame += Math.floor(animData.cumulativeTime / frameTime)
+
+        // Simple dynamic looping mechanism
+        if (!this.textureMap.has(`${sprite.name}_${sprite.currentFrame}`)) {
+          // Reset the frame to 0 if there's no texture for the current animation frame
+          sprite.currentFrame = 0
+        }
+
+        // Update data
+        animData.cumulativeTime = remainder
+        this.animationData.set(sprite, animData)
       }
 
       // Process inputs for optimistic movement. These may later be overidden by the server.
