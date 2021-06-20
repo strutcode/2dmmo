@@ -8,6 +8,7 @@ export default class Game {
   public constructor() {
     this.engine.addSystem(NetworkServer)
     this.engine.addSystem(Movement)
+
     this.engine.start()
   }
 }

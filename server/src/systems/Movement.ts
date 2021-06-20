@@ -2,8 +2,10 @@ import System from '../../../common/engine/System'
 import Input from '../components/Input'
 import TilePosition from '../components/TilePosition'
 
+/** This system controlls movement of all players */
 export default class Movement extends System {
   public update() {
+    // Update all player positions
     this.engine.getAllComponents(TilePosition).forEach((pos) => {
       const controller = pos.entity.getComponent(Input)
 
@@ -13,6 +15,7 @@ export default class Movement extends System {
           y: 0,
         }
 
+        // Apply all inputs
         controller.inputs.forEach((input, i) => {
           if (input.action === 'up') {
             delta.y--
@@ -24,9 +27,11 @@ export default class Movement extends System {
             delta.x++
           }
 
+          // Remove the processed input from the queue
           controller.inputs.splice(i, 1)
         })
 
+        // Debug log
         if (delta.x !== 0 || delta.y !== 0) {
           pos.x += delta.x
           pos.y += delta.y

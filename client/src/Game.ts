@@ -13,8 +13,9 @@ export default class Game {
     this.engine.addSystem(Renderer2d)
     this.engine.addSystem(Input)
 
+    // Create a hack entity for global components
     this.engine.createEntity({
-      id: Number.MAX_SAFE_INTEGER,
+      id: Number.MAX_SAFE_INTEGER, // To avoid collisions
       components: [LatencyGraph, SpriteLoadQueue],
     })
 

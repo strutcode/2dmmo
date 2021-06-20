@@ -1,3 +1,4 @@
+/** Defines the type of decoded network messages */
 export type Packet =
   | {
       type: 'ping'
@@ -32,13 +33,20 @@ export type Packet =
       data: string
     }
 
+/** Defines the type of encoded network messages */
 export type Message = string
 
+/** Defines the format of communication between the client and server */
 export default class Protocol {
+  // TODO: Binary format
+  // TODO: Allow switchign between JSON and binary for debugging
+
+  /** Convert data from JS to network format */
   public static encode(packet: Packet): Message {
     return JSON.stringify(packet)
   }
 
+  /** Convert data from network format to JS */
   public static decode(message: Message): Packet {
     return JSON.parse(message)
   }

@@ -1,5 +1,6 @@
 import Component from '../../../common/engine/Component'
 
+/** A component which tracks an integer tile-wise position */
 export default class TilePosition extends Component {
   private _x = 0
   private _y = 0
