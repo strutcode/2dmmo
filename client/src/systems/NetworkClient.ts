@@ -71,6 +71,11 @@ export default class NetworkClient extends System {
     this.socket?.addEventListener('close', () => {
       console.log('Connection lost.')
 
+      // Clean up the timer if any
+      if (this.pingInterval) {
+        clearInterval(this.pingInterval)
+      }
+
       // The client state is going to be messed up now so clear it all out
       this.engine.getEntities().forEach((entity) => {
         // Ignore the global entity
