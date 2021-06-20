@@ -1,9 +1,10 @@
 import System from '../../../common/engine/System'
-import { Server } from 'ws'
+import WebSocket, { Server } from 'ws'
 import Protocol, { Packet } from '../../../common/Protocol'
 import Entity from '../../../common/engine/Entity'
 import TilePosition from '../components/TilePosition'
 import Input from '../components/Input'
+import { openSync, readFileSync, readSync } from 'fs'
 
 type PendingPacket = {
   entity: Entity
@@ -51,6 +52,12 @@ export default class NetworkServer extends System {
         x: 0,
         y: 0,
       })
+
+      this.sendImage(
+        socket,
+        'default',
+        'HAS Overworld 2.0/GrassBiome/GB-LandTileset.png',
+      )
 
       socket.on('message', (data) => {
         if (typeof data !== 'string') {
@@ -110,5 +117,13 @@ export default class NetworkServer extends System {
     this.wss?.clients.forEach((client) => {
       client.send(Protocol.encode(packet))
     })
+  }
+
+  public sendImage(socket: WebSocket, name: string, filename: string) {
+    const data = readFileSync(`../assets/${filename}`, {
+      encoding: 'base64',
+    })
+
+    socket.send(Protocol.encode({ type: 'image', name, data }))
   }
 }

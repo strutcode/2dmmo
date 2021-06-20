@@ -1,5 +1,6 @@
 import Engine from '../../common/engine/Engine'
 import LatencyGraph from './components/LatencyGraph'
+import SpriteLoadQueue from './components/SpriteLoadQueue'
 import Input from './systems/Input'
 import NetworkClient from './systems/NetworkClient'
 import Renderer2d from './systems/Renderer2d'
@@ -14,7 +15,7 @@ export default class Game {
 
     this.engine.createEntity({
       id: Number.MAX_SAFE_INTEGER,
-      components: [LatencyGraph],
+      components: [LatencyGraph, SpriteLoadQueue],
     })
 
     this.engine.start()

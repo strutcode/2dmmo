@@ -12,6 +12,7 @@ import CameraFollow from '../components/CameraFollow'
 import InputQueue from '../components/InputQueue'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
+import SpriteLoadQueue from '../components/SpriteLoadQueue'
 
 export default class Renderer2d extends System {
   private app = new Application({
@@ -21,6 +22,7 @@ export default class Renderer2d extends System {
   private latency = new Graphics()
 
   private spriteMap = new Map<Entity, PixiSprite>()
+  private textureMap = new Map<string, Texture>()
 
   public start() {
     setTimeout(() => {
@@ -35,6 +37,15 @@ export default class Renderer2d extends System {
   }
 
   public update() {
+    const queue = this.engine.getComponent(SpriteLoadQueue)
+    if (queue) {
+      queue.data.forEach((sprite) => {
+        const img = new Image()
+        img.src = `data:image/png;base64,${sprite.data}`
+        this.textureMap.set(sprite.name, Texture.from(img))
+      })
+    }
+
     this.engine.getAllComponents(Sprite).forEach((sprite) => {
       if (!this.spriteMap.has(sprite.entity)) {
         const newSprite = PixiSprite.from(Texture.WHITE)
@@ -63,6 +74,10 @@ export default class Renderer2d extends System {
       const pixiSprite = this.spriteMap.get(sprite.entity)
 
       if (pixiSprite) {
+        if (this.textureMap.has(sprite.name)) {
+          pixiSprite.texture = this.textureMap.get(sprite.name) as Texture
+        }
+
         pixiSprite.x = sprite.x
         pixiSprite.y = sprite.y
         pixiSprite.rotation = sprite.r

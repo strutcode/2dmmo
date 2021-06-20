@@ -4,6 +4,7 @@ import CameraFollow from '../components/CameraFollow'
 import InputQueue from '../components/InputQueue'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
+import SpriteLoadQueue from '../components/SpriteLoadQueue'
 
 export default class NetworkClient extends System {
   private localId?: number
@@ -61,6 +62,12 @@ export default class NetworkClient extends System {
             }
           } else {
             console.warn(`No entity by id ${packet.id}`)
+          }
+        } else if (packet.type === 'image') {
+          const queue = this.engine.getComponent(SpriteLoadQueue)
+
+          if (queue) {
+            queue.addData(packet.name, packet.data)
           }
         }
       })

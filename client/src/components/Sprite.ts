@@ -7,4 +7,8 @@ export default class Sprite extends Component {
   public width = 16
   public height = 16
   public tint = 0xffffff
+
+  public name = 'default'
+  public currentFrame = 0
+  public fps = 10
 }

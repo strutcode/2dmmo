@@ -26,6 +26,11 @@ export type Packet =
       x: number
       y: number
     }
+  | {
+      type: 'image'
+      name: string
+      data: string
+    }
 
 export type Message = string
 
