@@ -2,7 +2,6 @@ version: '3'
 services:
   web:
     build: .
-    env_file: .env
     restart: always
     depends_on:
       - db
@@ -17,7 +16,6 @@ services:
 
   client:
     build: .
-    env_file: .env
     restart: always
     ports:
       - 9002:9002
@@ -29,7 +27,6 @@ services:
 
   server:
     build: .
-    env_file: .env
     restart: always
     depends_on:
       - db

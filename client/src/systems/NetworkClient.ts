@@ -133,31 +133,37 @@ export default class NetworkClient extends System {
     else if (packet.type === 'authorize') {
       // Record our ID
       this.localId = packet.id
-
-      // Created the local player
-      this.engine.createEntity({
-        id: packet.id,
-        components: [
-          InputQueue, // Allow input
-          CameraFollow, // Follow this entity
-          Sprite,
-        ],
-      })
     }
     // An entity appeared
     else if (packet.type === 'spawn') {
-      // Ignore spawn for the local player. THat's handled in authorize
-      if (packet.id === this.localId) return
+      let entity = this.engine.getEntity(packet.id)
 
-      // Otherwise create a puppet
-      const entity = this.engine.createEntity({
-        id: packet.id,
-        components: [Sprite], // Just a visual
-      })
+      // If the entity already exists
+      if (entity) {
+        // Do nothing
+      }
+      // If the server ID matches our local id...
+      else if (packet.id === this.localId) {
+        // Create the local player
+        entity = this.engine.createEntity({
+          id: packet.id,
+          components: [
+            InputQueue, // Allow input
+            CameraFollow, // Follow this entity
+            Sprite,
+          ],
+        })
+      } else {
+        // Otherwise create a puppet
+        entity = this.engine.createEntity({
+          id: packet.id,
+          components: [Sprite], // Just a visual
+        })
+      }
 
-      // Set the puppet position from the server data
+      // Set up the component data
       // TODO: Gotta find a better way
-      const visual = entity.getComponent(Sprite)
+      const visual = entity?.getComponent(Sprite)
       if (visual) {
         visual.x = packet.x * 16
         visual.y = packet.y * 16
