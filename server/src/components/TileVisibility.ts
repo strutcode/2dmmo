@@ -1,5 +1,5 @@
-import Component from '../../../common/engine/Component';
-import { TileMapChunk } from '../util/MapLoader';
+import Component from '../../../common/engine/Component'
+import { TileMapChunk } from '../util/MapLoader'
 
 type ChunkMap = Record<string, boolean>
 
@@ -24,7 +24,7 @@ export default class TileVisibility extends Component {
     this.pending.push({ x, y, layers })
     this.revealed[key] = true
   }
-  
+
   /** Adds a chunk to the hide queue */
   public hideChunk(x: number, y: number) {
     // this.pending.push({ x, y, layers: null })

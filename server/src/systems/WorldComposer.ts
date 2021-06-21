@@ -1,15 +1,13 @@
-import System from '../../../common/engine/System';
-import TilePosition from '../components/TilePosition';
-import TileVisibility from '../components/TileVisibility';
-import MapLoader, { TileMap } from '../util/MapLoader';
-
-
+import System from '../../../common/engine/System'
+import TilePosition from '../components/TilePosition'
+import TileVisibility from '../components/TileVisibility'
+import MapLoader, { TileMap } from '../util/MapLoader'
 
 export default class WorldComposer extends System {
   private loadedMaps = new Map<string, TileMap>()
 
   public update() {
-    this.engine.getAllComponents(TilePosition).forEach(pos => {
+    this.engine.getAllComponents(TilePosition).forEach((pos) => {
       const visibility = pos.entity.getComponent(TileVisibility)
 
       // Nothing to do here if the entity can't actually see tiles
@@ -26,8 +24,8 @@ export default class WorldComposer extends System {
 
       // Setup
       const map = this.loadedMaps.get(pos.map) as TileMap
-      const chunkX = Math.floor(pos.x / map.chunkWidth)
-      const chunkY = Math.floor(pos.y / map.chunkHeight)
+      const chunkX = Math.floor(pos.x / map.chunkWidth) * 16 // Should be chunk size
+      const chunkY = Math.floor(pos.y / map.chunkHeight) * 16 // Should be chunk size
       const chunk = map.chunks[`${chunkX},${chunkY}`]
 
       // Handle tile visibility
