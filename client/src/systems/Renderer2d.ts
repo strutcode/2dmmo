@@ -1,3 +1,4 @@
+import { CompositeTilemap } from '@pixi/tilemap'
 import {
   Application,
   Container,
@@ -17,47 +18,11 @@ import InputQueue from '../components/InputQueue'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
 import SpriteLoadQueue from '../components/SpriteLoadQueue'
+import TileMap from '../components/TileMap'
 
+/** Spritesheet data */
 const sheetData: Record<string, ISpritesheetData> = {
-  'tilemap/grass': {
-    frames: {
-      0_0: {
-        frame: {
-          x: 0,
-          y: 0,
-          w: 16,
-          h: 16,
-        },
-      },
-      1_0: {
-        frame: {
-          x: 16,
-          y: 0,
-          w: 16,
-          h: 16,
-        },
-      },
-      0_1: {
-        frame: {
-          x: 0,
-          y: 16,
-          w: 16,
-          h: 16,
-        },
-      },
-      1_1: {
-        frame: {
-          x: 16,
-          y: 16,
-          w: 16,
-          h: 16,
-        },
-      },
-    },
-    meta: {
-      scale: '1',
-    },
-  },
+  // TODO: This data should be dynamic
   'creatures/castle': {
     frames: {
       soldier_stand_0: {
@@ -129,6 +94,7 @@ export default class Renderer2d extends System {
   private textureMap = new Map<string, Texture>()
   /** Stores animation data for a sprite */
   private animationData = new Map<Sprite, AnimationData>()
+  private tileMap = new CompositeTilemap()
 
   public start() {
     // Pixi doesn't initialize right away so wait a loop
@@ -140,6 +106,9 @@ export default class Renderer2d extends System {
       this.world.scale.x = 4
       this.world.scale.y = 4
       this.app.stage.addChild(this.world)
+
+      // Set up the tile map
+      this.world.addChild(this.tileMap)
 
       // Add the latency graph display
       this.app.stage.addChild(this.latency)
@@ -161,20 +130,68 @@ export default class Renderer2d extends System {
           scaleMode: SCALE_MODES.NEAREST,
         })
 
-        const sheet = new Spritesheet(tex, sheetData[sprite.name])
+        console.log(`Loaded sheet ${sprite.name}`)
 
-        sheet.parse(() => {
-          // Add all the sheet entries to the cache
-          for (let name in sheet.textures) {
-            this.textureMap.set(name, sheet.textures[name])
-          }
-        })
+        // If the data is a tilemap
+        // TODO: ew.
+        if (sprite.name.startsWith('tilemap')) {
+          this.tileMap.tileset([tex.baseTexture])
+        }
+        // If the data is a sprite sheet
+        else {
+          // Create a spritesheet so we can use parts of the image
+          const sheet = new Spritesheet(tex, sheetData[sprite.name])
+          sheet.parse(() => {
+            // Add all the sheet entries to the cache
+            for (let name in sheet.textures) {
+              this.textureMap.set(name, sheet.textures[name])
+            }
+          })
+        }
 
         // Record it in asset cache
         this.textureMap.set(sprite.name, tex)
 
         // Clear the entry from the queue
         queue.data.splice(i, 1)
+      })
+    }
+
+    // Load tile data sent by the server
+    const tilemap = this.engine.getComponent(TileMap)
+    if (tilemap) {
+      // Iterate chunks to load
+      tilemap.toLoad.forEach((chunk, i) => {
+        // Load all layers in the chunk
+        chunk.layers.forEach((layer) => {
+          // Load all tiles in the layer
+          layer.forEach((tile, index) => {
+            // Get the physical position of the tile
+            // TODO: sync actual chunk size
+            const x = chunk.x + (index % 16)
+            const y = chunk.y + Math.floor(index / 16)
+
+            // Get the texture position of the tile
+            const u = (tile % 16) * 16
+            const v = Math.floor(tile / 16) * 16
+
+            this.tileMap.tile(
+              0, // Tileset index
+              x * 16, // Pixel position
+              y * 16, // Pixel position
+              {
+                // Options
+                u,
+                v,
+                tileWidth: 16,
+                tileHeight: 16,
+              },
+            )
+          })
+        })
+
+        // Remove the loaded chunk from the queue
+        tilemap.toLoad.splice(i, 1)
       })
     }
 

@@ -327,6 +327,11 @@
   dependencies:
     "@pixi/settings" "6.0.4"
 
+"@pixi/tilemap@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@pixi/tilemap/-/tilemap-3.2.1.tgz#a70fe44f9210f26d75993bd53f1ee6f6607e91fb"
+  integrity sha512-uDYojurwMI0kEnyCKYprUnVi2bd5J2puI3pkH9WySlLzVlocgO/d9Ywtfm9RbtpbzGs/tnxq52TErVlDfQZDAg==
+
 "@pixi/utils@6.0.4":
   version "6.0.4"
   resolved "https://registry.yarnpkg.com/@pixi/utils/-/utils-6.0.4.tgz#374f642195d6aef66fe67c78918a73a09a76dfe6"

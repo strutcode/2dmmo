@@ -32,6 +32,14 @@ export type Packet =
       name: string
       data: string
     }
+  | {
+      type: 'mapdata'
+      data: {
+        x: number
+        y: number
+        layers: number[][]
+      }
+    }
 
 /** Defines the type of encoded network messages */
 export type Message = string
@@ -39,7 +47,7 @@ export type Message = string
 /** Defines the format of communication between the client and server */
 export default class Protocol {
   // TODO: Binary format
-  // TODO: Allow switchign between JSON and binary for debugging
+  // TODO: Allow switching between JSON and binary for debugging
 
   /** Convert data from JS to network format */
   public static encode(packet: Packet): Message {

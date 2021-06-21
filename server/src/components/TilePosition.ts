@@ -5,6 +5,8 @@ export default class TilePosition extends Component {
   /** Whether this component has been updated */
   public dirty = false
 
+  public map = 'default'
+
   // TODO: Massive hack because I can't monitor component updates... yet
   private _x = 0
   private _y = 0

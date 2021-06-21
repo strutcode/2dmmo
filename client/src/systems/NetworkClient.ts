@@ -5,16 +5,21 @@ import InputQueue from '../components/InputQueue'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
 import SpriteLoadQueue from '../components/SpriteLoadQueue'
+import TileMap from '../components/TileMap'
 
 export default class NetworkClient extends System {
   /** The entity ID of the local player */
   private localId?: number
+
   /** The client socket implementation */
   private socket?: WebSocket
+
   /** The relative time that the last ping was sent out */
   private pingTime = 0
   /** The id of the interval that sends pings */
   private pingInterval = 0
+
+  /** Data used to control the reconnect process */
   private reconnectData = {
     /** Time to wait before reconnecting */
     time: 1000,
@@ -208,6 +213,15 @@ export default class NetworkClient extends System {
       // Add it to the processing queue to be handled by the graphics system
       const queue = this.engine.getComponent(SpriteLoadQueue)
       queue?.addData(packet.name, packet.data)
+    }
+    // Received map data from the server
+    else if (packet.type === 'mapdata') {
+      let tilemap = this.engine.getComponent(TileMap)
+
+      if (tilemap) {
+        // Add the data to the processing queue
+        tilemap.toLoad.push(packet.data)
+      }
     }
     // Hmmmm
     else {

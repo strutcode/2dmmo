@@ -5,6 +5,8 @@ import Entity from '../../../common/engine/Entity'
 import TilePosition from '../components/TilePosition'
 import Input from '../components/Input'
 import { readFileSync } from 'fs'
+import TileVisibility from '../components/TileVisibility'
+import { TileMapChunk } from '../util/MapLoader'
 
 type PendingPacket = {
   entity: Entity
@@ -13,8 +15,12 @@ type PendingPacket = {
 
 /** This system handles all network communication queued up by other systems */
 export default class NetworkServer extends System {
+  /** The main socket server */
   private wss?: Server
+  /** A queue of pending network packets */
   private pending: PendingPacket[] = []
+  /** A map of entities to their communication sockets */
+  private clientMap = new Map<Entity, WebSocket>()
 
   public start() {
     // Init server
@@ -31,9 +37,16 @@ export default class NetworkServer extends System {
     // When a player connects...
     this.wss.on('connection', (socket, req) => {
       const ip = req.socket.remoteAddress
-      const entity = this.engine.createEntity([Input, TilePosition])
+      const entity = this.engine.createEntity([
+        Input,
+        TilePosition,
+        TileVisibility,
+      ])
 
       console.log(`Got connection from ${ip}`)
+
+      // Register the socket
+      this.clientMap.set(entity, socket)
 
       // Send intialization packet
       socket.send(Protocol.encode({ type: 'authorize', id: entity.id }))
@@ -101,6 +114,9 @@ export default class NetworkServer extends System {
         // Notify others
         this.broadcast({ type: 'despawn', id: entity.id })
 
+        // Unregister the socket
+        this.clientMap.delete(entity)
+
         // Remove resources
         this.engine.destroyEntity(entity)
 
@@ -122,6 +138,14 @@ export default class NetworkServer extends System {
         // Remove the processed packet
         this.pending.splice(i, 1)
       }
+    })
+
+    // Check if any map data needs to be sent
+    this.engine.getAllComponents(TileVisibility).forEach((visibility) => {
+      visibility.pending.forEach((chunk, i) => {
+        this.sendMapData(visibility.entity, chunk)
+        visibility.pending.splice(i, 1)
+      })
     })
 
     // Check if any entities moved
@@ -161,5 +185,17 @@ export default class NetworkServer extends System {
 
     // Encode to a packet
     socket.send(Protocol.encode({ type: 'image', name, data }))
+  }
+
+  public sendMapData(entity: Entity, data: TileMapChunk) {
+    const socket = this.clientMap.get(entity)
+
+    // Exit if we can't communicate wit hthis socket
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      return
+    }
+
+    // Encode to a packet
+    socket.send(Protocol.encode({ type: 'mapdata', data }))
   }
 }
