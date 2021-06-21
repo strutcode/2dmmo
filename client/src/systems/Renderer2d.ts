@@ -8,6 +8,7 @@ import {
   SCALE_MODES,
   Sprite as PixiSprite,
   Spritesheet,
+  Text,
   Texture,
 } from 'pixi.js'
 
@@ -69,6 +70,11 @@ type AnimationData = {
   cumulativeTime: number
 }
 
+type MobData = {
+  sprite: PixiSprite
+  nametag: Text
+}
+
 export default class Renderer2d extends System {
   /** The Pixi.js application currently used for rendering */
   private app = new Application({
@@ -84,17 +90,20 @@ export default class Renderer2d extends System {
    * of the cmaera will exist in this container. Things outside will float on top.
    */
   private world = new Container()
+  /** Graphical representation of the background */
+  private tileMap = new CompositeTilemap()
+  /** A layer for high resolution non-pixel graphics */
+  private uiLayer = new Container()
 
   /** A canvas used for rendering the latency graph since it's not easily represented by images */
   private latency = new Graphics()
 
   /** Stores visual representations by entity */
-  private spriteMap = new Map<Entity, PixiSprite>()
+  private spriteMap = new Map<Entity, MobData>()
   /** Stores textures by asset name */
   private textureMap = new Map<string, Texture>()
   /** Stores animation data for a sprite */
   private animationData = new Map<Sprite, AnimationData>()
-  private tileMap = new CompositeTilemap()
 
   public start() {
     // Pixi doesn't initialize right away so wait a loop
@@ -109,6 +118,9 @@ export default class Renderer2d extends System {
 
       // Set up the tile map
       this.world.addChild(this.tileMap)
+
+      // Set up the non-pixel graphics layer
+      this.app.stage.addChild(this.uiLayer)
 
       // Add the latency graph display
       this.app.stage.addChild(this.latency)
@@ -205,8 +217,26 @@ export default class Renderer2d extends System {
         // Add it to the virtual camera
         this.world.addChild(newSprite)
 
-        // Save it to the data map
-        this.spriteMap.set(sprite.entity, newSprite)
+        // Create a floating name tag
+        const nametag = new Text('Soandso', {
+          fontSize: 16,
+          fill: 0xffffff,
+          fontWeight: '600',
+          dropShadow: true,
+          dropShadowDistance: 2,
+          dropShadowBlur: 3,
+          dropShadowAlpha: 1,
+          align: 'center',
+        })
+
+        // Add it to the non-pixel layer
+        this.uiLayer.addChild(nametag)
+
+        // Save everything to the data map
+        this.spriteMap.set(sprite.entity, {
+          sprite: newSprite,
+          nametag,
+        })
       }
 
       // Simple animation
@@ -255,9 +285,10 @@ export default class Renderer2d extends System {
       }
 
       // Get the graphics representation for this component
-      const pixiSprite = this.spriteMap.get(sprite.entity)
-      if (pixiSprite) {
+      const mobData = this.spriteMap.get(sprite.entity)
+      if (mobData) {
         const spriteName = `${sprite.name}_${sprite.currentFrame}`
+        const pixiSprite = mobData.sprite
 
         // If the asset is loaded, assign the texture
         if (this.textureMap.has(spriteName)) {
@@ -270,6 +301,15 @@ export default class Renderer2d extends System {
         pixiSprite.rotation = sprite.r
         pixiSprite.width = sprite.width
         pixiSprite.height = sprite.height
+
+        // Update the nametag
+        const nametag = mobData.nametag
+
+        nametag.x =
+          sprite.x * this.world.scale.x +
+          8 * this.world.scale.x -
+          nametag.width / 2
+        nametag.y = sprite.y * this.world.scale.y - 2 * this.world.scale.y
       }
     })
 
@@ -284,6 +324,12 @@ export default class Renderer2d extends System {
         this.world.x =
           this.app.view.width / 2 - targetSprite.x * this.world.scale.x
         this.world.y =
+          this.app.view.height / 2 - targetSprite.y * this.world.scale.y
+
+        // Offset the high res graphics layer by the same amount
+        this.uiLayer.x =
+          this.app.view.width / 2 - targetSprite.x * this.world.scale.x
+        this.uiLayer.y =
           this.app.view.height / 2 - targetSprite.y * this.world.scale.y
       }
     }
@@ -331,11 +377,13 @@ export default class Renderer2d extends System {
 
     // Clean up graphics representations for any destroyed components
     // TODO: Don't do this. Need a much better system
-    this.spriteMap.forEach((pixiSprite, entity) => {
+    this.spriteMap.forEach((mobData, entity) => {
       // If entity no longer exists
       if (!this.engine.getEntity(entity.id)) {
-        // Destroy the representation
-        pixiSprite.destroy()
+        // Destroy the representations
+        mobData.sprite.destroy()
+        mobData.nametag.destroy()
+
         // Remove it from the records
         this.spriteMap.delete(entity)
       }
