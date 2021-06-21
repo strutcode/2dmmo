@@ -1,6 +1,7 @@
 import System from '../../../common/engine/System'
 import Protocol, { Packet } from '../../../common/Protocol'
 import CameraFollow from '../components/CameraFollow'
+import Creature from '../components/Creature'
 import InputQueue from '../components/InputQueue'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
@@ -67,6 +68,15 @@ export default class NetworkClient extends System {
         // Twice per second
         500,
       ) as any
+
+      // Send handshake
+      const params = new URLSearchParams(location.search)
+      this.socket?.send(
+        Protocol.encode({
+          type: 'handshake',
+          name: params.get('name') ?? 'Soandso',
+        }),
+      )
 
       // Handle messages
       this.socket?.addEventListener('message', this.recv.bind(this))
@@ -166,6 +176,7 @@ export default class NetworkClient extends System {
           components: [
             InputQueue, // Allow input
             CameraFollow, // Follow this entity
+            Creature,
             Sprite,
           ],
         })
@@ -173,7 +184,7 @@ export default class NetworkClient extends System {
         // Otherwise create a puppet
         entity = this.engine.createEntity({
           id: packet.id,
-          components: [Sprite], // Just a visual
+          components: [Creature, Sprite],
         })
       }
 
@@ -185,6 +196,11 @@ export default class NetworkClient extends System {
         visual.y = packet.y * 16
         visual.name = 'soldier_stand'
         visual.fps = 4
+      }
+
+      const meta = entity.getComponent(Creature)
+      if (meta) {
+        meta.name = packet.name
       }
     }
     // An entity disappeared

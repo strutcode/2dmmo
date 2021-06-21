@@ -8,12 +8,17 @@ export type Packet =
       key: string
     }
   | {
+      type: 'handshake'
+      name: string
+    }
+  | {
       type: 'authorize'
       id: number
     }
   | {
       type: 'spawn'
       id: number
+      name: string
       x: number
       y: number
     }

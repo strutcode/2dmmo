@@ -15,6 +15,7 @@ import {
 import Entity from '../../../common/engine/Entity'
 import System from '../../../common/engine/System'
 import CameraFollow from '../components/CameraFollow'
+import Creature from '../components/Creature'
 import InputQueue from '../components/InputQueue'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
@@ -217,8 +218,10 @@ export default class Renderer2d extends System {
         // Add it to the virtual camera
         this.world.addChild(newSprite)
 
+        const meta = sprite.entity.getComponent(Creature)
+
         // Create a floating name tag
-        const nametag = new Text('Soandso', {
+        const nametag = new Text(meta?.name ?? 'Soandso', {
           fontSize: 16,
           fill: 0xffffff,
           fontWeight: '600',

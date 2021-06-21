@@ -7,6 +7,7 @@ import Input from '../components/Input'
 import { readFileSync } from 'fs'
 import TileVisibility from '../components/TileVisibility'
 import { TileMapChunk } from '../util/MapLoader'
+import Mobile from '../components/Mobile'
 
 type PendingPacket = {
   entity: Entity
@@ -35,15 +36,27 @@ export default class NetworkServer extends System {
     })
 
     // When a player connects...
-    this.wss.on('connection', (socket, req) => {
+    this.wss.on('connection', async (socket, req) => {
       const ip = req.socket.remoteAddress
+
+      console.log(`Got connection from ${ip}`)
+
+      const handshake = await this.getHandshake(socket)
+      const name = handshake.name
+
+      // Create the entity for tracking
       const entity = this.engine.createEntity([
         Input,
+        Mobile,
         TilePosition,
         TileVisibility,
       ])
 
-      console.log(`Got connection from ${ip}`)
+      // Update components
+      const meta = entity.getComponent(Mobile)
+      if (meta) {
+        meta.name = name
+      }
 
       // Register the socket
       this.clientMap.set(entity, socket)
@@ -54,10 +67,13 @@ export default class NetworkServer extends System {
 
       // Sync all existing entities
       this.engine.getAllComponents(TilePosition).forEach((pos) => {
+        const meta = pos.entity.getComponent(Mobile)
+
         socket.send(
           Protocol.encode({
             type: 'spawn',
             id: pos.entity.id,
+            name: meta?.name ?? 'Soandso',
             x: pos.x,
             y: pos.y,
           }),
@@ -68,6 +84,7 @@ export default class NetworkServer extends System {
       this.broadcast({
         type: 'spawn',
         id: entity.id,
+        name,
         x: 0,
         y: 0,
       })
@@ -163,8 +180,27 @@ export default class NetworkServer extends System {
     })
   }
 
+  private getHandshake(socket: WebSocket) {
+    return new Promise<{ name: string }>((resolve) => {
+      const checkMessage = (data: WebSocket.Data) => {
+        if (typeof data !== 'string') {
+          return
+        }
+
+        const packet = Protocol.decode(data)
+
+        if (packet.type === 'handshake') {
+          resolve(packet)
+          socket.off('message', checkMessage)
+        }
+      }
+
+      socket.on('message', checkMessage)
+    })
+  }
+
   /** Sends a message to all connected clients */
-  public broadcast(packet: Packet) {
+  private broadcast(packet: Packet) {
     this.wss?.clients.forEach((client) => {
       client.send(Protocol.encode(packet))
     })
@@ -177,7 +213,7 @@ export default class NetworkServer extends System {
    * @param name The asset identifier
    * @param filename The location on disk
    */
-  public sendImage(socket: WebSocket, name: string, filename: string) {
+  private sendImage(socket: WebSocket, name: string, filename: string) {
     // Read as base64
     const data = readFileSync(`../assets/${filename}`, {
       encoding: 'base64',
@@ -187,7 +223,7 @@ export default class NetworkServer extends System {
     socket.send(Protocol.encode({ type: 'image', name, data }))
   }
 
-  public sendMapData(entity: Entity, data: TileMapChunk) {
+  private sendMapData(entity: Entity, data: TileMapChunk) {
     const socket = this.clientMap.get(entity)
 
     // Exit if we can't communicate wit hthis socket
