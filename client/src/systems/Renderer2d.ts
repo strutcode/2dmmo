@@ -129,6 +129,14 @@ export default class Renderer2d extends System {
   }
 
   public update() {
+    // Adjust the scale to fit the current window size
+    const viewRange = 8
+    const idealSize = (viewRange * 2 + 1) * 16
+    const actualSize = Math.max(window.innerWidth, window.innerHeight)
+    const scale = actualSize / idealSize
+    this.world.scale.x = scale
+    this.world.scale.y = scale
+
     // Load texture data sent by the server
     const queue = this.engine.getComponent(SpriteLoadQueue)
     if (queue) {
