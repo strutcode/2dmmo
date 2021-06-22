@@ -94,7 +94,7 @@ export default class NetworkClient extends System {
       // The client state is going to be messed up now so clear it all out
       this.engine.getEntities().forEach((entity) => {
         // Ignore the global entity
-        if (entity.getComponent(InputQueue)) return
+        if (entity.getComponent(LatencyGraph)) return
 
         this.engine.destroyEntity(entity)
       })
