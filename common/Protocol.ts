@@ -10,6 +10,7 @@ export type Packet =
   | {
       type: 'handshake'
       name: string
+      sprite: string
     }
   | {
       type: 'authorize'

@@ -75,6 +75,7 @@ export default class NetworkClient extends System {
         Protocol.encode({
           type: 'handshake',
           name: params.get('name') ?? 'Soandso',
+          sprite: params.get('sprite') ?? 'swordman',
         }),
       )
 

@@ -60,6 +60,7 @@ export default class NetworkServer extends System {
       const meta = entity.getComponent(Mobile)
       if (meta) {
         meta.name = name
+        meta.sprite = handshake.sprite
       }
 
       // Register the entity
@@ -210,7 +211,7 @@ export default class NetworkServer extends System {
   }
 
   private getHandshake(socket: WebSocket) {
-    return new Promise<{ name: string }>((resolve) => {
+    return new Promise<{ name: string; sprite: string }>((resolve) => {
       const checkMessage = (data: WebSocket.Data) => {
         if (typeof data !== 'string') {
           return

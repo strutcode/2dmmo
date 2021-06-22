@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
     "strict": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
@@ -11,6 +11,6 @@
   },
   "include": [
     "./src/**/*.ts",
-    "../common/**/*.ts"
+    "./assets/**/*",
   ]
 }
