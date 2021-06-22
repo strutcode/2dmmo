@@ -63,7 +63,7 @@ export default class NetworkServer extends System {
 
       // Send intialization packet
       socket.send(Protocol.encode({ type: 'authorize', id: entity.id }))
-      console.log(`Player ${entity.id} joined`)
+      console.log(`Player '${name}' joined`)
 
       // Sync all existing entities
       this.engine.getAllComponents(TilePosition).forEach((pos) => {
@@ -137,7 +137,7 @@ export default class NetworkServer extends System {
         // Remove resources
         this.engine.destroyEntity(entity)
 
-        console.log(`Player ${entity.id} left`)
+        console.log(`Player ${name} left`)
       })
     })
   }

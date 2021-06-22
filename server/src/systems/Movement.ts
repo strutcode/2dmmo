@@ -1,5 +1,6 @@
 import System from '../../../common/engine/System'
 import Input from '../components/Input'
+import Mobile from '../components/Mobile'
 import TilePosition from '../components/TilePosition'
 
 /** This system controlls movement of all players */
@@ -31,15 +32,13 @@ export default class Movement extends System {
           controller.inputs.splice(i, 1)
         })
 
-        // Debug log
+        // If the position actually changed, update it
         if (delta.x !== 0 || delta.y !== 0) {
           pos.x += delta.x
           pos.y += delta.y
 
           pos.y = Math.max(-13, Math.min(pos.y, 28))
           pos.x = Math.max(-13, Math.min(pos.x, 28))
-
-          console.log(`Player ${pos.entity.id} move: ${pos.x}, ${pos.y}`)
         }
       }
     })

@@ -26,6 +26,28 @@ export default class Input extends System {
       const queue = this.engine.getComponent(InputQueue)
       queue?.addAction(this.keyMap[ev.key])
     })
+
+    window.addEventListener('touchend', (ev) => {
+      const touch = ev.changedTouches[0]
+      const queue = this.engine.getComponent(InputQueue)
+
+      if (
+        Math.abs(touch.clientX - window.innerWidth / 2) >
+        Math.abs(touch.clientY - window.innerHeight / 2)
+      ) {
+        if (touch.clientX < window.innerWidth / 2) {
+          queue?.addAction('left')
+        } else {
+          queue?.addAction('right')
+        }
+      } else {
+        if (touch.clientY < window.innerHeight / 2) {
+          queue?.addAction('up')
+        } else {
+          queue?.addAction('down')
+        }
+      }
+    })
   }
 
   public update() {
