@@ -36,6 +36,9 @@ export default class Movement extends System {
           pos.x += delta.x
           pos.y += delta.y
 
+          pos.y = Math.max(-13, Math.min(pos.y, 28))
+          pos.x = Math.max(-13, Math.min(pos.x, 28))
+
           console.log(`Player ${pos.entity.id} move: ${pos.x}, ${pos.y}`)
         }
       }

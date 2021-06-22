@@ -230,7 +230,7 @@ export default class Renderer2d extends System {
 
         // Create a floating name tag
         const nametag = new Text(meta?.name ?? 'Soandso', {
-          fontSize: 16,
+          fontSize: 4 * scale,
           fill: 0xffffff,
           fontWeight: '600',
           dropShadow: true,
@@ -284,13 +284,13 @@ export default class Renderer2d extends System {
       if (queue) {
         queue.actions.forEach((action) => {
           if (action === 'up') {
-            sprite.y -= 16
+            if (sprite.y > -16 * 13) sprite.y -= 16
           } else if (action === 'down') {
-            sprite.y += 16
+            if (sprite.y < 16 * 28) sprite.y += 16
           } else if (action === 'left') {
-            sprite.x -= 16
+            if (sprite.y > -16 * 13) sprite.x -= 16
           } else if (action === 'right') {
-            sprite.x += 16
+            if (sprite.y < -16 * 28) sprite.x += 16
           }
         })
       }
@@ -316,11 +316,8 @@ export default class Renderer2d extends System {
         // Update the nametag
         const nametag = mobData.nametag
 
-        nametag.x =
-          sprite.x * this.world.scale.x +
-          8 * this.world.scale.x -
-          nametag.width / 2
-        nametag.y = sprite.y * this.world.scale.y - 2 * this.world.scale.y
+        nametag.x = sprite.x * scale + 8 * scale - nametag.width / 2
+        nametag.y = sprite.y * scale - 2 * scale
       }
     })
 
@@ -332,16 +329,12 @@ export default class Renderer2d extends System {
 
       if (targetSprite) {
         // Offset everything in the world by the poisition of the followed sprite minus half the viewport size to center it
-        this.world.x =
-          this.app.view.width / 2 - targetSprite.x * this.world.scale.x
-        this.world.y =
-          this.app.view.height / 2 - targetSprite.y * this.world.scale.y
+        this.world.x = this.app.view.width / 2 - targetSprite.x * scale
+        this.world.y = this.app.view.height / 2 - targetSprite.y * scale
 
         // Offset the high res graphics layer by the same amount
-        this.uiLayer.x =
-          this.app.view.width / 2 - targetSprite.x * this.world.scale.x
-        this.uiLayer.y =
-          this.app.view.height / 2 - targetSprite.y * this.world.scale.y
+        this.uiLayer.x = this.app.view.width / 2 - targetSprite.x * scale
+        this.uiLayer.y = this.app.view.height / 2 - targetSprite.y * scale
       }
     }
 
