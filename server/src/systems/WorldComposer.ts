@@ -22,15 +22,29 @@ export default class WorldComposer extends System {
         this.loadedMaps.set(pos.map, map)
       }
 
-      // Setup
-      const map = this.loadedMaps.get(pos.map) as TileMap
-      const chunkX = Math.floor(pos.x / map.chunkWidth) * 16 // Should be chunk size
-      const chunkY = Math.floor(pos.y / map.chunkHeight) * 16 // Should be chunk size
-      const chunk = map.chunks[`${chunkX},${chunkY}`]
+      /** Provides the closest lower increment of `increment` to `n` */
+      const gridSnap = (n: number, increment: number) =>
+        Math.floor(n / increment) * increment
 
-      // Handle tile visibility
-      if (chunk) {
-        visibility.revealChunk(chunkX, chunkY, chunk.layers)
+      // Find the area which the TileVisibility can see
+      const map = this.loadedMaps.get(pos.map) as TileMap
+      const bounds = {
+        minX: gridSnap(pos.x - visibility.range, map.chunkWidth),
+        maxX: gridSnap(pos.x + visibility.range, map.chunkWidth),
+        minY: gridSnap(pos.y - visibility.range, map.chunkHeight),
+        maxY: gridSnap(pos.y + visibility.range, map.chunkHeight),
+      }
+
+      // For each chunk which overlaps that area...
+      for (let y = bounds.minY; y <= bounds.maxY; y += map.chunkHeight) {
+        for (let x = bounds.minX; x <= bounds.maxX; x += map.chunkWidth) {
+          // Mark it as revealed if it exists in the map
+          const chunk = map.chunks[`${x},${y}`]
+
+          if (chunk) {
+            visibility.revealChunk(x, y, chunk.layers)
+          }
+        }
       }
     })
   }

@@ -15,7 +15,7 @@ export default class TileVisibility extends Component {
    */
   public revealed: ChunkMap = {}
 
-  /** Adds a chunk to the reveal queue */
+  /** Adds a chunk to the reveal queue if it's not already visible */
   public revealChunk(x: number, y: number, layers: number[][]) {
     const key = `${x},${y}`
 
