@@ -27,7 +27,7 @@ const sheetData: Record<string, ISpritesheetData> = {
   // TODO: This data should be dynamic
   'creatures/castle': {
     frames: {
-      soldier_stand_0: {
+      swordman_stand_0: {
         frame: {
           x: 0,
           y: 16 * 15,
@@ -35,7 +35,7 @@ const sheetData: Record<string, ISpritesheetData> = {
           h: 16,
         },
       },
-      soldier_stand_1: {
+      swordman_stand_1: {
         frame: {
           x: 16,
           y: 16 * 15,
@@ -43,7 +43,7 @@ const sheetData: Record<string, ISpritesheetData> = {
           h: 16,
         },
       },
-      soldier_stand_2: {
+      swordman_stand_2: {
         frame: {
           x: 32,
           y: 16 * 15,
@@ -51,10 +51,49 @@ const sheetData: Record<string, ISpritesheetData> = {
           h: 16,
         },
       },
-      soldier_stand_3: {
+      swordman_stand_3: {
         frame: {
           x: 48,
           y: 16 * 15,
+          w: 16,
+          h: 16,
+        },
+      },
+    },
+    meta: {
+      scale: '1',
+    },
+  },
+  'creatures/rampart': {
+    frames: {
+      deer_stand_0: {
+        frame: {
+          x: 0,
+          y: 16 * 20,
+          w: 16,
+          h: 16,
+        },
+      },
+      deer_stand_1: {
+        frame: {
+          x: 16,
+          y: 16 * 20,
+          w: 16,
+          h: 16,
+        },
+      },
+      deer_stand_2: {
+        frame: {
+          x: 32,
+          y: 16 * 20,
+          w: 16,
+          h: 16,
+        },
+      },
+      deer_stand_3: {
+        frame: {
+          x: 48,
+          y: 16 * 20,
           w: 16,
           h: 16,
         },

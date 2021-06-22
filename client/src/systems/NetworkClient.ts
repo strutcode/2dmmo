@@ -190,17 +190,18 @@ export default class NetworkClient extends System {
 
       // Set up the component data
       // TODO: Gotta find a better way
+      const meta = entity.getComponent(Creature)
+      if (meta) {
+        meta.name = packet.name
+        meta.sprite = packet.sprite
+      }
+
       const visual = entity?.getComponent(Sprite)
       if (visual) {
         visual.x = packet.x * 16
         visual.y = packet.y * 16
-        visual.name = 'soldier_stand'
+        visual.name = `${meta?.sprite ?? 'swordman'}_stand`
         visual.fps = 4
-      }
-
-      const meta = entity.getComponent(Creature)
-      if (meta) {
-        meta.name = packet.name
       }
     }
     // An entity disappeared

@@ -14,6 +14,8 @@ type PendingPacket = {
   packet: Packet
 }
 
+type MobData = {}
+
 /** This system handles all network communication queued up by other systems */
 export default class NetworkServer extends System {
   /** The main socket server */
@@ -22,6 +24,8 @@ export default class NetworkServer extends System {
   private pending: PendingPacket[] = []
   /** A map of entities to their communication sockets */
   private clientMap = new Map<Entity, WebSocket>()
+  /** Registered mobs */
+  private mobileMap = new Map<Entity, MobData>()
 
   public start() {
     // Init server
@@ -58,6 +62,9 @@ export default class NetworkServer extends System {
         meta.name = name
       }
 
+      // Register the entity
+      this.mobileMap.set(entity, {})
+
       // Register the socket
       this.clientMap.set(entity, socket)
 
@@ -74,6 +81,7 @@ export default class NetworkServer extends System {
             type: 'spawn',
             id: pos.entity.id,
             name: meta?.name ?? 'Soandso',
+            sprite: meta?.sprite ?? 'swordman',
             x: pos.x,
             y: pos.y,
           }),
@@ -85,6 +93,7 @@ export default class NetworkServer extends System {
         type: 'spawn',
         id: entity.id,
         name,
+        sprite: meta?.sprite ?? 'swordman',
         x: 0,
         y: 0,
       })
@@ -99,6 +108,11 @@ export default class NetworkServer extends System {
         socket,
         'creatures/castle',
         'HAS Creature Pack/Castle/Castle(AllFrame).png',
+      )
+      this.sendImage(
+        socket,
+        'creatures/rampart',
+        'HAS Creature Pack/Rampart/Rampart(AllFrame).png',
       )
 
       // When the client sends data...
@@ -143,6 +157,21 @@ export default class NetworkServer extends System {
   }
 
   public update() {
+    // Sync mobs
+    this.engine.getAllComponents(Mobile).forEach((mob) => {
+      if (!this.mobileMap.has(mob.entity)) {
+        const pos = mob.entity.getComponent(TilePosition)
+
+        this.broadcast({
+          type: 'spawn',
+          id: mob.entity.id,
+          name: mob.name,
+          sprite: mob.sprite,
+          x: pos?.x ?? 0,
+          y: pos?.y ?? 0,
+        })
+      }
+    })
     // Process input packets
     this.pending.forEach(({ entity, packet }, i) => {
       if (packet.type === 'input') {

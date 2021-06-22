@@ -19,6 +19,7 @@ export type Packet =
       type: 'spawn'
       id: number
       name: string
+      sprite: string
       x: number
       y: number
     }
