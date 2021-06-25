@@ -48,7 +48,7 @@ export default class NetworkClient extends System {
 
   /** Sets up a socket connection to the server */
   private connect() {
-    // Try to connect uysing the current hostname and matching protocol
+    // Try to connect using the current hostname and matching protocol
     this.socket = new WebSocket(`${location.origin.replace('http', 'ws')}/data`)
 
     this.socket.addEventListener('open', () => {

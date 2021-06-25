@@ -26,6 +26,7 @@ const compiler = webpack({
     new FriendlyErrorsWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      favicon: './src/favico.png',
       inject: true,
     }),
     new webpack.NormalModuleReplacementPlugin(
@@ -42,6 +43,13 @@ const server = new WebpackDevServer(compiler as any, {
   // port: 9002,
   sockPath: '/hmr',
   sockPort: 9002,
+  proxy: {
+    '/data': {
+      target: 'http://server:9003',
+      changeOrigin: true,
+      ws: true,
+    },
+  },
 })
 
 server.listen(9002, () => {})
