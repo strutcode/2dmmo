@@ -41,33 +41,33 @@ export default class PopulationManager extends System {
 
     // Update deer
     this.deer.forEach((deer) => {
-      const pos = deer.entity.getComponent(TilePosition)
+      deer.entity.with(TilePosition, (pos) => {
+        // If it's time to move
+        if (deer.moveTimer <= 0) {
+          // Pick a random cardinal direction
+          const dir = Math.floor(Math.random() * 4)
 
-      // If it's time to move
-      if (pos && deer.moveTimer <= 0) {
-        // Pick a random cardinal direction
-        const dir = Math.floor(Math.random() * 4)
+          // Change position based on it
+          if (dir === 0) {
+            if (pos.x > -13) pos.x--
+          }
+          if (dir === 1) {
+            if (pos.x < 28) pos.x++
+          }
+          if (dir === 2) {
+            if (pos.y > -13) pos.y--
+          }
+          if (dir === 3) {
+            if (pos.y < 28) pos.y++
+          }
 
-        // Change position based on it
-        if (dir === 0) {
-          if (pos.x > -13) pos.x--
-        }
-        if (dir === 1) {
-          if (pos.x < 28) pos.x++
-        }
-        if (dir === 2) {
-          if (pos.y > -13) pos.y--
-        }
-        if (dir === 3) {
-          if (pos.y < 28) pos.y++
+          // Reset the timer to 2 - 3 seconds
+          deer.moveTimer = Math.floor(Math.random() * 2000) + 1000
         }
 
-        // Reset the timer to 2 - 3 seconds
-        deer.moveTimer = Math.floor(Math.random() * 2000) + 1000
-      }
-
-      // Update the timer
-      deer.moveTimer -= deltaTime
+        // Update the timer
+        deer.moveTimer -= deltaTime
+      })
     })
 
     // Save the current time for the next delta

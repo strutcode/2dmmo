@@ -35,6 +35,7 @@ export default class Entity {
     return list[0] as InstanceType<T>
   }
 
+  /** Runs the callback with the specified component as an argument if it exists */
   public with<T extends typeof Component>(
     type: T,
     callback: (component: InstanceType<T>) => void,

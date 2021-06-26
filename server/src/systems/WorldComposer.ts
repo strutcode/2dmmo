@@ -8,44 +8,39 @@ export default class WorldComposer extends System {
 
   public update() {
     this.engine.forEachComponent(TilePosition, (pos) => {
-      const visibility = pos.entity.getComponent(TileVisibility)
+      pos.entity.with(TileVisibility, (visibility) => {
+        // Load the map if needed
+        if (!this.loadedMaps.has(pos.map)) {
+          console.log(`Load map ${pos.map}`)
+          const map = MapLoader.load(pos.map)
+          this.loadedMaps.set(pos.map, map)
+        }
 
-      // Nothing to do here if the entity can't actually see tiles
-      if (!visibility) {
-        return
-      }
+        /** Provides the closest lower increment of `increment` to `n` */
+        const gridSnap = (n: number, increment: number) =>
+          Math.floor(n / increment) * increment
 
-      // Make sure we have the data
-      if (!this.loadedMaps.has(pos.map)) {
-        console.log(`Load map ${pos.map}`)
-        const map = MapLoader.load(pos.map)
-        this.loadedMaps.set(pos.map, map)
-      }
+        // Find the area which the TileVisibility can see
+        const map = this.loadedMaps.get(pos.map) as TileMap
+        const bounds = {
+          minX: gridSnap(pos.x - visibility.range, map.chunkWidth),
+          maxX: gridSnap(pos.x + visibility.range, map.chunkWidth),
+          minY: gridSnap(pos.y - visibility.range, map.chunkHeight),
+          maxY: gridSnap(pos.y + visibility.range, map.chunkHeight),
+        }
 
-      /** Provides the closest lower increment of `increment` to `n` */
-      const gridSnap = (n: number, increment: number) =>
-        Math.floor(n / increment) * increment
+        // For each chunk which overlaps that area...
+        for (let y = bounds.minY; y <= bounds.maxY; y += map.chunkHeight) {
+          for (let x = bounds.minX; x <= bounds.maxX; x += map.chunkWidth) {
+            // Mark it as revealed if it exists in the map
+            const chunk = map.chunks[`${x},${y}`]
 
-      // Find the area which the TileVisibility can see
-      const map = this.loadedMaps.get(pos.map) as TileMap
-      const bounds = {
-        minX: gridSnap(pos.x - visibility.range, map.chunkWidth),
-        maxX: gridSnap(pos.x + visibility.range, map.chunkWidth),
-        minY: gridSnap(pos.y - visibility.range, map.chunkHeight),
-        maxY: gridSnap(pos.y + visibility.range, map.chunkHeight),
-      }
-
-      // For each chunk which overlaps that area...
-      for (let y = bounds.minY; y <= bounds.maxY; y += map.chunkHeight) {
-        for (let x = bounds.minX; x <= bounds.maxX; x += map.chunkWidth) {
-          // Mark it as revealed if it exists in the map
-          const chunk = map.chunks[`${x},${y}`]
-
-          if (chunk) {
-            visibility.revealChunk(x, y, chunk.layers)
+            if (chunk) {
+              visibility.revealChunk(x, y, chunk.layers)
+            }
           }
         }
-      }
+      })
     })
   }
 }

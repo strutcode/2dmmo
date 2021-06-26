@@ -23,46 +23,44 @@ export default class Input extends System {
       if (!this.keyMap[ev.key]) return
 
       // Record it on the input queue
-      const queue = this.engine.getComponent(InputQueue)
-      queue?.addAction(this.keyMap[ev.key])
+      this.engine.with(InputQueue, (queue) => {
+        queue.addAction(this.keyMap[ev.key])
+      })
     })
 
     // Mobile/touch input
     window.addEventListener('touchend', (ev) => {
       const touch = ev.changedTouches[0]
-      const queue = this.engine.getComponent(InputQueue)
+      this.engine.with(InputQueue, (queue) => {
+        // Find the touch position relative to the viewport center; negative for up and left, positive for down and right
+        const centerOffsetX = Math.abs(touch.clientX - window.innerWidth / 2)
+        const centerOffsetY = Math.abs(touch.clientY - window.innerHeight / 2)
 
-      // Find the touch position relative to the viewport center; negative for up and left, positive for down and right
-      const centerOffsetX = Math.abs(touch.clientX - window.innerWidth / 2)
-      const centerOffsetY = Math.abs(touch.clientY - window.innerHeight / 2)
-
-      // If the touch was more horizontally offset
-      if (centerOffsetX > centerOffsetY) {
-        // Move left/right based on the sign of the offset
-        if (centerOffsetX <= 0) {
-          queue?.addAction('left')
-        } else {
-          queue?.addAction('right')
+        // If the touch was more horizontally offset
+        if (centerOffsetX > centerOffsetY) {
+          // Move left/right based on the sign of the offset
+          if (centerOffsetX <= 0) {
+            queue.addAction('left')
+          } else {
+            queue.addAction('right')
+          }
         }
-      }
-      // If the touch was more vertically offset
-      else {
-        // Move up/down based on the sign of the offset
-        if (centerOffsetY <= 0) {
-          queue?.addAction('up')
-        } else {
-          queue?.addAction('down')
+        // If the touch was more vertically offset
+        else {
+          // Move up/down based on the sign of the offset
+          if (centerOffsetY <= 0) {
+            queue.addAction('up')
+          } else {
+            queue.addAction('down')
+          }
         }
-      }
+      })
     })
   }
 
   public update() {
-    const queue = this.engine.getComponent(InputQueue)
-
-    if (queue) {
-      // Clear out old inputs
+    this.engine.with(InputQueue, (queue) => {
       queue.actions = []
-    }
+    })
   }
 }

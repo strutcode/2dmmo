@@ -3,7 +3,6 @@ import {
   Application,
   Container,
   Graphics,
-  ISpritesheetData,
   MIPMAP_MODES,
   SCALE_MODES,
   Sprite as PixiSprite,
@@ -12,7 +11,6 @@ import {
   Texture,
 } from 'pixi.js'
 
-import Entity from '../../../common/engine/Entity'
 import System from '../../../common/engine/System'
 import CameraFollow from '../components/CameraFollow'
 import Creature from '../components/Creature'
@@ -99,6 +97,7 @@ export default class Renderer2d extends System {
     this.cleanUpSprites()
   }
 
+  /** Handles client window resizing and other viewport activity */
   private updateViewport() {
     // Adjust the scale to fit the current window size
     const viewRange = 8
@@ -111,16 +110,17 @@ export default class Renderer2d extends System {
     this.world.scale.y = this.scale
   }
 
+  /** Handles image data transmitted over the socket */
   private loadTextureData() {
     // Load texture data sent by the server
-    const queue = this.engine.getComponent(SpriteLoadQueue)
-    if (queue) {
+    this.engine.with(SpriteLoadQueue, (queue) => {
       // For each image waiting to be processed...
       queue.data.forEach((sprite, i) => {
         // Create a data url image and pass it to Pixi
         const img = new Image()
         img.src = `data:image/png;base64,${sprite.data}`
         const tex = Texture.from(img, {
+          // Set optiosn for pixel art
           mipmap: MIPMAP_MODES.OFF,
           anisotropicLevel: 0,
           scaleMode: SCALE_MODES.NEAREST,
@@ -151,13 +151,13 @@ export default class Renderer2d extends System {
         // Clear the entry from the queue
         queue.data.splice(i, 1)
       })
-    }
+    })
   }
 
+  /** Handles tile map data transmitted over the socket */
   private loadMapData() {
     // Load tile data sent by the server
-    const tilemap = this.engine.getComponent(TileMap)
-    if (tilemap) {
+    this.engine.with(TileMap, (tilemap) => {
       // Iterate chunks to load
       tilemap.toLoad.forEach((chunk, i) => {
         // Load all layers in the chunk
@@ -191,9 +191,10 @@ export default class Renderer2d extends System {
         // Remove the loaded chunk from the queue
         tilemap.toLoad.splice(i, 1)
       })
-    }
+    })
   }
 
+  /** Handles visuals of dynamic entities (sprites) */
   private updateSprites() {
     // Update sprites
     this.engine.getAllComponents(Sprite).forEach((sprite) => {
@@ -205,27 +206,27 @@ export default class Renderer2d extends System {
         // Add it to the virtual camera
         this.world.addChild(newSprite)
 
-        const meta = sprite.entity.getComponent(Creature)
+        sprite.entity.with(Creature, (meta) => {
+          // Create a floating name tag
+          const nametag = new Text(meta?.name ?? 'Soandso', {
+            fontSize: 4 * this.scale,
+            fill: 0xffffff,
+            fontWeight: '600',
+            dropShadow: true,
+            dropShadowDistance: 2,
+            dropShadowBlur: 3,
+            dropShadowAlpha: 1,
+            align: 'center',
+          })
 
-        // Create a floating name tag
-        const nametag = new Text(meta?.name ?? 'Soandso', {
-          fontSize: 4 * this.scale,
-          fill: 0xffffff,
-          fontWeight: '600',
-          dropShadow: true,
-          dropShadowDistance: 2,
-          dropShadowBlur: 3,
-          dropShadowAlpha: 1,
-          align: 'center',
-        })
+          // Add it to the non-pixel layer
+          this.uiLayer.addChild(nametag)
 
-        // Add it to the non-pixel layer
-        this.uiLayer.addChild(nametag)
-
-        // Save everything to the data map
-        this.spriteMap.set(sprite, {
-          sprite: newSprite,
-          nametag,
+          // Save everything to the data map
+          this.spriteMap.set(sprite, {
+            sprite: newSprite,
+            nametag,
+          })
         })
       }
 
@@ -259,8 +260,7 @@ export default class Renderer2d extends System {
       }
 
       // Process inputs for optimistic movement. These may later be overidden by the server.
-      const queue = sprite.entity.getComponent(InputQueue)
-      if (queue) {
+      sprite.entity.with(InputQueue, (queue) => {
         queue.actions.forEach((action) => {
           if (action === 'up') {
             if (sprite.y > -16 * 13) sprite.y -= 16
@@ -272,7 +272,7 @@ export default class Renderer2d extends System {
             if (sprite.x < 16 * 28) sprite.x += 16
           }
         })
-      }
+      })
 
       // Get the graphics representation for this component
       const mobData = this.spriteMap.get(sprite)
@@ -301,29 +301,27 @@ export default class Renderer2d extends System {
     })
   }
 
+  /** Handles camera updates to view different parts of the world */
   private updateCamera() {
     // Update the camera
-    const target = this.engine.getComponent(CameraFollow)
-    if (target) {
-      // Get the sprite on the same component to use for positioning
-      const targetSprite = target.entity.getComponent(Sprite)
-
-      if (targetSprite) {
+    this.engine.with(CameraFollow, (target) => {
+      // Use the sprite component for positioning
+      target.entity.with(Sprite, (sprite) => {
         // Offset everything in the world by the poisition of the followed sprite minus half the viewport size to center it
-        this.world.x = this.app.view.width / 2 - targetSprite.x * this.scale
-        this.world.y = this.app.view.height / 2 - targetSprite.y * this.scale
+        this.world.x = this.app.view.width / 2 - sprite.x * this.scale
+        this.world.y = this.app.view.height / 2 - sprite.y * this.scale
 
         // Offset the high res graphics layer by the same amount
-        this.uiLayer.x = this.app.view.width / 2 - targetSprite.x * this.scale
-        this.uiLayer.y = this.app.view.height / 2 - targetSprite.y * this.scale
-      }
-    }
+        this.uiLayer.x = this.app.view.width / 2 - sprite.x * this.scale
+        this.uiLayer.y = this.app.view.height / 2 - sprite.y * this.scale
+      })
+    })
   }
 
+  /** Updates the visual latency graph */
   private updateLatencyGraph() {
     // Build the latency graph
-    const graph = this.engine.getComponent(LatencyGraph)
-    if (graph) {
+    this.engine.with(LatencyGraph, (graph) => {
       // Set the position to the bottom right corner eadch frame in case of resize
       this.latency.x = this.app.view.width - 100
       this.latency.y = this.app.view.height - 50
@@ -360,9 +358,10 @@ export default class Renderer2d extends System {
         )
       })
       this.latency.endFill()
-    }
+    })
   }
 
+  /** Removes third party resources tied to engine sprites */
   private cleanUpSprites() {
     // Clean up graphics representations for any destroyed components
     this.engine.forEachDeleted(Sprite, (component) => {

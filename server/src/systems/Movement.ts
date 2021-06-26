@@ -8,9 +8,7 @@ export default class Movement extends System {
   public update() {
     // Update all player positions
     this.engine.forEachComponent(Input, (controller) => {
-      const pos = controller.entity.getComponent(TilePosition)
-
-      if (pos) {
+      controller.entity.with(TilePosition, (pos) => {
         const delta = {
           x: 0,
           y: 0,
@@ -40,7 +38,7 @@ export default class Movement extends System {
           pos.y = Math.max(-13, Math.min(pos.y, 28))
           pos.x = Math.max(-13, Math.min(pos.x, 28))
         }
-      }
+      })
     })
   }
 }

@@ -146,6 +146,18 @@ export default class Engine {
     return (this.components.get(type) ?? [])[0] as InstanceType<T> | undefined
   }
 
+  /** Runs the callback with the specified component as an argument if it exists */
+  public with<T extends typeof Component>(
+    type: T,
+    callback: (component: InstanceType<T>) => void,
+  ) {
+    const component = this.getComponent(type)
+
+    if (component) {
+      callback(component)
+    }
+  }
+
   /** Provides an array of created components of a type this tick */
   public getCreated<T extends typeof Component>(type: T): InstanceType<T>[] {
     return (this.componentChanges.created.get(type) ?? []) as InstanceType<T>[]

@@ -75,18 +75,18 @@ export default class NetworkServer extends System {
 
       // Sync all existing entities
       this.engine.getAllComponents(TilePosition).forEach((pos) => {
-        const meta = pos.entity.getComponent(Mobile)
-
-        socket.send(
-          Protocol.encode({
-            type: 'spawn',
-            id: pos.entity.id,
-            name,
-            sprite,
-            x: pos.x,
-            y: pos.y,
-          }),
-        )
+        pos.entity.with(Mobile, (mob) => {
+          socket.send(
+            Protocol.encode({
+              type: 'spawn',
+              id: pos.entity.id,
+              name: mob.name,
+              sprite: mob.sprite,
+              x: pos.x,
+              y: pos.y,
+            }),
+          )
+        })
       })
 
       // Sync the new player to others
@@ -159,10 +159,8 @@ export default class NetworkServer extends System {
 
   public update() {
     // Sync mobs
-    this.engine.getAllComponents(Mobile).forEach((mob) => {
-      if (!this.mobileMap.has(mob.entity)) {
-        const pos = mob.entity.getComponent(TilePosition)
-
+    this.engine.forEachCreated(Mobile, (mob) => {
+      mob.entity.with(TilePosition, (pos) => {
         this.broadcast({
           type: 'spawn',
           id: mob.entity.id,
@@ -171,21 +169,19 @@ export default class NetworkServer extends System {
           x: pos?.x ?? 0,
           y: pos?.y ?? 0,
         })
-
-        this.mobileMap.set(mob.entity, {})
-      }
+      })
     })
+
     // Process input packets
     this.pending.forEach(({ entity, packet }, i) => {
       if (packet.type === 'input') {
-        const input = entity.getComponent(Input)
-
-        if (input) {
+        entity.with(Input, (input) => {
+          // Record the request
           input.addInput(packet.key)
-        }
 
-        // Remove the processed packet
-        this.pending.splice(i, 1)
+          // Remove the processed packet
+          this.pending.splice(i, 1)
+        })
       }
     })
 

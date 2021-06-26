@@ -35,15 +35,12 @@ export default class NetworkClient extends System {
   }
 
   public update() {
-    // Get the input queue from the input System
-    const queue = this.engine.getComponent(InputQueue)
-
-    if (queue) {
-      // send all player inputs to the server for processing
+    this.engine.with(InputQueue, (queue) => {
+      // Send all player inputs to the server for processing
       queue.actions.forEach((action) => {
         this.send({ type: 'input', key: action })
       })
-    }
+    })
   }
 
   /** Sets up a socket connection to the server */
@@ -152,9 +149,10 @@ export default class NetworkClient extends System {
 
     // A response to our ping request
     if (packet.type === 'ping') {
-      // Use the exact receive time to record latency
-      const graph = this.engine.getComponent(LatencyGraph)
-      graph?.logLatency(now - this.pingTime)
+      this.engine.with(LatencyGraph, (graph) => {
+        // Use the exact receive time to record latency
+        graph.logLatency(now - this.pingTime)
+      })
     }
     // Initial login response
     else if (packet.type === 'authorize') {
@@ -231,30 +229,26 @@ export default class NetworkClient extends System {
       const entity = this.engine.getEntity(packet.id)
 
       if (entity) {
-        // Get the sprite
-        const visual = entity.getComponent(Sprite)
-
-        if (visual) {
-          // Update the position
+        // Update the position
+        entity.with(Sprite, (visual) => {
           visual.x = packet.x * 16
           visual.y = packet.y * 16
-        }
+        })
       }
     }
     // Received image data from the server
     else if (packet.type === 'image') {
       // Add it to the processing queue to be handled by the graphics system
-      const queue = this.engine.getComponent(SpriteLoadQueue)
-      queue?.addData(packet.name, packet.data)
+      this.engine.with(SpriteLoadQueue, (queue) => {
+        queue.addData(packet.name, packet.data)
+      })
     }
     // Received map data from the server
     else if (packet.type === 'mapdata') {
-      let tilemap = this.engine.getComponent(TileMap)
-
-      if (tilemap) {
-        // Add the data to the processing queue
-        tilemap.toLoad.push(packet.data)
-      }
+      // Add the data to the processing queue
+      this.engine.with(TileMap, (tileMap) => {
+        tileMap.toLoad.push(packet.data)
+      })
     }
     // Hmmmm
     else {
