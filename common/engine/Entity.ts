@@ -27,7 +27,9 @@ export default class Entity {
     const list = this.components.get(type)
 
     if (!list || !list.length) {
-      throw new Error(`Missing required component ${type.name} on entity #${this.id}`)
+      throw new Error(
+        `Missing required component ${type.name} on entity #${this.id}`,
+      )
     }
 
     return list[0] as InstanceType<T>

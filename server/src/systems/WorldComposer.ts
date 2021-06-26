@@ -7,7 +7,7 @@ export default class WorldComposer extends System {
   private loadedMaps = new Map<string, TileMap>()
 
   public update() {
-    this.engine.getAllComponents(TilePosition).forEach((pos) => {
+    this.engine.forEachComponent(TilePosition, (pos) => {
       const visibility = pos.entity.getComponent(TileVisibility)
 
       // Nothing to do here if the entity can't actually see tiles

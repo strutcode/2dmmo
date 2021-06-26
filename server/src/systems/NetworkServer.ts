@@ -171,6 +171,8 @@ export default class NetworkServer extends System {
           x: pos?.x ?? 0,
           y: pos?.y ?? 0,
         })
+
+        this.mobileMap.set(mob.entity, {})
       }
     })
     // Process input packets
@@ -188,7 +190,7 @@ export default class NetworkServer extends System {
     })
 
     // Check if any map data needs to be sent
-    this.engine.getAllComponents(TileVisibility).forEach((visibility) => {
+    this.engine.forEachComponent(TileVisibility, (visibility) => {
       visibility.pending.forEach((chunk, i) => {
         this.sendMapData(visibility.entity, chunk)
         visibility.pending.splice(i, 1)
@@ -196,17 +198,13 @@ export default class NetworkServer extends System {
     })
 
     // Check if any entities moved
-    this.engine.getAllComponents(TilePosition).forEach((pos) => {
-      // If so, sync their position
-      if (pos.dirty) {
-        this.broadcast({
-          type: 'move',
-          id: pos.entity.id,
-          x: pos.x,
-          y: pos.y,
-        })
-        pos.dirty = false
-      }
+    this.engine.forEachUpdated(TilePosition, (pos) => {
+      this.broadcast({
+        type: 'move',
+        id: pos.entity.id,
+        x: pos.x,
+        y: pos.y,
+      })
     })
   }
 

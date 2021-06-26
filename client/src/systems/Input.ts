@@ -27,21 +27,28 @@ export default class Input extends System {
       queue?.addAction(this.keyMap[ev.key])
     })
 
+    // Mobile/touch input
     window.addEventListener('touchend', (ev) => {
       const touch = ev.changedTouches[0]
       const queue = this.engine.getComponent(InputQueue)
 
-      if (
-        Math.abs(touch.clientX - window.innerWidth / 2) >
-        Math.abs(touch.clientY - window.innerHeight / 2)
-      ) {
-        if (touch.clientX < window.innerWidth / 2) {
+      // Find the touch position relative to the viewport center; negative for up and left, positive for down and right
+      const centerOffsetX = Math.abs(touch.clientX - window.innerWidth / 2)
+      const centerOffsetY = Math.abs(touch.clientY - window.innerHeight / 2)
+
+      // If the touch was more horizontally offset
+      if (centerOffsetX > centerOffsetY) {
+        // Move left/right based on the sign of the offset
+        if (centerOffsetX <= 0) {
           queue?.addAction('left')
         } else {
           queue?.addAction('right')
         }
-      } else {
-        if (touch.clientY < window.innerHeight / 2) {
+      }
+      // If the touch was more vertically offset
+      else {
+        // Move up/down based on the sign of the offset
+        if (centerOffsetY <= 0) {
           queue?.addAction('up')
         } else {
           queue?.addAction('down')

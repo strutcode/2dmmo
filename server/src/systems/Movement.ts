@@ -7,10 +7,10 @@ import TilePosition from '../components/TilePosition'
 export default class Movement extends System {
   public update() {
     // Update all player positions
-    this.engine.getAllComponents(TilePosition).forEach((pos) => {
-      const controller = pos.entity.getComponent(Input)
+    this.engine.forEachComponent(Input, (controller) => {
+      const pos = controller.entity.getComponent(TilePosition)
 
-      if (controller) {
+      if (pos) {
         const delta = {
           x: 0,
           y: 0,

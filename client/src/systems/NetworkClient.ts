@@ -220,7 +220,7 @@ export default class NetworkClient extends System {
         const visual = entity.getComponent(Sprite)
 
         if (visual) {
-          // Udpate the position
+          // Update the position
           visual.x = packet.x * 16
           visual.y = packet.y * 16
         }

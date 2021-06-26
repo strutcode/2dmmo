@@ -40,6 +40,9 @@ export default class Renderer2d extends System {
     resizeTo: window,
   })
 
+  /** Current viewport scaling factor, useful for keeping sizes consistent */
+  private scale = 4
+
   /**
    * The virtual camera container. There's no real camera system in Pixi but
    * a fine alternative is the usual graphics approach of simply offsetting
@@ -58,7 +61,7 @@ export default class Renderer2d extends System {
   private latency = new Graphics()
 
   /** Stores visual representations by entity */
-  private spriteMap = new Map<Entity, MobData>()
+  private spriteMap = new Map<Sprite, MobData>()
   /** Stores textures by asset name */
   private textureMap = new Map<string, Texture>()
   /** Stores animation data for a sprite */
@@ -71,8 +74,8 @@ export default class Renderer2d extends System {
       document.body.appendChild(this.app.view)
 
       // Set up the virtual camera container
-      this.world.scale.x = 4
-      this.world.scale.y = 4
+      this.world.scale.x = this.scale
+      this.world.scale.y = this.scale
       this.app.stage.addChild(this.world)
 
       // Set up the tile map
@@ -87,14 +90,28 @@ export default class Renderer2d extends System {
   }
 
   public update() {
+    this.updateViewport()
+    this.loadTextureData()
+    this.loadMapData()
+    this.updateSprites()
+    this.updateCamera()
+    this.updateLatencyGraph()
+    this.cleanUpSprites()
+  }
+
+  private updateViewport() {
     // Adjust the scale to fit the current window size
     const viewRange = 8
     const idealSize = (viewRange * 2 + 1) * 16
     const actualSize = Math.max(window.innerWidth, window.innerHeight)
-    const scale = actualSize / idealSize
-    this.world.scale.x = scale
-    this.world.scale.y = scale
+    this.scale = actualSize / idealSize
 
+    // Resize world container to the updated scale
+    this.world.scale.x = this.scale
+    this.world.scale.y = this.scale
+  }
+
+  private loadTextureData() {
     // Load texture data sent by the server
     const queue = this.engine.getComponent(SpriteLoadQueue)
     if (queue) {
@@ -135,7 +152,9 @@ export default class Renderer2d extends System {
         queue.data.splice(i, 1)
       })
     }
+  }
 
+  private loadMapData() {
     // Load tile data sent by the server
     const tilemap = this.engine.getComponent(TileMap)
     if (tilemap) {
@@ -173,11 +192,13 @@ export default class Renderer2d extends System {
         tilemap.toLoad.splice(i, 1)
       })
     }
+  }
 
+  private updateSprites() {
     // Update sprites
     this.engine.getAllComponents(Sprite).forEach((sprite) => {
       // If no graphics representation exists for this component yet, create it
-      if (!this.spriteMap.has(sprite.entity)) {
+      if (!this.spriteMap.has(sprite)) {
         // Default to a plain white texture
         const newSprite = PixiSprite.from(Texture.WHITE)
 
@@ -188,7 +209,7 @@ export default class Renderer2d extends System {
 
         // Create a floating name tag
         const nametag = new Text(meta?.name ?? 'Soandso', {
-          fontSize: 4 * scale,
+          fontSize: 4 * this.scale,
           fill: 0xffffff,
           fontWeight: '600',
           dropShadow: true,
@@ -202,7 +223,7 @@ export default class Renderer2d extends System {
         this.uiLayer.addChild(nametag)
 
         // Save everything to the data map
-        this.spriteMap.set(sprite.entity, {
+        this.spriteMap.set(sprite, {
           sprite: newSprite,
           nametag,
         })
@@ -246,15 +267,15 @@ export default class Renderer2d extends System {
           } else if (action === 'down') {
             if (sprite.y < 16 * 28) sprite.y += 16
           } else if (action === 'left') {
-            if (sprite.y > -16 * 13) sprite.x -= 16
+            if (sprite.x > -16 * 13) sprite.x -= 16
           } else if (action === 'right') {
-            if (sprite.y < -16 * 28) sprite.x += 16
+            if (sprite.x < 16 * 28) sprite.x += 16
           }
         })
       }
 
       // Get the graphics representation for this component
-      const mobData = this.spriteMap.get(sprite.entity)
+      const mobData = this.spriteMap.get(sprite)
       if (mobData) {
         const spriteName = `${sprite.name}_${sprite.currentFrame}`
         const pixiSprite = mobData.sprite
@@ -274,11 +295,13 @@ export default class Renderer2d extends System {
         // Update the nametag
         const nametag = mobData.nametag
 
-        nametag.x = sprite.x * scale + 8 * scale - nametag.width / 2
-        nametag.y = sprite.y * scale - 2 * scale
+        nametag.x = sprite.x * this.scale + 8 * this.scale - nametag.width / 2
+        nametag.y = sprite.y * this.scale - 2 * this.scale
       }
     })
+  }
 
+  private updateCamera() {
     // Update the camera
     const target = this.engine.getComponent(CameraFollow)
     if (target) {
@@ -287,15 +310,17 @@ export default class Renderer2d extends System {
 
       if (targetSprite) {
         // Offset everything in the world by the poisition of the followed sprite minus half the viewport size to center it
-        this.world.x = this.app.view.width / 2 - targetSprite.x * scale
-        this.world.y = this.app.view.height / 2 - targetSprite.y * scale
+        this.world.x = this.app.view.width / 2 - targetSprite.x * this.scale
+        this.world.y = this.app.view.height / 2 - targetSprite.y * this.scale
 
         // Offset the high res graphics layer by the same amount
-        this.uiLayer.x = this.app.view.width / 2 - targetSprite.x * scale
-        this.uiLayer.y = this.app.view.height / 2 - targetSprite.y * scale
+        this.uiLayer.x = this.app.view.width / 2 - targetSprite.x * this.scale
+        this.uiLayer.y = this.app.view.height / 2 - targetSprite.y * this.scale
       }
     }
+  }
 
+  private updateLatencyGraph() {
     // Build the latency graph
     const graph = this.engine.getComponent(LatencyGraph)
     if (graph) {
@@ -321,7 +346,7 @@ export default class Renderer2d extends System {
       this.latency.beginFill(0xff0000)
       history.reverse().forEach((point, n) => {
         // Get the size of the bar relative to the graph height
-        const percent = point / max
+        const percent = Math.min(point / max, 1)
 
         this.latency.drawRect(
           // n bar widths from the right
@@ -336,18 +361,20 @@ export default class Renderer2d extends System {
       })
       this.latency.endFill()
     }
+  }
 
+  private cleanUpSprites() {
     // Clean up graphics representations for any destroyed components
-    // TODO: Don't do this. Need a much better system
-    this.spriteMap.forEach((mobData, entity) => {
-      // If entity no longer exists
-      if (!this.engine.getEntity(entity.id)) {
+    this.engine.forEachDeleted(Sprite, (component) => {
+      const mobData = this.spriteMap.get(component)
+
+      if (mobData) {
         // Destroy the representations
         mobData.sprite.destroy()
         mobData.nametag.destroy()
 
         // Remove it from the records
-        this.spriteMap.delete(entity)
+        this.spriteMap.delete(component)
       }
     })
   }

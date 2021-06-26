@@ -27,7 +27,9 @@ export default class Engine {
 
   /** Enables a system in this engine */
   public addSystem(type: typeof System) {
-    this.systems.push(new type(this))
+    const system = new type(this)
+    system.start()
+    this.systems.push(system)
   }
 
   /** Creates an entity and performs all necessary bookkeeping */
@@ -58,18 +60,19 @@ export default class Engine {
       const comp = new Proxy(new type(entity), {
         // Hook all set events for object properties
         set: (t, p, v, r) => {
+          // console.log('update', p, '=', v)
           // Record the change
           this.register(this.nextComponentChanges.updated, type, comp)
 
           // Transparent pass through
           return Reflect.set(t, p, v, r)
-        }
+        },
       })
 
       // Register the component
       this.register(entity.components, type, comp)
       this.register(this.components, type, comp)
-      
+
       // Record the created event
       this.register(this.nextComponentChanges.created, type, comp)
     })
@@ -88,7 +91,7 @@ export default class Engine {
     if (entity) {
       // Unregister each component from the engine
       for (const [type, instances] of entity.components.entries()) {
-        instances.forEach(comp => {
+        instances.forEach((comp) => {
           // Record the deleted event
           this.register(this.nextComponentChanges.deleted, type, comp)
 
@@ -127,30 +130,24 @@ export default class Engine {
   }
 
   /** Provides an array of created components of a type this tick */
-  public getCreated<T extends typeof Component>(
-    type: T,
-  ): InstanceType<T>[] {
+  public getCreated<T extends typeof Component>(type: T): InstanceType<T>[] {
     return (this.componentChanges.created.get(type) ?? []) as InstanceType<T>[]
   }
-    
+
   /** Provides an array of updated components of a type this tick */
-  public getUpdated<T extends typeof Component>(
-    type: T,
-  ): InstanceType<T>[] {
+  public getUpdated<T extends typeof Component>(type: T): InstanceType<T>[] {
     return (this.componentChanges.updated.get(type) ?? []) as InstanceType<T>[]
   }
-    
+
   /** Provides an array of deleted components of a type this tick */
-  public getDeleted<T extends typeof Component>(
-    type: T,
-  ): InstanceType<T>[] {
+  public getDeleted<T extends typeof Component>(type: T): InstanceType<T>[] {
     return (this.componentChanges.deleted.get(type) ?? []) as InstanceType<T>[]
   }
 
   /** Iterates components of a given type and runs `callback` with each */
   public forEachComponent<T extends typeof Component>(
     type: T,
-    callback: (component: InstanceType<T>) => void
+    callback: (component: InstanceType<T>) => void,
   ) {
     this.iterate(this.components.get(type) as InstanceType<T>[], callback)
   }
@@ -158,25 +155,34 @@ export default class Engine {
   /** Iterates components of a given type that were created this tick */
   public forEachCreated<T extends typeof Component>(
     type: T,
-    callback: (component: InstanceType<T>) => void
+    callback: (component: InstanceType<T>) => void,
   ) {
-    this.iterate(this.componentChanges.created.get(type) as InstanceType<T>[], callback)
+    this.iterate(
+      this.componentChanges.created.get(type) as InstanceType<T>[],
+      callback,
+    )
   }
 
   /** Iterates components of a given type that were updated this tick */
   public forEachUpdated<T extends typeof Component>(
     type: T,
-    callback: (component: InstanceType<T>) => void
+    callback: (component: InstanceType<T>) => void,
   ) {
-    this.iterate(this.componentChanges.updated.get(type) as InstanceType<T>[], callback)
+    this.iterate(
+      this.componentChanges.updated.get(type) as InstanceType<T>[],
+      callback,
+    )
   }
 
   /** Iterates components of a given type that were deleted this tick */
   public forEachDeleted<T extends typeof Component>(
     type: T,
-    callback: (component: InstanceType<T>) => void
+    callback: (component: InstanceType<T>) => void,
   ) {
-    this.iterate(this.componentChanges.deleted.get(type) as InstanceType<T>[], callback)
+    this.iterate(
+      this.componentChanges.deleted.get(type) as InstanceType<T>[],
+      callback,
+    )
   }
 
   /** Starts all systems and runs them continuously */
@@ -193,22 +199,32 @@ export default class Engine {
 
     // Shift changes forward
     this.componentChanges = this.nextComponentChanges
-    
+
     // Prep for the next set of changes
-    this.nextComponentChanges.created = new Map<typeof Component, Component[]>()
-    this.nextComponentChanges.updated = new Map<typeof Component, Component[]>()
-    this.nextComponentChanges.deleted = new Map<typeof Component, Component[]>()
+    this.nextComponentChanges = {
+      created: new Map<typeof Component, Component[]>(),
+      updated: new Map<typeof Component, Component[]>(),
+      deleted: new Map<typeof Component, Component[]>(),
+    }
   }
 
   /** A fast and safe way to add a component to a map */
-  private register(collection: Map<typeof Component, Component[]>, key: typeof Component, value: Component) {
+  private register(
+    collection: Map<typeof Component, Component[]>,
+    key: typeof Component,
+    value: Component,
+  ) {
     const arr = collection.get(key) ?? []
     arr.push(value)
     collection.set(key, arr)
   }
 
   /** Removes an entry from the component map */
-  private unregister(collection: Map<typeof Component, Component[]>, key: typeof Component, value: Component) {
+  private unregister(
+    collection: Map<typeof Component, Component[]>,
+    key: typeof Component,
+    value: Component,
+  ) {
     const comps = collection.get(key)
 
     if (comps) {
