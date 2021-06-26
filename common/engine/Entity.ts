@@ -19,4 +19,17 @@ export default class Entity {
   ): InstanceType<T> | undefined {
     return (this.components.get(type) ?? [])[0] as InstanceType<T> | undefined
   }
+
+  /** Returns the first component of a type on this entity or throws an error */
+  public requireComponent<T extends typeof Component>(
+    type: T,
+  ): InstanceType<T> {
+    const list = this.components.get(type)
+
+    if (!list || !list.length) {
+      throw new Error(`Missing required component ${type.name} on entity #${this.id}`)
+    }
+
+    return list[0] as InstanceType<T>
+  }
 }
