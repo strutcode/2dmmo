@@ -4,8 +4,13 @@ import System from './System'
 
 type CreateEntityOptions = {
   id?: number
-  components?: typeof Component[]
+  components?: CreateEntityComponents
 }
+
+type CreateEntityComponents = (
+  | [typeof Component, Record<string, any> | undefined]
+  | typeof Component
+)[]
 
 let gid = 1
 
@@ -34,8 +39,8 @@ export default class Engine {
 
   /** Creates an entity and performs all necessary bookkeeping */
   public createEntity(options: CreateEntityOptions): Entity
-  public createEntity(components: typeof Component[]): Entity
-  public createEntity(options: CreateEntityOptions | typeof Component[]) {
+  public createEntity(components: CreateEntityComponents): Entity
+  public createEntity(options: CreateEntityOptions | CreateEntityComponents) {
     const entity = new Entity()
 
     // Handle overloads
@@ -55,14 +60,26 @@ export default class Engine {
     this.entities.set(entity.id, entity)
 
     // Create and register components
-    normalizedOptions.components?.forEach((type) => {
+    normalizedOptions.components?.forEach((opts) => {
+      const TypeConstructor = Array.isArray(opts) ? opts[0] : opts
+      const props = Array.isArray(opts) ? opts[1] : {}
+
       // Construct the component
-      const comp = new Proxy(new type(entity), {
+      const comp = new TypeConstructor(entity)
+
+      // Set initial data
+      Object.assign(comp, props)
+
+      // Set up proxy to watch for updates
+      const proxy = new Proxy(comp, {
         // Hook all set events for object properties
         set: (t, p, v, r) => {
-          // console.log('update', p, '=', v)
           // Record the change
-          this.register(this.nextComponentChanges.updated, type, comp)
+          this.register(
+            this.nextComponentChanges.updated,
+            TypeConstructor,
+            proxy,
+          )
 
           // Transparent pass through
           return Reflect.set(t, p, v, r)
@@ -70,11 +87,11 @@ export default class Engine {
       })
 
       // Register the component
-      this.register(entity.components, type, comp)
-      this.register(this.components, type, comp)
+      this.register(entity.components, TypeConstructor, proxy)
+      this.register(this.components, TypeConstructor, proxy)
 
       // Record the created event
-      this.register(this.nextComponentChanges.created, type, comp)
+      this.register(this.nextComponentChanges.created, TypeConstructor, proxy)
     })
 
     return entity

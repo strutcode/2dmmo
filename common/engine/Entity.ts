@@ -34,4 +34,15 @@ export default class Entity {
 
     return list[0] as InstanceType<T>
   }
+
+  public with<T extends typeof Component>(
+    type: T,
+    callback: (component: InstanceType<T>) => void,
+  ) {
+    const component = this.getComponent(type)
+
+    if (component) {
+      callback(component)
+    }
+  }
 }
