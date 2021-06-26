@@ -177,32 +177,47 @@ export default class NetworkClient extends System {
           components: [
             InputQueue, // Allow input
             CameraFollow, // Follow this entity
-            Creature,
-            Sprite,
+            [
+              Creature,
+              {
+                name: packet.name,
+                sprite: packet.sprite,
+              },
+            ],
+            [
+              Sprite,
+              {
+                x: packet.x * 16,
+                y: packet.y * 16,
+                name: `${packet.sprite ?? 'swordman'}_stand`,
+                fps: 4,
+              },
+            ],
           ],
         })
       } else {
         // Otherwise create a puppet
         entity = this.engine.createEntity({
           id: packet.id,
-          components: [Creature, Sprite],
+          components: [
+            [
+              Creature,
+              {
+                name: packet.name,
+                sprite: packet.sprite,
+              },
+            ],
+            [
+              Sprite,
+              {
+                x: packet.x * 16,
+                y: packet.y * 16,
+                name: `${packet.sprite ?? 'swordman'}_stand`,
+                fps: 4,
+              },
+            ],
+          ],
         })
-      }
-
-      // Set up the component data
-      // TODO: Gotta find a better way
-      const meta = entity.getComponent(Creature)
-      if (meta) {
-        meta.name = packet.name
-        meta.sprite = packet.sprite
-      }
-
-      const visual = entity?.getComponent(Sprite)
-      if (visual) {
-        visual.x = packet.x * 16
-        visual.y = packet.y * 16
-        visual.name = `${meta?.sprite ?? 'swordman'}_stand`
-        visual.fps = 4
       }
     }
     // An entity disappeared

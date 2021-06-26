@@ -46,22 +46,22 @@ export default class NetworkServer extends System {
       console.log(`Got connection from ${ip}`)
 
       const handshake = await this.getHandshake(socket)
-      const name = handshake.name
+      const name = handshake.name ?? 'Soandso'
+      const sprite = handshake.sprite ?? 'swordman'
 
       // Create the entity for tracking
       const entity = this.engine.createEntity([
         Input,
-        Mobile,
+        [
+          Mobile,
+          {
+            name,
+            sprite,
+          },
+        ],
         TilePosition,
         TileVisibility,
       ])
-
-      // Update components
-      const meta = entity.getComponent(Mobile)
-      if (meta) {
-        meta.name = name
-        meta.sprite = handshake.sprite
-      }
 
       // Register the entity
       this.mobileMap.set(entity, {})
@@ -81,8 +81,8 @@ export default class NetworkServer extends System {
           Protocol.encode({
             type: 'spawn',
             id: pos.entity.id,
-            name: meta?.name ?? 'Soandso',
-            sprite: meta?.sprite ?? 'swordman',
+            name,
+            sprite,
             x: pos.x,
             y: pos.y,
           }),
@@ -94,7 +94,7 @@ export default class NetworkServer extends System {
         type: 'spawn',
         id: entity.id,
         name,
-        sprite: meta?.sprite ?? 'swordman',
+        sprite,
         x: 0,
         y: 0,
       })

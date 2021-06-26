@@ -17,20 +17,16 @@ export default class PopulationManager extends System {
     // If there are fewer than 10 deer
     if (this.deer.length < 10) {
       // Spawn a new one
-      const entity = this.engine.createEntity([Mobile, TilePosition])
-
-      // Set component properties
-      const mob = entity.getComponent(Mobile)
-      if (mob) {
-        mob.name = 'Deerling'
-        mob.sprite = 'deer'
-      }
-
-      const pos = entity.getComponent(TilePosition)
-      if (pos) {
-        pos.x = Math.floor(Math.random() * 31) - 13
-        pos.y = Math.floor(Math.random() * 31) - 13
-      }
+      const entity = this.engine.createEntity([
+        [Mobile, { name: 'Deerling', sprite: 'deer' }],
+        [
+          TilePosition,
+          {
+            x: Math.floor(Math.random() * 31) - 13,
+            y: Math.floor(Math.random() * 31) - 13,
+          },
+        ],
+      ])
 
       // Remember it
       this.deer.push({
