@@ -14,6 +14,11 @@ export default class Engine {
   private entities = new Map<number, Entity>()
   private components = new Map<typeof Component, Component[]>()
   private systems: System[] = []
+  private nextComponentChanges = {
+    created: new Map<typeof Component, Component[]>(),
+    updated: new Map<typeof Component, Component[]>(),
+    deleted: new Map<typeof Component, Component[]>(),
+  }
   private componentChanges = {
     created: new Map<typeof Component, Component[]>(),
     updated: new Map<typeof Component, Component[]>(),
@@ -51,18 +56,22 @@ export default class Engine {
     normalizedOptions.components?.forEach((type) => {
       // Construct the component
       const comp = new Proxy(new type(entity), {
+        // Hook all set events for object properties
         set: (t, p, v, r) => {
-          this.register(this.componentChanges.updated, type, comp)
+          // Record the change
+          this.register(this.nextComponentChanges.updated, type, comp)
+
+          // Transparent pass through
           return Reflect.set(t, p, v, r)
         }
       })
 
-      // Register it on the entity
+      // Register the component
       this.register(entity.components, type, comp)
-      
-      // Register it in the engine
       this.register(this.components, type, comp)
-      this.register(this.componentChanges.created, type, comp)
+      
+      // Record the created event
+      this.register(this.nextComponentChanges.created, type, comp)
     })
 
     return entity
@@ -80,7 +89,10 @@ export default class Engine {
       // Unregister each component from the engine
       for (const [type, instances] of entity.components.entries()) {
         instances.forEach(comp => {
-          this.register(this.componentChanges.created, type, comp)
+          // Record the deleted event
+          this.register(this.nextComponentChanges.deleted, type, comp)
+
+          // Unregister the component
           this.unregister(this.components, type, comp)
         })
       }
@@ -177,12 +189,15 @@ export default class Engine {
 
   /** Runs on every engine tick */
   public update() {
-    // Clear change map
-    this.componentChanges.created = new Map<typeof Component, Component[]>()
-    this.componentChanges.updated = new Map<typeof Component, Component[]>()
-    this.componentChanges.deleted = new Map<typeof Component, Component[]>()
-    
     this.systems.forEach((system) => system.update())
+
+    // Shift changes forward
+    this.componentChanges = this.nextComponentChanges
+    
+    // Prep for the next set of changes
+    this.nextComponentChanges.created = new Map<typeof Component, Component[]>()
+    this.nextComponentChanges.updated = new Map<typeof Component, Component[]>()
+    this.nextComponentChanges.deleted = new Map<typeof Component, Component[]>()
   }
 
   /** A fast and safe way to add a component to a map */
