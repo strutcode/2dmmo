@@ -1,6 +1,7 @@
 import System from '../../../common/engine/System'
 import Protocol, { Packet } from '../../../common/Protocol'
 import CameraFollow from '../components/CameraFollow'
+import ChatData from '../components/ChatData'
 import Creature from '../components/Creature'
 import InputQueue from '../components/InputQueue'
 import LatencyGraph from '../components/LatencyGraph'
@@ -40,6 +41,17 @@ export default class NetworkClient extends System {
       queue.actions.forEach((action) => {
         this.send({ type: 'input', key: action })
       })
+    })
+
+    // Send outgoing chat to the server
+    this.engine.with(ChatData, (chat) => {
+      chat.outgoing.forEach((msg) => {
+        this.send({
+          type: 'chat',
+          msg,
+        })
+      })
+      chat.outgoing = []
     })
   }
 
@@ -222,6 +234,25 @@ export default class NetworkClient extends System {
     else if (packet.type === 'despawn') {
       // Destroy the puppet
       this.engine.destroyEntity(packet.id)
+    }
+    // Someone said something
+    else if (packet.type === 'chat') {
+      if (!packet.id) return // wtf server?
+
+      // Find the local puppet by id
+      const entity = this.engine.getEntity(packet.id)
+
+      if (entity) {
+        this.engine.with(ChatData, (chat) => {
+          if (packet.id === this.localId) {
+            chat.incoming.push(`You say '${packet.msg}'`)
+          } else {
+            entity.with(Creature, (meta) => {
+              chat.incoming.push(`${meta.name} says '${packet.msg}'`)
+            })
+          }
+        })
+      }
     }
     // An entity changed position
     else if (packet.type === 'move') {

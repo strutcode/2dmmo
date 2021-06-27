@@ -4,3 +4,42 @@ body {
   padding: 0;
   overflow: hidden;
 }
+
+#chat {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 650px;
+  height: 280px;
+  display: flex;
+  flex-flow: column nowrap;
+  z-index: +1;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+#chat * {
+  font-size: 12pt;
+  font-family: sans-serif;
+  color: #fff;
+}
+
+#chat .output {
+  flex-grow: 1;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.32);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  text-shadow: 0 0 4px #000;
+}
+
+#chat .input {
+  flex: 0 0 1.4rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 0;
+  outline: none;
+  padding: 0 0.5rem;
+}
+
+#chat .input:focus {
+  background: rgba(0, 0, 0, 0.75);
+}

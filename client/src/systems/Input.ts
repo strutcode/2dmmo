@@ -14,6 +14,7 @@ export default class Input extends System {
     s: 'down',
     a: 'left',
     d: 'right',
+    Enter: 'focus-chat',
   }
 
   public start() {

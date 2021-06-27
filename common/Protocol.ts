@@ -8,6 +8,11 @@ export type Packet =
       key: string
     }
   | {
+      type: 'chat'
+      id?: number
+      msg: string
+    }
+  | {
       type: 'handshake'
       name: string
       sprite: string

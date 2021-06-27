@@ -178,12 +178,18 @@ export default class NetworkServer extends System {
         entity.with(Input, (input) => {
           // Record the request
           input.addInput(packet.key)
-
-          // Remove the processed packet
-          this.pending.splice(i, 1)
+        })
+      } else if (packet.type === 'chat') {
+        this.broadcast({
+          type: 'chat',
+          msg: packet.msg,
+          id: entity.id,
         })
       }
     })
+
+    // Clear the queue
+    this.pending = []
 
     // Check if any map data needs to be sent
     this.engine.forEachComponent(TileVisibility, (visibility) => {
