@@ -29,12 +29,15 @@ export default class Chat extends System {
       })
     })
 
-    // Output incoming chat
     this.engine.with(ChatData, (chat) => {
+      // Output incoming chat
       chat.incoming.forEach((msg) => {
         this.addOutput(msg)
       })
       chat.incoming = []
+      
+      // Update focus state
+      chat.focused = this.input.matches(':focus')
     })
   }
 

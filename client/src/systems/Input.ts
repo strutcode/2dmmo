@@ -1,4 +1,5 @@
 import System from '../../../common/engine/System'
+import ChatData from '../components/ChatData'
 import InputQueue from '../components/InputQueue'
 
 /** Handles all player input directly */
@@ -15,17 +16,26 @@ export default class Input extends System {
     a: 'left',
     d: 'right',
     Enter: 'focus-chat',
+    Escape: 'cancel',
   }
 
   public start() {
     // Listen for player input
     window.addEventListener('keydown', (ev) => {
+      const action = this.keyMap[ev.key]
+
       // Early out for unmapped key presses
-      if (!this.keyMap[ev.key]) return
+      if (!action) return
+
+      // Early exit if the chat window is active
+      const chatData = this.engine.getComponent(ChatData)
+      if (chatData?.focused && action !== 'focus-chat') {
+        return
+      }
 
       // Record it on the input queue
       this.engine.with(InputQueue, (queue) => {
-        queue.addAction(this.keyMap[ev.key])
+        queue.addAction(action)
       })
     })
 
@@ -60,6 +70,7 @@ export default class Input extends System {
   }
 
   public update() {
+    // Clear the input queue of anything left over on a new frame
     this.engine.with(InputQueue, (queue) => {
       queue.actions = []
     })
