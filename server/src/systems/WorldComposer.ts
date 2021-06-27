@@ -1,5 +1,5 @@
 import System from '../../../common/engine/System'
-import TilePosition from '../components/TilePosition'
+import TilePosition from '../../../common/components/TilePosition'
 import TileVisibility from '../components/TileVisibility'
 import MapLoader, { TileMap } from '../util/MapLoader'
 

@@ -42,6 +42,7 @@ export default class Input extends System {
     // Mobile/touch input
     window.addEventListener('touchend', (ev) => {
       const touch = ev.changedTouches[0]
+
       this.engine.with(InputQueue, (queue) => {
         // Find the touch position relative to the viewport center; negative for up and left, positive for down and right
         const centerOffsetX = Math.abs(touch.clientX - window.innerWidth / 2)

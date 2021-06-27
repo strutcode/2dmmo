@@ -1,7 +1,6 @@
 import System from '../../../common/engine/System'
 import Input from '../components/Input'
-import Mobile from '../components/Mobile'
-import TilePosition from '../components/TilePosition'
+import TilePosition from '../../../common/components/TilePosition'
 
 /** This system controlls movement of all players */
 export default class Movement extends System {

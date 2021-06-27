@@ -1,7 +1,7 @@
 import Entity from '../../../common/engine/Entity'
 import System from '../../../common/engine/System'
 import Mobile from '../components/Mobile'
-import TilePosition from '../components/TilePosition'
+import TilePosition from '../../../common/components/TilePosition'
 import { performance } from 'perf_hooks'
 
 type Deer = {
