@@ -8,6 +8,15 @@ export type Packet =
       key: string
     }
   | {
+      type: 'use'
+      card: number
+      target: number
+    }
+  | {
+      type: 'inventory'
+      items: { title: string }[]
+    }
+  | {
       type: 'chat'
       id?: number
       msg: string

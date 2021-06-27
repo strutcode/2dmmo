@@ -8,6 +8,7 @@ import { readFileSync } from 'fs'
 import TileVisibility from '../components/TileVisibility'
 import { TileMapChunk } from '../util/MapLoader'
 import Mobile from '../components/Mobile'
+import Inventory from '../components/Inventory'
 
 type PendingPacket = {
   entity: Entity
@@ -59,6 +60,7 @@ export default class NetworkServer extends System {
             sprite,
           },
         ],
+        Inventory,
         TilePosition,
         TileVisibility,
       ])
@@ -97,6 +99,17 @@ export default class NetworkServer extends System {
         sprite,
         x: 0,
         y: 0,
+      })
+
+      // Sync inventory
+      entity.with(Inventory, (inventory) => {
+        // TODO: Do this on change
+        socket.send(
+          Protocol.encode({
+            type: 'inventory',
+            items: inventory.cards.map((card) => ({ title: card.name })),
+          }),
+        )
       })
 
       // Always send basic resources for now

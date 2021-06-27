@@ -43,3 +43,18 @@ body {
 #chat .input:focus {
   background: rgba(0, 0, 0, 0.75);
 }
+
+#cards {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+#cards > div {
+  background: rgb(231, 217, 134);
+  padding: 0.5rem;
+  border: 2px solid rgba(0, 0, 0, 0.32);
+  width: 350px;
+  cursor: grab;
+  user-select: none;
+}

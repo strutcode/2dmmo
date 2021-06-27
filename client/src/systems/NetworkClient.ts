@@ -1,6 +1,7 @@
 import System from '../../../common/engine/System'
 import Protocol, { Packet } from '../../../common/Protocol'
 import CameraFollow from '../components/CameraFollow'
+import CardData from '../components/CardData'
 import ChatData from '../components/ChatData'
 import Creature from '../components/Creature'
 import InputQueue from '../components/InputQueue'
@@ -170,6 +171,13 @@ export default class NetworkClient extends System {
     else if (packet.type === 'authorize') {
       // Record our ID
       this.localId = packet.id
+    }
+    // Initial login response
+    else if (packet.type === 'inventory') {
+      // TODO: Just cards for now
+      this.engine.with(CardData, (data) => {
+        data.titles = packet.items.map((item) => item.title)
+      })
     }
     // An entity appeared
     else if (packet.type === 'spawn') {
