@@ -37,8 +37,8 @@ export default class NetworkClient extends System {
   }
 
   public update() {
+    // Send all player inputs to the server for processing
     this.engine.with(InputQueue, (queue) => {
-      // Send all player inputs to the server for processing
       queue.actions.forEach((action) => {
         this.send({ type: 'input', key: action })
       })
@@ -53,6 +53,20 @@ export default class NetworkClient extends System {
         })
       })
       chat.outgoing = []
+    })
+
+    // Send card uses to the server for processing
+    this.engine.with(CardData, (data) => {
+      data.useQueue.forEach((use, i) => {
+        if (use.tileX != null && use.tileY != null) {
+          if (use.entityId != null) {
+            console.log('use', use.tileX, use.tileY, use.entityId)
+            this.send({ type: 'use', card: use.cardId, target: use.entityId })
+          }
+
+          data.useQueue.splice(i, 1)
+        }
+      })
     })
   }
 

@@ -13,6 +13,7 @@ import {
 
 import System from '../../../common/engine/System'
 import CameraFollow from '../components/CameraFollow'
+import CardData from '../components/CardData'
 import Creature from '../components/Creature'
 import InputQueue from '../components/InputQueue'
 import LatencyGraph from '../components/LatencyGraph'
@@ -40,6 +41,8 @@ export default class Renderer2d extends System {
 
   /** Current viewport scaling factor, useful for keeping sizes consistent */
   private scale = 4
+
+  private viewRange = 8
 
   /**
    * The virtual camera container. There's no real camera system in Pixi but
@@ -93,6 +96,7 @@ export default class Renderer2d extends System {
     this.loadMapData()
     this.updateSprites()
     this.updateCamera()
+    this.updateCardUses()
     this.updateLatencyGraph()
     this.cleanUpSprites()
   }
@@ -100,8 +104,7 @@ export default class Renderer2d extends System {
   /** Handles client window resizing and other viewport activity */
   private updateViewport() {
     // Adjust the scale to fit the current window size
-    const viewRange = 8
-    const idealSize = (viewRange * 2 + 1) * 16
+    const idealSize = (this.viewRange * 2 + 1) * 16
     const actualSize = Math.max(window.innerWidth, window.innerHeight)
     this.scale = actualSize / idealSize
 
@@ -307,13 +310,21 @@ export default class Renderer2d extends System {
     this.engine.with(CameraFollow, (target) => {
       // Use the sprite component for positioning
       target.entity.with(Sprite, (sprite) => {
-        // Offset everything in the world by the poisition of the followed sprite minus half the viewport size to center it
-        this.world.x = this.app.view.width / 2 - sprite.x * this.scale
-        this.world.y = this.app.view.height / 2 - sprite.y * this.scale
+        // Set the top/left corner to the sprite coordinates
+        this.world.x = -sprite.x * this.scale
+        this.world.y = -sprite.y * this.scale
+
+        // Offset by half the sprite's size so the corner is in the center of it
+        this.world.x -= (sprite.width / 2) * this.scale
+        this.world.y -= (sprite.height / 2) * this.scale
+
+        // Offset by half the viewport size to center the target in the viewport
+        this.world.x += this.app.view.width / 2
+        this.world.y += this.app.view.height / 2
 
         // Offset the high res graphics layer by the same amount
-        this.uiLayer.x = this.app.view.width / 2 - sprite.x * this.scale
-        this.uiLayer.y = this.app.view.height / 2 - sprite.y * this.scale
+        this.uiLayer.x = this.world.x
+        this.uiLayer.y = this.world.y
       })
     })
   }
@@ -358,6 +369,28 @@ export default class Renderer2d extends System {
         )
       })
       this.latency.endFill()
+    })
+  }
+
+  private updateCardUses() {
+    this.engine.with(CardData, (data) => {
+      data.useQueue.forEach((use) => {
+        if (use.tileX != null || use.tileY != null) {
+          return
+        }
+
+        use.tileX = Math.floor((-this.world.x + use.windowX) / this.scale / 16)
+        use.tileY = Math.floor((-this.world.y + use.windowY) / this.scale / 16)
+
+        this.engine.forEachComponent(Sprite, (sprite) => {
+          if (
+            Math.floor(sprite.x / 16) === use.tileX &&
+            Math.floor(sprite.y / 16) === use.tileY
+          ) {
+            use.entityId = sprite.entity.id
+          }
+        })
+      })
     })
   }
 

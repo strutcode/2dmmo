@@ -8,6 +8,20 @@ export default class Cards extends System {
   public start() {
     this.container.id = 'cards'
 
+    document.body.ondragover = (ev) => {
+      ev.preventDefault()
+      return false
+    }
+    document.body.ondrop = (ev) => {
+      this.engine.with(CardData, (data) => {
+        data.useQueue.push({
+          cardId: Number(ev.dataTransfer?.getData('number')),
+          windowX: ev.clientX,
+          windowY: ev.clientY,
+        })
+      })
+    }
+
     document.body.appendChild(this.container)
   }
 
@@ -18,6 +32,12 @@ export default class Cards extends System {
           const el = document.createElement('div')
 
           el.innerText = title
+          el.draggable = true
+          el.ondragstart = (ev) => {
+            if (!ev.dataTransfer) return
+
+            ev.dataTransfer.setData('number', String(i))
+          }
 
           this.container.appendChild(el)
           this.cards[i] = el

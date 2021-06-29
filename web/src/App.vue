@@ -44,7 +44,6 @@
 <script lang="ts">
   import Vue from 'vue'
   import background from '../assets/Castle(AllFrame).png'
-  console.log(`url(${background})`)
 
   export default Vue.extend({
     computed: {
