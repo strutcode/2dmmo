@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "client/**/*.ts",
+    "client/**/*.vue",
+    "server/**/*.ts",
+    "web/**/*.ts",
+    "common/**/*.ts",
+  ],
+  "exclude": [
+    "**/node_modules/**/*"
+  ]
+}

@@ -1,19 +1,10 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "target": "ES2017",
     "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "sourceMap": true,
     "incremental": true,
     "watch": true,
     "outDir": "./dist",
   },
-  "include": [
-    "./src/**/*.ts",
-    "../common/**/*.ts"
-  ]
 }
