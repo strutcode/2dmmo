@@ -13,6 +13,7 @@ services:
     volumes:
       - ./assets:/home/app/assets
       - ./web:/home/app/web
+      - ./tsconfig.json:/home/app/tsconfig.json
 
   client:
     build: .
@@ -24,6 +25,7 @@ services:
     volumes:
       - ./client:/home/app/client
       - ./common:/home/app/common
+      - ./tsconfig.json:/home/app/tsconfig.json
 
   server:
     build: .
@@ -39,6 +41,7 @@ services:
       - ./assets:/home/app/assets
       - ./server:/home/app/server
       - ./common:/home/app/common
+      - ./tsconfig.json:/home/app/tsconfig.json
 
   db:
     image: mongo

@@ -15,7 +15,4 @@
     "web/**/*.ts",
     "common/**/*.ts",
   ],
-  "exclude": [
-    "**/node_modules/**/*"
-  ]
 }
