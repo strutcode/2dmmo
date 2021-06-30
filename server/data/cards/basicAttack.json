@@ -1,0 +1,12 @@
+[
+  {
+    "id": "stab",
+    "title": "Stabbity Stab",
+    "effects": {
+      "DirectDamage": {
+        "amount": 10,
+        "type": "piercing"
+      }
+    }
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "id": "block",
+    "title": "Blocky Block",
+    "effects": {
+      "Block": {
+        "amount": 10
+      }
+    }
+  }
+]

@@ -9,4 +9,12 @@
   "files.exclude": {
     "**/node_modules": true
   },
+  "json.schemas": [
+    {
+        "fileMatch": [
+            "/server/data/cards/**/*"
+        ],
+        "url": "./server/card.schema.json"
+    }
+]
 }
