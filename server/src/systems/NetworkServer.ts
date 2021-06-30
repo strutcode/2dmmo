@@ -190,6 +190,13 @@ export default class NetworkServer extends System {
       })
     })
 
+    this.engine.forEachDeleted(Mobile, (mob) => {
+      this.broadcast({
+        type: 'despawn',
+        id: mob.entity.id,
+      })
+    })
+
     // Process input packets
     this.pending.forEach(({ entity, packet }, i) => {
       if (packet.type === 'input') {
@@ -244,6 +251,7 @@ export default class NetworkServer extends System {
     })
   }
 
+  /** Asynchronously waits for the handshake packet */
   private getHandshake(socket: WebSocket) {
     return new Promise<{ name: string; sprite: string }>((resolve) => {
       const checkMessage = (data: WebSocket.Data) => {
@@ -287,6 +295,7 @@ export default class NetworkServer extends System {
     socket.send(Protocol.encode({ type: 'image', name, data }))
   }
 
+  /** Sends map data over the socket to a player */
   private sendMapData(entity: Entity, data: TileMapChunk) {
     const socket = this.clientMap.get(entity)
 

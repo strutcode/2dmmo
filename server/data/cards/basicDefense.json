@@ -3,7 +3,7 @@
     "id": "block",
     "title": "Blocky Block",
     "effects": {
-      "Block": {
+      "DamageReduction": {
         "amount": 10
       }
     }

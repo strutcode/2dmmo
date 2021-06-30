@@ -219,7 +219,7 @@ export default class Engine {
     // TODO: Need a better method for this
     setInterval(() => {
       this.update()
-    }, 1 / 30)
+    }, 1000 / 30)
   }
 
   /** Runs on every engine tick */

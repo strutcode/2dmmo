@@ -5,6 +5,7 @@ export default class DirectDamage extends BaseEffect {
   public params = {
     amount: {
       kind: 'integer',
+      value: 10,
     },
     type: {
       kind: 'string',
@@ -16,7 +17,10 @@ export default class DirectDamage extends BaseEffect {
         'cold',
         'electric',
         'acid',
+        'arcane',
+        'environmental',
       ],
+      value: 'environmental',
     },
   }
 

@@ -5,6 +5,7 @@ import Inventory from '../components/Inventory'
 import Input from '../components/Input'
 import BaseEffect from '../BaseEffect'
 import Affectable from '../components/Affectable'
+import Mobile from '../components/Mobile'
 
 export default class ActionCards extends System {
   private cards: ActionCard[] = []
@@ -56,52 +57,39 @@ export default class ActionCards extends System {
 
     this.engine.forEachComponent(Input, (input) => {
       input.useQueue.forEach((use) => {
-        console.log('use', use)
-        input.entity.with(Affectable, (affectable) => {
-          const card = this.cards.find((c) => c.id === use.id)
-          const other = this.engine.getEntity(use.target ?? -1)
+        const card = this.cards.find((c) => c.id === use.id)
+        const other = this.engine.getEntity(use.target ?? -1)
 
-          if (card) {
+        if (!other) {
+          console.log('Invalid target')
+        }
+
+        input.entity.with(Mobile, (mobA) => {
+          other?.with(Mobile, (mobB) => {
+            console.log(`${mobA.name} used ${card?.title} on ${mobB.name}`)
+          })
+        })
+
+        if (card) {
+          other?.with(Affectable, (affectable) => {
             Object.entries(card.effects).forEach(([name, props]) => {
               const Effect = this.effects.find((e) => e.name === name)
 
               if (Effect) {
-                affectable.addEffect(new Effect(affectable.entity, other))
+                affectable.addEffect(
+                  new Effect(affectable.entity, input.entity),
+                )
               } else {
                 console.log(`Effect '${name}' not found`)
               }
             })
-          } else {
-            console.warn(`Card '${use.id}' not found`)
-          }
-        })
+          })
+        } else {
+          console.warn(`Card '${use.id}' not found`)
+        }
       })
 
       input.useQueue = []
-    })
-
-    this.engine.forEachComponent(Affectable, (affectable) => {
-      // Handle newly added effects
-      affectable.added.forEach((effect, i) => {
-        effect.start()
-
-        // TODO: Notify other effects
-
-        affectable.added.splice(i, 1)
-        affectable.active.push(effect)
-      })
-
-      // Handle currently active effects
-      affectable.active.forEach((effect) => effect.tick())
-
-      // Handle recently removed effects
-      affectable.removed.forEach((effect, i) => {
-        effect.end()
-
-        // TODO: Notify other effects
-
-        affectable.added.splice(i, 1)
-      })
     })
   }
 }

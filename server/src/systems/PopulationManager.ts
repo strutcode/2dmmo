@@ -4,6 +4,7 @@ import Mobile from '../components/Mobile'
 import TilePosition from '../../../common/components/TilePosition'
 import { performance } from 'perf_hooks'
 import Affectable from '../components/Affectable'
+import Input from '../components/Input'
 
 type Deer = {
   entity: Entity
@@ -20,6 +21,7 @@ export default class PopulationManager extends System {
       // Spawn a new one
       const entity = this.engine.createEntity([
         [Mobile, { name: 'Deerling', sprite: 'deer' }],
+        Input,
         Affectable,
         [
           TilePosition,
@@ -43,25 +45,16 @@ export default class PopulationManager extends System {
 
     // Update deer
     this.deer.forEach((deer) => {
-      deer.entity.with(TilePosition, (pos) => {
+      deer.entity.with(Input, (input) => {
         // If it's time to move
         if (deer.moveTimer <= 0) {
           // Pick a random cardinal direction
-          const dir = Math.floor(Math.random() * 4)
+          const dir = ['up', 'down', 'left', 'right'][
+            Math.floor(Math.random() * 4)
+          ]
 
           // Change position based on it
-          if (dir === 0) {
-            if (pos.x > -13) pos.x--
-          }
-          if (dir === 1) {
-            if (pos.x < 28) pos.x++
-          }
-          if (dir === 2) {
-            if (pos.y > -13) pos.y--
-          }
-          if (dir === 3) {
-            if (pos.y < 28) pos.y++
-          }
+          input.addInput(dir)
 
           // Reset the timer to 2 - 3 seconds
           deer.moveTimer = Math.floor(Math.random() * 2000) + 1000
