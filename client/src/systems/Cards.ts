@@ -14,11 +14,15 @@ export default class Cards extends System {
     }
     document.body.ondrop = (ev) => {
       this.engine.with(CardData, (data) => {
-        data.useQueue.push({
-          cardId: Number(ev.dataTransfer?.getData('number')),
-          windowX: ev.clientX,
-          windowY: ev.clientY,
-        })
+        const cardId = ev.dataTransfer?.getData('string')
+
+        if (cardId) {
+          data.useQueue.push({
+            cardId,
+            windowX: ev.clientX,
+            windowY: ev.clientY,
+          })
+        }
       })
     }
 
@@ -27,16 +31,16 @@ export default class Cards extends System {
 
   public update() {
     this.engine.with(CardData, (data) => {
-      data.titles.forEach((title, i) => {
+      data.cards.forEach((card, i) => {
         if (!this.cards[i]) {
           const el = document.createElement('div')
 
-          el.innerText = title
+          el.innerText = card.title
           el.draggable = true
           el.ondragstart = (ev) => {
             if (!ev.dataTransfer) return
 
-            ev.dataTransfer.setData('number', String(i))
+            ev.dataTransfer.setData('string', String(card.id))
           }
 
           this.container.appendChild(el)

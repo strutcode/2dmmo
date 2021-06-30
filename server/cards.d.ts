@@ -3,6 +3,11 @@ declare interface CardEntity {
 }
 
 declare interface ActionCard {
-  name: string
-  execute: (owner: CardEntity, target?: CardEntity) => void
+  id: string
+  title: string
+  effects: {
+    [name: string]: {
+      [prop: string]: unknown
+    }
+  }[]
 }

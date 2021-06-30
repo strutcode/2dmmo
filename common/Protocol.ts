@@ -9,12 +9,12 @@ export type Packet =
     }
   | {
       type: 'use'
-      card: number
+      card: string
       target: number
     }
   | {
       type: 'inventory'
-      items: { title: string }[]
+      cards: { id: string; title: string }[]
     }
   | {
       type: 'chat'

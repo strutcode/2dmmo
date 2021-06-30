@@ -9,6 +9,7 @@ import TileVisibility from '../components/TileVisibility'
 import { TileMapChunk } from '../util/MapLoader'
 import Mobile from '../components/Mobile'
 import Inventory from '../components/Inventory'
+import Affectable from '../components/Affectable'
 
 type PendingPacket = {
   entity: Entity
@@ -61,6 +62,7 @@ export default class NetworkServer extends System {
           },
         ],
         Inventory,
+        Affectable,
         TilePosition,
         TileVisibility,
       ])
@@ -107,7 +109,10 @@ export default class NetworkServer extends System {
         socket.send(
           Protocol.encode({
             type: 'inventory',
-            items: inventory.cards.map((card) => ({ title: card.name })),
+            cards: inventory.cards.map((card) => ({
+              id: card.id,
+              title: card.title,
+            })),
           }),
         )
       })
@@ -198,11 +203,27 @@ export default class NetworkServer extends System {
           msg: packet.msg,
           id: entity.id,
         })
+      } else if (packet.type === 'use') {
+        entity.with(Input, (input) => {
+          // Record the request
+          input.useCard(packet.card, packet.target)
+        })
       }
     })
 
     // Clear the queue
     this.pending = []
+
+    this.engine.forEachUpdated(Inventory, (inv) => {
+      const socket = this.clientMap.get(inv.entity)
+
+      socket?.send(
+        Protocol.encode({
+          type: 'inventory',
+          cards: inv.cards,
+        }),
+      )
+    })
 
     // Check if any map data needs to be sent
     this.engine.forEachComponent(TileVisibility, (visibility) => {

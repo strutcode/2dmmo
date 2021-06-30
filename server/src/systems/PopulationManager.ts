@@ -3,6 +3,7 @@ import System from '../../../common/engine/System'
 import Mobile from '../components/Mobile'
 import TilePosition from '../../../common/components/TilePosition'
 import { performance } from 'perf_hooks'
+import Affectable from '../components/Affectable'
 
 type Deer = {
   entity: Entity
@@ -19,6 +20,7 @@ export default class PopulationManager extends System {
       // Spawn a new one
       const entity = this.engine.createEntity([
         [Mobile, { name: 'Deerling', sprite: 'deer' }],
+        Affectable,
         [
           TilePosition,
           {
