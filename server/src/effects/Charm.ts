@@ -6,8 +6,8 @@ export default class Charm extends BaseEffect {
   private waitTicks = 30
 
   public tick() {
-    const input = this.entity.getComponent(Input)
-    const posA = this.entity.getComponent(TilePosition)
+    const input = this.entity?.getComponent(Input)
+    const posA = this.entity?.getComponent(TilePosition)
     const posB = this.source?.getComponent(TilePosition)
 
     // Remove the effect if it's inapplicable

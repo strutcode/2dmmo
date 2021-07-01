@@ -77,7 +77,7 @@ export default class ActionCards extends System {
 
               if (Effect) {
                 affectable.addEffect(
-                  new Effect(affectable.entity, input.entity),
+                  new Effect(this.engine, affectable.entity, input.entity),
                 )
               } else {
                 console.log(`Effect '${name}' not found`)

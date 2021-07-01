@@ -25,7 +25,7 @@ export default class DirectDamage extends BaseEffect {
   }
 
   public start() {
-    this.entity.with(Mobile, (mob) => {
+    this.entity?.with(Mobile, (mob) => {
       mob.hp -= 10
     })
 

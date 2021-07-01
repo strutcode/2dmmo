@@ -1,9 +1,26 @@
+import Engine from '../../common/engine/Engine'
 import Entity from '../../common/engine/Entity'
 
 export default class BaseEffect {
   public params: Record<string, unknown> = {}
 
-  constructor(public entity: Entity, public source?: Entity) {}
+  protected ownerId = -1
+  protected sourceId = -1
+
+  constructor(protected engine: Engine, entity: Entity, source?: Entity) {
+    this.ownerId = entity.id
+    if (source) this.sourceId = source.id
+  }
+
+  /** The entity which owns this effect */
+  public get entity() {
+    return this.engine.getEntity(this.ownerId)
+  }
+
+  /** The entity which applied this effect */
+  public get source() {
+    return this.engine.getEntity(this.sourceId)
+  }
 
   /** Called when the effect is added to an entity */
   public start() {}
