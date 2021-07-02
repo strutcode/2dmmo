@@ -2,6 +2,7 @@ import System from '../../../common/engine/System'
 import TilePosition from '../../../common/components/TilePosition'
 import TileVisibility from '../components/TileVisibility'
 import MapLoader, { TileMap } from '../util/MapLoader'
+import MapManager from '../util/MapManager'
 
 export default class WorldComposer extends System {
   private loadedMaps = new Map<string, TileMap>()
@@ -9,11 +10,10 @@ export default class WorldComposer extends System {
   public update() {
     this.engine.forEachComponent(TilePosition, (pos) => {
       pos.entity.with(TileVisibility, (visibility) => {
-        // Load the map if needed
-        if (!this.loadedMaps.has(pos.map)) {
-          console.log(`Load map ${pos.map}`)
-          const map = MapLoader.load(pos.map)
-          this.loadedMaps.set(pos.map, map)
+        const map = MapManager.getMap(pos.map)
+
+        if (!map) {
+          return;
         }
 
         /** Provides the closest lower increment of `increment` to `n` */
@@ -21,7 +21,6 @@ export default class WorldComposer extends System {
           Math.floor(n / increment) * increment
 
         // Find the area which the TileVisibility can see
-        const map = this.loadedMaps.get(pos.map) as TileMap
         const bounds = {
           minX: gridSnap(pos.x - visibility.range, map.chunkWidth),
           maxX: gridSnap(pos.x + visibility.range, map.chunkWidth),
@@ -36,7 +35,7 @@ export default class WorldComposer extends System {
             const chunk = map.chunks[`${x},${y}`]
 
             if (chunk) {
-              visibility.revealChunk(x, y, chunk.layers)
+              visibility.revealChunk(x, y, chunk.layers, chunk.passable)
             }
           }
         }

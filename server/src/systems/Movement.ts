@@ -1,6 +1,7 @@
 import System from '../../../common/engine/System'
 import Input from '../components/Input'
 import TilePosition from '../../../common/components/TilePosition'
+import MapManager from '../util/MapManager'
 
 /** This system controlls movement of all players */
 export default class Movement extends System {
@@ -8,36 +9,32 @@ export default class Movement extends System {
     // Update all player positions
     this.engine.forEachComponent(Input, (controller) => {
       controller.entity.with(TilePosition, (pos) => {
-        const delta = {
-          x: 0,
-          y: 0,
-        }
-
         // Apply all inputs
         controller.inputs.forEach((input, i) => {
           if (input.action === 'up') {
-            delta.y--
+            this.move(pos, 0, -1)
           } else if (input.action === 'down') {
-            delta.y++
+            this.move(pos, 0, 1)
           } else if (input.action === 'left') {
-            delta.x--
+            this.move(pos, -1, 0)
           } else if (input.action === 'right') {
-            delta.x++
+            this.move(pos, 1, 0)
           }
 
           // Remove the processed input from the queue
           controller.inputs.splice(i, 1)
         })
-
-        // If the position actually changed, update it
-        if (delta.x !== 0 || delta.y !== 0) {
-          pos.x += delta.x
-          pos.y += delta.y
-
-          pos.y = Math.max(-13, Math.min(pos.y, 28))
-          pos.x = Math.max(-13, Math.min(pos.x, 28))
-        }
       })
     })
+  }
+
+  protected move(pos: TilePosition, deltaX: number, deltaY: number) {
+    if (MapManager.isPassable(pos.map, pos.x + deltaX, pos.y + deltaY)) {
+      pos.x += deltaX
+      pos.y += deltaY
+    } else {
+      // HACK: Ensure the position gets updated
+      pos.x = pos.x
+    }
   }
 }

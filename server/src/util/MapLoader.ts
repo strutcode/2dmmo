@@ -1,4 +1,5 @@
-import { readFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
+import { performance } from 'perf_hooks'
 
 type TiledMap = {
   width: number
@@ -31,6 +32,12 @@ type TiledTileset = {
   tilecount: number
   tileheight: number
   tilewidth: number
+  tiles: TiledTile[]
+}
+
+type TiledTile = {
+  id: number
+  properties: TiledProperty[]
 }
 
 type TiledLayer = {
@@ -68,13 +75,22 @@ export type TileMapChunk = {
   x: number
   y: number
   layers: number[][]
+  passable: boolean[]
+}
+
+type TileProperties = {
+  passable: boolean
 }
 
 export default class MapLoader {
   public static load(name: string): TileMap {
+    const start = performance.now()
+
     // Get the raw text
-    const content = readFileSync(`./data/maps/${name}.json`, { encoding: 'utf8' })
-    
+    const content = readFileSync(`./data/maps/${name}.json`, {
+      encoding: 'utf8',
+    })
+
     // Parse it
     // TODO: error handling
     const data = JSON.parse(content) as TiledMap
@@ -85,14 +101,47 @@ export default class MapLoader {
     const chunkHeight = data.layers[0].chunks[0].height
 
     /** Gets a custom property from the map data */
-    const getProperty = (type: TiledProperty['type'], name: string, defaultValue: any = null) => {
-      const prop = data.properties.find(prop => prop.name === name)
+    const getProperty = (
+      type: TiledProperty['type'],
+      name: string,
+      defaultValue: any = null,
+    ) => {
+      const prop = data.properties.find((prop) => prop.name === name)
 
       if (!prop || prop.type !== type) {
         return defaultValue
       }
 
       return prop.value
+    }
+
+    /** Loads metadata for tiles */
+    const tileProperties: TileProperties[] = []
+    const loadTileData = () => {
+      data.tilesets.forEach((tileset) => {
+        // Default all tiles to passable
+        for (
+          let i = tileset.firstgid;
+          i < tileset.firstgid + tileset.tilecount;
+          i++
+        ) {
+          tileProperties[i] ??= {
+            passable: true,
+          }
+        }
+
+        // Check each definition in this tileset
+        tileset.tiles.forEach((tile) => {
+          const impassable = tile.properties.find(
+            (prop) => prop.name === 'impassable',
+          )
+
+          // If the "impassable" property is truthy, update it
+          if (impassable?.value) {
+            tileProperties[tileset.firstgid + tile.id].passable = false
+          }
+        })
+      })
     }
 
     /** Loads tile data into the game's format */
@@ -103,34 +152,53 @@ export default class MapLoader {
       // For each layer
       data.layers.forEach((layer, layerIndex) => {
         // Iterate all the chunks in this layer, which may be anywhere in the world
-        layer.chunks.forEach(chunk => {
+        layer.chunks.forEach((chunk) => {
           const key = `${chunk.x},${chunk.y}`
 
           // Initialize this chunk if there isn't any data
           map[key] ??= {
             x: chunk.x,
             y: chunk.y,
-            layers: []
+            layers: [],
+            passable: Array(chunk.data.length).fill(true),
           }
 
           // Convert from 1-based to 0-based
-          const tileData = chunk.data.map(index => index - 1)
+          const tileData = chunk.data.map((index) => index - 1)
 
           // Assign the data to this specific layer
           map[key].layers[layerIndex] = tileData
+
+          // Set passable status
+          map[key].passable = chunk.data.map((tileId, i) => {
+            // Ignore empty tiles (e.g. air in upper layers)
+            if (tileId === 0) return map[key].passable[i]
+
+            // Only allow passage if all layers are passable
+            return map[key].passable[i] && tileProperties[tileId]?.passable
+          })
         })
       })
 
       return map
     }
-    
+
+    // Load tile metadata
+    loadTileData()
+
     // Build the final map object
-    return {
+    const map = {
       spawnX: getProperty('int', 'spawnX', 0),
       spawnY: getProperty('int', 'spawnY', 0),
       chunkWidth,
       chunkHeight,
-      chunks: loadChunkMap()
+      chunks: loadChunkMap(),
     }
+
+    // Record performance
+    const end = performance.now()
+    console.log(`Loaded map "${name}" in ${Math.round(end - start)}ms`)
+
+    return map
   }
 }

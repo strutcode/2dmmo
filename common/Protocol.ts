@@ -59,6 +59,7 @@ export type Packet =
         x: number
         y: number
         layers: number[][]
+        passable: boolean[]
       }
     }
 

@@ -266,13 +266,13 @@ export default class Renderer2d extends System {
       sprite.entity.with(InputQueue, (queue) => {
         queue.actions.forEach((action) => {
           if (action === 'up') {
-            if (sprite.y > -16 * 13) sprite.y -= 16
+            sprite.y -= 16
           } else if (action === 'down') {
-            if (sprite.y < 16 * 28) sprite.y += 16
+            sprite.y += 16
           } else if (action === 'left') {
-            if (sprite.x > -16 * 13) sprite.x -= 16
+            sprite.x -= 16
           } else if (action === 'right') {
-            if (sprite.x < 16 * 28) sprite.x += 16
+            sprite.x += 16
           }
         })
       })
