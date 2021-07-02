@@ -60,7 +60,6 @@ export default class NetworkClient extends System {
       data.useQueue.forEach((use, i) => {
         if (use.tileX != null && use.tileY != null) {
           if (use.entityId != null) {
-            console.log('use', use.cardId, use.tileX, use.tileY, use.entityId)
             this.send({ type: 'use', card: use.cardId, target: use.entityId })
           }
 
@@ -89,8 +88,8 @@ export default class NetworkClient extends System {
           // Send the message
           this.send({ type: 'ping' })
         },
-        // Twice per second
-        500,
+        // Every five seconds
+        5000,
       ) as any
 
       // Send handshake
