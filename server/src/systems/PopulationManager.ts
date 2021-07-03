@@ -1,17 +1,10 @@
-import Entity from '../../../common/engine/Entity'
 import System from '../../../common/engine/System'
 import Mobile from '../components/Mobile'
 import TilePosition from '../../../common/components/TilePosition'
-import { performance } from 'perf_hooks'
 import Affectable from '../components/Affectable'
 import Input from '../components/Input'
 import Brain from '../components/Brain'
 import RandomWalk from '../behaviors/RandomWalk'
-
-type Deer = {
-  entity: Entity
-  moveTimer: number
-}
 
 export default class PopulationManager extends System {
   public update() {
