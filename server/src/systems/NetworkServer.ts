@@ -10,6 +10,7 @@ import { TileMapChunk } from '../util/MapLoader'
 import Mobile from '../components/Mobile'
 import Inventory from '../components/Inventory'
 import Affectable from '../components/Affectable'
+import Player from '../components/Player'
 
 type PendingPacket = {
   entity: Entity
@@ -54,6 +55,7 @@ export default class NetworkServer extends System {
       // Create the entity for tracking
       const entity = this.engine.createEntity([
         Input,
+        Player,
         [
           Mobile,
           {
