@@ -4,4 +4,8 @@
     "target": "esnext",
     "module": "esnext",
   },
+  "include": [
+    "./**/*.ts",
+    "./**/*.vue",
+  ],
 }

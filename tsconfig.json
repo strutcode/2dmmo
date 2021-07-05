@@ -8,11 +8,4 @@
     "sourceMap": true,
     "skipLibCheck": true
   },
-  "include": [
-    "client/**/*.ts",
-    "client/**/*.vue",
-    "server/**/*.ts",
-    "web/**/*.ts",
-    "common/**/*.ts",
-  ],
 }

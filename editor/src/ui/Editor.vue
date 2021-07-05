@@ -36,7 +36,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import 'vars';
+  @import '../style/vars';
 
   .container {
     position: fixed;

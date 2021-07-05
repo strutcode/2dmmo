@@ -7,4 +7,8 @@
     "watch": true,
     "outDir": "./dist",
   },
+  "include": [
+    "./**/*.ts",
+    "../common/**/*.ts",
+  ],
 }
