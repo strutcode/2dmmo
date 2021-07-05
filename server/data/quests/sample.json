@@ -14,7 +14,7 @@
     {
       "script": [
         {
-          "type": "Listener",
+          "type": "Wait",
           "events": [
             {
               "type": "Proximity",
@@ -27,32 +27,6 @@
           "options": [
             2,
             3
-          ]
-        },
-        {
-          "type": "Dialogue",
-          "lines": [
-            "Hey there, can you [help] me?"
-          ],
-          "events": [
-            {
-              "type": "Hear",
-              "regex": "help",
-              "goto": 4
-            }
-          ]
-        },
-        {
-          "type": "Dialogue",
-          "lines": [
-            "Wait, I want to [talk] to you."
-          ],
-          "events": [
-            {
-              "type": "Hear",
-              "regex": "talk",
-              "goto": 4
-            }
           ]
         },
         {
@@ -89,7 +63,7 @@
     {
       "script": [
         {
-          "type": "Listener",
+          "type": "Wait",
           "events": [
             {
               "type": "TakeAnItem",
@@ -108,7 +82,7 @@
     {
       "script": [
         {
-          "type": "Listener",
+          "type": "Wait",
           "events": [
             {
               "type": "GiveItems",
@@ -121,15 +95,18 @@
           ]
         },
         {
+          "type": "Sequence",
+          "do": [
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
           "type": "Say",
           "lines": [
             "Oh you found my {bauble}. Thank you! Here's some coin for your trouble."
-          ],
-          "events": [
-            {
-              "type": "Always",
-              "goto": 2
-            }
           ]
         },
         {
@@ -137,18 +114,15 @@
           "coins": {
             "min": 300,
             "max": 600
-          },
-          "events": [
-            {
-              "type": "Always",
-              "goto": 3
-            }
-          ]
+          }
         },
         {
           "type": "ChangeStanding",
           "with": "{bob}",
           "by": 1000
+        },
+        {
+          "type": "CompleteQuest"
         }
       ]
     }
