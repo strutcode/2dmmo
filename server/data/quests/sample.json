@@ -4,79 +4,117 @@
     "destination": "distance > 300, distance < 900, difficulty medium to hard"
   },
   "actors": {
-    "bob": "npc, dwarf, smith, age > 40"
+    "bob": "npc, dwarf, smith, age > 40",
+    "soandso": "pc"
   },
   "props": {
     "bauble": "sword or dagger or amulet, value > 700"
   },
   "scenes": [
     {
-      "id": "hook",
-      "location": "${smithy}",
-      "objectives": {
-        "TalkTo": {
-          "who": "${bob}",
-          "dialogue": {
-            "trigger": "proximity",
-            "oneOf": [
-              "Hey there, can you [help] me?",
-              "Hold up, I want to [talk] to you."
-            ],
-            "branches": [
-              {
-                "trigger": "help|talk",
-                "say": "I lost my ${bauble}, can you help me [get it back]?",
-                "branches": [
-                  {
-                    "trigger": "get.*back",
-                    "say": "I think I lost it near ${destination}. When you find it bring it back to me.",
-                    "result": {
-                      "GoTo": {
-                        "scene": "get the bauble"
-                      }
-                    }
-                  }
-                ]
+      "dialogue": {
+        "hook": {
+          "oneOf": [
+            {
+              "trigger": "proximity({bob}, {pc}, 20)",
+              "say": "Wait, I want to [talk] to you.",
+              "branches": {
+                "hookA": {
+                  "trigger": "regex(talk)",
+                  "goto": "explanation"
+                }
               }
-            ]
+            }
+          ]
+        },
+        "explanation": {
+          "say": "I lost my ${bauble}, can you help me [get it back]?",
+          "branches": {
+            "explanationA": {
+              "trigger": "regex(get.*back)",
+              "goto": "finish"
+            }
           }
         }
       },
-      "limits": {
-        "Expires": {
-          "in": "5 days"
-        }
+      "behavior": {
+        "bob": [
+          {
+            "type": "GoTo",
+            "location": "{smithy}"
+          }
+        ]
+      },
+      "objective": {
+        "type": "Variable",
+        "key": "accepted",
+        "value": true
+      }
+      "objective": {
+        "type": "RandomSelect",
+        "oneOf": [
+          {
+            "type": "Sequence",
+            "do": [
+              {
+                "type": "Proximity",
+                "from": "{bob}",
+                "to": "{pc}",
+                "distance": 20
+              },
+              {
+                "type": "Dialogue",
+                "lines": "Hey there, can you [help] me?"
+              },
+              {
+                "type": "Dialogue",
+                "expect": "help"
+              }
+            ]
+          },
+          {
+            "type": "Sequence",
+            "do": [
+              {
+                "type": "Proximity",
+                "from": "{bob}",
+                "to": "{pc}",
+                "distance": 20
+              },
+              {
+                "type": "Dialogue",
+                "say": "Wait, I want to [talk] tp you."
+              },
+              {
+                "type": "Dialogue",
+                "expect": "talk"
+              }
+            ]
+          }
+        ]
       }
     },
     {
-      "id": "get the bauble",
-      "location": "${destination}",
-      "objectives": {
-        "TakeAnItem": {
-          "from": "${destination}"
-        }
-      },
-      "result": {
-        "GoTo": {
-          "scene": "return the bauble"
-        }
+      "objective": {
+        "type": "TakeAnItem",
+        "item": "{bauble}",
+        "from": "{destination}"
       }
     },
     {
       "id": "return the bauble",
-      "location": "${smithy}",
-      "objectives": {
-        "GiveAnItem": {
-          "what": "${bauble}",
-          "to": "${bob}"
-        }
+      "location": "{smithy}",
+      "objective": {
+        "type": "GiveAnItem",
+        "what": "{bauble}",
+        "to": "{bob}"
       },
       "dialogue": {
-        "oneOf": "Oh you found my ${bauble}. Thank you! Here's some coin for your trouble."
+        "oneOf": "Oh you found my {bauble}. Thank you! Here's some coin for your trouble."
       },
       "result": {
         "Favor": {
-          "who": "${bob}",
+          "who": "{bob}",
           "amount": 1000
         },
         "GiveCoin": {
