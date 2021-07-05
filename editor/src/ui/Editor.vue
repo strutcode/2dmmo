@@ -101,6 +101,7 @@
         }
 
         .content {
+          position: relative;
           flex-grow: 1;
           overflow: auto;
           background: $primary;
