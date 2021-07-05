@@ -13,7 +13,7 @@ const compiler = webpack({
       {
         test: /\.ts$/,
         loader: 'ts-loader',
-        options: { appendTsSuffixTo: [/\.vue$/] },
+        options: { transpileOnly: true, appendTsSuffixTo: [/\.vue$/] },
       },
       {
         test: /\.scss$/,
