@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
-import App from './App.vue'
+import Editor from './ui/Editor.vue'
 
 new Vue({
   el: document.getElementById('app') as HTMLDivElement,
-  render: (h) => h(App),
+  render: (h) => h(Editor),
 })
