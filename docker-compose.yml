@@ -43,6 +43,18 @@ services:
       - ./common:/home/app/common
       - ./tsconfig.json:/home/app/tsconfig.json
 
+  editor:
+    build: .
+    restart: always
+    ports:
+      - 9004:9004
+    working_dir: /home/app/editor
+    command: yarn start
+    volumes:
+      - ./editor:/home/app/editor
+      - ./common:/home/app/common
+      - ./tsconfig.json:/home/app/tsconfig.json
+
   db:
     image: mongo
     restart: always
