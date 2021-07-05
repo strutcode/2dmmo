@@ -12,116 +12,145 @@
   },
   "scenes": [
     {
-      "dialogue": {
-        "hook": {
-          "oneOf": [
+      "script": [
+        {
+          "type": "Listener",
+          "events": [
             {
-              "trigger": "proximity({bob}, {pc}, 20)",
-              "say": "Wait, I want to [talk] to you.",
-              "branches": {
-                "hookA": {
-                  "trigger": "regex(talk)",
-                  "goto": "explanation"
-                }
-              }
+              "type": "Proximity",
+              "goto": 1
             }
           ]
         },
-        "explanation": {
-          "say": "I lost my ${bauble}, can you help me [get it back]?",
-          "branches": {
-            "explanationA": {
-              "trigger": "regex(get.*back)",
-              "goto": "finish"
-            }
-          }
-        }
-      },
-      "behavior": {
-        "bob": [
-          {
-            "type": "GoTo",
-            "location": "{smithy}"
-          }
-        ]
-      },
-      "objective": {
-        "type": "Variable",
-        "key": "accepted",
-        "value": true
-      }
-      "objective": {
-        "type": "RandomSelect",
-        "oneOf": [
-          {
-            "type": "Sequence",
-            "do": [
-              {
-                "type": "Proximity",
-                "from": "{bob}",
-                "to": "{pc}",
-                "distance": 20
-              },
-              {
-                "type": "Dialogue",
-                "lines": "Hey there, can you [help] me?"
-              },
-              {
-                "type": "Dialogue",
-                "expect": "help"
-              }
-            ]
-          },
-          {
-            "type": "Sequence",
-            "do": [
-              {
-                "type": "Proximity",
-                "from": "{bob}",
-                "to": "{pc}",
-                "distance": 20
-              },
-              {
-                "type": "Dialogue",
-                "say": "Wait, I want to [talk] tp you."
-              },
-              {
-                "type": "Dialogue",
-                "expect": "talk"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "objective": {
-        "type": "TakeAnItem",
-        "item": "{bauble}",
-        "from": "{destination}"
-      }
-    },
-    {
-      "id": "return the bauble",
-      "location": "{smithy}",
-      "objective": {
-        "type": "GiveAnItem",
-        "what": "{bauble}",
-        "to": "{bob}"
-      },
-      "dialogue": {
-        "oneOf": "Oh you found my {bauble}. Thank you! Here's some coin for your trouble."
-      },
-      "result": {
-        "Favor": {
-          "who": "{bob}",
-          "amount": 1000
+        {
+          "type": "RandomSelect",
+          "options": [
+            2,
+            3
+          ]
         },
-        "GiveCoin": {
-          "min": 300,
-          "max": 700
+        {
+          "type": "Dialogue",
+          "lines": [
+            "Hey there, can you [help] me?"
+          ],
+          "events": [
+            {
+              "type": "Hear",
+              "regex": "help",
+              "goto": 4
+            }
+          ]
+        },
+        {
+          "type": "Dialogue",
+          "lines": [
+            "Wait, I want to [talk] to you."
+          ],
+          "events": [
+            {
+              "type": "Hear",
+              "regex": "talk",
+              "goto": 4
+            }
+          ]
+        },
+        {
+          "type": "Dialogue",
+          "lines": [
+            "I lost my ${bauble}, can you help me [get it back]?"
+          ],
+          "events": [
+            {
+              "type": "Hear",
+              "regex": "get.*back",
+              "goto": 5
+            }
+          ]
+        },
+        {
+          "type": "Dialogue",
+          "lines": [
+            "Yay! I think I lost it near {destination}."
+          ],
+          "events": [
+            {
+              "type": "Always",
+              "goto": 6
+            }
+          ]
+        },
+        {
+          "type": "ChangeScene",
+          "scene": "{next}"
         }
-      }
+      ]
+    },
+    {
+      "script": [
+        {
+          "type": "Listener",
+          "events": [
+            {
+              "type": "TakeAnItem",
+              "item": "{bauble}",
+              "from": "{destination}",
+              "goto": 1
+            }
+          ]
+        },
+        {
+          "type": "ChangeScene",
+          "scene": "{next}"
+        }
+      ]
+    },
+    {
+      "script": [
+        {
+          "type": "Listener",
+          "events": [
+            {
+              "type": "GiveItems",
+              "items": [
+                "{bauble}"
+              ],
+              "to": "{bob}",
+              "goto": 1
+            }
+          ]
+        },
+        {
+          "type": "Say",
+          "lines": [
+            "Oh you found my {bauble}. Thank you! Here's some coin for your trouble."
+          ],
+          "events": [
+            {
+              "type": "Always",
+              "goto": 2
+            }
+          ]
+        },
+        {
+          "type": "GiveItems",
+          "coins": {
+            "min": 300,
+            "max": 600
+          },
+          "events": [
+            {
+              "type": "Always",
+              "goto": 3
+            }
+          ]
+        },
+        {
+          "type": "ChangeStanding",
+          "with": "{bob}",
+          "by": 1000
+        }
+      ]
     }
   ]
 }
