@@ -1,0 +1,64 @@
+{
+  "stages": {
+    "smithy": "blacksmith, dwarf",
+    "destination": "distance > 300, distance < 900, difficulty medium to hard"
+  },
+  "actors": {
+    "bob": "npc, dwarf, smith, age > 40",
+    "soandso": "pc"
+  },
+  "props": {
+    "bauble": "sword or dagger or amulet, value > 700"
+  },
+  "scenes": [
+    {
+      "objective": {
+        "type": "Dialogue",
+        "who": "{bob}",
+        "lines": [
+          {
+            "trigger": "proximity({bob}, {soandso}, 20)",
+            "say": "You there, {soandso}. Can you [help] me?"
+          },
+          {
+            "trigger": "regex(help)",
+            "say": "I lost my {bauble}, can you help me [get it back]?"
+          },
+          {
+            "trigger": "regex(get.*back)",
+            "say": "Thank you! I think I lost it near {destination}.",
+            "complete": true
+          }
+        ]
+      }
+    },
+    {
+      "objective": {
+        "type": "GetItem",
+        "who": "{soandso}",
+        "item": "{bauble}",
+        "from": "{destination}"
+      }
+    },
+    {
+      "objective": {
+        "type": "Dialogue",
+        "who": "{bob}",
+        "lines": [
+          {
+            "trigger": "items({bauble})",
+            "say": "You found my {bauble}, thank you! Please take these coins for your trouble."
+          }
+        ],
+        "result": [
+          {
+            "type": "GiveCoin",
+            "to": "{soandso}",
+            "min": 300,
+            "max": 600
+          }
+        ]
+      }
+    }
+  ]
+}
