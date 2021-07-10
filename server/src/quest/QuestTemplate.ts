@@ -3,25 +3,28 @@ import BaseObjective from '../BaseObjective'
 
 type VariableTemplate = {
   type: 'stage' | 'actor' | 'prop'
+  name: string
   filter: any
 }
 
-type QuestStage = {
-  objectives: QuestObjective[]
+type QuestScene = {
+  objective: QuestObjective
 }
 
 type QuestObjective = {
-  Prototype: typeof BaseObjective
+  type: string
   params: Record<string, any>
   actions: QuestAction[]
 }
 
 type QuestAction = {
-  Prototype: typeof BaseBehavior
+  type: string
   params: Record<string, any>
 }
 
 export default class QuestTemplate {
   public variables: VariableTemplate[] = []
-  public stages: QuestStage[] = []
+  public scenes: QuestScene[] = []
+
+  public constructor(public name: string) {}
 }

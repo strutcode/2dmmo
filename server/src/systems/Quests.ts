@@ -6,10 +6,8 @@ import BaseObjective from '../BaseObjective'
 import Mobile from '../components/Mobile'
 import Player from '../components/Player'
 import QuestInstance from '../quest/QuestInstance'
-
-type QuestTemplate = {
-  name: string
-}
+import QuestParser from '../quest/QuestParser'
+import QuestTemplate from '../quest/QuestTemplate'
 
 export default class Quests extends System {
   private objectives: BaseObjective[] = []
@@ -46,13 +44,12 @@ export default class Quests extends System {
       console.log(`Generating a side quest for '${mob.name}'`)
     })
 
-    const quest = this.quests.find(() => true)
+    const template = this.quests.find(() => true)
 
-    if (quest) {
-      // TODO: Fill in all quest variables from the world or by spawning
-
-      // Actually assign the quest
-      player.sideQuests.push(new QuestInstance(quest.name))
+    if (template) {
+      const quest = new QuestInstance(template)
+      // Just create the quest. Other systems will fill in the variables
+      player.sideQuests.push()
 
       console.log(`Added quest '${quest.name}'`)
     } else {
@@ -75,14 +72,11 @@ export default class Quests extends System {
     // Iterate each quest file and parse it
     files.forEach((filename) => {
       const content = readFileSync(filename, { encoding: 'utf8' })
-      const parsed = JSON.parse(content) as ActionCard[]
+      const parsed = JSON.parse(content)
 
-      // TODO: Verify and pre-process data, e.g. analyzing query strings
+      const name = basename(filename).replace('.json', '')
 
-      this.quests.push({
-        name: basename(filename).replace('.json', ''),
-        ...parsed,
-      })
+      this.quests.push(QuestParser.parse(name, parsed))
     })
 
     console.log(`Read ${files.length} quests from disk`)

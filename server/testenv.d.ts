@@ -1,7 +1,7 @@
-import { ExpectStatic } from 'chai'
+import Chai from 'chai'
 import { SinonStatic } from 'sinon'
 
 declare global {
-  const expect: ExpectStatic
+  const expect: Chai.ExpectStatic
   const Sinon: SinonStatic
 }
