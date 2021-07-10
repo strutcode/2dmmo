@@ -1,4 +1,5 @@
 {
+  "version": "1",
   "stages": {
     "smithy": "blacksmith, dwarf",
     "destination": "distance > 300, distance < 900, difficulty medium to hard"

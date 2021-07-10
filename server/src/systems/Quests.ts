@@ -5,6 +5,7 @@ import System from '../../../common/engine/System'
 import BaseObjective from '../BaseObjective'
 import Mobile from '../components/Mobile'
 import Player from '../components/Player'
+import QuestInstance from '../quest/QuestInstance'
 
 type QuestTemplate = {
   name: string
@@ -32,7 +33,13 @@ export default class Quests extends System {
     })
   }
 
-  private generateMainQuest(player: Player) {}
+  private generateMainQuest(player: Player) {
+    player.entity.with(Mobile, (mob) => {
+      console.log(
+        `Generating a main quest for '${mob.name}'... Shit's about to get real`,
+      )
+    })
+  }
 
   private generateSideQuest(player: Player) {
     player.entity.with(Mobile, (mob) => {
@@ -45,10 +52,7 @@ export default class Quests extends System {
       // TODO: Fill in all quest variables from the world or by spawning
 
       // Actually assign the quest
-      player.sideQuests.push({
-        name: quest.name,
-        variables: {},
-      })
+      player.sideQuests.push(new QuestInstance(quest.name))
 
       console.log(`Added quest '${quest.name}'`)
     } else {
