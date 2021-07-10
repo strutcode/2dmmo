@@ -5,6 +5,7 @@ import Affectable from '../components/Affectable'
 import Input from '../components/Input'
 import Brain from '../components/Brain'
 import RandomWalk from '../behaviors/RandomWalk'
+import Player from '../components/Player'
 
 export default class PopulationManager extends System {
   public update() {
@@ -46,6 +47,17 @@ export default class PopulationManager extends System {
         ],
       ])
     }
+
+    // Update quests
+    this.engine.forEachComponent(Player, (player) => {
+      player.quests.forEach((quest) => {
+        Object.values(quest.variables).forEach((variable) => {
+          if (variable.value == null && variable.type === 'prop') {
+            // Generate npc
+          }
+        })
+      })
+    })
   }
 
   private namePieces = {

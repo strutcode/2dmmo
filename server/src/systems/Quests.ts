@@ -19,15 +19,19 @@ export default class Quests extends System {
   }
 
   public update() {
-    // TODO: Load quests
-    // TODO: Tie in to population and resource systems somehow
-    // TODO: Query quests to assign to players
-
-    // Update all players and give them new quests if necessary
+    // Update all players
     this.engine.forEachComponent(Player, (player) => {
+      // Assign new quests if necessary
       if (player.sideQuests.length < 1) {
         this.generateSideQuest(player)
       }
+
+      // Update existing quests
+      player.quests.forEach((quest) => {
+        if (!quest?.ready) return
+
+        quest.currentObjective?.update(quest)
+      })
     })
   }
 
@@ -49,7 +53,7 @@ export default class Quests extends System {
     if (template) {
       const quest = new QuestInstance(template)
       // Just create the quest. Other systems will fill in the variables
-      player.sideQuests.push()
+      player.sideQuests.push(quest)
 
       console.log(`Added quest '${quest.name}'`)
     } else {

@@ -1,11 +1,15 @@
 import Component from '../../../common/engine/Component'
-
-type Quest = {
-  name: string
-  variables: Record<string, number>
-}
+import QuestInstance from '../quest/QuestInstance'
 
 export default class Player extends Component {
-  public mainQuest?: Quest
-  public sideQuests: Quest[] = []
+  public mainQuest?: QuestInstance
+  public sideQuests: QuestInstance[] = []
+
+  public get quests(): QuestInstance[] {
+    const all = [...this.sideQuests]
+
+    if (this.mainQuest) all.push(this.mainQuest)
+    
+    return all
+  }
 }

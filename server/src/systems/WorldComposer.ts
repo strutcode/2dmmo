@@ -3,11 +3,24 @@ import TilePosition from '../../../common/components/TilePosition'
 import TileVisibility from '../components/TileVisibility'
 import MapLoader, { TileMap } from '../util/MapLoader'
 import MapManager from '../util/MapManager'
+import Player from '../components/Player'
 
 export default class WorldComposer extends System {
   private loadedMaps = new Map<string, TileMap>()
 
   public update() {
+    // Update quests
+    this.engine.forEachComponent(Player, (player) => {
+      player.quests.forEach((quest) => {
+        Object.values(quest.variables).forEach((variable) => {
+          if (variable.value == null && variable.type === 'prop') {
+            // Generate location
+          }
+        })
+      })
+    })
+
+    // Update viewports
     this.engine.forEachComponent(TilePosition, (pos) => {
       pos.entity.with(TileVisibility, (visibility) => {
         const map = MapManager.getMap(pos.map)
