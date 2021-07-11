@@ -64,6 +64,8 @@ type TiledChunk = {
 }
 
 export type TileMap = {
+  width: number
+  height: number
   spawnX: number
   spawnY: number
   chunkWidth: number
@@ -188,6 +190,8 @@ export default class MapLoader {
 
     // Build the final map object
     const map = {
+      width: data.width,
+      height: data.height,
       spawnX: getProperty('int', 'spawnX', 0),
       spawnY: getProperty('int', 'spawnY', 0),
       chunkWidth,

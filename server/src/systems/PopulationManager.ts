@@ -52,8 +52,8 @@ export default class PopulationManager extends System {
     this.engine.forEachComponent(Player, (player) => {
       player.quests.forEach((quest) => {
         Object.values(quest.variables).forEach((variable) => {
-          if (variable.value == null && variable.type === 'prop') {
-            // Generate npc
+          if (variable.value == null && variable.type === 'actor') {
+            variable.value = npcs[Math.floor(Math.random() * npcs.length)]
           }
         })
       })

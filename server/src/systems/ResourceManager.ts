@@ -1,5 +1,6 @@
 import System from '../../../common/engine/System'
 import Player from '../components/Player'
+import Item from '../components/Item'
 
 export default class ResourceManager extends System {
   public update() {
@@ -8,7 +9,7 @@ export default class ResourceManager extends System {
       player.quests.forEach((quest) => {
         Object.values(quest.variables).forEach((variable) => {
           if (variable.value == null && variable.type === 'prop') {
-            // Generate item
+            variable.value = new Item('Doodad')
           }
         })
       })

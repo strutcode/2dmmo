@@ -28,7 +28,17 @@ export default class Quests extends System {
 
       // Update existing quests
       player.quests.forEach((quest) => {
-        if (!quest?.ready) return
+        if (!quest?.ready) {
+          for (let name in quest.variables) {
+            if (quest.variables[name].value == null) {
+              // If any variable is not filled the quest is still not ready
+              return
+            }
+          }
+
+          // All variables are filled, mark the quest ready
+          quest.ready = true
+        }
 
         quest.currentObjective?.update(quest)
       })

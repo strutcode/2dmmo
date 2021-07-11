@@ -39,4 +39,27 @@ export default class MapManager {
 
     return chunk.passable[tileY * 16 + tileX]
   }
+
+  public static getPassableLocation(name: string) {
+    const map = this.getMap(name)
+
+    if (!map) return null
+
+    let x, y
+
+    for (let v = 0; v < map.height; v++) {
+      for (let u = 0; u < map.width; u++) {
+        if (this.isPassable(name, u, v)) {
+          x = u
+          y = v
+        }
+      }
+    }
+
+    if (x == null || y == null) {
+      return null
+    }
+
+    return { x, y }
+  }
 }
