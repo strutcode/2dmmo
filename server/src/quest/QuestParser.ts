@@ -43,19 +43,31 @@ export default class QuestParser {
 
     if (input.stages) {
       for (let key in input.stages) {
-        template.variables.push({ type: 'stage', name: key, filter: null })
+        template.variables.push({
+          type: 'stage',
+          name: key,
+          filter: input.stages[key],
+        })
       }
     }
 
     if (input.actors) {
       for (let key in input.actors) {
-        template.variables.push({ type: 'actor', name: key, filter: null })
+        template.variables.push({
+          type: 'actor',
+          name: key,
+          filter: input.actors[key],
+        })
       }
     }
 
     if (input.props) {
       for (let key in input.props) {
-        template.variables.push({ type: 'prop', name: key, filter: null })
+        template.variables.push({
+          type: 'prop',
+          name: key,
+          filter: input.props[key],
+        })
       }
     }
 

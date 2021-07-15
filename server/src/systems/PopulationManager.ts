@@ -6,6 +6,7 @@ import Input from '../components/Input'
 import Brain from '../components/Brain'
 import RandomWalk from '../behaviors/RandomWalk'
 import Player from '../components/Player'
+import Speaker from '../components/Speaker'
 
 export default class PopulationManager extends System {
   public update() {
@@ -38,6 +39,7 @@ export default class PopulationManager extends System {
         [Mobile, { name: this.generateName(), sprite: 'monk' }],
         Input,
         Affectable,
+        Speaker,
         [
           TilePosition,
           {
@@ -53,7 +55,11 @@ export default class PopulationManager extends System {
       player.quests.forEach((quest) => {
         Object.values(quest.variables).forEach((variable) => {
           if (variable.value == null && variable.type === 'actor') {
-            variable.value = npcs[Math.floor(Math.random() * npcs.length)]
+            if (variable.filter.match(/npc/)) {
+              variable.value = npcs[Math.floor(Math.random() * npcs.length)]
+            } else {
+              variable.value = quest.owner.entity.getComponent(Mobile)
+            }
           }
         })
       })

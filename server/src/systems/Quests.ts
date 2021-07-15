@@ -63,7 +63,7 @@ export default class Quests extends System {
 
     if (template) {
       // Create the quest instance
-      const quest = new QuestInstance(template)
+      const quest = new QuestInstance(template, player)
 
       // Construct the objectives
       template.scenes.forEach((scene) => {

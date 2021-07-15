@@ -11,6 +11,7 @@ import Mobile from '../components/Mobile'
 import Container from '../components/Container'
 import Affectable from '../components/Affectable'
 import Player from '../components/Player'
+import Speaker from '../components/Speaker'
 
 type PendingPacket = {
   entity: Entity
@@ -250,6 +251,18 @@ export default class NetworkServer extends System {
         x: pos.x,
         y: pos.y,
       })
+    })
+
+    // Check if any entities have anything to say
+    this.engine.forEachComponent(Speaker, (speaker) => {
+      speaker.outgoing.forEach((words) => {
+        this.broadcast({
+          type: 'chat',
+          id: speaker.entity.id,
+          msg: words,
+        })
+      })
+      speaker.outgoing = []
     })
   }
 

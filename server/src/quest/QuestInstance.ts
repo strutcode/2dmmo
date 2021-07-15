@@ -1,4 +1,5 @@
 import BaseObjective from '../BaseObjective'
+import Player from '../components/Player'
 import QuestTemplate from './QuestTemplate'
 
 type VariableInstance = {
@@ -13,7 +14,7 @@ export default class QuestInstance {
   public objectives: BaseObjective[] = []
   private sceneIndex = 0
 
-  public constructor(public template: QuestTemplate) {
+  public constructor(public template: QuestTemplate, public owner: Player) {
     template.variables.forEach((variable) => {
       this.variables[variable.name] = {
         type: variable.type,
