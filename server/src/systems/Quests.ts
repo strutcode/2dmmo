@@ -38,9 +38,10 @@ export default class Quests extends System {
 
           // All variables are filled, mark the quest ready
           quest.ready = true
+          quest.currentObjective.setup()
         }
 
-        quest.currentObjective?.update(quest)
+        quest.currentObjective?.update()
       })
     })
   }
@@ -76,7 +77,20 @@ export default class Quests extends System {
           )
         }
 
-        quest.objectives.push(new Prototype(this.engine))
+        const objective = new Prototype(this.engine, quest)
+
+        const params = scene.objective.params
+        for (let name in params) {
+          if (objective.params[name]) {
+            objective.params[name].value = params[name]
+          } else {
+            console.warn(
+              `Tried to set non-existent param '${name}' on objective '${objective.constructor.name}'`,
+            )
+          }
+        }
+
+        quest.objectives.push(objective)
       })
 
       // Other systems will fill in the variables

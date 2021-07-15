@@ -3,6 +3,7 @@ import NetworkServer from './systems/NetworkServer'
 import Movement from './systems/Movement'
 import WorldComposer from './systems/WorldComposer'
 import PopulationManager from './systems/PopulationManager'
+import ResourceManager from './systems/ResourceManager'
 import ActionCards from './systems/ActionCards'
 import Effects from './systems/Effects'
 import NpcBehavior from './systems/NpcBehavior'
@@ -15,6 +16,7 @@ export default class Game {
     this.engine.addSystem(NetworkServer)
     this.engine.addSystem(WorldComposer)
     this.engine.addSystem(PopulationManager)
+    this.engine.addSystem(ResourceManager)
     this.engine.addSystem(NpcBehavior)
     this.engine.addSystem(Quests)
     this.engine.addSystem(ActionCards)

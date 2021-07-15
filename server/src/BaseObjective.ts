@@ -1,8 +1,23 @@
 import Engine from '../../common/engine/Engine'
 import QuestInstance from './quest/QuestInstance'
 
-export default class BaseObjective {
-  public constructor(private engine: Engine) {}
+type ObjectiveParameters = {
+  [name: string]: {
+    kind: string
+    required: boolean
+    value: any
+  }
+}
 
-  public update(quest: QuestInstance) {}
+export default class BaseObjective {
+  public params: ObjectiveParameters = {}
+
+  public constructor(
+    protected engine: Engine,
+    protected quest: QuestInstance,
+  ) {}
+
+  public setup() {}
+
+  public update() {}
 }

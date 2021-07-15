@@ -36,11 +36,11 @@
     {
       "objective": {
         "type": "ReceiveItems",
+        "from": "{soandso}",
         "who": "{bob}",
         "items": [
           "{bauble}"
-        ],
-        "from": "{soandso}"
+        ]
       }
     },
     {

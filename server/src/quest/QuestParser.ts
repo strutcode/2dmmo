@@ -1,5 +1,3 @@
-import BaseBehavior from '../BaseBehavior'
-import BaseObjective from '../BaseObjective'
 import QuestTemplate from './QuestTemplate'
 
 type QuestSource = {
@@ -21,6 +19,21 @@ type ObjectiveSource = {
 type ActionSource = {
   type: string
 }
+
+type AstReference = {
+  type: 'var'
+  name: string
+}
+
+type AstFuncCall = {
+  type: 'call'
+  name: string
+  args: AstEntry[]
+}
+
+type AstEntry = AstReference | AstFuncCall
+
+type AstBody = AstEntry[]
 
 export default class QuestParser {
   public static parse(name: string, input: QuestSource): QuestTemplate {
@@ -73,19 +86,21 @@ export default class QuestParser {
     return template
   }
 
-  public static interpretValue(input: string) {}
+  public static interpretValue(input: string) {
+    return this.parseValue(this.tokenizeValue(input))
+  }
 
   protected static parseValue(tokens: string[]) {
     let i = 0
 
-    const maybeFuncCall = () => {
-      if (tokens[i + 1] !== '(') return false
+    const maybeFuncCall = (): AstFuncCall | null => {
+      if (tokens[i + 1] !== '(') return null
 
       const value = {
         type: 'call',
         name: tokens[i],
-        args: [] as any[],
-      }
+        args: [] as AstEntry[],
+      } as const
 
       // Skip name and opening paren
       i += 2
@@ -109,14 +124,15 @@ export default class QuestParser {
 
       return value
     }
-    const maybeVariable = () => {
-      if (tokens[i] !== '{') return false
+
+    const maybeVariable = (): AstReference | null => {
+      if (tokens[i] !== '{') return null
       if (tokens[i + 2] !== '}') parseError()
 
       const value = {
         type: 'var',
         name: tokens[i + 1],
-      }
+      } as const
 
       // Parsed so move ahead
       i += 3
@@ -127,7 +143,7 @@ export default class QuestParser {
       throw new Error(`Parsing error: ${tokens[i]}`)
     }
 
-    const body = []
+    const body: AstBody = []
 
     for (; i < tokens.length; i++) {
       let element
