@@ -1,6 +1,6 @@
 import System from '../../../common/engine/System'
 import Player from '../components/Player'
-import Item from '../components/Item'
+import Item from '../Item'
 
 export default class ResourceManager extends System {
   public update() {

@@ -10,7 +10,8 @@ type VariableInstance = {
 export default class QuestInstance {
   public ready = false
   public variables: Record<string, VariableInstance> = {}
-  public currentObjective?: BaseObjective
+  public objectives: BaseObjective[] = []
+  private sceneIndex = 0
 
   public constructor(public template: QuestTemplate) {
     template.variables.forEach((variable) => {
@@ -24,5 +25,9 @@ export default class QuestInstance {
 
   public get name() {
     return this.template.name
+  }
+
+  public get currentObjective() {
+    return this.objectives[this.sceneIndex]
   }
 }

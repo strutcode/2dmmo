@@ -8,7 +8,7 @@ import { readFileSync } from 'fs'
 import TileVisibility from '../components/TileVisibility'
 import { TileMapChunk } from '../util/MapLoader'
 import Mobile from '../components/Mobile'
-import Inventory from '../components/Inventory'
+import Container from '../components/Container'
 import Affectable from '../components/Affectable'
 import Player from '../components/Player'
 
@@ -63,7 +63,7 @@ export default class NetworkServer extends System {
             sprite,
           },
         ],
-        Inventory,
+        Container,
         Affectable,
         TilePosition,
         TileVisibility,
@@ -106,12 +106,12 @@ export default class NetworkServer extends System {
       })
 
       // Sync inventory
-      entity.with(Inventory, (inventory) => {
+      entity.with(Container, (inventory) => {
         // TODO: Do this on change
         socket.send(
           Protocol.encode({
             type: 'inventory',
-            cards: inventory.cards.map((card) => ({
+            cards: inventory.deck.map((card) => ({
               id: card.id,
               title: card.title,
             })),
@@ -223,13 +223,13 @@ export default class NetworkServer extends System {
     // Clear the queue
     this.pending = []
 
-    this.engine.forEachUpdated(Inventory, (inv) => {
+    this.engine.forEachUpdated(Container, (inv) => {
       const socket = this.clientMap.get(inv.entity)
 
       socket?.send(
         Protocol.encode({
           type: 'inventory',
-          cards: inv.cards,
+          cards: inv.deck,
         }),
       )
     })

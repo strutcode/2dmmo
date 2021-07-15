@@ -35,10 +35,12 @@
     },
     {
       "objective": {
-        "type": "GetItem",
-        "who": "{soandso}",
-        "item": "{bauble}",
-        "from": "{destination}"
+        "type": "ReceiveItems",
+        "who": "{bob}",
+        "items": [
+          "{bauble}"
+        ],
+        "from": "{soandso}"
       }
     },
     {

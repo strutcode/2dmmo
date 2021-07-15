@@ -10,7 +10,7 @@ import QuestParser from '../quest/QuestParser'
 import QuestTemplate from '../quest/QuestTemplate'
 
 export default class Quests extends System {
-  private objectives: BaseObjective[] = []
+  private objectives: typeof BaseObjective[] = []
   private quests: QuestTemplate[] = []
 
   public start() {
@@ -61,8 +61,25 @@ export default class Quests extends System {
     const template = this.quests.find(() => true)
 
     if (template) {
+      // Create the quest instance
       const quest = new QuestInstance(template)
-      // Just create the quest. Other systems will fill in the variables
+
+      // Construct the objectives
+      template.scenes.forEach((scene) => {
+        const Prototype = this.objectives.find(
+          (obj) => obj.name === scene.objective.type,
+        )
+
+        if (!Prototype) {
+          throw new Error(
+            `Tried to load objective '${scene.objective.type}' for '${template.name}' but couldn't find one`,
+          )
+        }
+
+        quest.objectives.push(new Prototype(this.engine))
+      })
+
+      // Other systems will fill in the variables
       player.sideQuests.push(quest)
 
       console.log(`Added quest '${quest.name}'`)

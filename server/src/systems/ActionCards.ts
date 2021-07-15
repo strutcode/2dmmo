@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import { glob } from 'glob'
 import System from '../../../common/engine/System'
-import Inventory from '../components/Inventory'
+import Container from '../components/Container'
 import Input from '../components/Input'
 import BaseEffect from '../BaseEffect'
 import Affectable from '../components/Affectable'
@@ -49,9 +49,9 @@ export default class ActionCards extends System {
   }
 
   public update() {
-    this.engine.forEachComponent(Inventory, (inv) => {
-      if (!inv.cards.length) {
-        inv.cards = this.cards
+    this.engine.forEachComponent(Container, (inv) => {
+      if (!inv.deck.length) {
+        inv.deck = this.cards
       }
     })
 

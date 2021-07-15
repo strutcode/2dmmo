@@ -1,6 +1,6 @@
 import BaseObjective from '../BaseObjective'
 
-export default class TalkTo extends BaseObjective {
+export default class Dialogue extends BaseObjective {
   public params = {
     who: {
       kind: 'mobile',

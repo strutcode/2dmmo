@@ -5,5 +5,5 @@ describe('Quests', () => {
 
   it('manages quest status based on resource availability', () => {})
 
-  it('updates quest instances to execute objectives')
+  it('updates quest instances to execute objectives', () => {})
 })
