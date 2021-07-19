@@ -1,45 +1,51 @@
 import QuestParser from '../../src/quest/QuestParser'
 
 describe('Quest Parser', () => {
-  it('can lexically analyze values', () => {
+  describe('can lexically analyze values', () => {
     const tokenize = QuestParser['tokenizeValue']
 
-    expect(tokenize('test')).to.deep.equal(['test'])
+    it('handles basic lexical values', () => {
+      expect(tokenize('test')).to.deep.equal(['test'])
 
-    expect(tokenize('func()')).to.deep.equal(['func', '(', ')'])
+      expect(tokenize('func()')).to.deep.equal(['func', '(', ')'])
 
-    expect(tokenize('func(foo, bar)')).to.deep.equal([
-      'func',
-      '(',
-      'foo',
-      ',',
-      'bar',
-      ')',
-    ])
+      expect(tokenize('func(foo, bar)')).to.deep.equal([
+        'func',
+        '(',
+        'foo',
+        ',',
+        'bar',
+        ')',
+      ])
 
-    expect(tokenize('add(2, 2)')).to.deep.equal([
-      'add',
-      '(',
-      '2',
-      ',',
-      '2',
-      ')',
-    ])
+      expect(tokenize('add(2, 2)')).to.deep.equal([
+        'add',
+        '(',
+        '2',
+        ',',
+        '2',
+        ')',
+      ])
 
-    expect(tokenize('proximity({foo}, {bar}, 20)')).to.deep.equal([
-      'proximity',
-      '(',
-      '{',
-      'foo',
-      '}',
-      ',',
-      '{',
-      'bar',
-      '}',
-      ',',
-      '20',
-      ')',
-    ])
+      expect(tokenize('proximity({foo}, {bar}, 20)')).to.deep.equal([
+        'proximity',
+        '(',
+        '{',
+        'foo',
+        '}',
+        ',',
+        '{',
+        'bar',
+        '}',
+        ',',
+        '20',
+        ')',
+      ])
+    })
+
+    it('can escape characters', () => {
+      expect(tokenize('foo\\ bar')).to.deep.equal(['foo bar'])
+    })
   })
 
   it('can parse lexed values', () => {

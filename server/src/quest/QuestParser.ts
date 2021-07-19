@@ -257,7 +257,15 @@ export default class QuestParser {
     for (let i = 0; i < input.length; i++) {
       const c = input[i]
 
-      if (c.match(/\s/)) {
+      if (c === '\\') {
+        // Skip the escape char
+
+        // Add The next char raw
+        activeToken += input[i + 1]
+
+        // Skip the next char for parsing
+        i++
+      } else if (endChars.includes(c)) {
         endToken()
       } else if (c.match(/[\(\)\{\},]/)) {
         endToken()
@@ -266,6 +274,7 @@ export default class QuestParser {
         activeToken += c
       } else {
         console.log(`Invalid token: '${c}' at offset ${i}`)
+        break
       }
     }
 
