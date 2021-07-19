@@ -46,6 +46,11 @@ describe('Quest Parser', () => {
     it('can escape characters', () => {
       expect(tokenize('foo\\ bar')).to.deep.equal(['foo bar'])
     })
+
+    it('can parse strings', () => {
+      expect(tokenize('"foo bar"')).to.deep.equal(['"', 'foo bar', '"'])
+      expect(tokenize('"\\"foo\\" bar"')).to.deep.equal(['"', '"foo" bar', '"'])
+    })
   })
 
   it('can parse lexed values', () => {

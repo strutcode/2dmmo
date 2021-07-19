@@ -245,6 +245,8 @@ export default class QuestParser {
     const tokens: string[] = []
 
     let activeToken = ''
+    let endChars = '\r\n\t '
+
     const pushToken = (token: string) => tokens.push(token)
     const endToken = () => {
       if (activeToken.length > 0) {
@@ -265,6 +267,31 @@ export default class QuestParser {
 
         // Skip the next char for parsing
         i++
+      } else if (c === '"' || endChars === '"') {
+        const inString = endChars === '"'
+
+        if (!inString) {
+          // Opening quote, close the previous token
+          endToken()
+
+          // Push the quote itself
+          pushToken(c)
+
+          // Set the ending token
+          endChars = c
+        } else if (c === '"') {
+          // End quote, finish token
+          endToken()
+
+          // Push the quote itself
+          pushToken(c)
+
+          // Reset end chars
+          endChars = '\r\n\t '
+        } else {
+          // Ignore contents
+          activeToken += c
+        }
       } else if (endChars.includes(c)) {
         endToken()
       } else if (c.match(/[\(\)\{\},]/)) {
