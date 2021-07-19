@@ -47,9 +47,16 @@ describe('Quest Parser', () => {
       expect(tokenize('foo\\ bar')).to.deep.equal(['foo bar'])
     })
 
-    it('can parse strings', () => {
+    it('can lex strings', () => {
       expect(tokenize('"foo bar"')).to.deep.equal(['"', 'foo bar', '"'])
       expect(tokenize('"\\"foo\\" bar"')).to.deep.equal(['"', '"foo" bar', '"'])
+    })
+
+    it('can lex regex', () => {
+      expect(tokenize('/foo/')).to.deep.equal(['/', 'foo', '/'])
+      expect(tokenize('/foo bar/')).to.deep.equal(['/', 'foo bar', '/'])
+      expect(tokenize('/abc\\/def/')).to.deep.equal(['/', 'abc/def', '/'])
+      expect(tokenize('/foo/abc')).to.deep.equal(['/', 'foo', '/', 'abc'])
     })
   })
 

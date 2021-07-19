@@ -292,6 +292,40 @@ export default class QuestParser {
           // Ignore contents
           activeToken += c
         }
+      } else if (c === '/' || endChars === '/') {
+        const inRegex = endChars === '/'
+
+        if (!inRegex) {
+          // Opening slash, close the previous token
+          endToken()
+
+          // Push the slash itself
+          pushToken(c)
+
+          // Set the ending token
+          endChars = c
+        } else if (c === '/') {
+          // End slash, finish token
+          endToken()
+
+          // Push the slash itself
+          pushToken(c)
+
+          // Reset end chars
+          endChars = '\r\n\t '
+
+          // Gather modifiers
+          i++
+          while (i < input.length && !endChars.includes(input[i])) {
+            activeToken += input[i]
+            i++
+          }
+
+          endToken()
+        } else {
+          // Ignore contents
+          activeToken += c
+        }
       } else if (endChars.includes(c)) {
         endToken()
       } else if (c.match(/[\(\)\{\},]/)) {
