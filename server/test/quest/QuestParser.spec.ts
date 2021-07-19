@@ -17,6 +17,15 @@ describe('Quest Parser', () => {
       ')',
     ])
 
+    expect(tokenize('add(2, 2)')).to.deep.equal([
+      'add',
+      '(',
+      '2',
+      ',',
+      '2',
+      ')',
+    ])
+
     expect(tokenize('proximity({foo}, {bar}, 20)')).to.deep.equal([
       'proximity',
       '(',
@@ -40,6 +49,17 @@ describe('Quest Parser', () => {
       {
         type: 'var',
         name: 'bar',
+      },
+    ])
+
+    expect(parse('add|(|2|,|2|)'.split('|'))).to.deep.equal([
+      {
+        type: 'call',
+        name: 'add',
+        args: [
+          { type: 'number', value: 2 },
+          { type: 'number', value: 2 },
+        ],
       },
     ])
 

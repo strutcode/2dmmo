@@ -25,13 +25,28 @@ type AstReference = {
   name: string
 }
 
+type AstString = {
+  type: 'string'
+  value: string
+}
+
+type AstNumber = {
+  type: 'number'
+  value: number
+}
+
+type AstBareword = {
+  type: 'word'
+  value: string
+}
+
 type AstFuncCall = {
   type: 'call'
   name: string
   args: AstEntry[]
 }
 
-type AstEntry = AstReference | AstFuncCall
+type AstEntry = AstReference | AstFuncCall | AstString | AstNumber | AstBareword
 
 type AstBody = AstEntry[]
 
@@ -126,6 +141,12 @@ export default class QuestParser {
           value.args.push(element)
         } else if ((element = maybeVariable())) {
           value.args.push(element)
+        } else if ((element = maybeString())) {
+          value.args.push(element)
+        } else if ((element = maybeNumber())) {
+          value.args.push(element)
+        } else if ((element = maybeBareword())) {
+          value.args.push(element)
         } else {
           parseError()
         }
@@ -151,6 +172,48 @@ export default class QuestParser {
 
       return value
     }
+
+    const maybeString = (): AstString | null => {
+      if (tokens[i] !== '"') return null
+      if (tokens[i + 2] !== '"') parseError()
+
+      const value = {
+        type: 'string',
+        value: tokens[i + 1],
+      } as const
+
+      // Parsed so move ahead
+      i += 3
+
+      return value
+    }
+
+    const maybeNumber = (): AstNumber | null => {
+      if (!tokens[i].match(/[\d\.]+/)) return null
+
+      const value = {
+        type: 'number',
+        value: Number(tokens[i]),
+      } as const
+
+      // Parsed so move ahead
+      i++
+
+      return value
+    }
+
+    const maybeBareword = (): AstBareword | null => {
+      const value = {
+        type: 'word',
+        value: tokens[i],
+      } as const
+
+      // Parsed so move ahead
+      i++
+
+      return value
+    }
+
     const parseError = () => {
       throw new Error(`Parsing error: ${tokens[i]}`)
     }
@@ -160,9 +223,15 @@ export default class QuestParser {
     for (; i < tokens.length; i++) {
       let element
 
-      if ((element = maybeFuncCall())) {
+      if ((element = maybeVariable())) {
         body.push(element)
-      } else if ((element = maybeVariable())) {
+      } else if ((element = maybeFuncCall())) {
+        body.push(element)
+      } else if ((element = maybeString())) {
+        body.push(element)
+      } else if ((element = maybeNumber())) {
+        body.push(element)
+      } else if ((element = maybeBareword())) {
         body.push(element)
       } else {
         parseError()
