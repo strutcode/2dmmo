@@ -30,6 +30,12 @@ type AstString = {
   value: string
 }
 
+type AstRegex = {
+  type: 'regex'
+  value: string
+  modifiers: string
+}
+
 type AstNumber = {
   type: 'number'
   value: number
@@ -46,7 +52,13 @@ type AstFuncCall = {
   args: AstEntry[]
 }
 
-type AstEntry = AstReference | AstFuncCall | AstString | AstNumber | AstBareword
+type AstEntry =
+  | AstReference
+  | AstFuncCall
+  | AstString
+  | AstRegex
+  | AstNumber
+  | AstBareword
 
 type AstBody = AstEntry[]
 
@@ -143,6 +155,8 @@ export default class QuestParser {
           value.args.push(element)
         } else if ((element = maybeString())) {
           value.args.push(element)
+        } else if ((element = maybeRegex())) {
+          value.args.push(element)
         } else if ((element = maybeNumber())) {
           value.args.push(element)
         } else if ((element = maybeBareword())) {
@@ -188,6 +202,29 @@ export default class QuestParser {
       return value
     }
 
+    const maybeRegex = (): AstRegex | null => {
+      if (tokens[i] !== '/') return null
+      if (tokens[i + 2] !== '/') parseError()
+
+      const value = {
+        type: 'regex' as const,
+        value: tokens[i + 1],
+        modifiers: 'i',
+      }
+
+      // Parsed so move ahead
+      i += 3
+
+      // If valid modifiers were found...
+      if (tokens[i].match(/[igm]+/)) {
+        // Set them and move ahead again
+        value.modifiers = tokens[i]
+        i++
+      }
+
+      return value
+    }
+
     const maybeNumber = (): AstNumber | null => {
       if (!tokens[i].match(/[\d\.]+/)) return null
 
@@ -215,7 +252,7 @@ export default class QuestParser {
     }
 
     const parseError = () => {
-      throw new Error(`Parsing error: ${tokens[i]}`)
+      throw new Error(`Parsing error: ${i} -> ${tokens}`)
     }
 
     const body: AstBody = []
@@ -228,6 +265,8 @@ export default class QuestParser {
       } else if ((element = maybeFuncCall())) {
         body.push(element)
       } else if ((element = maybeString())) {
+        body.push(element)
+      } else if ((element = maybeRegex())) {
         body.push(element)
       } else if ((element = maybeNumber())) {
         body.push(element)

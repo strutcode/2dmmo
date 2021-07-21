@@ -91,6 +91,14 @@ describe('Quest Parser', () => {
         ],
       },
     ])
+
+    expect(parse('/|reg.*ex|/|ig'.split('|'))).to.deep.equal([
+      {
+        type: 'regex',
+        value: 'reg.*ex',
+        modifiers: 'ig',
+      },
+    ])
   })
 
   it('can build a quest template from source', () => {
