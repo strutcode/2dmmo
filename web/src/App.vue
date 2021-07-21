@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form method="GET" action="/game">
+    <form method="GET" :action="computedAction">
       <div>
         <label for="name">Display Name</label>
       </div>
@@ -71,6 +71,14 @@
           backgroundSize: '400%',
           ...o,
         }))
+      },
+
+      computedAction() {
+        if (location.hostname === 'localhost') {
+          return '//localhost:9002'
+        }
+
+        return '/game'
       },
     },
   })
