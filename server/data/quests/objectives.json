@@ -22,11 +22,11 @@
             "say": "You there, {soandso}. Can you [help] me?"
           },
           {
-            "trigger": "regex(help)",
+            "trigger": "regex(/help/)",
             "say": "I lost my {bauble}, can you help me [get it back]?"
           },
           {
-            "trigger": "regex(get.*back)",
+            "trigger": "regex(/get.*back/)",
             "say": "Thank you! I think I lost it near {destination}.",
             "complete": true
           }
