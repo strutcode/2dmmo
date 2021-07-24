@@ -12,6 +12,7 @@ import Container from '../components/Container'
 import Affectable from '../components/Affectable'
 import Player from '../components/Player'
 import Speaker from '../components/Speaker'
+import Listener from '../components/Listener'
 
 type PendingPacket = {
   entity: Entity
@@ -57,6 +58,8 @@ export default class NetworkServer extends System {
       const entity = this.engine.createEntity([
         Input,
         Player,
+        Speaker,
+        Listener,
         [
           Mobile,
           {
@@ -208,10 +211,8 @@ export default class NetworkServer extends System {
           input.addInput(packet.key)
         })
       } else if (packet.type === 'chat') {
-        this.broadcast({
-          type: 'chat',
-          msg: packet.msg,
-          id: entity.id,
+        entity.with(Speaker, (speaker) => {
+          speaker.say(packet.msg)
         })
       } else if (packet.type === 'use') {
         entity.with(Input, (input) => {
@@ -253,16 +254,23 @@ export default class NetworkServer extends System {
       })
     })
 
-    // Check if any entities have anything to say
-    this.engine.forEachComponent(Speaker, (speaker) => {
-      speaker.outgoing.forEach((words) => {
-        this.broadcast({
-          type: 'chat',
-          id: speaker.entity.id,
-          msg: words,
-        })
+    // If messages were heard by players, send them over the socket
+    this.engine.forEachComponent(Player, (player) => {
+      player.entity.with(Listener, (listener) => {
+        const socket = this.clientMap.get(player.entity)
+
+        if (socket) {
+          listener.incoming.forEach((msg) => {
+            socket.send(
+              Protocol.encode({
+                type: 'chat',
+                id: msg.speaker,
+                msg: msg.words,
+              }),
+            )
+          })
+        }
       })
-      speaker.outgoing = []
     })
   }
 

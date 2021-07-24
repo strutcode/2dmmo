@@ -7,6 +7,7 @@ import Brain from '../components/Brain'
 import RandomWalk from '../behaviors/RandomWalk'
 import Player from '../components/Player'
 import Speaker from '../components/Speaker'
+import Listener from '../components/Listener'
 
 export default class PopulationManager extends System {
   public update() {
@@ -40,6 +41,7 @@ export default class PopulationManager extends System {
         Input,
         Affectable,
         Speaker,
+        Listener,
         [
           TilePosition,
           {

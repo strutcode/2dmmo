@@ -8,12 +8,14 @@ import ActionCards from './systems/ActionCards'
 import Effects from './systems/Effects'
 import NpcBehavior from './systems/NpcBehavior'
 import Quests from './systems/Quests'
+import Chat from './systems/Chat'
 
 export default class Game {
   public engine = new Engine()
 
   public constructor() {
     this.engine.addSystem(NetworkServer)
+    this.engine.addSystem(Chat)
     this.engine.addSystem(WorldComposer)
     this.engine.addSystem(PopulationManager)
     this.engine.addSystem(ResourceManager)
