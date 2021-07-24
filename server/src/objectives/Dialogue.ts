@@ -4,10 +4,13 @@ import Mobile from '../components/Mobile'
 import Speaker from '../components/Speaker'
 import QuestParser from '../quest/QuestParser'
 import { distanceChebyshev } from '../util/Geometry'
+import { performance } from 'perf_hooks'
 
 type ProcessedLine = {
   test: () => boolean
   text: string
+  throttle: number
+  lastTime: number
 }
 
 export default class Dialogue extends BaseObjective {
@@ -57,9 +60,9 @@ export default class Dialogue extends BaseObjective {
     }
   }
 
-  private processLine(line: any): ProcessedLine {
+  private processLine(rawLine: any): ProcessedLine {
     const interpolateText = () => {
-      return line.say.replace(/\{(\w+)\}/gi, (_: any, name: string) => {
+      return rawLine.say.replace(/\{(\w+)\}/gi, (_: any, name: string) => {
         const variable = this.quest.variables[name]
 
         if (variable) {
@@ -74,12 +77,12 @@ export default class Dialogue extends BaseObjective {
       })
     }
 
-    const getTrigger = () => {
-      if (!line.trigger) {
+    const getTrigger = (line: ProcessedLine) => {
+      if (!rawLine.trigger) {
         return () => true
       }
 
-      const parsed = QuestParser.interpretValue(line.trigger)[0]
+      const parsed = QuestParser.interpretValue(rawLine.trigger)[0]
 
       if (parsed.type !== 'call') {
         throw new Error(`Not a valid trigger value`)
@@ -103,12 +106,19 @@ export default class Dialogue extends BaseObjective {
 
           return () => {
             let result = false
+            const now = new Date().valueOf()
 
-            lhs.entity.with(TilePosition, (posA) => {
-              rhs.entity.with(TilePosition, (posB) => {
-                result = distanceChebyshev(posA, posB) <= distance
+            if (now - line.lastTime > line.throttle) {
+              lhs.entity.with(TilePosition, (posA) => {
+                rhs.entity.with(TilePosition, (posB) => {
+                  result = distanceChebyshev(posA, posB) <= distance
+                })
               })
-            })
+            }
+
+            if (result) {
+              line.lastTime = now
+            }
 
             return result
           }
@@ -121,9 +131,15 @@ export default class Dialogue extends BaseObjective {
       }
     }
 
-    return {
-      test: getTrigger(),
+    const line: ProcessedLine = {
+      test: () => true,
       text: interpolateText(),
+      throttle: 10 * 60 * 1000,
+      lastTime: 0,
     }
+
+    line.test = getTrigger(line)
+
+    return line
   }
 }
