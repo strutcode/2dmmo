@@ -2,9 +2,9 @@ import TilePosition from '../../../common/components/TilePosition'
 import BaseObjective from '../BaseObjective'
 import Mobile from '../components/Mobile'
 import Speaker from '../components/Speaker'
+import Listener from '../components/Listener'
 import QuestParser from '../quest/QuestParser'
 import { distanceChebyshev } from '../util/Geometry'
-import { performance } from 'perf_hooks'
 
 type ProcessedLine = {
   test: () => boolean
@@ -123,8 +123,34 @@ export default class Dialogue extends BaseObjective {
             return result
           }
         case 'regex':
+          if (parsed.args[0].type !== 'regex') {
+            throw new Error('regex(): Argument 1 is not a regex')
+          }
+
+          // Create a native regex to test with
+          const inst = new RegExp(
+            parsed.args[0].value,
+            parsed.args[0].modifiers,
+          )
+
           return () => {
-            return false
+            let result = false
+
+            this.speaker?.entity.with(Listener, (listener) => {
+              listener.incoming.forEach((msg) => {
+                // NPCs like listening to themselves talk
+                if (msg.speaker === listener.entity.id) {
+                  return
+                }
+
+                // Check if the message matches
+                if (inst.test(msg.words)) {
+                  result = true
+                }
+              })
+            })
+
+            return result
           }
         default:
           throw new Error('Invalid function name in trigger')
