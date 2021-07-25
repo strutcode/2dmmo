@@ -1,6 +1,7 @@
 import System from '../../../common/engine/System'
 import Player from '../components/Player'
 import Item from '../Item'
+import FetchItem from '../objectives/FetchItem'
 
 export default class ResourceManager extends System {
   public update() {
@@ -12,6 +13,9 @@ export default class ResourceManager extends System {
             variable.value = new Item('Doodad')
           }
         })
+
+        if (quest.currentObjective instanceof FetchItem) {
+        }
       })
     })
   }

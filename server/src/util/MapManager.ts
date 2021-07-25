@@ -45,21 +45,17 @@ export default class MapManager {
 
     if (!map) return null
 
-    let x, y
-
-    for (let v = 0; v < map.height; v++) {
-      for (let u = 0; u < map.width; u++) {
-        if (this.isPassable(name, u, v)) {
-          x = u
-          y = v
+    for (let y = 0; y < map.height; y++) {
+      for (let x = 0; x < map.width; x++) {
+        if (this.isPassable(name, x, y)) {
+          return {
+            x,
+            y,
+          }
         }
       }
     }
 
-    if (x == null || y == null) {
-      return null
-    }
-
-    return { x, y }
+    return null
   }
 }

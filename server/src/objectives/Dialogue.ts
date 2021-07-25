@@ -11,6 +11,7 @@ type ProcessedLine = {
   text: string
   throttle: number
   lastTime: number
+  complete: boolean
 }
 
 export default class Dialogue extends BaseObjective {
@@ -55,6 +56,9 @@ export default class Dialogue extends BaseObjective {
       for (let line of this.processedLines) {
         if (line.test()) {
           this.speaker?.say(line.text)
+          if (line.complete) {
+            this.quest.advance()
+          }
         }
       }
     }
@@ -162,6 +166,7 @@ export default class Dialogue extends BaseObjective {
       text: interpolateText(),
       throttle: 10 * 60 * 1000,
       lastTime: 0,
+      complete: !!rawLine.complete,
     }
 
     line.test = getTrigger(line)

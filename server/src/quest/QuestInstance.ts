@@ -31,4 +31,9 @@ export default class QuestInstance {
   public get currentObjective() {
     return this.objectives[this.sceneIndex]
   }
+
+  public advance() {
+    this.sceneIndex++
+    this.currentObjective.setup()
+  }
 }

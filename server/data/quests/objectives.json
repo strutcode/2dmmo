@@ -35,12 +35,10 @@
     },
     {
       "objective": {
-        "type": "ReceiveItems",
-        "from": "{soandso}",
-        "who": "{bob}",
-        "items": [
-          "{bauble}"
-        ]
+        "type": "FetchItem",
+        "for": "{bob}",
+        "location": "{destination}",
+        "item": "{bauble}"
       }
     },
     {
