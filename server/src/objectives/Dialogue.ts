@@ -74,6 +74,8 @@ export default class Dialogue extends BaseObjective {
             return variable.value.name
           } else if (variable.type === 'prop') {
             return variable.value.name
+          } else if (variable.type === 'stage') {
+            return `(${variable.value.x},${variable.value.y})`
           }
         }
 
