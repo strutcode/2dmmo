@@ -1,7 +1,7 @@
 import BaseObjective from '../BaseObjective'
 import WorldItem from '../components/WorldItem'
 import Item from '../Item'
-import QuestParser from '../quest/QuestParser'
+import QuestLanguageParser from '../quest/QuestLanguageParser'
 
 export default class FetchItem extends BaseObjective {
   public params = {
@@ -28,7 +28,9 @@ export default class FetchItem extends BaseObjective {
 
   public setup() {
     if (this.params.location.value) {
-      const locationVal = QuestParser.interpretValue(this.params.location.value)
+      const locationVal = QuestLanguageParser.interpretValue(
+        this.params.location.value,
+      )
 
       if (locationVal[0].type === 'var') {
         const questVar = this.quest.variables[locationVal[0].name]
@@ -38,7 +40,7 @@ export default class FetchItem extends BaseObjective {
       }
     }
     if (this.params.item.value) {
-      const itemVal = QuestParser.interpretValue(this.params.item.value)
+      const itemVal = QuestLanguageParser.interpretValue(this.params.item.value)
 
       if (itemVal[0].type === 'var') {
         const questVar = this.quest.variables[itemVal[0].name]

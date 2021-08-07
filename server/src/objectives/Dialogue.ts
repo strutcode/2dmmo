@@ -3,8 +3,8 @@ import BaseObjective from '../BaseObjective'
 import Mobile from '../components/Mobile'
 import Speaker from '../components/Speaker'
 import Listener from '../components/Listener'
-import QuestParser from '../quest/QuestParser'
 import { distanceChebyshev } from '../util/Geometry'
+import QuestLanguageParser from '../quest/QuestLanguageParser'
 
 type ProcessedLine = {
   test: () => boolean
@@ -33,7 +33,7 @@ export default class Dialogue extends BaseObjective {
 
   public setup() {
     if (this.params.who.value) {
-      const whoValue = QuestParser.interpretValue(this.params.who.value)
+      const whoValue = QuestLanguageParser.interpretValue(this.params.who.value)
 
       if (whoValue[0].type !== 'var') {
         throw new Error('Invalid who value')
@@ -88,7 +88,7 @@ export default class Dialogue extends BaseObjective {
         return () => true
       }
 
-      const parsed = QuestParser.interpretValue(rawLine.trigger)[0]
+      const parsed = QuestLanguageParser.interpretValue(rawLine.trigger)[0]
 
       if (parsed.type !== 'call') {
         throw new Error(`Not a valid trigger value`)

@@ -1,8 +1,8 @@
-import QuestParser from '../../src/quest/QuestParser'
+import QuestLanguageParser from '../../src/quest/QuestLanguageParser'
 
 describe('Quest Parser', () => {
   describe('can lexically analyze values', () => {
-    const tokenize = QuestParser['tokenizeValue']
+    const tokenize = QuestLanguageParser['tokenizeValue']
 
     it('handles basic lexical values', () => {
       expect(tokenize('test')).to.deep.equal(['test'])
@@ -61,7 +61,7 @@ describe('Quest Parser', () => {
   })
 
   it('can parse lexed values', () => {
-    const parse = QuestParser['parseValue']
+    const parse = QuestLanguageParser['parseValue']
 
     expect(parse('{|bar|}'.split('|'))).to.deep.equal([
       {
@@ -99,50 +99,5 @@ describe('Quest Parser', () => {
         modifiers: 'ig',
       },
     ])
-  })
-
-  it('can build a quest template from source', () => {
-    const quest = {
-      version: '1',
-      stages: {
-        smithy: 'blacksmith, dwarf',
-        destination:
-          'distance > 300, distance < 900, difficulty medium to hard',
-      },
-      actors: {
-        bob: 'npc, dwarf, smith, age > 40',
-        soandso: 'pc',
-      },
-      props: {
-        bauble: 'sword or dagger or amulet, value > 700',
-      },
-      scenes: [
-        {
-          objective: {
-            type: 'Dialogue',
-            who: '{bob}',
-            lines: [
-              {
-                trigger: 'proximity({bob}, {soandso}, 20)',
-                say: 'You there, {soandso}. Can you [help] me?',
-              },
-              {
-                trigger: 'regex(help)',
-                say: 'I lost my {bauble}, can you help me [get it back]?',
-              },
-              {
-                trigger: 'regex(get.*back)',
-                say: 'Thank you! I think I lost it near {destination}.',
-                complete: true,
-              },
-            ],
-          },
-        },
-      ],
-    }
-    const template = QuestParser.parse('test', quest)
-
-    expect(template.variables).to.have.length(5)
-    expect(template.scenes).to.have.length(1)
   })
 })

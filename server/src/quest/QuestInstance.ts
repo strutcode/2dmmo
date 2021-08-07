@@ -24,6 +24,10 @@ export default class QuestInstance {
     })
   }
 
+  public get version() {
+    return this.template.version
+  }
+
   public get name() {
     return this.template.name
   }

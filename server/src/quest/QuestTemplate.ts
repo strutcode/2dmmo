@@ -26,5 +26,5 @@ export default class QuestTemplate {
   public variables: VariableTemplate[] = []
   public scenes: QuestScene[] = []
 
-  public constructor(public name: string) {}
+  public constructor(public version: string, public name: string) {}
 }
