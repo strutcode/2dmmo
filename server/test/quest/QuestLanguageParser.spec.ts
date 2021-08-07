@@ -1,4 +1,4 @@
-import QuestLanguageParser from '../../src/systems/quest/QuestLanguageParser'
+import QuestLanguageParser from '../../src/systems/quest/parsers/QuestLanguageParser'
 
 describe('Quest Parser', () => {
   describe('can lexically analyze values', () => {

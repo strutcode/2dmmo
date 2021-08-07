@@ -4,7 +4,7 @@ import Mobile from '../../../components/Mobile'
 import Speaker from '../../../components/Speaker'
 import Listener from '../../../components/Listener'
 import { distanceChebyshev } from '../../../util/Geometry'
-import QuestLanguageParser from '../QuestLanguageParser'
+import QuestLanguageParser from '../parsers/QuestLanguageParser'
 
 type ProcessedLine = {
   test: () => boolean

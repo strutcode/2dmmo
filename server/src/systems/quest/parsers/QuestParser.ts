@@ -1,6 +1,6 @@
 import QuestParserV1 from './QuestParserV1'
 import QuestParserV2 from './QuestParserV2'
-import QuestTemplate from './QuestTemplate'
+import QuestTemplate from '../QuestTemplate'
 
 interface VersionedQuest {
   version: string

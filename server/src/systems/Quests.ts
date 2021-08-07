@@ -6,7 +6,7 @@ import BaseObjective from '../BaseObjective'
 import Mobile from '../components/Mobile'
 import Player from '../components/Player'
 import QuestInstance from './quest/QuestInstance'
-import QuestParser from './quest/QuestParser'
+import QuestParser from './quest/parsers/QuestParser'
 import QuestTemplate from './quest/QuestTemplate'
 
 export default class Quests extends System {

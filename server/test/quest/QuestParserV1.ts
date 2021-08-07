@@ -1,4 +1,4 @@
-import QuestParserV1 from '../../src/systems/quest/QuestParserV1'
+import QuestParserV1 from '../../src/systems/quest/parsers/QuestParserV1'
 
 describe('Quest Parser v1', () => {
   it('can build a quest template from source', () => {
