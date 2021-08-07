@@ -4,33 +4,11 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import Rete, { Component, Node } from 'rete'
+  import Rete, { Component } from 'rete'
   import ConnectionPlugin from 'rete-connection-plugin'
   import VueRenderPlugin from 'rete-vue-render-plugin'
   import ContextMenuPlugin from 'rete-context-menu-plugin'
-  import { NodeData, WorkerInputs, WorkerOutputs } from 'rete/types/core/data'
-
-  const numSocket = new Rete.Socket('Number')
-
-  class NumComponent extends Rete.Component {
-    constructor() {
-      super('Number')
-    }
-
-    public async builder(node: Node) {
-      let out = new Rete.Output('num', 'Number', numSocket)
-
-      node.addOutput(out)
-    }
-
-    public worker(
-      node: NodeData,
-      inputs: WorkerInputs,
-      outputs: WorkerOutputs,
-    ) {
-      outputs['num'] = node.data.num
-    }
-  }
+  import NodeParser from '../quests/NodeParser'
 
   export default Vue.extend({
     mounted() {
@@ -55,8 +33,9 @@
         },
       })
 
-      const numComponent = new NumComponent()
-      editor.register(numComponent)
+      NodeParser.getNodes().forEach((node: Component) => {
+        editor.register(node)
+      })
     },
   })
 </script>
@@ -86,8 +65,16 @@
       }
     }
 
+    .socket.flow {
+      background: rgb(231, 238, 245) !important;
+    }
+
     .socket.number {
-      background: rgb(245, 162, 68) !important;
+      background: rgb(231, 145, 47) !important;
+    }
+
+    .socket.mobile {
+      background: rgb(208, 107, 218) !important;
     }
   }
 </style>

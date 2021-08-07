@@ -52,6 +52,7 @@ services:
     command: yarn start
     volumes:
       - ./editor:/home/app/editor
+      - ./server:/home/app/server
       - ./common:/home/app/common
       - ./tsconfig.json:/home/app/tsconfig.json
 
