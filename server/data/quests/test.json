@@ -1,0 +1,167 @@
+{
+  "version": "2",
+  "resources": {
+    "bob": {
+      "type": "npc",
+      "requirements": {
+        "race": {
+          "oneOf": [
+            "dwarf"
+          ]
+        },
+        "profession": {
+          "oneOf": [
+            "smith"
+          ]
+        }
+      }
+    },
+    "doodad": {
+      "type": "item",
+      "requirements": {
+        "type": {
+          "oneOf": [
+            "sword",
+            "dagger",
+            "amulet"
+          ]
+        },
+        "value": {
+          "min": 700,
+          "max": 900
+        }
+      }
+    },
+    "destination": {
+      "type": "location"
+    }
+  },
+  "scenes": [
+    {
+      "script": [
+        {
+          "type": "TriggerProximity",
+          "inputs": {
+            "from": {
+              "value": "{bob}"
+            },
+            "to": {
+              "value": "{player}"
+            },
+            "range": {
+              "value": 20
+            }
+          },
+          "connections": {
+            "flow": 1
+          }
+        },
+        {
+          "type": "SelectRandom",
+          "outputs": {
+            "0": {},
+            "1": {}
+          },
+          "connections": {
+            "output": {
+              "0": 2,
+              "1": 4
+            }
+          }
+        },
+        {
+          "type": "Dialogue",
+          "inputs": {
+            "lines": {
+              "value": "You there, {soandso}. Can you [help] me?"
+            }
+          },
+          "connections": {
+            "flow": 3
+          }
+        },
+        {
+          "type": "TriggerSpeech",
+          "inputs": {
+            "match": {
+              "value": "\\bhelp\\b"
+            }
+          },
+          "connections": {
+            "flow": 6
+          }
+        },
+        {
+          "type": "Dialogue",
+          "inputs": {
+            "lines": {
+              "value": "Hold up, {soandso}. I would like to [talk] to you."
+            }
+          },
+          "connections": {
+            "flow": 5
+          }
+        },
+        {
+          "type": "TriggerSpeech",
+          "inputs": {
+            "match": {
+              "value": "\\btalk\\b"
+            }
+          },
+          "connections": {
+            "flow": 6
+          }
+        },
+        {
+          "type": "Dialogue",
+          "inputs": {
+            "lines": {
+              "value": "I lost my {bauble}, can you help me [get it back]?"
+            }
+          },
+          "connections": {
+            "flow": 7
+          }
+        },
+        {
+          "type": "TriggerSpeech",
+          "inputs": {
+            "match": {
+              "value": "get.*back"
+            }
+          },
+          "connections": {
+            "flow": 8
+          }
+        },
+        {
+          "type": "Dialogue",
+          "inputs": {
+            "lines": {
+              "value": "Thank you! I think I lost it near {destination}."
+            }
+          },
+          "connections": {
+            "flow": 9
+          }
+        },
+        {
+          "type": "SpawnItem",
+          "inputs": {
+            "location": "{destination}"
+          },
+          "connections": {
+            "flow": 9
+          }
+        },
+        {
+          "type": "ChangeScene",
+          "inputs": {
+            "scene": "1"
+          }
+        }
+      ]
+    }
+  ]
+}
