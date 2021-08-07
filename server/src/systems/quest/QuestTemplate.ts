@@ -1,5 +1,5 @@
-import BaseBehavior from '../BaseBehavior'
-import BaseObjective from '../BaseObjective'
+import BaseBehavior from '../../BaseBehavior'
+import BaseObjective from '../../BaseObjective'
 
 type VariableTemplate = {
   type: 'stage' | 'actor' | 'prop'

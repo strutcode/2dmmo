@@ -1,5 +1,5 @@
 import Engine from '../../common/engine/Engine'
-import QuestInstance from './quest/QuestInstance'
+import QuestInstance from './systems/quest/QuestInstance'
 
 type ObjectiveParameters = {
   [name: string]: {

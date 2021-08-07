@@ -1,7 +1,7 @@
-import BaseObjective from '../BaseObjective'
-import WorldItem from '../components/WorldItem'
-import Item from '../Item'
-import QuestLanguageParser from '../quest/QuestLanguageParser'
+import BaseObjective from '../../../BaseObjective'
+import WorldItem from '../../../components/WorldItem'
+import Item from '../../../Item'
+import QuestLanguageParser from '../QuestLanguageParser'
 
 export default class FetchItem extends BaseObjective {
   public params = {

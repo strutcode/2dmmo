@@ -1,5 +1,5 @@
-import BaseObjective from '../BaseObjective'
-import Player from '../components/Player'
+import BaseObjective from '../../BaseObjective'
+import Player from '../../components/Player'
 import QuestTemplate from './QuestTemplate'
 
 type VariableInstance = {

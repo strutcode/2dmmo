@@ -3,7 +3,7 @@ import System from '../../../common/engine/System'
 import Player from '../components/Player'
 import WorldItem from '../components/WorldItem'
 import Item from '../Item'
-import FetchItem from '../objectives/FetchItem'
+import FetchItem from './quest/objectives/FetchItem'
 
 export default class ResourceManager extends System {
   public update() {

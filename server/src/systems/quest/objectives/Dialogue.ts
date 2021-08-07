@@ -1,10 +1,10 @@
-import TilePosition from '../../../common/components/TilePosition'
-import BaseObjective from '../BaseObjective'
-import Mobile from '../components/Mobile'
-import Speaker from '../components/Speaker'
-import Listener from '../components/Listener'
-import { distanceChebyshev } from '../util/Geometry'
-import QuestLanguageParser from '../quest/QuestLanguageParser'
+import TilePosition from '../../../../../common/components/TilePosition'
+import BaseObjective from '../../../BaseObjective'
+import Mobile from '../../../components/Mobile'
+import Speaker from '../../../components/Speaker'
+import Listener from '../../../components/Listener'
+import { distanceChebyshev } from '../../../util/Geometry'
+import QuestLanguageParser from '../QuestLanguageParser'
 
 type ProcessedLine = {
   test: () => boolean

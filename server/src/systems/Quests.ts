@@ -5,9 +5,9 @@ import System from '../../../common/engine/System'
 import BaseObjective from '../BaseObjective'
 import Mobile from '../components/Mobile'
 import Player from '../components/Player'
-import QuestInstance from '../quest/QuestInstance'
-import QuestParser from '../quest/QuestParser'
-import QuestTemplate from '../quest/QuestTemplate'
+import QuestInstance from './quest/QuestInstance'
+import QuestParser from './quest/QuestParser'
+import QuestTemplate from './quest/QuestTemplate'
 
 export default class Quests extends System {
   private objectives: typeof BaseObjective[] = []
@@ -105,7 +105,7 @@ export default class Quests extends System {
   private loadObjectives() {
     // Load effects
     this.objectives = glob
-      .sync('../objectives/*.js', { cwd: __dirname })
+      .sync('./quest/objectives/*.js', { cwd: __dirname })
       .map((filename) => require(filename).default)
 
     console.log(`Read ${this.objectives.length} quest objectives from disk`)
