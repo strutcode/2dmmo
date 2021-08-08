@@ -73,7 +73,23 @@
       background: rgb(231, 145, 47) !important;
     }
 
+    .socket.string {
+      background: rgb(228, 206, 107) !important;
+    }
+
     .socket.mobile {
+      background: rgb(134, 124, 236) !important;
+    }
+
+    .socket.item {
+      background: rgb(138, 210, 229) !important;
+    }
+
+    .socket.location {
+      background: rgb(99, 204, 174) !important;
+    }
+
+    .socket.regex {
       background: rgb(208, 107, 218) !important;
     }
   }

@@ -17,12 +17,6 @@ export default class NodeParser {
   public static types = new Map<string, Socket>()
 
   public static getNodes() {
-    if (!this.types.has('Flow')) {
-      this.types.set('Flow', new Socket('Flow'))
-    }
-
-    const flowType = this.types.get('Flow') as Socket
-
     return nodes.map((nodeClass) => {
       class ParsedNode extends Component {
         constructor() {
@@ -30,9 +24,6 @@ export default class NodeParser {
         }
 
         public async builder(node: Node) {
-          node.addInput(new Input('prev', 'Flow', flowType))
-          node.addOutput(new Output('next', 'Flow', flowType))
-
           nodeClass.inputs.forEach((input: any) => {
             if (!NodeParser.types.has(input.type)) {
               NodeParser.types.set(input.type, new Socket(input.type))
@@ -40,7 +31,7 @@ export default class NodeParser {
 
             const socket = NodeParser.types.get(input.type) as Socket
 
-            node.addInput(new Input(input.name, input.label, socket))
+            node.addInput(new Input(input.name, input.label, socket, true))
           })
 
           nodeClass.outputs.forEach((output: any) => {
@@ -50,7 +41,7 @@ export default class NodeParser {
 
             const socket = NodeParser.types.get(output.type) as Socket
 
-            node.addOutput(new Output(output.name, output.label, socket))
+            node.addOutput(new Output(output.name, output.label, socket, true))
           })
         }
 

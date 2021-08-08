@@ -6,11 +6,23 @@ type NodeSocket = {
 
 export default class Node {
   public static get inputs(): NodeSocket[] {
-    return []
+    return [
+      {
+        name: 'prev',
+        type: 'Flow',
+        label: '',
+      },
+    ]
   }
 
   public static get outputs(): NodeSocket[] {
-    return []
+    return [
+      {
+        name: 'next',
+        type: 'Flow',
+        label: '',
+      },
+    ]
   }
 
   public execute() {}

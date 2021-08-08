@@ -4,6 +4,11 @@ export default class TriggerProximity extends Node {
   public static get inputs() {
     return [
       {
+        name: 'prev',
+        type: 'Flow',
+        label: '',
+      },
+      {
         name: 'from',
         type: 'Mobile',
         label: 'From',
