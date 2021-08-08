@@ -1,4 +1,5 @@
 import { Component, Input, Node, Output, Socket } from 'rete'
+import ReteNode from '../ui/ReteNode.vue'
 
 const ctx = require.context(
   '../../../server/src/systems/quest/nodes/',
@@ -21,6 +22,8 @@ export default class NodeParser {
       class ParsedNode extends Component {
         constructor() {
           super(nodeClass.name)
+
+          this.data.component = ReteNode
         }
 
         public async builder(node: Node) {

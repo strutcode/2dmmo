@@ -21,7 +21,7 @@
         searchBar: false,
         delay: 100,
         allocate(component: Component) {
-          return ['Submenu']
+          return []
         },
         rename(component: Component) {
           return component.name
@@ -47,50 +47,5 @@
     left: 0;
     bottom: 0;
     right: 0;
-  }
-</style>
-
-<style lang="scss">
-  @import '../style/vars';
-
-  .rete {
-    .node {
-      border-radius: 2px !important;
-      background: $secondary !important;
-      border-color: $primary !important;
-
-      &.selected {
-        background: $secondary !important;
-        border-color: rgb(110, 183, 243) !important;
-      }
-    }
-
-    .socket.flow {
-      background: rgb(231, 238, 245) !important;
-    }
-
-    .socket.number {
-      background: rgb(231, 145, 47) !important;
-    }
-
-    .socket.string {
-      background: rgb(228, 206, 107) !important;
-    }
-
-    .socket.mobile {
-      background: rgb(134, 124, 236) !important;
-    }
-
-    .socket.item {
-      background: rgb(138, 210, 229) !important;
-    }
-
-    .socket.location {
-      background: rgb(99, 204, 174) !important;
-    }
-
-    .socket.regex {
-      background: rgb(208, 107, 218) !important;
-    }
   }
 </style>
