@@ -69,6 +69,12 @@
       })
       editor.register(new VariableNode())
 
+      editor.on('click', ({ e, node }) => {
+        if (!node) {
+          editor.selected.clear()
+        }
+      })
+
       editor.on('mousemove', (ev) => {
         this.editPos.x = ev.x
         this.editPos.y = ev.y

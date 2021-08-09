@@ -1,4 +1,6 @@
 $primary: hsl(220, 15%, 7%);
 $secondary: hsl(220, 10%, 14%);
 $tertiary: hsl(220, 5%, 21%);
+$text: #eee;
 $menu: $tertiary;
+$input: lighten($tertiary, 20%);

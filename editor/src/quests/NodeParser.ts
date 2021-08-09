@@ -40,7 +40,7 @@ export class VariableNode extends BaseNode {
     const data = node.data as Variable
 
     node.addOutput(
-      new Output('value', data.name, NodeParser.getType(data.name)),
+      new Output('value', data.name, NodeParser.getType(data.type)),
     )
   }
 }
@@ -100,8 +100,8 @@ export default class NodeParser {
 
   public static getBasicNodes() {
     class TextControl extends Control {
-      public constructor() {
-        super('text')
+      public constructor(key: string) {
+        super(key)
 
         this.component = {
           props: ['ikey', 'getData', 'putData'],
@@ -123,7 +123,7 @@ export default class NodeParser {
           },
           methods: {
             change(e) {
-              this.value = +e.target.value
+              this.value = e.target.value
               this.update()
             },
             update() {
@@ -136,7 +136,7 @@ export default class NodeParser {
           },
         }
         this.props = {
-          ikey: 'text',
+          ikey: key,
           getData: this.getData.bind(this),
           putData: this.putData.bind(this),
         }
@@ -149,11 +149,11 @@ export default class NodeParser {
 
     class TextNode extends BaseNode {
       public constructor() {
-        super('Constant Text')
+        super('Text')
       }
 
       public async builder(node: Node) {
-        node.addControl(new TextControl())
+        node.addControl(new TextControl('value'))
         node.addOutput(
           new Output('value', 'Value', NodeParser.getType('String')),
         )
@@ -162,17 +162,30 @@ export default class NodeParser {
 
     class NumberNode extends BaseNode {
       public constructor() {
-        super('Constant Number')
+        super('Number')
       }
 
       public async builder(node: Node) {
-        node.addControl(new TextControl())
+        node.addControl(new TextControl('value'))
         node.addOutput(
           new Output('value', 'Value', NodeParser.getType('Number')),
         )
       }
     }
 
-    return [new TextNode(), new NumberNode()]
+    class RegexNode extends BaseNode {
+      public constructor() {
+        super('Regex')
+      }
+
+      public async builder(node: Node) {
+        node.addControl(new TextControl('match'))
+        node.addOutput(
+          new Output('value', 'Matcher', NodeParser.getType('Regex')),
+        )
+      }
+    }
+
+    return [new TextNode(), new NumberNode(), new RegexNode()]
   }
 }

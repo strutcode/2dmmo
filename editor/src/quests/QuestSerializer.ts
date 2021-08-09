@@ -4,7 +4,13 @@ export default class QuestSerializer {
   public static serialize(variables: any[], source: any) {
     const output = {
       version: '2',
-      resources: [],
+      resources: variables.reduce((obj, variable) => {
+        obj[variable.name] = {
+          type: variable.type,
+        }
+
+        return obj
+      }, {}),
       scenes: [
         {
           nodes: [] as any[],
@@ -20,6 +26,7 @@ export default class QuestSerializer {
         (node: Node) => {
           const outNode = {
             type: node.name,
+            data: node.data,
           }
 
           if (node.outputs) {

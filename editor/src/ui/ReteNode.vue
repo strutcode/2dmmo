@@ -140,8 +140,8 @@
       .output,
       .control {
         display: block;
-        height: 1.84rem;
-        line-height: 1.84rem;
+        height: 2.24rem;
+        line-height: 2.24rem;
 
         .label {
           display: inline-block;
@@ -160,6 +160,20 @@
       .input {
         .socket {
           margin-left: -0.5rem;
+        }
+      }
+
+      .control {
+        padding: 0 1.12rem;
+
+        input {
+          height: 1.64rem;
+          padding: 0 0.35rem;
+          vertical-align: middle;
+          background: $input;
+          border: 0;
+          outline: none;
+          color: $text;
         }
       }
 
