@@ -101,6 +101,7 @@
         }
 
         .content {
+          display: flex;
           position: relative;
           flex-grow: 1;
           overflow: auto;

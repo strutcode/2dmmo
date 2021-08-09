@@ -1,4 +1,4 @@
-import { Component, Input, Node, Output, Socket } from 'rete'
+import { Component, Control, Input, Node, Output, Socket } from 'rete'
 import ReteNode from '../ui/ReteNode.vue'
 
 const ctx = require.context(
@@ -13,6 +13,29 @@ const nodes = ctx
   .map((key) => {
     return ctx(key).default
   })
+
+export type Variable = {
+  name: string
+  type: string
+}
+
+export class VariableNode extends Component {
+  constructor(private variable: Variable) {
+    super(variable.name)
+
+    this.data.component = ReteNode
+  }
+
+  public async builder(node: Node) {
+    const type = NodeParser.types.get(this.variable.type)
+
+    if (type) {
+      node.addOutput(new Output('value', '', type))
+    }
+  }
+
+  public async worker() {}
+}
 
 export default class NodeParser {
   public static types = new Map<string, Socket>()
@@ -37,6 +60,8 @@ export default class NodeParser {
             node.addInput(new Input(input.name, input.label, socket, true))
           })
 
+          // node.addControl()
+
           nodeClass.outputs.forEach((output: any) => {
             if (!NodeParser.types.has(output.type)) {
               NodeParser.types.set(output.type, new Socket(output.type))
@@ -53,5 +78,9 @@ export default class NodeParser {
 
       return new ParsedNode()
     })
+  }
+
+  public static getVariableNode(variable: Variable) {
+    return new VariableNode(variable)
   }
 }
