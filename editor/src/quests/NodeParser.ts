@@ -21,7 +21,7 @@ export type Variable = {
 
 export class VariableNode extends Component {
   constructor(private variable: Variable) {
-    super(variable.name)
+    super('Variable')
 
     this.data.component = ReteNode
   }
@@ -30,7 +30,7 @@ export class VariableNode extends Component {
     const type = NodeParser.types.get(this.variable.type)
 
     if (type) {
-      node.addOutput(new Output('value', '', type))
+      node.addOutput(new Output('value', this.variable.name, type))
     }
   }
 
