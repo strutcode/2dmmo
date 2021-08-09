@@ -30,6 +30,11 @@
       return {
         variables: [] as Variable[],
         editor: {} as NodeEditor,
+        menuItems: {} as Record<string, any>,
+        editPos: {
+          x: 0,
+          y: 0,
+        },
       }
     },
 
@@ -37,33 +42,36 @@
       const container = this.$refs.rete as HTMLDivElement
       const editor = new NodeEditor('demo@0.1.0', container)
 
+      this.menuItems.Export = () => {
+        console.log(
+          'export',
+          QuestSerializer.serialize(this.variables, editor.toJSON()),
+        )
+      }
+
       editor.use(ConnectionPlugin)
       editor.use(VueRenderPlugin)
       editor.use(ContextMenuPlugin, {
-        searchBar: false,
+        searchBar: true,
         delay: 100,
         allocate(component: Component) {
-          if (component instanceof VariableNode) {
-            return ['Variables']
-          }
-
           return []
         },
         rename(component: Component) {
           return component.name
         },
-        items: {
-          Export() {
-            console.log(
-              'export',
-              QuestSerializer.serialize([], editor.toJSON()),
-            )
-          },
-        },
+
+        items: this.menuItems,
       })
 
       NodeParser.getNodes().forEach((node: Component) => {
         editor.register(node)
+      })
+      editor.register(new VariableNode())
+
+      editor.on('mousemove', (ev) => {
+        this.editPos.x = ev.x
+        this.editPos.y = ev.y
       })
 
       console.log(editor)
@@ -79,7 +87,17 @@
           const newVar: Variable = { name, type }
 
           this.variables.push(newVar)
-          this.editor.register(NodeParser.getVariableNode(newVar))
+          this.menuItems.Variables ??= {}
+          this.menuItems.Variables[name] = async () => {
+            const node = await this.editor
+              .getComponent('Variable')
+              .createNode(newVar)
+
+            node.position[0] = this.editPos.x
+            node.position[1] = this.editPos.y
+
+            this.editor.addNode(node)
+          }
         }
       },
     },

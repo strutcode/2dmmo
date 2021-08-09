@@ -6,7 +6,7 @@ export default class SpawnItem extends Node {
       {
         name: 'prev',
         type: 'Flow',
-        label: 'Flow',
+        label: '',
       },
       {
         name: 'item',
@@ -21,7 +21,7 @@ export default class SpawnItem extends Node {
       {
         name: 'next',
         type: 'Flow',
-        label: 'Flow',
+        label: '',
       },
     ]
   }

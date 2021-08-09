@@ -20,9 +20,12 @@
         </div>
       </div>
       <div class="controls">
-        <div class="control" v-for="control in controls" :key="control.key">
-          <div class="label">{{ control.name }}</div>
-        </div>
+        <div
+          class="control"
+          v-for="control in controls"
+          :key="control.key"
+          v-control="control"
+        ></div>
       </div>
       <div class="outputs">
         <div
