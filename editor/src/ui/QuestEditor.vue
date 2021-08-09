@@ -9,6 +9,7 @@
   import VueRenderPlugin from 'rete-vue-render-plugin'
   import ContextMenuPlugin from 'rete-context-menu-plugin'
   import NodeParser from '../quests/NodeParser'
+  import QuestSerializer from '../quests/QuestSerializer'
 
   export default Vue.extend({
     mounted() {
@@ -27,8 +28,11 @@
           return component.name
         },
         items: {
-          'Click me'() {
-            console.log('Works!')
+          Export() {
+            console.log(
+              'export',
+              QuestSerializer.serialize([], editor.toJSON()),
+            )
           },
         },
       })
@@ -36,6 +40,8 @@
       NodeParser.getNodes().forEach((node: Component) => {
         editor.register(node)
       })
+
+      console.log(editor)
     },
   })
 </script>
