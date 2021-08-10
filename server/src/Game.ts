@@ -9,12 +9,14 @@ import Effects from './systems/Effects'
 import NpcBehavior from './systems/NpcBehavior'
 import Quests from './systems/Quests'
 import Chat from './systems/Chat'
+import EditorServer from './systems/EditorServer'
 
 export default class Game {
   public engine = new Engine()
 
   public constructor() {
     this.engine.addSystem(NetworkServer)
+    this.engine.addSystem(EditorServer)
     this.engine.addSystem(Chat)
     this.engine.addSystem(WorldComposer)
     this.engine.addSystem(PopulationManager)

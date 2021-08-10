@@ -35,6 +35,7 @@ services:
       - redis
     ports:
       - 9003:9003
+      - 9005:9005
     working_dir: /home/app/server
     command: yarn start
     volumes:
