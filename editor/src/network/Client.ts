@@ -1,11 +1,12 @@
-import EditorProtocol from '../../../common/EditorProtocol'
+import EditorProtocol, { Packet } from '../../../common/EditorProtocol'
 
 type EncodeParams = Parameters<typeof EditorProtocol['encode']>
 type DecodeResult = ReturnType<typeof EditorProtocol['decode']>
 
-export default class Client {
+class Client {
   private socket?: WebSocket
   private inWaiting?: Function
+  private queue: EncodeParams[] = []
 
   public constructor() {
     this.socket = new WebSocket('ws://localhost:9005')
@@ -19,22 +20,33 @@ export default class Client {
     })
 
     this.socket.addEventListener('open', () => {
-      this.getQuests().then((q) => console.log(q))
+      this.queue.forEach((args) => {
+        this.socket?.send(EditorProtocol.encode(...args))
+      })
     })
   }
 
   public async getQuests() {
-    return this.requestReply({
+    const result = await this.requestReply({
       type: 'listQuests',
     })
+
+    if (result.type !== 'listQuests') {
+      throw new Error("You knew this wasn't going to work forever")
+    }
+
+    return result.entries
   }
 
   protected send(...args: EncodeParams) {
+    const packet = EditorProtocol.encode(...args)
+
     if (this.socket?.readyState !== WebSocket.OPEN) {
+      this.queue.push(args)
       return
     }
 
-    this.socket.send(EditorProtocol.encode(...args))
+    this.socket.send(packet)
   }
 
   protected requestReply(...args: EncodeParams): Promise<DecodeResult> {
@@ -45,3 +57,5 @@ export default class Client {
     })
   }
 }
+
+export default new Client()

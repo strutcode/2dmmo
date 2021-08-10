@@ -40,7 +40,7 @@ export default class EditorServer extends System {
 
         switch (packet.type) {
           case 'listQuests':
-            const files = glob.sync('../../data/quests/*')
+            const files = glob.sync('./data/quests/*')
 
             this.send(socket, {
               type: 'listQuests',
@@ -52,10 +52,9 @@ export default class EditorServer extends System {
             })
             break
           case 'questContent':
-            const content = readFileSync(
-              `../../data/quests/${packet.name}.json`,
-              { encoding: 'utf8' },
-            )
+            const content = readFileSync(`./data/quests/${packet.name}.json`, {
+              encoding: 'utf8',
+            })
 
             this.send(socket, {
               type: 'questContent',

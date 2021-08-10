@@ -8,15 +8,22 @@
       <div>Maps</div>
     </div>
     <div class="editor">
-      <div class="listView"></div>
+      <div class="listView">
+        <div v-for="file in files" :key="file.name">{{ file.name }}</div>
+      </div>
       <div class="main">
         <div class="tabs">
-          <div class="active">Test.quest</div>
-          <div>Test2.quest</div>
-          <div>Test3.quest</div>
+          <div
+            v-for="document in documents"
+            :class="{ active: document === activeDocument }"
+            @click="activeDocument = document"
+            :key="document.title"
+          >
+            {{ document.title }}
+          </div>
         </div>
         <div class="content">
-          <quest-editor></quest-editor>
+          <quest-editor :document="activeDocument"></quest-editor>
         </div>
       </div>
     </div>
@@ -26,11 +33,32 @@
 <script lang="ts">
   import Vue from 'vue'
 
+  import client from '../network/Client'
   import QuestEditor from './QuestEditor.vue'
+
+  interface File {
+    name: string
+  }
+
+  interface Document {
+    title: string
+  }
 
   export default Vue.extend({
     components: {
       QuestEditor,
+    },
+
+    data() {
+      return {
+        files: [] as File[],
+        documents: [] as Document[],
+        activeDocument: null,
+      }
+    },
+
+    async created() {
+      this.files = await client.getQuests()
     },
   })
 </script>
@@ -73,6 +101,14 @@
       .listView {
         width: 20%;
         background: $secondary;
+
+        & > div {
+          padding: 0.34rem 0.68rem;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.1);
+          }
+        }
       }
 
       .main {

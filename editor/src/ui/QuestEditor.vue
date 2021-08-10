@@ -1,5 +1,6 @@
 <template>
-  <div class="questEditor">
+  <div v-if="!document" style="padding: 1rem"><- Open a document to start</div>
+  <div v-else class="questEditor">
     <div class="rete" ref="rete"></div>
     <div class="vars">
       <div class="header">
@@ -26,6 +27,12 @@
   import QuestSerializer from '../quests/QuestSerializer'
 
   export default Vue.extend({
+    props: {
+      document: {
+        type: Object,
+      },
+    },
+
     data() {
       return {
         variables: [] as Variable[],
@@ -97,6 +104,18 @@
             break
         }
       })
+
+      // Maybe someday box select
+      // editor.view.container.addEventListener('pointerdown', (ev) => {
+      //   ev.preventDefault()
+      //   ev.stopPropagation()
+      // })
+      // editor.view.container.addEventListener('pointerup', (ev) => {
+      //   editor.nodes.forEach((node) => {
+      //     const el = node.vueContext?.$el
+      //     const bounds = el.getBoundingClientRect()
+      //   })
+      // })
 
       this.editor = editor
       window.editor = editor
