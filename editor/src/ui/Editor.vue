@@ -67,7 +67,7 @@
       return {
         files: [] as File[],
         documents: [] as Document[],
-        activeDocument: null,
+        activeDocument: null as Document | null,
       }
     },
 

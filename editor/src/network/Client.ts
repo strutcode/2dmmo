@@ -52,7 +52,7 @@ class Client {
       throw new Error("You knew this wasn't going to work forever")
     }
 
-    return result.entries
+    return result.entries ?? []
   }
 
   public async loadQuest(name: string) {
