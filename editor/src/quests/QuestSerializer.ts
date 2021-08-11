@@ -23,23 +23,33 @@ export default class QuestSerializer {
 
     if (source?.nodes) {
       Object.values(source.nodes as Record<number, Node>).forEach(
-        (node: Node) => {
+        (node: Node, nodeIndex) => {
           const outNode = {
             type: node.name,
             data: node.data,
+            meta: {
+              x: node.position[0],
+              y: node.position[1],
+            },
           }
 
           if (node.outputs) {
             Object.entries(node.outputs).forEach(([name, socket]) => {
               socket.connections.forEach((connection: any) => {
-                const key = `${node.id}:${name}->${connection.node}:${connection.input}`
+                const srcId = nodeIndex
+                const srcSock = name
+                const dstId = source.nodes.findIndex(
+                  (n) => n.id === connection.node,
+                )
+                const dstSock = connection.input
+                const key = `${srcId}:${srcSock}->${dstId}:${dstSock}`
 
                 if (!connections.has(key)) {
                   output.scenes[0].edges.push({
-                    sourceId: node.id,
-                    sourceSocket: name,
-                    targetId: connection.node,
-                    targetSocket: connection.input,
+                    sourceId: srcId,
+                    sourceSocket: srcSock,
+                    targetId: dstId,
+                    targetSocket: dstSock,
                   })
 
                   connections.add(key)
@@ -56,5 +66,35 @@ export default class QuestSerializer {
     return output
   }
 
-  public static deserialize(data: any) {}
+  public static deserialize(source: string) {
+    const data = JSON.parse(source)
+    const variables = []
+    const nodes = []
+    const edges = []
+
+    for (let name in data.resources) {
+      variables.push({
+        name,
+        type: data.resources[name].type,
+      })
+    }
+
+    data.scenes[0].nodes.forEach((node, index) => {
+      nodes.push({
+        id: index,
+        type: node.type,
+        data: node.data,
+      })
+    })
+
+    data.scenes[0].edges.forEach((edge) => {
+      edges.push(edge)
+    })
+
+    return {
+      variables,
+      nodes,
+      edges,
+    }
+  }
 }
