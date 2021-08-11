@@ -68,6 +68,19 @@ class Client {
     return result
   }
 
+  public async saveDocument(kind: string, name: string, content: string) {
+    const result = await this.requestReply({
+      type: 'saveDocument',
+      kind,
+      name,
+      content,
+    })
+
+    if (result.type !== 'ack') {
+      throw new Error('Failed to save')
+    }
+  }
+
   protected setStatus(status: string) {
     if (typeof this.onStatusChange === 'function') {
       this.onStatusChange(status)

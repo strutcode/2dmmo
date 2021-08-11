@@ -3,7 +3,7 @@ import WebSocket, { Server } from 'ws'
 import EditorProtocol from '../../../common/EditorProtocol'
 import { glob } from 'glob'
 import { basename } from 'path'
-import { readFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 
 /** This system handles all network communication queued up by other systems */
 export default class EditorServer extends System {
@@ -69,6 +69,27 @@ export default class EditorServer extends System {
               name: packet.name,
               content,
             })
+            break
+          case 'saveDocument':
+            console.log(`save request for ${packet.kind} ${packet.name}`)
+            const oldContent = readFileSync(
+              `./data/${packet.kind}/${packet.name}.json`,
+              {
+                encoding: 'utf8',
+              },
+            )
+
+            if (packet.content == oldContent) {
+              break
+            }
+
+            writeFileSync(
+              `./data/${packet.kind}/${packet.name}.json`,
+              packet.content,
+              {
+                encoding: 'utf8',
+              },
+            )
             break
         }
       })

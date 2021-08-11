@@ -22,45 +22,45 @@ export default class QuestSerializer {
     const connections = new Set<string>()
 
     if (source?.nodes) {
-      Object.values(source.nodes as Record<number, Node>).forEach(
-        (node: Node, nodeIndex) => {
-          const outNode = {
-            type: node.name,
-            data: node.data,
-            meta: {
-              x: node.position[0],
-              y: node.position[1],
-            },
-          }
+      const sourceNodes = Object.values(source?.nodes as Record<number, Node>)
 
-          if (node.outputs) {
-            Object.entries(node.outputs).forEach(([name, socket]) => {
-              socket.connections.forEach((connection: any) => {
-                const srcId = nodeIndex
-                const srcSock = name
-                const dstId = source.nodes.findIndex(
-                  (n) => n.id === connection.node,
-                )
-                const dstSock = connection.input
-                const key = `${srcId}:${srcSock}->${dstId}:${dstSock}`
+      sourceNodes.forEach((node: Node, nodeIndex) => {
+        const outNode = {
+          type: node.name,
+          data: node.data,
+          meta: {
+            x: node.position[0],
+            y: node.position[1],
+          },
+        }
 
-                if (!connections.has(key)) {
-                  output.scenes[0].edges.push({
-                    sourceId: srcId,
-                    sourceSocket: srcSock,
-                    targetId: dstId,
-                    targetSocket: dstSock,
-                  })
+        if (node.outputs) {
+          Object.entries(node.outputs).forEach(([name, socket]) => {
+            socket.connections.forEach((connection: any) => {
+              const srcId = nodeIndex
+              const srcSock = name
+              const dstId = sourceNodes.findIndex(
+                (n) => n.id === connection.node,
+              )
+              const dstSock = connection.input
+              const key = `${srcId}:${srcSock}->${dstId}:${dstSock}`
 
-                  connections.add(key)
-                }
-              })
+              if (!connections.has(key)) {
+                output.scenes[0].edges.push({
+                  sourceId: srcId,
+                  sourceSocket: srcSock,
+                  targetId: dstId,
+                  targetSocket: dstSock,
+                })
+
+                connections.add(key)
+              }
             })
-          }
+          })
+        }
 
-          output.scenes[0].nodes.push(outNode)
-        },
-      )
+        output.scenes[0].nodes.push(outNode)
+      })
     }
 
     return output
@@ -92,6 +92,7 @@ export default class QuestSerializer {
         id: index,
         type: node.type,
         data: node.data,
+        meta: node.meta,
       })
     })
 

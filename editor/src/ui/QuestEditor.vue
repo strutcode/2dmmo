@@ -19,6 +19,9 @@
         <div class="type">{{ variable.type }}</div>
       </div>
     </div>
+    <div class="floater">
+      <button @click="saveDocument">Save</button>
+    </div>
   </div>
 </template>
 
@@ -178,7 +181,10 @@
             const reteNode = await this.editor
               .getComponent(node.type)
               .createNode(node.data)
+
             reteNode.id = node.id
+            reteNode.position = [node.meta?.x ?? 0, node.meta?.y ?? 0]
+
             this.editor.addNode(reteNode)
           }),
         )
@@ -198,6 +204,15 @@
             )
           }
         })
+      },
+
+      async saveDocument() {
+        const content = JSON.stringify(
+          QuestSerializer.serialize(this.variables, this.editor.toJSON()),
+          null,
+          2,
+        )
+        this.$emit('save', content)
       },
     },
   })
@@ -237,6 +252,14 @@
           flex-grow: 1;
         }
       }
+    }
+
+    .floater {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      padding: 1rem;
+      background: $secondary;
     }
   }
 </style>

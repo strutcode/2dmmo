@@ -1,6 +1,9 @@
 {
   "version": "2",
   "resources": {
+    "soandso": {
+      "type": "Player"
+    },
     "bob": {
       "type": "NPC"
     },
@@ -19,6 +22,10 @@
           "data": {
             "name": "bob",
             "type": "Mobile"
+          },
+          "meta": {
+            "x": 190.49763555076223,
+            "y": 282.5067523508418
           }
         },
         {
@@ -26,95 +33,171 @@
           "data": {
             "name": "soandso",
             "type": "Mobile"
+          },
+          "meta": {
+            "x": 190.4978077549465,
+            "y": 384.8831096118912
           }
         },
         {
           "type": "TriggerProximity",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 441.69181307406495,
+            "y": 115.24271178249532
+          }
         },
         {
           "type": "Number",
           "data": {
             "value": "20"
+          },
+          "meta": {
+            "x": 45.298478484916735,
+            "y": 489.22359787709763
           }
         },
         {
           "type": "SceneStart",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 75.5468159964164,
+            "y": 113.88601869027113
+          }
         },
         {
           "type": "SelectRandom",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 817.7523214026086,
+            "y": 117.52364207534157
+          }
         },
         {
           "type": "Dialogue",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 1299.6150188676343,
+            "y": -11.60381190203978
+          }
         },
         {
           "type": "Dialogue",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 1306.060933086913,
+            "y": 225.67774065752883
+          }
         },
         {
           "type": "Text",
           "data": {
             "value": "Hold up, {soandso}. I would like to [talk] to you."
+          },
+          "meta": {
+            "x": 953.899790654236,
+            "y": 449.2649931036525
           }
         },
         {
           "type": "Text",
           "data": {
             "value": "You there, {soandso}. Can you [help] me?"
+          },
+          "meta": {
+            "x": 890.4590092974787,
+            "y": -165.7132546610024
           }
         },
         {
           "type": "TriggerSpeech",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 1617.3162835263652,
+            "y": 229.30684196798947
+          }
         },
         {
           "type": "Regex",
           "data": {
             "match": "talk"
+          },
+          "meta": {
+            "x": 1317.235987274413,
+            "y": 436.011263599186
           }
         },
         {
           "type": "Regex",
           "data": {
             "match": "help"
+          },
+          "meta": {
+            "x": 1278.402978431117,
+            "y": -173.64323494629826
           }
         },
         {
           "type": "TriggerSpeech",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 1607.005274643723,
+            "y": -27.199463029359947
+          }
         },
         {
           "type": "Dialogue",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 2339.8042476391374,
+            "y": 106.60199843791011
+          }
         },
         {
           "type": "Text",
           "data": {
             "value": "I lost my {bauble}, can you help me [get it back]?"
+          },
+          "meta": {
+            "x": 1913.3414873072038,
+            "y": 309.53627025511827
           }
         },
         {
           "type": "TriggerSpeech",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 2689.7144174692976,
+            "y": 103.74447975170631
+          }
         },
         {
           "type": "Regex",
           "data": {
             "match": "get.*back"
+          },
+          "meta": {
+            "x": 2317.3381425402463,
+            "y": 281.9173692689745
           }
         },
         {
           "type": "SpawnItem",
-          "data": {}
+          "data": {},
+          "meta": {
+            "x": 2997.6149973244674,
+            "y": 99.95788037957408
+          }
         },
         {
           "type": "Variable",
           "data": {
             "name": "doodad",
             "type": "Item"
+          },
+          "meta": {
+            "x": 2768.082713026729,
+            "y": 270.71499243926786
           }
         }
       ],

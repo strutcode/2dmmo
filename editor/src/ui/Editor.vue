@@ -33,6 +33,7 @@
           <quest-editor
             v-if="activeDocument"
             :document="activeDocument"
+            @save="saveQuest"
             :key="activeDocument.title"
           ></quest-editor>
         </div>
@@ -90,6 +91,16 @@
         } else {
           this.documents.push(doc)
           this.activeDocument = doc
+        }
+      },
+
+      async saveQuest(content: string) {
+        if (this.activeDocument) {
+          await client.saveDocument(
+            'quests',
+            this.activeDocument.title,
+            content,
+          )
         }
       },
     },
