@@ -1,7 +1,9 @@
 <template>
   <div v-if="questVersion < 2">
-    Cannot edit this quest. Editor is only for versions 2+, quest version is
-    {{ questVersion }}.
+    <div style="padding: 1rem">
+      Cannot edit this quest. Editor is only for versions 2+, quest version is
+      {{ questVersion }}.
+    </div>
   </div>
   <div v-else class="questEditor">
     <div class="rete" ref="rete"></div>
