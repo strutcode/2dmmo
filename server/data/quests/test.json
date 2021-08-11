@@ -1,5 +1,5 @@
 {
-  "version": "2",
+  "version": "1.5",
   "resources": {
     "bob": {
       "type": "npc",
@@ -38,43 +38,37 @@
   },
   "scenes": [
     {
-      "script": [
+      "nodes": [
         {
           "type": "TriggerProximity",
-          "inputs": {
-            "from": {
-              "value": "{bob}"
-            },
-            "to": {
-              "value": "{player}"
-            },
-            "range": {
-              "value": 20
-            }
+          "values": {
+            "range": 20
           },
           "connections": {
-            "flow": 1
+            "flow": 1,
+            "input": {
+              "from": 11,
+              "to": 12
+            }
           }
         },
         {
           "type": "SelectRandom",
-          "outputs": {
-            "0": {},
-            "1": {}
-          },
           "connections": {
             "output": {
-              "0": 2,
-              "1": 4
+              "0": [
+                2
+              ],
+              "1": [
+                4
+              ]
             }
           }
         },
         {
           "type": "Dialogue",
-          "inputs": {
-            "lines": {
-              "value": "You there, {soandso}. Can you [help] me?"
-            }
+          "values": {
+            "lines": "You there, {soandso}. Can you [help] me?"
           },
           "connections": {
             "flow": 3
@@ -104,10 +98,8 @@
         },
         {
           "type": "TriggerSpeech",
-          "inputs": {
-            "match": {
-              "value": "\\btalk\\b"
-            }
+          "values": {
+            "match": "\\btalk\\b"
           },
           "connections": {
             "flow": 6
@@ -115,10 +107,8 @@
         },
         {
           "type": "Dialogue",
-          "inputs": {
-            "lines": {
-              "value": "I lost my {bauble}, can you help me [get it back]?"
-            }
+          "values": {
+            "lines": "I lost my {bauble}, can you help me [get it back]?"
           },
           "connections": {
             "flow": 7
@@ -126,10 +116,8 @@
         },
         {
           "type": "TriggerSpeech",
-          "inputs": {
-            "match": {
-              "value": "get.*back"
-            }
+          "values": {
+            "match": "get.*back"
           },
           "connections": {
             "flow": 8
@@ -148,17 +136,50 @@
         },
         {
           "type": "SpawnItem",
-          "inputs": {
-            "location": "{destination}"
-          },
           "connections": {
-            "flow": 9
+            "flow": 10,
+            "input": {
+              "location": 13
+            }
           }
         },
         {
           "type": "ChangeScene",
           "inputs": {
             "scene": "1"
+          }
+        },
+        {
+          "type": "Variable",
+          "values": {
+            "name": "bob"
+          },
+          "connections": {}
+        },
+        {
+          "type": "Variable",
+          "values": {
+            "name": "player"
+          },
+          "connections": {}
+        },
+        {
+          "type": "Variable",
+          "values": {
+            "name": "destination"
+          },
+          "connections": {}
+        }
+      ],
+      "edges": [
+        {
+          "from": {
+            "node": 0,
+            "socket": "next"
+          },
+          "to": {
+            "node": 1,
+            "socket": "prev"
           }
         }
       ]

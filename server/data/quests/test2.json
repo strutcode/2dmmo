@@ -1,0 +1,245 @@
+{
+  "version": "2",
+  "resources": {
+    "bob": {
+      "type": "NPC"
+    },
+    "doodad": {
+      "type": "Item"
+    },
+    "destination": {
+      "type": "Location"
+    }
+  },
+  "scenes": [
+    {
+      "nodes": [
+        {
+          "type": "Variable",
+          "data": {
+            "name": "bob",
+            "type": "Mobile"
+          }
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "soandso",
+            "type": "Mobile"
+          }
+        },
+        {
+          "type": "TriggerProximity",
+          "data": {}
+        },
+        {
+          "type": "Number",
+          "data": {
+            "value": "20"
+          }
+        },
+        {
+          "type": "SceneStart",
+          "data": {}
+        },
+        {
+          "type": "SelectRandom",
+          "data": {}
+        },
+        {
+          "type": "Dialogue",
+          "data": {}
+        },
+        {
+          "type": "Dialogue",
+          "data": {}
+        },
+        {
+          "type": "Text",
+          "data": {
+            "value": "Hold up, {soandso}. I would like to [talk] to you."
+          }
+        },
+        {
+          "type": "Text",
+          "data": {
+            "value": "You there, {soandso}. Can you [help] me?"
+          }
+        },
+        {
+          "type": "TriggerSpeech",
+          "data": {}
+        },
+        {
+          "type": "Regex",
+          "data": {
+            "match": "talk"
+          }
+        },
+        {
+          "type": "Regex",
+          "data": {
+            "match": "help"
+          }
+        },
+        {
+          "type": "TriggerSpeech",
+          "data": {}
+        },
+        {
+          "type": "Dialogue",
+          "data": {}
+        },
+        {
+          "type": "Text",
+          "data": {
+            "value": "I lost my {bauble}, can you help me [get it back]?"
+          }
+        },
+        {
+          "type": "TriggerSpeech",
+          "data": {}
+        },
+        {
+          "type": "Regex",
+          "data": {
+            "match": "get.*back"
+          }
+        },
+        {
+          "type": "SpawnItem",
+          "data": {}
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "doodad",
+            "type": "Item"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "sourceId": 0,
+          "sourceSocket": "value",
+          "targetId": 2,
+          "targetSocket": "from"
+        },
+        {
+          "sourceId": 1,
+          "sourceSocket": "value",
+          "targetId": 2,
+          "targetSocket": "to"
+        },
+        {
+          "sourceId": 2,
+          "sourceSocket": "next",
+          "targetId": 5,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 3,
+          "sourceSocket": "value",
+          "targetId": 2,
+          "targetSocket": "distance"
+        },
+        {
+          "sourceId": 4,
+          "sourceSocket": "next",
+          "targetId": 2,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 5,
+          "sourceSocket": "1",
+          "targetId": 6,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 5,
+          "sourceSocket": "2",
+          "targetId": 7,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 6,
+          "sourceSocket": "next",
+          "targetId": 13,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 7,
+          "sourceSocket": "next",
+          "targetId": 10,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 8,
+          "sourceSocket": "value",
+          "targetId": 7,
+          "targetSocket": "lines"
+        },
+        {
+          "sourceId": 9,
+          "sourceSocket": "value",
+          "targetId": 6,
+          "targetSocket": "lines"
+        },
+        {
+          "sourceId": 10,
+          "sourceSocket": "next",
+          "targetId": 14,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 11,
+          "sourceSocket": "value",
+          "targetId": 10,
+          "targetSocket": "match"
+        },
+        {
+          "sourceId": 12,
+          "sourceSocket": "value",
+          "targetId": 13,
+          "targetSocket": "match"
+        },
+        {
+          "sourceId": 13,
+          "sourceSocket": "next",
+          "targetId": 14,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 14,
+          "sourceSocket": "next",
+          "targetId": 16,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 15,
+          "sourceSocket": "value",
+          "targetId": 14,
+          "targetSocket": "lines"
+        },
+        {
+          "sourceId": 16,
+          "sourceSocket": "next",
+          "targetId": 18,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 17,
+          "sourceSocket": "value",
+          "targetId": 16,
+          "targetSocket": "match"
+        },
+        {
+          "sourceId": 19,
+          "sourceSocket": "value",
+          "targetId": 18,
+          "targetSocket": "item"
+        }
+      ]
+    }
+  ]
+}
