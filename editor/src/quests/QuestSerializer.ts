@@ -68,6 +68,14 @@ export default class QuestSerializer {
 
   public static deserialize(source: string) {
     const data = JSON.parse(source)
+    const version = data.version
+
+    if (version !== '2') {
+      return {
+        version,
+      }
+    }
+
     const variables = []
     const nodes = []
     const edges = []
@@ -92,6 +100,7 @@ export default class QuestSerializer {
     })
 
     return {
+      version,
       variables,
       nodes,
       edges,

@@ -1,5 +1,9 @@
 <template>
-  <div class="questEditor">
+  <div v-if="questVersion < 2">
+    Cannot edit this quest. Editor is only for versions 2+, quest version is
+    {{ questVersion }}.
+  </div>
+  <div v-else class="questEditor">
     <div class="rete" ref="rete"></div>
     <div class="vars">
       <div class="header">
@@ -34,6 +38,7 @@
 
     data() {
       return {
+        questVersion: 2,
         variables: [] as Variable[],
         editor: {} as NodeEditor,
         menuItems: {} as Record<string, any>,
@@ -153,6 +158,12 @@
 
       async loadDocument() {
         const result = QuestSerializer.deserialize(this.document.content)
+
+        this.questVersion = Number(result.version)
+
+        if (this.questVersion < 2) {
+          return
+        }
 
         this.addVariable({
           name: 'soandso',

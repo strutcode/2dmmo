@@ -33,6 +33,7 @@
           <quest-editor
             v-if="activeDocument"
             :document="activeDocument"
+            :key="activeDocument.title"
           ></quest-editor>
         </div>
       </div>
