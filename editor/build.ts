@@ -43,6 +43,7 @@ const compiler = webpack({
     new HtmlWebpackPlugin({
       template: './src/index.html',
       favicon: './src/favicon.png',
+      inject: false,
     }),
     new webpack.NormalModuleReplacementPlugin(
       /webpack-dev-server\/client\/utils\/createSocketUrl.js$/,

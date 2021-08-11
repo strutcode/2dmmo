@@ -11,14 +11,12 @@ class Client {
   private queue: EncodeParams[] = []
 
   public constructor() {
+    const proto = location.protocol.replace('http', 'ws')
+    const host = location.hostname.replace('9004', '9005')
+    const path = location.pathname
     const key = 'pkryvs4ac6481jlsjzy12v0ketxe347ucigv6egekfv1r7cbczudk7c0'
-    const host =
-      location.hostname === 'localhost'
-        ? 'localhost:9005'
-        : `${location.origin}/editor/data`
-    this.socket = new WebSocket(
-      `${location.protocol.replace('http', 'ws')}//${host}?k=${key}`,
-    )
+
+    this.socket = new WebSocket(`${proto}//${host}${path}?k=${key}`)
     this.setStatus('connecting')
 
     this.socket.addEventListener('message', (ev) => {
