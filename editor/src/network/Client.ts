@@ -12,7 +12,7 @@ class Client {
 
   public constructor() {
     const proto = location.protocol.replace('http', 'ws')
-    const host = location.hostname.replace('9004', '9005')
+    const host = location.host.replace('9004', '9005')
     const path =
       location.hostname === 'localhost'
         ? location.pathname
