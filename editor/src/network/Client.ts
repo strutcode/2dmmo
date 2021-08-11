@@ -4,12 +4,15 @@ type EncodeParams = Parameters<typeof EditorProtocol['encode']>
 type DecodeResult = ReturnType<typeof EditorProtocol['decode']>
 
 class Client {
+  public onStatusChange?: (status: string) => void
+
   private socket?: WebSocket
   private inWaiting?: Function
   private queue: EncodeParams[] = []
 
   public constructor() {
     this.socket = new WebSocket('ws://localhost:9005')
+    this.setStatus('connecting')
 
     this.socket.addEventListener('message', (ev) => {
       const data = EditorProtocol.decode(ev.data)
@@ -20,9 +23,15 @@ class Client {
     })
 
     this.socket.addEventListener('open', () => {
+      this.setStatus('connected')
+
       this.queue.forEach((args) => {
         this.socket?.send(EditorProtocol.encode(...args))
       })
+    })
+
+    this.socket.addEventListener('close', () => {
+      this.setStatus('disconnected')
     })
   }
 
@@ -49,6 +58,12 @@ class Client {
     }
 
     return result
+  }
+
+  protected setStatus(status: string) {
+    if (typeof this.onStatusChange === 'function') {
+      this.onStatusChange(status)
+    }
   }
 
   protected send(...args: EncodeParams) {

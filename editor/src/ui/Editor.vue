@@ -1,11 +1,16 @@
 <template>
   <div class="container">
-    <div class="navigation">
-      <div>Players</div>
-      <div>NPCs</div>
-      <div>Quests</div>
-      <div>Items</div>
-      <div>Maps</div>
+    <div class="menu">
+      <div class="navigation">
+        <div>Players</div>
+        <div>NPCs</div>
+        <div>Quests</div>
+        <div>Items</div>
+        <div>Maps</div>
+      </div>
+      <div class="status">
+        <network-status></network-status>
+      </div>
     </div>
     <div class="editor">
       <div class="listView">
@@ -39,6 +44,7 @@
   import Vue from 'vue'
 
   import client from '../network/Client'
+  import NetworkStatus from './NetworkStatus.vue'
   import QuestEditor from './QuestEditor.vue'
 
   interface File {
@@ -53,6 +59,7 @@
   export default Vue.extend({
     components: {
       QuestEditor,
+      NetworkStatus,
     },
 
     data() {
@@ -96,19 +103,34 @@
     font-family: sans-serif;
     color: #fff;
 
-    .navigation {
+    .menu {
       display: flex;
-      flex-flow: row;
+      flex-flow: row nowrap;
       background: $menu;
 
-      & > div {
-        cursor: pointer;
-        padding: 0.5rem 1rem;
-        // border-right: 2px solid rgba(0, 0, 0, 0.2);
+      .navigation {
+        display: flex;
+        flex-flow: row nowrap;
 
-        &:hover {
-          background: rgba(0, 0, 0, 0.25);
+        & > div {
+          cursor: pointer;
+          padding: 0.5rem 1rem;
+          border-right: 2px solid rgba(0, 0, 0, 0.2);
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.25);
+          }
         }
+      }
+
+      .status {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: flex-end;
+        flex-grow: 1;
+        text-align: right;
+        padding: 0 0.84rem;
       }
     }
 
