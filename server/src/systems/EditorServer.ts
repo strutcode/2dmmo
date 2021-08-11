@@ -28,6 +28,14 @@ export default class EditorServer extends System {
 
       console.log(`Got editor connection from ${ip}`)
 
+      // TODO: Proper authentication
+      const key = 'pkryvs4ac6481jlsjzy12v0ketxe347ucigv6egekfv1r7cbczudk7c0'
+      if (!req.url?.endsWith(key)) {
+        socket.send('Unauthorized')
+        socket.close()
+        return
+      }
+
       // When the client sends data...
       socket.on('message', (data) => {
         // Safety check
