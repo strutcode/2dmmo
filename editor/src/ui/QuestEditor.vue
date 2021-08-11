@@ -1,12 +1,11 @@
 <template>
-  <div v-if="!document" style="padding: 1rem"><- Open a document to start</div>
-  <div v-else class="questEditor">
+  <div class="questEditor">
     <div class="rete" ref="rete"></div>
     <div class="vars">
       <div class="header">
         <div class="title">Variables</div>
         <div>
-          <button @click="newVar">+</button>
+          <button @click="createVariable">+</button>
         </div>
       </div>
       <div class="var" v-for="variable in variables" :key="variable.name">
@@ -19,7 +18,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { Component, NodeEditor } from 'rete'
+  import { Component, NodeEditor, Connection } from 'rete'
   import ConnectionPlugin from 'rete-connection-plugin'
   import VueRenderPlugin from 'rete-vue-render-plugin'
   import ContextMenuPlugin from 'rete-context-menu-plugin'
@@ -119,29 +118,73 @@
 
       this.editor = editor
       window.editor = editor
+
+      this.loadDocument()
     },
 
     methods: {
-      newVar() {
+      createVariable() {
         const name = prompt('Variable name')
         const type = prompt('Variable type')
 
         if (name && type) {
-          const newVar: Variable = { name, type }
-
-          this.variables.push(newVar)
-          this.menuItems.Variables ??= {}
-          this.menuItems.Variables[name] = async () => {
-            const node = await this.editor
-              .getComponent('Variable')
-              .createNode(newVar)
-
-            node.position[0] = this.editPos.x
-            node.position[1] = this.editPos.y
-
-            this.editor.addNode(node)
-          }
+          this.addVariable({
+            name,
+            type,
+          })
         }
+      },
+
+      addVariable(data: Variable) {
+        this.variables.push(data)
+
+        this.menuItems.Variables ??= {}
+        this.menuItems.Variables[data.name] = async () => {
+          const node = await this.editor
+            .getComponent('Variable')
+            .createNode(data)
+
+          node.position[0] = this.editPos.x
+          node.position[1] = this.editPos.y
+
+          this.editor.addNode(node)
+        }
+      },
+
+      async loadDocument() {
+        const result = QuestSerializer.deserialize(this.document.content)
+
+        this.addVariable({
+          name: 'soandso',
+          type: 'Player',
+        })
+        result.variables.map(this.addVariable)
+
+        await Promise.all(
+          result.nodes.map(async (node) => {
+            const reteNode = await this.editor
+              .getComponent(node.type)
+              .createNode(node.data)
+            reteNode.id = node.id
+            this.editor.addNode(reteNode)
+          }),
+        )
+
+        result.edges.map((edge) => {
+          const srcNode = this.editor.nodes.find((n) => n.id === edge.sourceId)
+          const tgtNode = this.editor.nodes.find((n) => n.id === edge.targetId)
+          const srcSock = srcNode?.outputs.get(edge.sourceSocket)
+          const tgtSock = tgtNode?.inputs.get(edge.targetSocket)
+
+          if (srcNode && tgtNode && srcSock && tgtSock) {
+            const conn = srcSock.connectTo(tgtSock)
+            this.editor.view.addConnection(conn)
+          } else {
+            console.warn(
+              `Failed to connect edge: ${edge.sourceId}:${edge.sourceSocket}->${edge.targetId}:${edge.targetSocket}`,
+            )
+          }
+        })
       },
     },
   })

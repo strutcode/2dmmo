@@ -199,7 +199,9 @@
     background: rgb(228, 206, 107) !important;
   }
 
-  .socket.mobile {
+  .socket.mobile,
+  .socket.npc,
+  .socket.player {
     background: rgb(134, 124, 236) !important;
   }
 

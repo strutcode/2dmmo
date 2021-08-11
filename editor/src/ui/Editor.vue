@@ -9,7 +9,9 @@
     </div>
     <div class="editor">
       <div class="listView">
-        <div v-for="file in files" :key="file.name">{{ file.name }}</div>
+        <div v-for="file in files" :key="file.name" @click="loadQuest(file)">
+          {{ file.name }}
+        </div>
       </div>
       <div class="main">
         <div class="tabs">
@@ -23,7 +25,10 @@
           </div>
         </div>
         <div class="content">
-          <quest-editor :document="activeDocument"></quest-editor>
+          <quest-editor
+            v-if="activeDocument"
+            :document="activeDocument"
+          ></quest-editor>
         </div>
       </div>
     </div>
@@ -42,6 +47,7 @@
 
   interface Document {
     title: string
+    content: any
   }
 
   export default Vue.extend({
@@ -59,6 +65,19 @@
 
     async created() {
       this.files = await client.getQuests()
+    },
+
+    methods: {
+      async loadQuest(file: File) {
+        const quest = await client.loadQuest(file.name)
+        const doc = {
+          title: quest.name,
+          content: quest.content,
+        }
+
+        this.documents.push(doc)
+        this.activeDocument = doc
+      },
     },
   })
 </script>

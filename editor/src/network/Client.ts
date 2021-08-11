@@ -38,6 +38,19 @@ class Client {
     return result.entries
   }
 
+  public async loadQuest(name: string) {
+    const result = await this.requestReply({
+      type: 'questContent',
+      name,
+    })
+
+    if (result.type !== 'questContent') {
+      throw new Error("You knew this wasn't going to work forever")
+    }
+
+    return result
+  }
+
   protected send(...args: EncodeParams) {
     const packet = EditorProtocol.encode(...args)
 

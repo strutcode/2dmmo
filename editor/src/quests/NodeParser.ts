@@ -100,15 +100,14 @@ export default class NodeParser {
 
   public static getBasicNodes() {
     class TextControl extends Control {
-      public constructor(key: string) {
-        super(key)
+      public constructor(ikey: string, node: Node) {
+        super(ikey)
 
         this.component = {
-          props: ['ikey', 'getData', 'putData'],
+          props: ['ikey', 'value', 'getData', 'putData'],
           render(h) {
             return h('input', {
-              attrs: { type: 'text' },
-              props: { value: this.value },
+              attrs: { type: 'text', value: this.value },
               on: {
                 input: (ev) => {
                   this.change(ev)
@@ -116,14 +115,9 @@ export default class NodeParser {
               },
             })
           },
-          data() {
-            return {
-              value: 0,
-            }
-          },
           methods: {
             change(e) {
-              this.value = e.target.value
+              // this.value = e.target.value
               this.update()
             },
             update() {
@@ -136,14 +130,15 @@ export default class NodeParser {
           },
         }
         this.props = {
-          ikey: key,
+          ikey,
+          value: node.data[ikey],
           getData: this.getData.bind(this),
           putData: this.putData.bind(this),
         }
       }
 
       public setValue(val) {
-        this.vueContext.value = val
+        this.props.value = val
       }
     }
 
@@ -153,7 +148,7 @@ export default class NodeParser {
       }
 
       public async builder(node: Node) {
-        node.addControl(new TextControl('value'))
+        node.addControl(new TextControl('value', node))
         node.addOutput(
           new Output('value', 'Value', NodeParser.getType('String')),
         )
@@ -166,7 +161,7 @@ export default class NodeParser {
       }
 
       public async builder(node: Node) {
-        node.addControl(new TextControl('value'))
+        node.addControl(new TextControl('value', node))
         node.addOutput(
           new Output('value', 'Value', NodeParser.getType('Number')),
         )
@@ -179,7 +174,7 @@ export default class NodeParser {
       }
 
       public async builder(node: Node) {
-        node.addControl(new TextControl('match'))
+        node.addControl(new TextControl('match', node))
         node.addOutput(
           new Output('value', 'Matcher', NodeParser.getType('Regex')),
         )
