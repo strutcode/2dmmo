@@ -13,7 +13,10 @@ class Client {
   public constructor() {
     const proto = location.protocol.replace('http', 'ws')
     const host = location.hostname.replace('9004', '9005')
-    const path = location.pathname
+    const path =
+      location.hostname === 'localhost'
+        ? location.pathname
+        : location.pathname + 'data'
     const key = 'pkryvs4ac6481jlsjzy12v0ketxe347ucigv6egekfv1r7cbczudk7c0'
 
     this.socket = new WebSocket(`${proto}//${host}${path}?k=${key}`)
