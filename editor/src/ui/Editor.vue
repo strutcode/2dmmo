@@ -83,8 +83,14 @@
           content: quest.content,
         }
 
-        this.documents.push(doc)
-        this.activeDocument = doc
+        const existing = this.documents.find((d) => d.content === doc.content)
+
+        if (existing) {
+          this.activeDocument = existing
+        } else {
+          this.documents.push(doc)
+          this.activeDocument = doc
+        }
       },
     },
   })
