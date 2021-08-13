@@ -117,11 +117,21 @@ export default class Quests extends System {
     // Iterate each quest file and parse it
     files.forEach((filename) => {
       const content = readFileSync(filename, { encoding: 'utf8' })
-      const parsed = JSON.parse(content)
 
-      const name = basename(filename).replace('.json', '')
+      if (!content) {
+        return
+      }
 
-      this.quests.push(QuestParser.parse(name, parsed))
+      try {
+        const parsed = JSON.parse(content)
+
+        const name = basename(filename).replace('.json', '')
+
+        this.quests.push(QuestParser.parse(name, parsed))
+      } catch (e) {
+        console.warn('Failed to load quest')
+        console.warn(e.message)
+      }
     })
 
     console.log(`Read ${files.length} quests from disk`)

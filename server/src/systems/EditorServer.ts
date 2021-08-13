@@ -3,7 +3,7 @@ import WebSocket, { Server } from 'ws'
 import EditorProtocol from '../../../common/EditorProtocol'
 import { glob } from 'glob'
 import { basename } from 'path'
-import { readFileSync, writeFileSync } from 'fs'
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'fs'
 
 /** This system handles all network communication queued up by other systems */
 export default class EditorServer extends System {
@@ -102,6 +102,16 @@ export default class EditorServer extends System {
                 encoding: 'utf8',
               },
             )
+
+            this.send(socket, {
+              type: 'ack',
+            })
+            break
+          case 'deleteDocument':
+            const filename = `./data/${packet.kind}/${packet.name}.json`
+            if (existsSync(filename)) {
+              unlinkSync(filename)
+            }
 
             this.send(socket, {
               type: 'ack',

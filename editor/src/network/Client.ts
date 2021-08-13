@@ -81,6 +81,18 @@ class Client {
     }
   }
 
+  public async deleteDocument(kind: string, name: string) {
+    const result = await this.requestReply({
+      type: 'deleteDocument',
+      kind,
+      name,
+    })
+
+    if (result.type !== 'ack') {
+      throw new Error('Failed to delete')
+    }
+  }
+
   public async saveDocument(kind: string, name: string, content: string) {
     const result = await this.requestReply({
       type: 'saveDocument',

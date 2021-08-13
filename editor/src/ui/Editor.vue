@@ -24,7 +24,9 @@
           @click="loadQuest(file)"
         >
           <div class="title">{{ file.name }}</div>
-          <div class="controls"></div>
+          <div class="controls">
+            <button @click.stop="deleteQuest(file.name)">X</button>
+          </div>
         </div>
       </div>
       <div class="main">
@@ -39,7 +41,7 @@
             <div class="title">
               {{ document.title }}
             </div>
-            <div class="closer" @click="closeDocument(document, $event)">
+            <div class="closer" @click.stop="closeDocument(document)">
               <span>X</span>
             </div>
           </div>
@@ -118,6 +120,11 @@
         }
       },
 
+      async deleteQuest(name: string) {
+        await client.deleteDocument('quests', name)
+        this.files = await client.getQuests()
+      },
+
       async saveQuest(content: string) {
         if (this.activeDocument) {
           await client.saveDocument(
@@ -128,11 +135,10 @@
         }
       },
 
-      closeDocument(doc: Document, ev: MouseEvent) {
+      closeDocument(doc: Document) {
         const index = this.documents.findIndex((d) => d === doc)
 
         if (index !== -1) {
-          ev.stopPropagation()
           this.documents.splice(index, 1)
 
           if (this.activeDocument === doc) {
@@ -199,8 +205,17 @@
         background: $secondary;
 
         .listItem {
-          padding: 0.34rem 0.68rem;
-          cursor: pointer;
+          display: flex;
+
+          .title,
+          .controls {
+            padding: 0.34rem 0.68rem;
+          }
+
+          .title {
+            flex-grow: 1;
+            cursor: pointer;
+          }
 
           &:hover {
             background: rgba(0, 0, 0, 0.25);

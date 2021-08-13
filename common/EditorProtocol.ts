@@ -24,6 +24,11 @@ export type Packet =
       name: string
       content: string
     }
+  | {
+      type: 'deleteDocument'
+      kind: string
+      name: string
+    }
 
 /** Defines the type of encoded network messages */
 export type Message = string
