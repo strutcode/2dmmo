@@ -14,7 +14,12 @@
     </div>
     <div class="editor">
       <div class="listView">
-        <div v-for="file in files" :key="file.name" @click="loadQuest(file)">
+        <div
+          class="listItem"
+          v-for="file in files"
+          :key="file.name"
+          @click="loadQuest(file)"
+        >
           {{ file.name }}
         </div>
       </div>
@@ -22,11 +27,17 @@
         <div class="tabs">
           <div
             v-for="document in documents"
+            class="tab"
             :class="{ active: document === activeDocument }"
             @click="activeDocument = document"
             :key="document.title"
           >
-            {{ document.title }}
+            <div class="title">
+              {{ document.title }}
+            </div>
+            <div class="closer" @click="closeDocument(document, $event)">
+              <span>X</span>
+            </div>
           </div>
         </div>
         <div class="content">
@@ -103,6 +114,19 @@
           )
         }
       },
+
+      closeDocument(doc: Document, ev: MouseEvent) {
+        const index = this.documents.findIndex((d) => d === doc)
+
+        if (index !== -1) {
+          ev.stopPropagation()
+          this.documents.splice(index, 1)
+
+          if (this.activeDocument === doc) {
+            this.activeDocument = null
+          }
+        }
+      },
     },
   })
 </script>
@@ -161,11 +185,12 @@
         width: 20%;
         background: $secondary;
 
-        & > div {
+        .listItem {
           padding: 0.34rem 0.68rem;
+          cursor: pointer;
 
           &:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.25);
           }
         }
       }
@@ -180,13 +205,31 @@
           flex-flow: row;
           background: $secondary;
 
-          & > div {
+          .tab {
+            display: flex;
             cursor: pointer;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.75rem 1.5rem;
+
+            .title,
+            .closer {
+              padding: 0.75rem 1.5rem;
+            }
+
+            .closer {
+              span {
+                visibility: hidden;
+              }
+
+              &:hover {
+                background: rgba(255, 255, 255, 0.05);
+              }
+            }
 
             &:hover {
               background: darken($secondary, 1%);
+
+              .closer span {
+                visibility: visible;
+              }
             }
 
             &.active {

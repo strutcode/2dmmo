@@ -129,7 +129,11 @@
       this.editor = editor
       window.editor = editor
 
-      this.loadDocument()
+      if (this.document.content) {
+        this.loadDocument()
+      } else {
+        this.newDocument()
+      }
     },
 
     methods: {
@@ -169,11 +173,6 @@
         if (this.questVersion < 2) {
           return
         }
-
-        this.addVariable({
-          name: 'soandso',
-          type: 'Player',
-        })
         result.variables.map(this.addVariable)
 
         await Promise.all(
@@ -203,6 +202,16 @@
               `Failed to connect edge: ${edge.sourceId}:${edge.sourceSocket}->${edge.targetId}:${edge.targetSocket}`,
             )
           }
+        })
+      },
+
+      async newDocument() {
+        this.variables = []
+        this.editor.clear()
+
+        this.addVariable({
+          name: 'soandso',
+          type: 'Player',
         })
       },
 
