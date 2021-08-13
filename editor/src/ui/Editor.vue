@@ -14,13 +14,17 @@
     </div>
     <div class="editor">
       <div class="listView">
+        <div class="listItem">
+          <button @click="createQuest">New file</button>
+        </div>
         <div
           class="listItem"
           v-for="file in files"
           :key="file.name"
           @click="loadQuest(file)"
         >
-          {{ file.name }}
+          <div class="title">{{ file.name }}</div>
+          <div class="controls"></div>
         </div>
       </div>
       <div class="main">
@@ -88,6 +92,15 @@
     },
 
     methods: {
+      async createQuest() {
+        const name = prompt('Enter a name for the quest')
+
+        if (name) {
+          await client.createDocument('quests', name)
+          this.files = await client.getQuests()
+        }
+      },
+
       async loadQuest(file: File) {
         const quest = await client.loadQuest(file.name)
         const doc = {

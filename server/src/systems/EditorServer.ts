@@ -70,8 +70,20 @@ export default class EditorServer extends System {
               content,
             })
             break
+          case 'createDocument':
+            writeFileSync(
+              `./data/${packet.kind}/${packet.name}.json`,
+              packet.content ?? '',
+              {
+                encoding: 'utf8',
+              },
+            )
+
+            this.send(socket, {
+              type: 'ack',
+            })
+            break
           case 'saveDocument':
-            console.log(`save request for ${packet.kind} ${packet.name}`)
             const oldContent = readFileSync(
               `./data/${packet.kind}/${packet.name}.json`,
               {
@@ -90,6 +102,10 @@ export default class EditorServer extends System {
                 encoding: 'utf8',
               },
             )
+
+            this.send(socket, {
+              type: 'ack',
+            })
             break
         }
       })

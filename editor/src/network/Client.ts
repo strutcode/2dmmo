@@ -68,6 +68,19 @@ class Client {
     return result
   }
 
+  public async createDocument(kind: string, name: string, content?: string) {
+    const result = await this.requestReply({
+      type: 'createDocument',
+      kind,
+      name,
+      content,
+    })
+
+    if (result.type !== 'ack') {
+      throw new Error('Failed to save')
+    }
+  }
+
   public async saveDocument(kind: string, name: string, content: string) {
     const result = await this.requestReply({
       type: 'saveDocument',

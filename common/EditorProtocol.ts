@@ -13,6 +13,12 @@ export type Packet =
       content?: string
     }
   | {
+      type: 'createDocument'
+      kind: string
+      name: string
+      content?: string
+    }
+  | {
       type: 'saveDocument'
       kind: string
       name: string
