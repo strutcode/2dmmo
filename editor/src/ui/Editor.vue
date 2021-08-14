@@ -2,11 +2,11 @@
   <div class="container">
     <div class="menu">
       <div class="navigation">
-        <div>Players</div>
-        <div>NPCs</div>
+        <!-- <div>Players</div> -->
+        <!-- <div>NPCs</div> -->
         <div class="active">Quests</div>
-        <div>Items</div>
-        <div>Maps</div>
+        <!-- <div>Items</div> -->
+        <!-- <div>Maps</div> -->
       </div>
       <div class="status">
         <network-status></network-status>
