@@ -4,7 +4,7 @@
       <div class="navigation">
         <div>Players</div>
         <div>NPCs</div>
-        <div>Quests</div>
+        <div class="active">Quests</div>
         <div>Items</div>
         <div>Maps</div>
       </div>
@@ -189,6 +189,10 @@
           &:hover {
             background: rgba(0, 0, 0, 0.25);
           }
+
+          &.active {
+            background: $secondary;
+          }
         }
       }
 
@@ -244,19 +248,26 @@
           .tab {
             display: flex;
             cursor: pointer;
+            height: 3rem;
+            align-items: center;
 
-            .title,
-            .closer {
-              padding: 0.75rem 1.5rem;
+            .title {
+              padding: 0 1.5rem;
             }
 
             .closer {
+              padding: 0 0.34rem;
               span {
+                display: inline-block;
+                vertical-align: middle;
+                padding: 0.22rem 0.44rem;
                 visibility: hidden;
               }
 
               &:hover {
-                background: rgba(255, 255, 255, 0.05);
+                span {
+                  background: rgba(255, 255, 255, 0.05);
+                }
               }
             }
 
