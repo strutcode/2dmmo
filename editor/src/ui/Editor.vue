@@ -14,9 +14,6 @@
     </div>
     <div class="editor">
       <div class="listView">
-        <div class="listItem">
-          <button @click="createQuest">New file</button>
-        </div>
         <div
           class="listItem"
           v-for="file in files"
@@ -27,6 +24,9 @@
           <div class="controls">
             <button @click.stop="deleteQuest(file.name)">X</button>
           </div>
+        </div>
+        <div class="listItem">
+          <button @click="createQuest">New file</button>
         </div>
       </div>
       <div class="main">
@@ -139,11 +139,19 @@
         const index = this.documents.findIndex((d) => d === doc)
 
         if (index !== -1) {
-          this.documents.splice(index, 1)
-
+          // Find the new active document and highlight it
           if (this.activeDocument === doc) {
-            this.activeDocument = null
+            if (this.documents[index + 1]) {
+              this.activeDocument = this.documents[index + 1]
+            } else if (this.documents[index - 1]) {
+              this.activeDocument = this.documents[index - 1]
+            } else {
+              this.activeDocument = null
+            }
           }
+
+          // Actually delete the old document
+          this.documents.splice(index, 1)
         }
       },
     },

@@ -1,0 +1,18 @@
+html,
+body {
+  background: black;
+  font-size: 14pt;
+}
+
+button {
+  font-size: 12pt;
+  border: 0;
+  background: rgb(56, 56, 183);
+  color: #fff;
+  padding: 0.34rem 0.88rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(42, 42, 161);
+  }
+}
