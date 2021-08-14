@@ -1,5 +1,6 @@
 import BaseObjective from '../../BaseObjective'
 import Player from '../../components/Player'
+import NodeInterpreter from './NodeInterpreter'
 import QuestTemplate from './QuestTemplate'
 
 type VariableInstance = {
@@ -12,6 +13,7 @@ export default class QuestInstance {
   public ready = false
   public variables: Record<string, VariableInstance> = {}
   public objectives: BaseObjective[] = []
+  public nodeTrees: NodeInterpreter[] = []
   private sceneIndex = 0
 
   public constructor(public template: QuestTemplate, public owner: Player) {
@@ -36,8 +38,33 @@ export default class QuestInstance {
     return this.objectives[this.sceneIndex]
   }
 
+  public get currentNodeTree() {
+    return this.nodeTrees[this.sceneIndex]
+  }
+
+  public start() {
+    if (this.version === '1') {
+      this.currentObjective.setup()
+    } else if (this.version === '2') {
+      this.currentNodeTree.start()
+    }
+  }
+
+  public update() {
+    if (this.version === '1') {
+      this.currentObjective.update()
+    } else if (this.version === '2') {
+      this.currentNodeTree.update()
+    }
+  }
+
   public advance() {
     this.sceneIndex++
-    this.currentObjective.setup()
+
+    if (this.version === '1') {
+      this.currentObjective.setup()
+    } else if (this.version === '2') {
+      this.currentNodeTree.start()
+    }
   }
 }

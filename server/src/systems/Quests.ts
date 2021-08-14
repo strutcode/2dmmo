@@ -8,13 +8,17 @@ import Player from '../components/Player'
 import QuestInstance from './quest/QuestInstance'
 import QuestParser from './quest/parsers/QuestParser'
 import QuestTemplate from './quest/QuestTemplate'
+import NodeInterpreter from './quest/NodeInterpreter'
+import Node from './quest/nodes/Node'
 
 export default class Quests extends System {
   private objectives: typeof BaseObjective[] = []
+  private nodes: typeof Node[] = []
   private quests: QuestTemplate[] = []
 
   public start() {
     this.loadObjectives()
+    this.loadNodes()
     this.loadQuests()
   }
 
@@ -38,10 +42,10 @@ export default class Quests extends System {
 
           // All variables are filled, mark the quest ready
           quest.ready = true
-          quest.currentObjective.setup()
+          quest.start()
         }
 
-        quest.currentObjective?.update()
+        quest.update()
       })
     })
   }
@@ -63,35 +67,7 @@ export default class Quests extends System {
 
     if (template) {
       // Create the quest instance
-      const quest = new QuestInstance(template, player)
-
-      // Construct the objectives
-      template.scenes.forEach((scene) => {
-        const Prototype = this.objectives.find(
-          (obj) => obj.name === scene.objective.type,
-        )
-
-        if (!Prototype) {
-          throw new Error(
-            `Tried to load objective '${scene.objective.type}' for '${template.name}' but couldn't find one`,
-          )
-        }
-
-        const objective = new Prototype(this.engine, quest)
-
-        const params = scene.objective.params
-        for (let name in params) {
-          if (objective.params[name]) {
-            objective.params[name].value = params[name]
-          } else {
-            console.warn(
-              `Tried to set non-existent param '${name}' on objective '${objective.constructor.name}'`,
-            )
-          }
-        }
-
-        quest.objectives.push(objective)
-      })
+      const quest = this.createQuestInstance(template, player)
 
       // Other systems will fill in the variables
       player.sideQuests.push(quest)
@@ -102,6 +78,67 @@ export default class Quests extends System {
     }
   }
 
+  /** Creates an instance of a quest. Other systems will prepare it to actually run. */
+  private createQuestInstance(template: QuestTemplate, player: Player) {
+    // Create the quest instance
+    const quest = new QuestInstance(template, player)
+
+    // Construct the objectives, if any
+    template.scenes.forEach((scene) => {
+      if (!scene.objective) return
+
+      const Prototype = this.objectives.find(
+        (obj) => obj.name === scene.objective?.type,
+      )
+
+      if (!Prototype) {
+        throw new Error(
+          `Tried to load objective '${scene.objective.type}' for '${template.name}' but couldn't find one`,
+        )
+      }
+
+      const objective = new Prototype(this.engine, quest)
+
+      const params = scene.objective.params
+      for (let name in params) {
+        if (objective.params[name]) {
+          objective.params[name].value = params[name]
+        } else {
+          console.warn(
+            `Tried to set non-existent param '${name}' on objective '${objective.constructor.name}'`,
+          )
+        }
+      }
+
+      quest.objectives.push(objective)
+    })
+
+    // Construct nodes, if any
+    template.scenes.forEach((scene) => {
+      if (!scene.nodes) return
+
+      const nodeTree = new NodeInterpreter()
+
+      scene.nodes.forEach((nodeSrc) => {
+        const Prototype = this.nodes.find((obj) => obj.name === nodeSrc.type)
+
+        if (!Prototype) {
+          throw new Error(
+            `Tried to load node '${nodeSrc.type}' for '${template.name}' but couldn't find one`,
+          )
+        }
+        
+        const node = new Prototype(nodeSrc.data)
+
+        nodeTree.addNode(node)
+      })
+
+      quest.nodeTrees.push(nodeTree)
+    })
+
+    return quest
+  }
+
   private loadObjectives() {
     // Load effects
     this.objectives = glob
@@ -109,6 +146,15 @@ export default class Quests extends System {
       .map((filename) => require(filename).default)
 
     console.log(`Read ${this.objectives.length} quest objectives from disk`)
+  }
+
+  private loadNodes() {
+    // Load effects
+    this.nodes = glob
+      .sync('./quest/nodes/*.js', { cwd: __dirname })
+      .map((filename) => require(filename).default)
+
+    console.log(`Read ${this.nodes.length} quest nodes from disk`)
   }
 
   private loadQuests() {

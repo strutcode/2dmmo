@@ -1,5 +1,4 @@
-import BaseBehavior from '../../BaseBehavior'
-import BaseObjective from '../../BaseObjective'
+import Node from './nodes/Node'
 
 type VariableTemplate = {
   type: 'stage' | 'actor' | 'prop'
@@ -8,7 +7,8 @@ type VariableTemplate = {
 }
 
 type QuestScene = {
-  objective: QuestObjective
+  objective?: QuestObjective
+  nodes?: Node
 }
 
 type QuestObjective = {

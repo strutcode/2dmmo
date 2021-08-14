@@ -25,5 +25,7 @@ export default class Node {
     ]
   }
 
+  public constructor(protected data: any) {}
+
   public execute() {}
 }
