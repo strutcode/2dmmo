@@ -34,27 +34,27 @@ export default class QuestInstance {
     return this.template.name
   }
 
-  public get currentObjective() {
+  public get currentObjective(): BaseObjective | undefined {
     return this.objectives[this.sceneIndex]
   }
 
-  public get currentNodeTree() {
+  public get currentNodeTree(): NodeInterpreter | undefined {
     return this.nodeTrees[this.sceneIndex]
   }
 
   public start() {
     if (this.version === '1') {
-      this.currentObjective.setup()
+      this.currentObjective?.setup()
     } else if (this.version === '2') {
-      this.currentNodeTree.start()
+      this.currentNodeTree?.start()
     }
   }
 
   public update() {
     if (this.version === '1') {
-      this.currentObjective.update()
+      this.currentObjective?.update()
     } else if (this.version === '2') {
-      this.currentNodeTree.update()
+      this.currentNodeTree?.update()
     }
   }
 
@@ -62,9 +62,9 @@ export default class QuestInstance {
     this.sceneIndex++
 
     if (this.version === '1') {
-      this.currentObjective.setup()
+      this.currentObjective?.setup()
     } else if (this.version === '2') {
-      this.currentNodeTree.start()
+      this.currentNodeTree?.start()
     }
   }
 }

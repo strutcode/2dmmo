@@ -11,31 +11,28 @@ type QuestVariable = {
 }
 
 type QuestScene = {
-  script: NodeSource[]
+  nodes: NodeSource[]
+  edges: EdgeSource[]
 }
 
 type NodeSource = {
   type: string
-  inputs?: {
-    [name: string]: {}
-  }
-  outputs?: {
-    [name: string]: {}
-  }
-  connections?: {
-    flow?: number
-    input?: {
-      [name: string]: number[]
-    }
-    output?: {
-      [name: string]: number[]
-    }
-  }
+  data: Record<string, unknown>
+  meta?: Record<string, unknown>
+}
+
+type EdgeSource = {
+  sourceId: number
+  sourceSocket: string
+  targetId: number
+  targetSocket: string
 }
 
 export default class QuestParserV2 {
   public static parse(name: string, input: QuestSource) {
     const template = new QuestTemplate(input.version, name)
+
+    template.scenes = input.scenes
 
     return template
   }

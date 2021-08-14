@@ -1,5 +1,3 @@
-import Node from './nodes/Node'
-
 type VariableTemplate = {
   type: 'stage' | 'actor' | 'prop'
   name: string
@@ -8,13 +6,19 @@ type VariableTemplate = {
 
 type QuestScene = {
   objective?: QuestObjective
-  nodes?: Node
+  nodes?: QuestNode[]
 }
 
 type QuestObjective = {
   type: string
   params: Record<string, any>
   actions: QuestAction[]
+}
+
+type QuestNode = {
+  type: string
+  data: Record<string, unknown>
+  meta?: Record<string, unknown>
 }
 
 type QuestAction = {

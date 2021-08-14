@@ -27,5 +27,9 @@ export default class Node {
 
   public constructor(protected data: any) {}
 
+  public get name() {
+    return this.constructor.name
+  }
+
   public execute() {}
 }

@@ -63,7 +63,7 @@ export default class Quests extends System {
       console.log(`Generating a side quest for '${mob.name}'`)
     })
 
-    const template = this.quests.find(() => true)
+    const template = this.quests.find((quest) => quest.name === 'test2')
 
     if (template) {
       // Create the quest instance
@@ -127,7 +127,7 @@ export default class Quests extends System {
             `Tried to load node '${nodeSrc.type}' for '${template.name}' but couldn't find one`,
           )
         }
-        
+
         const node = new Prototype(nodeSrc.data)
 
         nodeTree.addNode(node)
