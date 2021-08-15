@@ -53,8 +53,8 @@
             "value": "20"
           },
           "meta": {
-            "x": 196.7406763065619,
-            "y": 485.5743655442208
+            "x": 25.07630375342268,
+            "y": 497.2126972244783
           }
         },
         {
@@ -95,8 +95,8 @@
             "value": "Hold up, {soandso}. I would like to [talk] to you."
           },
           "meta": {
-            "x": 953.899790654236,
-            "y": 449.2649931036525
+            "x": 872.4319805904287,
+            "y": 446.35545967475116
           }
         },
         {
@@ -105,8 +105,8 @@
             "value": "You there, {soandso}. Can you [help] me?"
           },
           "meta": {
-            "x": 890.4590092974787,
-            "y": -165.7132546610024
+            "x": 874.4564297627597,
+            "y": -72.60718948512174
           }
         },
         {
@@ -209,6 +209,68 @@
           "meta": {
             "x": 1506.7353371864797,
             "y": 147.83483050919443
+          }
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "bob",
+            "type": "Mobile"
+          },
+          "meta": {
+            "x": 1078.857081339115,
+            "y": 145.7582584466101
+          }
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "bob",
+            "type": "Mobile"
+          },
+          "meta": {
+            "x": 2225.1234471305775,
+            "y": -14.907410321099547
+          }
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "bob",
+            "type": "Mobile"
+          },
+          "meta": {
+            "x": 2621.253243564775,
+            "y": -41.197809823115264
+          }
+        },
+        {
+          "type": "Dialogue",
+          "data": {},
+          "meta": {
+            "x": 3765.36487462565,
+            "y": 93.64789268233034
+          }
+        },
+        {
+          "type": "Text",
+          "data": {
+            "value": "Thank you! I think I lost it near {destination}."
+          },
+          "meta": {
+            "x": 3307.920695541066,
+            "y": 323.20730011765875
+          }
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "bob",
+            "type": "Mobile"
+          },
+          "meta": {
+            "x": 3460.4740379261766,
+            "y": -37.90250327539596
           }
         }
       ],
@@ -328,6 +390,12 @@
           "targetSocket": "match"
         },
         {
+          "sourceId": 18,
+          "sourceSocket": "next",
+          "targetId": 24,
+          "targetSocket": "prev"
+        },
+        {
           "sourceId": 19,
           "sourceSocket": "value",
           "targetId": 18,
@@ -344,6 +412,42 @@
           "sourceSocket": "value",
           "targetId": 10,
           "targetSocket": "listener"
+        },
+        {
+          "sourceId": 21,
+          "sourceSocket": "value",
+          "targetId": 6,
+          "targetSocket": "speaker"
+        },
+        {
+          "sourceId": 21,
+          "sourceSocket": "value",
+          "targetId": 7,
+          "targetSocket": "speaker"
+        },
+        {
+          "sourceId": 22,
+          "sourceSocket": "value",
+          "targetId": 14,
+          "targetSocket": "speaker"
+        },
+        {
+          "sourceId": 23,
+          "sourceSocket": "value",
+          "targetId": 16,
+          "targetSocket": "listener"
+        },
+        {
+          "sourceId": 25,
+          "sourceSocket": "value",
+          "targetId": 24,
+          "targetSocket": "lines"
+        },
+        {
+          "sourceId": 26,
+          "sourceSocket": "value",
+          "targetId": 24,
+          "targetSocket": "speaker"
         }
       ]
     }
