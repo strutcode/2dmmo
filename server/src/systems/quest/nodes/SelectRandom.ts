@@ -1,4 +1,4 @@
-import Node from './Node'
+import Node from '../Node'
 
 export default class SelectRandom extends Node {
   public static get outputs() {

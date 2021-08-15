@@ -46,7 +46,7 @@ export default class QuestInstance {
     if (this.version === '1') {
       this.currentObjective?.setup()
     } else if (this.version === '2') {
-      this.currentNodeTree?.start()
+      this.currentNodeTree?.start(this)
     }
   }
 
@@ -54,7 +54,7 @@ export default class QuestInstance {
     if (this.version === '1') {
       this.currentObjective?.update()
     } else if (this.version === '2') {
-      this.currentNodeTree?.update()
+      this.currentNodeTree?.update(this)
     }
   }
 
@@ -64,7 +64,7 @@ export default class QuestInstance {
     if (this.version === '1') {
       this.currentObjective?.setup()
     } else if (this.version === '2') {
-      this.currentNodeTree?.start()
+      this.currentNodeTree?.start(this)
     }
   }
 }

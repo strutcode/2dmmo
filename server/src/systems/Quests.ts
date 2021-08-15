@@ -9,7 +9,7 @@ import QuestInstance from './quest/QuestInstance'
 import QuestParser from './quest/parsers/QuestParser'
 import QuestTemplate from './quest/QuestTemplate'
 import NodeInterpreter from './quest/NodeInterpreter'
-import Node from './quest/nodes/Node'
+import Node from './quest/Node'
 
 export default class Quests extends System {
   private objectives: typeof BaseObjective[] = []

@@ -1,3 +1,5 @@
+import Link from './Link'
+
 type NodeSocket = {
   name: string
   type: string
@@ -25,11 +27,32 @@ export default class Node {
     ]
   }
 
+  public connections: Record<string, Link[]> = {}
+
   public constructor(protected data: any) {}
 
   public get name() {
     return this.constructor.name
   }
 
-  public execute() {}
+  public get inputs(): NodeSocket[] {
+    return (this.constructor as typeof Node).inputs
+  }
+
+  public get outputs(): NodeSocket[] {
+    return (this.constructor as typeof Node).outputs
+  }
+
+  public connectTo(
+    sourceSocket: string,
+    targetNode: Node,
+    targetSocket: string,
+  ) {}
+
+  public execute(
+    context: any,
+    inputs: Record<string, unknown>,
+  ): Record<string, unknown> {
+    return {}
+  }
 }
