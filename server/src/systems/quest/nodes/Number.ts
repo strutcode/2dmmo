@@ -10,4 +10,10 @@ export default class Number extends Node {
       },
     ]
   }
+
+  public execute() {
+    return {
+      value: +this.data.value,
+    }
+  }
 }

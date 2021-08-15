@@ -34,7 +34,7 @@ export default class NodeInterpreter {
     const startNode = this.nodes.find((node) => node.name === 'SceneStart')
 
     if (startNode) {
-      startNode.execute(this, {})
+      startNode.execute(context, {})
       this.activeNodes.clear()
       this.activeNodes.add(startNode)
       this.update(context)

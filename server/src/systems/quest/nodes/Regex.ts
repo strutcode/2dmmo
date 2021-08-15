@@ -10,4 +10,10 @@ export default class Regex extends Node {
       },
     ]
   }
+
+  public execute() {
+    return {
+      value: new RegExp(this.data.value),
+    }
+  }
 }

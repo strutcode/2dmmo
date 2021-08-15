@@ -1,4 +1,5 @@
 import Node from '../Node'
+import QuestInstance from '../QuestInstance'
 
 export default class TriggerProximity extends Node {
   public static get inputs() {
@@ -24,5 +25,12 @@ export default class TriggerProximity extends Node {
         label: 'Distance (ft)',
       },
     ]
+  }
+
+  public execute(context: QuestInstance, inputs: any) {
+    // console.log(inputs)
+    return {
+      next: false,
+    }
   }
 }

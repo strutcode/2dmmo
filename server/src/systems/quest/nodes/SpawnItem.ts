@@ -1,4 +1,5 @@
 import Node from '../Node'
+import QuestInstance from '../QuestInstance'
 
 export default class SpawnItem extends Node {
   public static get inputs() {
@@ -24,5 +25,11 @@ export default class SpawnItem extends Node {
         label: '',
       },
     ]
+  }
+
+  public execute(context: QuestInstance) {
+    return {
+      next: true,
+    }
   }
 }

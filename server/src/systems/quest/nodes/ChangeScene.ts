@@ -1,4 +1,5 @@
 import Node from '../Node'
+import QuestInstance from '../QuestInstance'
 
 export default class ChangeScene extends Node {
   public static get inputs() {
@@ -14,5 +15,10 @@ export default class ChangeScene extends Node {
         label: 'Scene',
       },
     ]
+  }
+  public execute(context: QuestInstance) {
+    context.advance()
+
+    return {}
   }
 }

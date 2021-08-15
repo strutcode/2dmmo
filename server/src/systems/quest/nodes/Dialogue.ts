@@ -1,4 +1,5 @@
 import Node from '../Node'
+import QuestInstance from '../QuestInstance'
 
 export default class Dialogue extends Node {
   public static get inputs() {
@@ -14,5 +15,13 @@ export default class Dialogue extends Node {
         label: 'Lines',
       },
     ]
+  }
+
+  public execute(context: QuestInstance, input: any) {
+    console.log(input.lines)
+
+    return {
+      next: true,
+    }
   }
 }

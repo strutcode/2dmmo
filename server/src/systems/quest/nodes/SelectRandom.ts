@@ -30,4 +30,20 @@ export default class SelectRandom extends Node {
       },
     ]
   }
+
+  public execute() {
+    const options: string[] = []
+
+    this.outputs.forEach((output) => {
+      if (this.connections[output.name]) {
+        options.push(output.name)
+      }
+    })
+
+    const selected = options[Math.floor(Math.random() * options.length)]
+
+    return {
+      [selected]: true,
+    }
+  }
 }

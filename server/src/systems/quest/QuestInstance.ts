@@ -24,6 +24,12 @@ export default class QuestInstance {
         value: null,
       }
     })
+
+    this.variables.soandso = {
+      type: 'actor',
+      filter: null,
+      value: owner,
+    }
   }
 
   public get version() {
@@ -56,6 +62,10 @@ export default class QuestInstance {
     } else if (this.version === '2') {
       this.currentNodeTree?.update(this)
     }
+  }
+
+  public variableValue(name: string): any {
+    return this.variables[name]?.value
   }
 
   public advance() {
