@@ -36,13 +36,15 @@ export default class TriggerProximity extends Trigger {
     const distance = Math.round(inputs.distance / 10)
     let next = false
 
-    from.entity.with(TilePosition, (posA) => {
-      to.entity.with(TilePosition, (posB) => {
-        if (distanceChebyshev(posA, posB) <= distance) {
-          next = true
-        }
+    if (from && to && distance != null) {
+      from.entity.with(TilePosition, (posA) => {
+        to.entity.with(TilePosition, (posB) => {
+          if (distanceChebyshev(posA, posB) <= distance) {
+            next = true
+          }
+        })
       })
-    })
+    }
 
     return {
       next,

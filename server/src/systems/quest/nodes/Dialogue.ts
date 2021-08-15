@@ -1,3 +1,5 @@
+import Mobile from '../../../components/Mobile'
+import Speaker from '../../../components/Speaker'
 import Node from '../Node'
 import QuestInstance from '../QuestInstance'
 
@@ -10,6 +12,11 @@ export default class Dialogue extends Node {
         label: '',
       },
       {
+        name: 'speaker',
+        type: 'Mobile',
+        label: 'Speaker',
+      },
+      {
         name: 'lines',
         type: 'String',
         label: 'Lines',
@@ -18,7 +25,14 @@ export default class Dialogue extends Node {
   }
 
   public execute(context: QuestInstance, input: any) {
-    console.log(input.lines)
+    const mob = input.speaker as Mobile
+    const lines = input.lines as string
+
+    if (mob) {
+      mob.entity.with(Speaker, (speaker) => {
+        speaker.say(lines)
+      })
+    }
 
     return {
       next: true,

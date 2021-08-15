@@ -1,3 +1,5 @@
+import Listener from '../../../components/Listener'
+import Mobile from '../../../components/Mobile'
 import QuestInstance from '../QuestInstance'
 import Trigger from '../Trigger'
 
@@ -22,9 +24,25 @@ export default class TriggerSpeech extends Trigger {
     ]
   }
 
-  public execute(context: QuestInstance) {
+  public execute(context: QuestInstance, inputs: any) {
+    const mob = inputs.listener as Mobile
+    const match = inputs.match as RegExp
+    let next = false
+
+    if (mob) {
+      mob.entity.with(Listener, (listener) => {
+        listener.incoming.forEach((message) => {
+          if (message.speaker !== mob.entity.id) {
+            if (match.test(message.words)) {
+              next = true
+            }
+          }
+        })
+      })
+    }
+
     return {
-      next: true,
+      next,
     }
   }
 }
