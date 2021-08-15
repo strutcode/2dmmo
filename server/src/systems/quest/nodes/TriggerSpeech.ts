@@ -10,6 +10,11 @@ export default class TriggerSpeech extends Node {
         label: '',
       },
       {
+        name: 'listener',
+        type: 'Mobile',
+        label: 'Listener',
+      },
+      {
         name: 'match',
         type: 'Regex',
         label: 'Match',

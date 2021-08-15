@@ -2,10 +2,10 @@
   "version": "2",
   "resources": {
     "soandso": {
-      "type": "Player"
+      "type": "Mobile"
     },
     "bob": {
-      "type": "NPC"
+      "type": "Mobile"
     },
     "doodad": {
       "type": "Item"
@@ -199,6 +199,17 @@
             "x": 2975.4390078324545,
             "y": 290.2986313960519
           }
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "bob",
+            "type": "Mobile"
+          },
+          "meta": {
+            "x": 1506.7353371864797,
+            "y": 147.83483050919443
+          }
         }
       ],
       "edges": [
@@ -321,6 +332,18 @@
           "sourceSocket": "value",
           "targetId": 18,
           "targetSocket": "item"
+        },
+        {
+          "sourceId": 20,
+          "sourceSocket": "value",
+          "targetId": 13,
+          "targetSocket": "listener"
+        },
+        {
+          "sourceId": 20,
+          "sourceSocket": "value",
+          "targetId": 10,
+          "targetSocket": "listener"
         }
       ]
     }
