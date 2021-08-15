@@ -1,10 +1,10 @@
 import TilePosition from '../../../../../common/components/TilePosition'
 import Mobile from '../../../components/Mobile'
 import { distanceChebyshev } from '../../../util/Geometry'
-import Node from '../Node'
 import QuestInstance from '../QuestInstance'
+import Trigger from '../Trigger'
 
-export default class TriggerProximity extends Node {
+export default class TriggerProximity extends Trigger {
   public static get inputs() {
     return [
       {

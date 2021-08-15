@@ -1,7 +1,7 @@
-import Node from '../Node'
 import QuestInstance from '../QuestInstance'
+import Trigger from '../Trigger'
 
-export default class TriggerSpeech extends Node {
+export default class TriggerSpeech extends Trigger {
   public static get inputs() {
     return [
       {
