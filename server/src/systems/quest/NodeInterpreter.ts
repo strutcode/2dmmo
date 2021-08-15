@@ -45,11 +45,12 @@ export default class NodeInterpreter {
 
   public update(context: any) {
     this.activeNodes.forEach((node) => {
-      node.execute(context, this.getInputsForNode(context, node))
-
+      const output = node.execute(context, this.getInputsForNode(context, node))
       const next = node.outputs.find((out) => out.type === 'Flow')
 
-      if (next) {
+      if (next && output[next.name]) {
+        this.activeNodes.delete(node)
+
         node.connections[next.name]?.forEach((link) => {
           this.activeNodes.add(link.targetNode)
         })
@@ -61,6 +62,8 @@ export default class NodeInterpreter {
     const inputs: Record<string, unknown> = {}
 
     node.inputs.forEach((input) => {
+      if (input.type == 'Flow') return
+
       node.connections[input.name]?.forEach((link) => {
         const output = link.sourceNode.execute(
           context,
