@@ -33,6 +33,7 @@ export type Packet =
   | {
       type: 'spawn'
       id: number
+      kind: 'mobile' | 'item'
       name: string
       sprite: string
       x: number

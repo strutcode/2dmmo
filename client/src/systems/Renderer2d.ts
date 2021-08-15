@@ -16,6 +16,7 @@ import CameraFollow from '../components/CameraFollow'
 import CardData from '../components/CardData'
 import Creature from '../components/Creature'
 import InputQueue from '../components/InputQueue'
+import Item from '../components/Item'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
 import SpriteLoadQueue from '../components/SpriteLoadQueue'
@@ -30,7 +31,7 @@ type AnimationData = {
 
 type MobData = {
   sprite: PixiSprite
-  nametag: Text
+  nametag?: Text
 }
 
 export default class Renderer2d extends System {
@@ -231,6 +232,14 @@ export default class Renderer2d extends System {
             nametag,
           })
         })
+
+        sprite.entity.with(Item, (meta) => {
+          // Save everything to the data map
+          this.spriteMap.set(sprite, {
+            sprite: newSprite,
+            nametag: undefined,
+          })
+        })
       }
 
       // Simple animation
@@ -298,8 +307,10 @@ export default class Renderer2d extends System {
         // Update the nametag
         const nametag = mobData.nametag
 
-        nametag.x = sprite.x * this.scale + 8 * this.scale - nametag.width / 2
-        nametag.y = sprite.y * this.scale - 2 * this.scale
+        if (nametag) {
+          nametag.x = sprite.x * this.scale + 8 * this.scale - nametag.width / 2
+          nametag.y = sprite.y * this.scale - 2 * this.scale
+        }
       }
     })
   }
@@ -403,7 +414,10 @@ export default class Renderer2d extends System {
       if (mobData) {
         // Destroy the representations
         mobData.sprite.destroy()
-        mobData.nametag.destroy()
+
+        if (mobData.nametag) {
+          mobData.nametag.destroy()
+        }
 
         // Remove it from the records
         this.spriteMap.delete(component)

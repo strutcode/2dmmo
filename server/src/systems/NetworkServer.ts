@@ -13,6 +13,7 @@ import Affectable from '../components/Affectable'
 import Player from '../components/Player'
 import Speaker from '../components/Speaker'
 import Listener from '../components/Listener'
+import Item from '../components/Item'
 
 type PendingPacket = {
   entity: Entity
@@ -89,6 +90,7 @@ export default class NetworkServer extends System {
           socket.send(
             Protocol.encode({
               type: 'spawn',
+              kind: 'mobile',
               id: pos.entity.id,
               name: mob.name,
               sprite: mob.sprite,
@@ -102,6 +104,7 @@ export default class NetworkServer extends System {
       // Sync the new player to others
       this.broadcast({
         type: 'spawn',
+        kind: 'mobile',
         id: entity.id,
         name,
         sprite,
@@ -138,6 +141,11 @@ export default class NetworkServer extends System {
         socket,
         'creatures/rampart',
         'HAS Creature Pack/Rampart/Rampart(AllFrame).png',
+      )
+      this.sendImage(
+        socket,
+        'items/misc1',
+        'IconPack 1.1/AllItems/MiscellaneousSource/MiscellaneousOutline.png',
       )
 
       // When the client sends data...
@@ -187,6 +195,7 @@ export default class NetworkServer extends System {
       mob.entity.with(TilePosition, (pos) => {
         this.broadcast({
           type: 'spawn',
+          kind: 'mobile',
           id: mob.entity.id,
           name: mob.name,
           sprite: mob.sprite,
@@ -200,6 +209,30 @@ export default class NetworkServer extends System {
       this.broadcast({
         type: 'despawn',
         id: mob.entity.id,
+      })
+    })
+
+    // Sync world items
+    this.engine.forEachCreated(TilePosition, (pos) => {
+      pos.entity.with(Item, (item) => {
+        this.broadcast({
+          type: 'spawn',
+          kind: 'item',
+          id: item.entity.id,
+          name: item.name,
+          sprite: item.sprite,
+          x: pos.x,
+          y: pos.y,
+        })
+      })
+    })
+
+    this.engine.forEachDeleted(TilePosition, (pos) => {
+      pos.entity.with(Item, (item) => {
+        this.broadcast({
+          type: 'despawn',
+          id: item.entity.id,
+        })
       })
     })
 

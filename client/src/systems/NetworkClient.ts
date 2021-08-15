@@ -5,6 +5,7 @@ import CardData from '../components/CardData'
 import ChatData from '../components/ChatData'
 import Creature from '../components/Creature'
 import InputQueue from '../components/InputQueue'
+import Item from '../components/Item'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
 import SpriteLoadQueue from '../components/SpriteLoadQueue'
@@ -203,7 +204,7 @@ export default class NetworkClient extends System {
       // If the server ID matches our local id...
       else if (packet.id === this.localId) {
         // Create the local player
-        entity = this.engine.createEntity({
+        this.engine.createEntity({
           id: packet.id,
           components: [
             InputQueue, // Allow input
@@ -227,28 +228,53 @@ export default class NetworkClient extends System {
           ],
         })
       } else {
-        // Otherwise create a puppet
-        entity = this.engine.createEntity({
-          id: packet.id,
-          components: [
-            [
-              Creature,
-              {
-                name: packet.name,
-                sprite: packet.sprite,
-              },
+        // Otherwise proccess the server controlled object
+        if (packet.kind === 'mobile') {
+          // Create a puppet for mobiles
+          this.engine.createEntity({
+            id: packet.id,
+            components: [
+              [
+                Creature,
+                {
+                  name: packet.name,
+                  sprite: packet.sprite,
+                },
+              ],
+              [
+                Sprite,
+                {
+                  x: packet.x * 16,
+                  y: packet.y * 16,
+                  name: `${packet.sprite ?? 'swordman'}_stand`,
+                  fps: 4,
+                },
+              ],
             ],
-            [
-              Sprite,
-              {
-                x: packet.x * 16,
-                y: packet.y * 16,
-                name: `${packet.sprite ?? 'swordman'}_stand`,
-                fps: 4,
-              },
+          })
+        } else if (packet.kind === 'item') {
+          // Create an item visual
+          this.engine.createEntity({
+            id: packet.id,
+            components: [
+              [
+                Item,
+                {
+                  name: packet.name,
+                },
+              ],
+              [
+                Sprite,
+                {
+                  x: packet.x * 16,
+                  y: packet.y * 16,
+                  name: packet.sprite ?? 'doodad',
+                  fps: 4,
+                },
+              ],
             ],
-          ],
-        })
+          })
+        }
       }
     }
     // An entity disappeared

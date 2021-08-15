@@ -176,4 +176,19 @@ export default {
       scale: '1',
     },
   },
+  'items/misc1': {
+    frames: {
+      doodad_0: {
+        frame: {
+          x: 0,
+          y: 0,
+          w: 16,
+          h: 16,
+        },
+      },
+    },
+    meta: {
+      scale: '1',
+    },
+  },
 } as Record<string, ISpritesheetData>

@@ -6,6 +6,7 @@ type LocationDescriptor = {
 }
 
 export default class Item extends Component {
-  public name: string = 'Thing'
+  public name: string = 'Doodad'
+  public sprite: string = 'doodad'
   public desiredLocation?: LocationDescriptor
 }
