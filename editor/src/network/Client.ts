@@ -13,6 +13,7 @@ class Client {
     attempts: 5,
     maxAttempts: 5,
     time: 800,
+    minTime: 800,
   }
 
   public constructor() {
@@ -42,6 +43,9 @@ class Client {
     this.socket.addEventListener('open', () => {
       this.setStatus('connected')
 
+      this.reconnectData.attempts = this.reconnectData.maxAttempts
+      this.reconnectData.time = this.reconnectData.minTime
+
       this.queue.forEach((args) => {
         this.socket?.send(EditorProtocol.encode(...args))
       })
@@ -59,6 +63,7 @@ class Client {
 
     if (attempts > 0) {
       setTimeout(() => this.connect(), time)
+      this.reconnectData.time = time * 3
     }
   }
 

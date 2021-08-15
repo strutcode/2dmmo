@@ -244,7 +244,7 @@
               padding: 0.17rem 0.34rem;
 
               .label {
-                border: 0.1rem dashed rgba(255, 255, 255, 0.25);
+                border: 0.1rem dashed rgba(255, 255, 255, 0.2);
                 padding: 0.17rem 0.34rem;
                 font-size: 0.9rem;
               }
