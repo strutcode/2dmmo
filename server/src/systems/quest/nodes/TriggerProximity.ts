@@ -1,3 +1,6 @@
+import TilePosition from '../../../../../common/components/TilePosition'
+import Mobile from '../../../components/Mobile'
+import { distanceChebyshev } from '../../../util/Geometry'
 import Node from '../Node'
 import QuestInstance from '../QuestInstance'
 
@@ -28,9 +31,21 @@ export default class TriggerProximity extends Node {
   }
 
   public execute(context: QuestInstance, inputs: any) {
-    // console.log(inputs)
+    const from: Mobile = inputs.from
+    const to: Mobile = inputs.to
+    const distance = Math.round(inputs.distance / 10)
+    let next = false
+
+    from.entity.with(TilePosition, (posA) => {
+      to.entity.with(TilePosition, (posB) => {
+        if (distanceChebyshev(posA, posB) <= distance) {
+          next = true
+        }
+      })
+    })
+
     return {
-      next: false,
+      next,
     }
   }
 }

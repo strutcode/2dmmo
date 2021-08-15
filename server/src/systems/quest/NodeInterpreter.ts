@@ -46,9 +46,11 @@ export default class NodeInterpreter {
   public update(context: any) {
     this.activeNodes.forEach((node) => {
       const output = node.execute(context, this.getInputsForNode(context, node))
-      const next = node.outputs.find((out) => out.type === 'Flow')
+      const next = node.outputs.find(
+        (out) => out.type === 'Flow' && output[out.name],
+      )
 
-      if (next && output[next.name]) {
+      if (next) {
         this.activeNodes.delete(node)
 
         node.connections[next.name]?.forEach((link) => {

@@ -57,10 +57,10 @@ export default class PopulationManager extends System {
       player.quests.forEach((quest) => {
         Object.values(quest.variables).forEach((variable) => {
           if (variable.value == null && variable.type === 'actor') {
-            if (variable.filter.match(/npc/)) {
-              variable.value = npcs[Math.floor(Math.random() * npcs.length)]
-            } else {
+            if (variable.filter?.match(/player/)) {
               variable.value = quest.owner.entity.getComponent(Mobile)
+            } else {
+              variable.value = npcs[Math.floor(Math.random() * npcs.length)]
             }
           }
         })

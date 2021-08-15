@@ -7,6 +7,7 @@ type QuestSource = {
 }
 
 type QuestVariable = {
+  type: string
   requirements: Record<string, unknown>
 }
 
@@ -31,6 +32,30 @@ type EdgeSource = {
 export default class QuestParserV2 {
   public static parse(name: string, input: QuestSource) {
     const template = new QuestTemplate(input.version, name)
+
+    if (input.resources) {
+      const typeMap = {
+        Player: 'actor',
+        NPC: 'actor',
+        Item: 'prop',
+        Location: 'stage',
+      } as Record<string, 'actor' | 'prop' | 'stage'>
+
+      for (let key in input.resources) {
+        const value = input.resources[key]
+        const type = typeMap[value.type]
+
+        if (!type) {
+          console.error(`Invalid type ${typeMap[value.type]} in quest ${name}`)
+        }
+
+        template.variables.push({
+          type,
+          name: key,
+          filter: null,
+        })
+      }
+    }
 
     template.scenes = input.scenes
 
