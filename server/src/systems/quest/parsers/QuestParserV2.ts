@@ -35,8 +35,7 @@ export default class QuestParserV2 {
 
     if (input.resources) {
       const typeMap = {
-        Player: 'actor',
-        NPC: 'actor',
+        Mobile: 'actor',
         Item: 'prop',
         Location: 'stage',
       } as Record<string, 'actor' | 'prop' | 'stage'>
@@ -46,7 +45,7 @@ export default class QuestParserV2 {
         const type = typeMap[value.type]
 
         if (!type) {
-          console.error(`Invalid type ${typeMap[value.type]} in quest ${name}`)
+          console.error(`Invalid type ${value.type} in quest ${name}`)
         }
 
         template.variables.push({
