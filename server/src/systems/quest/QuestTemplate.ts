@@ -7,6 +7,7 @@ type VariableTemplate = {
 type QuestScene = {
   objective?: QuestObjective
   nodes?: QuestNode[]
+  edges?: QuestEdge[]
 }
 
 type QuestObjective = {
@@ -19,6 +20,13 @@ type QuestNode = {
   type: string
   data: Record<string, unknown>
   meta?: Record<string, unknown>
+}
+
+type QuestEdge = {
+  sourceId: number
+  sourceSocket: string
+  targetId: number
+  targetSocket: string
 }
 
 type QuestAction = {

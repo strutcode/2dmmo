@@ -1,3 +1,4 @@
+import Link from './Link'
 import Node from './Node'
 
 export default class NodeInterpreter {
@@ -6,8 +7,27 @@ export default class NodeInterpreter {
 
   public constructor() {}
 
+  public getNode(index: number) {
+    return this.nodes[index]
+  }
+
   public addNode(node: Node) {
     this.nodes.push(node)
+  }
+
+  public addEdge(
+    sourceNode: Node,
+    sourceSocket: string,
+    targetNode: Node,
+    targetSocket: string,
+  ) {
+    const link = new Link(sourceNode, sourceSocket, targetNode, targetSocket)
+
+    sourceNode.connections[sourceSocket] ??= []
+    sourceNode.connections[sourceSocket].push(link)
+
+    targetNode.connections[targetSocket] ??= []
+    targetNode.connections[targetSocket].push(link)
   }
 
   public start(context: any) {

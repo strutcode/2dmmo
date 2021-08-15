@@ -43,12 +43,6 @@ export default class Node {
     return (this.constructor as typeof Node).outputs
   }
 
-  public connectTo(
-    sourceSocket: string,
-    targetNode: Node,
-    targetSocket: string,
-  ) {}
-
   public execute(
     context: any,
     inputs: Record<string, unknown>,

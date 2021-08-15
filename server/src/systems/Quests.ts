@@ -133,6 +133,17 @@ export default class Quests extends System {
         nodeTree.addNode(node)
       })
 
+      if (scene.edges) {
+        scene.edges.forEach((edgeSrc) => {
+          nodeTree.addEdge(
+            nodeTree.getNode(edgeSrc.sourceId),
+            edgeSrc.sourceSocket,
+            nodeTree.getNode(edgeSrc.targetId),
+            edgeSrc.targetSocket,
+          )
+        })
+      }
+
       quest.nodeTrees.push(nodeTree)
     })
 
