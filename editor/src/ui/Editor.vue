@@ -25,8 +25,10 @@
             <button @click.stop="deleteQuest(file.name)">X</button>
           </div>
         </div>
-        <div class="listItem">
-          <button @click="createQuest">New file</button>
+        <div class="listItem newFile" @click="createQuest">
+          <div class="title">
+            <div class="label">New file</div>
+          </div>
         </div>
       </div>
       <div class="main">
@@ -231,6 +233,22 @@
 
           &:hover {
             background: rgba(0, 0, 0, 0.25);
+          }
+
+          button {
+            padding: 0.17rem 0.34rem;
+          }
+
+          &.newFile {
+            .title {
+              padding: 0.17rem 0.34rem;
+
+              .label {
+                border: 0.1rem dashed rgba(255, 255, 255, 0.25);
+                padding: 0.17rem 0.34rem;
+                font-size: 0.9rem;
+              }
+            }
           }
         }
       }
