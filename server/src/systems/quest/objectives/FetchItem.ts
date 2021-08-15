@@ -1,6 +1,6 @@
 import BaseObjective from '../../../BaseObjective'
 import WorldItem from '../../../components/WorldItem'
-import Item from '../../../Item'
+import Item from '../../../components/Item'
 import QuestLanguageParser from '../parsers/QuestLanguageParser'
 
 export default class FetchItem extends BaseObjective {
