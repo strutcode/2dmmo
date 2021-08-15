@@ -6,6 +6,8 @@ type NodeSocket = {
   label: string
 }
 
+type NodeValue = NodeSocket
+
 export default class Node {
   public static get inputs(): NodeSocket[] {
     return [
@@ -27,6 +29,10 @@ export default class Node {
     ]
   }
 
+  public static get values(): NodeValue[] {
+    return []
+  }
+
   public connections: Record<string, Link[]> = {}
 
   public constructor(protected data: any) {}
@@ -41,6 +47,10 @@ export default class Node {
 
   public get outputs(): NodeSocket[] {
     return (this.constructor as typeof Node).outputs
+  }
+
+  public get values(): NodeSocket[] {
+    return (this.constructor as typeof Node).values
   }
 
   public execute(
