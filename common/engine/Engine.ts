@@ -4,10 +4,10 @@ import System from './System'
 
 type CreateEntityOptions = {
   id?: number
-  components?: CreateEntityComponents
+  components?: ComponentSecification
 }
 
-type CreateEntityComponents = (
+type ComponentSecification = (
   | [typeof Component, Record<string, any> | undefined]
   | typeof Component
 )[]
@@ -39,8 +39,8 @@ export default class Engine {
 
   /** Creates an entity and performs all necessary bookkeeping */
   public createEntity(options: CreateEntityOptions): Entity
-  public createEntity(components: CreateEntityComponents): Entity
-  public createEntity(options: CreateEntityOptions | CreateEntityComponents) {
+  public createEntity(components: ComponentSecification): Entity
+  public createEntity(options: CreateEntityOptions | ComponentSecification) {
     const entity = new Entity()
 
     // Handle overloads
@@ -60,39 +60,9 @@ export default class Engine {
     this.entities.set(entity.id, entity)
 
     // Create and register components
-    normalizedOptions.components?.forEach((opts) => {
-      const TypeConstructor = Array.isArray(opts) ? opts[0] : opts
-      const props = Array.isArray(opts) ? opts[1] : {}
-
-      // Construct the component
-      const comp = new TypeConstructor(entity)
-
-      // Set initial data
-      Object.assign(comp, props)
-
-      // Set up proxy to watch for updates
-      const proxy = new Proxy(comp, {
-        // Hook all set events for object properties
-        set: (t, p, v, r) => {
-          // Record the change
-          this.register(
-            this.nextComponentChanges.updated,
-            TypeConstructor,
-            proxy,
-          )
-
-          // Transparent pass through
-          return Reflect.set(t, p, v, r)
-        },
-      })
-
-      // Register the component
-      this.register(entity.components, TypeConstructor, proxy)
-      this.register(this.components, TypeConstructor, proxy)
-
-      // Record the created event
-      this.register(this.nextComponentChanges.created, TypeConstructor, proxy)
-    })
+    if (normalizedOptions.components) {
+      this.attachComponents(entity, normalizedOptions.components)
+    }
 
     return entity
   }
@@ -130,6 +100,43 @@ export default class Engine {
   /** Returns an entity from its ID */
   public getEntity(id: number) {
     return this.entities.get(id)
+  }
+
+  /** Adds components from the provided array to the given entity  */
+  public attachComponents(entity: Entity, components: ComponentSecification) {
+    components.forEach((opts) => {
+      const TypeConstructor = Array.isArray(opts) ? opts[0] : opts
+      const props = Array.isArray(opts) ? opts[1] : {}
+
+      // Construct the component
+      const comp = new TypeConstructor(entity)
+
+      // Set initial data
+      Object.assign(comp, props)
+
+      // Set up proxy to watch for updates
+      const proxy = new Proxy(comp, {
+        // Hook all set events for object properties
+        set: (t, p, v, r) => {
+          // Record the change
+          this.register(
+            this.nextComponentChanges.updated,
+            TypeConstructor,
+            proxy,
+          )
+
+          // Transparent pass through
+          return Reflect.set(t, p, v, r)
+        },
+      })
+
+      // Register the component
+      this.register(entity.components, TypeConstructor, proxy)
+      this.register(this.components, TypeConstructor, proxy)
+
+      // Record the created event
+      this.register(this.nextComponentChanges.created, TypeConstructor, proxy)
+    })
   }
 
   /** Produces a list of every Component of a type across all entities from the prototype. May be an empty array. */
