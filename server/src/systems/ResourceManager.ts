@@ -2,7 +2,7 @@ import TilePosition from '../../../common/components/TilePosition'
 import System from '../../../common/engine/System'
 import Player from '../components/Player'
 import WorldItem from '../components/WorldItem'
-import Item from '../Item'
+import Item from '../components/Item'
 import FetchItem from './quest/objectives/FetchItem'
 
 export default class ResourceManager extends System {
@@ -12,28 +12,28 @@ export default class ResourceManager extends System {
       player.quests.forEach((quest) => {
         Object.values(quest.variables).forEach((variable) => {
           if (variable.value == null && variable.type === 'prop') {
-            variable.value = new Item('Doodad')
+            const entity = this.engine.createEntity({
+              components: [[Item, { name: 'Doodad' }]],
+            })
+
+            variable.value = entity.getComponent(Item)
           }
         })
+      })
+    })
 
-        // HACK: spawn item for fetch objective
-        const objective = quest.currentObjective
-
-        if (objective instanceof FetchItem) {
-          if (objective.item && objective.location && !objective.worldItem) {
-            const entity = this.engine.createEntity({
-              components: [
-                [WorldItem, { item: objective.item }],
-                [TilePosition, objective.location],
-              ],
-            })
-
-            entity.with(WorldItem, (worldItem) => {
-              objective.worldItem = worldItem
-            })
+    this.engine.forEachComponent(Item, (item) => {
+      if (item.desiredLocation) {
+        if (item.desiredLocation.type === 'world') {
+          if (typeof item.desiredLocation.target === 'object') {
+            this.engine.attachComponents(item.entity, [
+              [TilePosition, item.desiredLocation.target],
+            ])
           }
         }
-      })
+
+        item.desiredLocation = undefined
+      }
     })
   }
 }
