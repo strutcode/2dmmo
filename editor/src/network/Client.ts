@@ -9,8 +9,17 @@ class Client {
   private socket?: WebSocket
   private inWaiting?: Function
   private queue: EncodeParams[] = []
+  private reconnectData = {
+    attempts: 5,
+    maxAttempts: 5,
+    time: 800,
+  }
 
   public constructor() {
+    this.connect()
+  }
+
+  public connect() {
     const proto = location.protocol.replace('http', 'ws')
     const host = location.host.replace('9004', '9005')
     const path =
@@ -40,7 +49,17 @@ class Client {
 
     this.socket.addEventListener('close', () => {
       this.setStatus('disconnected')
+
+      this.reconnect()
     })
+  }
+
+  public reconnect() {
+    const { attempts, time } = this.reconnectData
+
+    if (attempts > 0) {
+      setTimeout(() => this.connect(), time)
+    }
   }
 
   public async getQuests() {
