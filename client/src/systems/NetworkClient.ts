@@ -5,6 +5,7 @@ import CardData from '../components/CardData'
 import ChatData from '../components/ChatData'
 import Creature from '../components/Creature'
 import InputQueue from '../components/InputQueue'
+import Inventory from '../components/Inventory'
 import Item from '../components/Item'
 import LatencyGraph from '../components/LatencyGraph'
 import Sprite from '../components/Sprite'
@@ -209,6 +210,7 @@ export default class NetworkClient extends System {
           components: [
             InputQueue, // Allow input
             CameraFollow, // Follow this entity
+            Inventory,
             [
               Creature,
               {

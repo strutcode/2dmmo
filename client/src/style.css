@@ -3,6 +3,10 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+
+  font-size: 12pt;
+  font-family: sans-serif;
+  color: #fff;
 }
 
 #chat {
@@ -57,4 +61,22 @@ body {
   width: 350px;
   cursor: grab;
   user-select: none;
+  color: black;
+}
+
+#tradeWindow {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+}
+
+#tradeWindow .title {
+  padding: 1rem;
+}
+
+#tradeWindow .list {
+  padding: 1rem;
 }

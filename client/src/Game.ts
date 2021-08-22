@@ -9,6 +9,7 @@ import Chat from './systems/Chat'
 import Input from './systems/Input'
 import NetworkClient from './systems/NetworkClient'
 import Renderer2d from './systems/Renderer2d'
+import Trade from './systems/Trade'
 
 export default class Game {
   public engine = new Engine()
@@ -21,6 +22,7 @@ export default class Game {
     this.engine.addSystem(Chat)
     this.engine.addSystem(Cards)
     this.engine.addSystem(Input)
+    this.engine.addSystem(Trade)
 
     // Create a hack entity for global components
     this.engine.createEntity({
