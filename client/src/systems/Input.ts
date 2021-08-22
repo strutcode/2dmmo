@@ -16,6 +16,7 @@ export default class Input extends System {
     a: 'left',
     d: 'right',
     g: 'get-item',
+    t: 'trade',
     Enter: 'focus-chat',
     Escape: 'cancel',
   }

@@ -21,8 +21,8 @@ export default class Game {
     this.engine.addSystem(Renderer2d)
     this.engine.addSystem(Chat)
     this.engine.addSystem(Cards)
-    this.engine.addSystem(Input)
     this.engine.addSystem(Trade)
+    this.engine.addSystem(Input)
 
     // Create a hack entity for global components
     this.engine.createEntity({

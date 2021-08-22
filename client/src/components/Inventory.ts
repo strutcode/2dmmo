@@ -6,6 +6,7 @@ type Item = {
 }
 
 export default class Inventory extends Component {
+  public tradeWindow = false
   public items: Item[] = [
     {
       name: 'Testing',
