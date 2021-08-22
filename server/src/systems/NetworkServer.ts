@@ -122,6 +122,10 @@ export default class NetworkServer extends System {
               id: card.id,
               title: card.title,
             })),
+            items: inventory.internalItems.map((item) => ({
+              name: item.name,
+              icon: item.sprite,
+            })),
           }),
         )
       })
@@ -260,11 +264,16 @@ export default class NetworkServer extends System {
 
     this.engine.forEachUpdated(Container, (inv) => {
       const socket = this.clientMap.get(inv.entity)
+      console.log('inventory updated')
 
       socket?.send(
         Protocol.encode({
           type: 'inventory',
           cards: inv.deck,
+          items: inv.internalItems.map((item) => ({
+            name: item.name,
+            icon: item.sprite,
+          })),
         }),
       )
     })

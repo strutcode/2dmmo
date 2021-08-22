@@ -15,6 +15,7 @@ export type Packet =
   | {
       type: 'inventory'
       cards: { id: string; title: string }[]
+      items: { name: string; icon: string }[]
     }
   | {
       type: 'chat'

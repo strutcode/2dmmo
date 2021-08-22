@@ -20,9 +20,9 @@ export default class Trade extends System {
   }
 
   public update() {
-    // this.engine.with(Inventory, (inv) => {
-    //   this.loadItems(inv)
-    // })
+    this.engine.forEachUpdated(Inventory, (inv) => {
+      this.loadItems(inv)
+    })
   }
 
   protected loadItems(inventory: Inventory) {

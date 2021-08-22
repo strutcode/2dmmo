@@ -189,7 +189,10 @@ export default class NetworkClient extends System {
     }
     // Initial login response
     else if (packet.type === 'inventory') {
-      // TODO: Just cards for now
+      this.engine.with(Inventory, (inventory) => {
+        inventory.items = packet.items
+      })
+
       this.engine.with(CardData, (data) => {
         data.cards = packet.cards
       })

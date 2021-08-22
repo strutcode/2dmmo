@@ -3,6 +3,8 @@ import System from '../../../common/engine/System'
 import Player from '../components/Player'
 import Item from '../components/Item'
 import Input from '../components/Input'
+import Mobile from '../components/Mobile'
+import Container from '../components/Container'
 
 export default class ResourceManager extends System {
   public update() {
@@ -26,11 +28,9 @@ export default class ResourceManager extends System {
       controller.entity.with(TilePosition, (mobPos) => {
         controller.inputs.forEach((input, i) => {
           if (input.action === 'get-item') {
-            console.log('get item')
             this.engine.forEachComponent(Item, (item) => {
               item.entity.with(TilePosition, (itemPos) => {
                 if (itemPos.x === mobPos.x && itemPos.y === mobPos.y) {
-                  console.log('item retrieved')
                   item.desiredLocation = {
                     type: 'mobile',
                     target: controller.entity.id,
@@ -55,7 +55,25 @@ export default class ResourceManager extends System {
           }
         } else if (item.desiredLocation.type === 'mobile') {
           if (typeof item.desiredLocation.target === 'number') {
-            this.engine.destroyEntity(item.entity)
+            const target = this.engine.getEntity(item.desiredLocation.target)
+
+            if (target) {
+              target.with(Container, (inventory) => {
+                // Prevent recursive loop
+                item.desiredLocation = undefined
+
+                // Create a new item in the inventory
+                const clone = new Item(target)
+                Object.assign(clone, item)
+                inventory.internalItems.push(clone)
+
+                // HACK: force an update
+                inventory.updated = true
+
+                // Destroy the old item
+                this.engine.destroyEntity(item.entity)
+              })
+            }
           }
         }
 
