@@ -17,17 +17,17 @@ let gid = 1
 /** The core class. Responsible for linking together Entities, Components and Systems. */
 export default class Engine {
   private entities = new Map<number, Entity>()
-  private components = new Map<typeof Component, Component[]>()
+  private components = new Map<typeof Component, Set<Component>>()
   private systems: System[] = []
   private nextComponentChanges = {
-    created: new Map<typeof Component, Component[]>(),
-    updated: new Map<typeof Component, Component[]>(),
-    deleted: new Map<typeof Component, Component[]>(),
+    created: new Map<typeof Component, Set<Component>>(),
+    updated: new Map<typeof Component, Set<Component>>(),
+    deleted: new Map<typeof Component, Set<Component>>(),
   }
   private componentChanges = {
-    created: new Map<typeof Component, Component[]>(),
-    updated: new Map<typeof Component, Component[]>(),
-    deleted: new Map<typeof Component, Component[]>(),
+    created: new Map<typeof Component, Set<Component>>(),
+    updated: new Map<typeof Component, Set<Component>>(),
+    deleted: new Map<typeof Component, Set<Component>>(),
   }
 
   /** Enables a system in this engine */
@@ -114,25 +114,52 @@ export default class Engine {
       // Set initial data
       Object.assign(comp, props)
 
-      // Set up proxy to watch for updates
-      const proxy = new Proxy(comp, {
-        // Hook all set events for object properties
-        set: (t, p, v, r) => {
-          // Record the change
-          this.register(
-            this.nextComponentChanges.updated,
-            TypeConstructor,
-            proxy,
-          )
+      const createProxy = (comp: Component, obj?: Record<string, any>): any => {
+        if (typeof obj === 'object') {
+          for (let k in obj) {
+            obj[k] = createProxy(comp, obj[k])
+          }
+        }
 
-          // Transparent pass through
-          return Reflect.set(t, p, v, r)
-        },
-      })
+        // Set up proxy to watch for updates
+        const proxy = new Proxy(obj ?? comp, {
+          // Hook all set events for object properties
+          set: (t, p, v, r) => {
+            // Record the change
+            this.register(
+              this.nextComponentChanges.updated,
+              TypeConstructor,
+              obj != null ? comp : (proxy as Component),
+            )
+
+            // Transparent pass through
+            return Reflect.set(t, p, v, r)
+          },
+          defineProperty: (t, p, a) => {
+            // Record the change
+            this.register(
+              this.nextComponentChanges.updated,
+              TypeConstructor,
+              obj != null ? comp : (proxy as Component),
+            )
+
+            // Transparent pass through
+            return Reflect.defineProperty(t, p, a)
+          },
+        })
+
+        return proxy
+      }
+
+      const proxy = createProxy(comp)
 
       // Register the component
-      this.register(entity.components, TypeConstructor, proxy)
       this.register(this.components, TypeConstructor, proxy)
+
+      if (!entity.components.has(TypeConstructor)) {
+        entity.components.set(TypeConstructor, [])
+      }
+      entity.components.get(TypeConstructor)?.push(proxy)
 
       // Record the created event
       this.register(this.nextComponentChanges.created, TypeConstructor, proxy)
@@ -143,14 +170,18 @@ export default class Engine {
   public getAllComponents<T extends typeof Component>(
     type: T,
   ): InstanceType<T>[] {
-    return (this.components.get(type) ?? []) as InstanceType<T>[]
+    return Array.from(
+      this.components.get(type)?.values() ?? [],
+    ) as InstanceType<T>[]
   }
 
   /** Gets the first component of this prototype in the engine or undefined if none */
   public getComponent<T extends typeof Component>(
     type: T,
   ): InstanceType<T> | undefined {
-    return (this.components.get(type) ?? [])[0] as InstanceType<T> | undefined
+    return Array.from(this.components.get(type)?.values() ?? [])[0] as
+      | InstanceType<T>
+      | undefined
   }
 
   /** Runs the callback with the specified component as an argument if it exists */
@@ -185,7 +216,14 @@ export default class Engine {
     type: T,
     callback: (component: InstanceType<T>) => void,
   ) {
-    this.iterate(this.components.get(type) as InstanceType<T>[], callback)
+    if (this.components.has(type)) {
+      this.iterate(
+        Array.from(
+          this.components.get(type)?.values() ?? [],
+        ) as InstanceType<T>[],
+        callback,
+      )
+    }
   }
 
   /** Iterates components of a given type that were created this tick */
@@ -193,10 +231,14 @@ export default class Engine {
     type: T,
     callback: (component: InstanceType<T>) => void,
   ) {
-    this.iterate(
-      this.componentChanges.created.get(type) as InstanceType<T>[],
-      callback,
-    )
+    if (this.componentChanges.created.has(type)) {
+      this.iterate(
+        Array.from(
+          this.componentChanges.created.get(type)?.values() ?? [],
+        ) as InstanceType<T>[],
+        callback,
+      )
+    }
   }
 
   /** Iterates components of a given type that were updated this tick */
@@ -204,10 +246,14 @@ export default class Engine {
     type: T,
     callback: (component: InstanceType<T>) => void,
   ) {
-    this.iterate(
-      this.componentChanges.updated.get(type) as InstanceType<T>[],
-      callback,
-    )
+    if (this.componentChanges.updated.has(type)) {
+      this.iterate(
+        Array.from(
+          this.componentChanges.updated.get(type)?.values() ?? [],
+        ) as InstanceType<T>[],
+        callback,
+      )
+    }
   }
 
   /** Iterates components of a given type that were deleted this tick */
@@ -215,10 +261,14 @@ export default class Engine {
     type: T,
     callback: (component: InstanceType<T>) => void,
   ) {
-    this.iterate(
-      this.componentChanges.deleted.get(type) as InstanceType<T>[],
-      callback,
-    )
+    if (this.componentChanges.deleted.has(type)) {
+      this.iterate(
+        Array.from(
+          this.componentChanges.deleted.get(type)?.values() ?? [],
+        ) as InstanceType<T>[],
+        callback,
+      )
+    }
   }
 
   /** Starts all systems and runs them continuously */
@@ -238,38 +288,33 @@ export default class Engine {
 
     // Prep for the next set of changes
     this.nextComponentChanges = {
-      created: new Map<typeof Component, Component[]>(),
-      updated: new Map<typeof Component, Component[]>(),
-      deleted: new Map<typeof Component, Component[]>(),
+      created: new Map<typeof Component, Set<Component>>(),
+      updated: new Map<typeof Component, Set<Component>>(),
+      deleted: new Map<typeof Component, Set<Component>>(),
     }
   }
 
   /** A fast and safe way to add a component to a map */
   private register(
-    collection: Map<typeof Component, Component[]>,
+    collection: Map<typeof Component, Set<Component>>,
     key: typeof Component,
     value: Component,
   ) {
-    const arr = collection.get(key) ?? []
-    arr.push(value)
-    collection.set(key, arr)
+    if (!collection.has(key)) {
+      collection.set(key, new Set<Component>())
+    }
+
+    collection.get(key)?.add(value)
   }
 
   /** Removes an entry from the component map */
   private unregister(
-    collection: Map<typeof Component, Component[]>,
+    collection: Map<typeof Component, Set<Component>>,
     key: typeof Component,
     value: Component,
   ) {
     const comps = collection.get(key)
-
-    if (comps) {
-      // TODO: Major speed improvement needed here
-      collection.set(
-        key,
-        comps.filter((c) => c !== value),
-      )
-    }
+    comps?.delete(value)
   }
 
   /** A fast and safe way to run a callback on every entry in a component map */
