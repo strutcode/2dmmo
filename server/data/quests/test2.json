@@ -50,7 +50,7 @@
         {
           "type": "Number",
           "data": {
-            "value": "20"
+            "value": "200"
           },
           "meta": {
             "x": 25.07630375342268,
@@ -272,6 +272,17 @@
             "x": 3460.4740379261766,
             "y": -37.90250327539596
           }
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "destination",
+            "type": "Location"
+          },
+          "meta": {
+            "x": 3012.1383067221204,
+            "y": 423.8591786429804
+          }
         }
       ],
       "edges": [
@@ -448,6 +459,12 @@
           "sourceSocket": "value",
           "targetId": 24,
           "targetSocket": "speaker"
+        },
+        {
+          "sourceId": 27,
+          "sourceSocket": "value",
+          "targetId": 18,
+          "targetSocket": "location"
         }
       ]
     }
