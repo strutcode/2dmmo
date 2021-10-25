@@ -283,6 +283,36 @@
             "x": 3012.1383067221204,
             "y": 423.8591786429804
           }
+        },
+        {
+          "type": "SpawnItem",
+          "data": {},
+          "meta": {
+            "x": 424.336466504312,
+            "y": -86.12278152012142
+          }
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "doodad",
+            "type": "Item"
+          },
+          "meta": {
+            "x": 95.28407809862075,
+            "y": -96.32708303490398
+          }
+        },
+        {
+          "type": "Variable",
+          "data": {
+            "name": "destination",
+            "type": "Location"
+          },
+          "meta": {
+            "x": 101.69312528977636,
+            "y": 7.887752302245815
+          }
         }
       ],
       "edges": [
@@ -314,6 +344,12 @@
           "sourceId": 4,
           "sourceSocket": "next",
           "targetId": 2,
+          "targetSocket": "prev"
+        },
+        {
+          "sourceId": 4,
+          "sourceSocket": "next",
+          "targetId": 28,
           "targetSocket": "prev"
         },
         {
@@ -464,6 +500,18 @@
           "sourceId": 27,
           "sourceSocket": "value",
           "targetId": 18,
+          "targetSocket": "location"
+        },
+        {
+          "sourceId": 29,
+          "sourceSocket": "value",
+          "targetId": 28,
+          "targetSocket": "item"
+        },
+        {
+          "sourceId": 30,
+          "sourceSocket": "value",
+          "targetId": 28,
           "targetSocket": "location"
         }
       ]
